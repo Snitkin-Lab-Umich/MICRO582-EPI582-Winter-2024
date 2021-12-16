@@ -11,9 +11,9 @@
 ### Working directory
 ---------------------
 
-***The directory on Great Lakes that you will be working in is - `/scratch/micro612w21_class_root/micro612w21_class/`***
+***The directory on Great Lakes that you will be working in is - `TBD`***
 
-You can find a folder named after your username/uniqname; for example if my uniqname is `apirani`, I will be working in `/scratch/micro612w21_class_root/micro612w21_class/apirani` This would be the directory that couse attendees will be working from.
+You can find a folder named after your username/uniqname; for example if my uniqname is `apirani`, I will be working in `TBD` This would be the directory that couse attendees will be working from.
 
 ## Overview:
 ------------
