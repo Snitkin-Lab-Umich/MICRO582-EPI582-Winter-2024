@@ -9,8 +9,8 @@ Goal
 - we will apply for loops to perform same repetitive tasks on different files
 - We will wrap this session up by saving our code in a shell script so that we can turn our commands into a small executable software.
 
-Unix is your friend
--------------------
+Using GREP for pattern matching
+-------------------------------
 
 Up until now you’ve probably accessed sequence data from NCBI by going to the website, laboriously clicking around and finally finding and downloading the data you want. 
 
@@ -65,8 +65,8 @@ grep ">" E_coli.fna | wc -l
 
 Try this command on other assemblies to see how many contigs they contain. 
 
-Your first sequence analysis program!!!
----------------------------------------
+Using for loops to perform same actions on different files
+----------------------------------------------------------
 
 OK, so now that we have a useful command, wouldn’t it be great to turn it into a program that you can easily apply to a large number of genome assemblies? Of course it would! So, now we are going to take out cool contig counting command, and put it in a shell script that applies it to all files in the desired directory.
 
