@@ -7,7 +7,7 @@ Goal
 - In this module, we will explore different sequence file formats 
 - we will learn how to perform pattern matching using grep to find files and texts in files
 - we will apply for loops to perform same repetitive tasks on different files
-- We will wrap this session up by saving our code in a shell scripts so that we can turn our commands into a small executable software.
+- We will wrap this session up by saving our code in a shell script so that we can turn our commands into a small executable software.
 
 Unix is your friend
 -------------------
@@ -20,20 +20,18 @@ There are a lot of reasons that is not ideal:
 - It can be hard to keep track of where the data came from and exactly which version of a sequence you downloaded
 - Its not conducive to downloading lots of sequence data
 
-To download sequence data in Unix you can use a variety of commands (e.g. sftp, wget, curl). Here, we will use the curl command to download some genome assemblies from NCBI ftp location:
+To download sequence data in Unix you can use a variety of unix commands such as sftp, wget, curl. In class 6, we will use third party tools that are specifically developed to download data from sequence databases.
+
+Here, we will use curl command to download some genome assemblies from NCBI ftp location:
 
 - Go to your class home directory (use your wd shortcut!)
 
-- Execute the following commands to copy files for this morning’s exercises to your home directory: 
+- Execute the following commands to copy files for class3 to your home directory: 
 
 ```
-cp -r /scratch/micro612w21_class_root/micro612w21_class/shared/data/day1am/ ./
+cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class3 ./
 
-cd day1am/
-
-#or 
-
-d1m
+cd class3/
 
 ls
 
