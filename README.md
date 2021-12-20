@@ -34,10 +34,10 @@ You can find a folder named after your umich uniqname; for example if my uniqnam
 #### [Class 2 – Introduction to Great Lakes and HPC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class2/README.md)
 ***
 
-- Reviewing directory navigation
-- Setting up your compute environment
-- Loading modules
-- Submit a job to cluster
+- [Reviewing directory navigation](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class2/README.md#reviewing-directory-navigation)
+- [Setting up your compute environment](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class2/README.md#setting-up-your-compute-environment)
+- [Loading modules](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class2/README.md#loading-modules)
+- [Submit a job to cluster](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class2/README.md#submit-a-job-to-cluster)
 
 #### [Class 3 – Sequence data formats](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class3/README.md)
 ***
