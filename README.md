@@ -1,21 +1,12 @@
 # MICRO582/EPI582 - Genomic Epidemiology Winter 2022
 
-### Instructor(s): Evan Snitkin
+#### Instructor(s): Evan Snitkin
 
-### Description: 
+#### Description: 
 
-### Date: Winter Term 2022
-
-### Prerequisites:
+#### Date: Winter Term 2022
 
 ### Course Discipline: Epidemiology
-
-### Working directory
----------------------
-
-***The directory on Great Lakes that you will be working in is - `/scratch/epid582w22_class_root/epid582w22_class/`***
-
-You can find a folder named after your umich uniqname; for example if my uniqname is `apirani`, I will be working in `/scratch/epid582w22_class_root/epid582w22_class/apirani/`.
 
 ## Overview:
 ------------
@@ -42,14 +33,14 @@ You can find a folder named after your umich uniqname; for example if my uniqnam
 #### [Class 3 – Sequence data formats](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class3/README.md)
 ***
 
-- Using GREP for pattern matching
-- Using for loops to perform same actions on different files
+- [Using GREP for pattern matching](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class3/README.md#using-grep-for-pattern-matching)
+- [Using for loops to perform same actions on different files](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class3/README.md#using-for-loops-to-perform-same-actions-on-different-files)
 
 #### [Class 4 – Illumina sequencing data and QC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class4/README.md)
 ***
 
-- Quality Control using FastQC
-- Quality Trimming using Trimmomatic
+- [Quality Control using FastQC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class4/README.md#quality-control-using-fastqc)
+- [Quality Trimming using Trimmomatic](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class4/README.md#quality-trimming-using-trimmomatic)
 
 
 ### Section - Generating sequence data and performing annotation
@@ -58,9 +49,9 @@ You can find a folder named after your umich uniqname; for example if my uniqnam
 #### [Class 5 – Genome assembly](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class5/README.md)
 ***
 
-- Performing assembly on the cluster
-- Assess assembly quality with Quast
-- Aggregate and Assess dataset quality using multiQC
+- [Performing assembly on the cluster](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class5/README.md#performing-assembly-on-the-cluster)
+- [Assess assembly quality with Quast](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class5/README.md#assess-assembly-quality-with-quast)
+- [Aggregate and Assess dataset quality using multiQC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class5/README.md#aggregate-and-assess-dataset-quality-using-multiqc)
 
 #### [Class 6 – Sequence databases](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class6/README.md)
 ***

@@ -21,7 +21,9 @@ ssh username@greatlakes.arc-ts.umich.edu
 
 Replace username with your umich uniqname and run the above command to log in to Great Lakes.
 
+***The directory on Great Lakes that you will be working in is - `/scratch/epid582w22_class_root/epid582w22_class/`***
 
+You can find a folder named after your umich uniqname; for example if my uniqname is `apirani`, I will be working in `/scratch/epid582w22_class_root/epid582w22_class/apirani/`.
 
 Intro to Unix
 -------------
