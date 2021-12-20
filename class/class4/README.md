@@ -12,16 +12,15 @@ Quality Control using FastQC
 ----------------------------
 Now we will run FastQC on some sample raw data to assess its quality. FastQC is a quality control tool that reads in sequence data in a variety of formats(fastq, bam, sam) and can either provide an interactive application to review the results or create an HTML based report which can be integrated into any pipeline. It is generally the first step that you take upon receiving the sequence data from sequencing facility to get a quick sense of its quality and whether it exhibits any unusual properties (e.g. contamination or unexpected biological features)
 
-> ***i. In your day1pm directory, create a new directory for saving FastQC results.***
+> ***i. Copy class4 directory to your home directory and create a new directory for saving FastQC results.***
 
 ```
-cd /scratch/micro612w21_class_root/micro612w21_class/username/day1pm/
+wd
 
-#or
-
-d1a
+cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class4 ./
 
 mkdir Rush_KPC_266_FastQC_results
+
 mkdir Rush_KPC_266_FastQC_results/before_trimmomatic
 ```
 
@@ -87,12 +86,6 @@ How to know if you are in interactive session: you should see "username@nyx" in 
 ```
 islurm
 
-cd /scratch/micro612w21_class_root/micro612w21_class/username/day1pm/
-
-#or
-
-d1a
-
 conda activate micro612
 ```
 
@@ -141,7 +134,7 @@ Get these html reports to your local system.
 
 ```
 
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/micro612w21_class_root/micro612w21_class/username/day1pm/Rush_KPC_266_FastQC_results/after_trimmomatic/*.html /path-to-local-directory/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class4/Rush_KPC_266_FastQC_results/after_trimmomatic/*.html /path-to-local-directory/
 
 ```
 
@@ -178,7 +171,7 @@ fastqc -o Rush_KPC_266_FastQC_results/after_trimmomatic_headcrop/ --extract -f f
 Download the reports again and see the difference.
 ```
 
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/micro612w21_class_root/micro612w21_class/username/day1pm/Rush_KPC_266_FastQC_results/after_trimmomatic_headcrop/*.html /path-to-local-directory/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class4/Rush_KPC_266_FastQC_results/after_trimmomatic_headcrop/*.html /path-to-local-directory/
 
 ```
 
