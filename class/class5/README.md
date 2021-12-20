@@ -11,7 +11,7 @@ Goal
 ![roadmap](genome_assembly.png)
 
 
-Execute the following command to copy files for this morning’s exercises to your workshop home directory: 
+Execute the following command to copy files for today's exercises to your workshop home directory: 
 
 ```
 > Note: Make sure you change 'username' in the commands below to your 'uniqname'. 
@@ -20,15 +20,12 @@ wd
 
 #or 
 
-cd /scratch/micro612w21_class_root/micro612w21_class/username
+cd /scratch/epid582w22_class_root/epid582w22_class/username
 
-> Note: Check if you are in your home directory(/scratch/micro612w21_class_root/micro612w21_class/username) by executing 'pwd' in terminal. 'pwd' stands for present working directory and it will display the directory you are in.
 
-pwd
+> Note: Copy files for today's exercise in your home directory.
 
-> Note: Copy files for this morning's exercise in your home directory.
-
-cp -r /scratch/micro612w21_class_root/micro612w21_class/shared/data/day2am ./
+cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class5 ./
 ```
 
 Genome Assembly using [Spades](http://bioinf.spbau.ru/spades) Pipeline
@@ -49,11 +46,7 @@ Create a new directory for the spades output in your day2am folder
 ```
 > Note: Make sure you change 'username' in the below command with your 'uniqname'. 
 
-d2m
-
-#or
-
-cd /scratch/micro612w21_class_root/micro612w21_class/username/day2am
+cd /scratch/epid582w22_class_root/epid582w22_class/username/class5
 
 > We will create a new directory in day2am to save genome assembly results:
 
@@ -65,12 +58,12 @@ Now, we will use a genome assembly tool called Spades for assembling the reads.
 
 > ***ii. Test out Spades to make sure it's in your path***
 
-Load the workshop conda environment micro612. To make sure that your conda paths are set up correctly, try running Spades with the –h (help) flag, which should produce usage instruction. 
+Load the course conda environment MICRO582. To make sure that your conda paths are set up correctly, try running Spades with the –h (help) flag, which should produce usage instruction. 
 
 ```
 > check if spades is working. 
 
-conda activate micro612
+conda activate MICRO582
 
 spades.py -h     
 
@@ -107,7 +100,6 @@ sbatch spades.sbat
 squeue -u username 
 ```
 
-
 Assembly evaluation using [QUAST](http://bioinf.spbau.ru/quast)
 ---------------------------------
 
@@ -131,7 +123,7 @@ module load python2.7-anaconda/2019.03
 quast.py -o quast SRR5244781_contigs.fasta SRR5244821_contigs.fasta
 ```
 
-The command above will generate a report file in /scratch/micro612w21_class_root/micro612w21_class/username/day2am/quast
+The command above will generate a report file in /scratch/epid582w22_class_root/epid582w22_class/username/day2am/quast
 
 > ***ii. Explore quast output***
 
@@ -164,7 +156,7 @@ Download the html report Cdiff_multiqc_report.html from your day2am folder.
 #Note: Make sure you change 'username' in the below command to your 'uniqname'.
 
 
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/micro612w21_class_root/micro612w21_class/username/day2am/Cdiff_multiqc_report.html /path-to-local-directory/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/day2am/Cdiff_multiqc_report.html /path-to-local-directory/
 
 
 ```
@@ -180,17 +172,14 @@ Lets run multiqc on one such directory where we ran and stored FastQC, FastQ Scr
 if you are not in day2am folder, navigate to it and change directory to multiqc_analysis
 
 ```
-d2m
 
-#or
-
-cd /scratch/micro612w21_class_root/micro612w21_class/username/day2am/
+cd /scratch/epid582w22_class_root/epid582w22_class/username/class5/
 
 cd multiqc_analysis
 
-#Activate workshop conda environment
+#Activate conda environment
 
-conda activate micro612
+conda activate MICRO582
 
 multiqc -h
 
@@ -204,7 +193,7 @@ ls
 
 #transfer this multiqc report - workshop_multiqc.html to your local system and open it in a browser for visual inspection
 
-scp username@flux-xfer.arc-ts.umich.edu:/scratch/micro612w21_class_root/micro612w21_class/username/day2am/workshop_multiqc.html /path-to-local-directory/
+scp username@flux-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/day2am/workshop_multiqc.html /path-to-local-directory/
 
 ```
 
@@ -215,5 +204,3 @@ The report contains the Assembly, Fastq Screen and FastQC report for a mixture o
 - Question: Which sample has the worst N50 value? What do you think must be the reason (hint - check out the general stats)?
 
 - Question: Which sample has the second worst N50 value? Is it the same or a different issue from the worst sample (hint - check out general stats and then the fastQC results)?
-
-
