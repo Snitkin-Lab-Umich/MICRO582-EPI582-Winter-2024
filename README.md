@@ -8,12 +8,14 @@
 
 ### Prerequisites:
 
+### Course Discipline: Epidemiology
+
 ### Working directory
 ---------------------
 
-***The directory on Great Lakes that you will be working in is - `TBD`***
+***The directory on Great Lakes that you will be working in is - `/scratch/epid582w22_class_root/epid582w22_class/`***
 
-You can find a folder named after your username/uniqname; for example if my uniqname is `apirani`, I will be working in `TBD` This would be the directory that couse attendees will be working from.
+You can find a folder named after your umich uniqname; for example if my uniqname is `apirani`, I will be working in `/scratch/epid582w22_class_root/epid582w22_class/apirani/`.
 
 ## Overview:
 ------------
