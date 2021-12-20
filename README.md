@@ -26,10 +26,10 @@ You can find a folder named after your umich uniqname; for example if my uniqnam
 #### [Class 1 – Setting up Great Lakes account and Introduction to UNIX](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class1/README.md)
 ***
 
-- Sign up for Great Lakes account
-- Intro to Unix
-- Navigating directory structure
-- Running UNIX commands
+- [Sign up for Great Lakes account](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class1/README.md#sign-up-for-great-lakes-account)
+- [Intro to Unix](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class1/README.md#intro-to-unix)
+- [Navigating directory structure](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class1/README.md#navigating-directory-structure)
+- [Running UNIX commands](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class1/README.md#running-unix-commands)
 
 #### [Class 2 – Introduction to Great Lakes and HPC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class2/README.md)
 ***
