@@ -54,8 +54,8 @@ Lets explore what folders we have in this course directory using the command `ls
 ```
 ls
 ```
+You should see a list of folders named after the uniqnames of the course attendees. You should also see a folder named `shared_data` that contains data for the lab modules.
 
-You shoukd see a list of folders named after the uniqnames of the course attendees. You should also see a folder names `shared_data` that will contain the data for the lab module.
 
 Lets go to shared_data directory and explore what data folder exists in this directory.
 
@@ -63,7 +63,10 @@ Lets go to shared_data directory and explore what data folder exists in this dir
 cd shared_data
 ```
 
-You should see a folder names class that will contain all the data that we will be working for the lab module.
+- You should see a folder names class that will contain all the data that we will be working for the lab module.
+- conda_envs contains the conda YML file that we will use to set up our environment. This will let us install all the tools required for the lab.
+- check_MICRO582_installation.sh will check if all the tools have been properly installed.
+- bin folder contains tools that were seperately installed due to dependency conflicts in a our conda envireonment.
 
 
 Running UNIX commands

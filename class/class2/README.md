@@ -166,6 +166,9 @@ bash /scratch/epid582w22_class_root/epid582w22_class/shared_data/conda_envs/chec
 
 # Update one of the databases that you would need in one of the Kraken exercises 
 # ktUpdateTaxonomy.sh
+
+# Create Conda environment for MultiQC 
+conda create -n multiqc multiqc
 ```
 
 Loading modules

@@ -179,7 +179,7 @@ cd multiqc_analysis
 
 #Activate conda environment
 
-conda activate MICRO582
+conda activate multiqc
 
 multiqc -h
 
