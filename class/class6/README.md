@@ -7,8 +7,8 @@ Goal
 - We will also add functional annotations using eggnog to generate some rich annotatons for our genome.
 - Then we will explore the annotated files to learn more about the assembled genome.
 
-Annotate genome with PROKKA and eggnogg
----------------------------------------
+Genome annotation using PROKKA
+------------------------------
 
 Since Prokka annotation is a time intensive run, we will submit an annotation job and go over the results later at the end of this session. 
 
@@ -41,4 +41,7 @@ Submit the job using sbatch
 ```
 sbatch prokka.sbat
 ```
+
+Functional annotation using eggnog
+----------------------------------
 

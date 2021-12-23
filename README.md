@@ -56,9 +56,8 @@
 #### [Class 6 – Genome annotation](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class6/README.md)
 ***
 
-- Download assemblies from NCBI
-- Genome annotation using PROKKA
-- Functional annotation using eggnog
+- [Genome annotation using PROKKA](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class6/README.md#genome-annotation-using-prokka)
+- [Functional annotation using eggnog](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class6/README.md#functional-annotation-using-eggnog)
 
 
 #### [Class 7 – Resistome analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class7/README.md)
