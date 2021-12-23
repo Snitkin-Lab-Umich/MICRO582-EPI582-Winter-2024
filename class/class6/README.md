@@ -50,21 +50,6 @@ The command that was used to download the database was
 download_eggnog_data.py
 ```
 
-Eggnog requires the latest version of diamond and the version we installed with Conda package manager doesn't download the latest version. To get a workaround this, we downloaded diamond executable to this directory `/scratch/epid582w22_class_root/epid582w22_class/shared_data/bin/diamond` from diamond's github [website](https://github.com/bbuchfink/diamond/wiki) 
-
-Lets copy this executable to your conda's bin directory. Lets find out where your conda bin folder is located. To find out where diamond is located, run the below commands
-
-```
-which diamond
-```
-
-My conda diamond version is located here - `~/.conda/envs/MICRO582/bin/diamond`. Lets move the latest version to this path. (Offcourse your location might be different. So you should copy `/scratch/epid582w22_class_root/epid582w22_class/shared_data/bin/diamond` to your location)
-
-```
-cp /scratch/epid582w22_class_root/epid582w22_class/shared_data/bin/diamond ~/.conda/envs/MICRO582/bin/diamond
-```
-
-
 Open annotate.sbat file using nano and add commands for eggnog.
 
 ```
