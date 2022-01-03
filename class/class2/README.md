@@ -26,7 +26,7 @@ Here, we will use curl command to download some genome assemblies from NCBI ftp 
 
 - Go to your class home directory (use your wd shortcut!)
 
-- Execute the following commands to copy files for class2 to your home directory: 
+- Execute the following commands to copy files for class2 to your course directory `/scratch/epid582w22_class_root/epid582w22_class/username`: 
 
 ```
 cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class2 ./
@@ -51,9 +51,7 @@ curl ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/165/655/GCF_000165655.1_ASM1
 - Decompress the gzip compressed fasta file using gzip command
 
 ```
-gzip -d Acinetobacter_baumannii.fna.gz
-gzip -d Kleb_pneu.fna.gz
-gzip -d E_coli.fna.gz
+gzip -d *.fna.gz
 ```
 
 These files are genome assemblies in fasta format. Fasta files are a common sequence data format that is composed of alternating sequence headers (sequence names and comments) and their corresponding sequences. Of great importance, the sequence header lines must start with “>”. These genome assemblies have one header line for each contig in the assembly, and our goal will be to count the number of contigs/sequences. To do this we will string together two Unix commands: “grep” and “wc”. “grep” (stands for global regular expression print), is an extremely powerful pattern matching command, which we will use to identify all the lines that start with a “>”. “wc” (stand for word count) is a command for counting words, characters and lines in a file. To count the number of contigs in one of your fasta files enter:
