@@ -21,7 +21,7 @@ Replace username with your umich uniqname and run the ssh command to log in to G
 ssh username@greatlakes.arc-ts.umich.edu
 ```
 
-*Note that if you are off-campus you will need to be connected to the VPN to login to Great Lakes!
+***Note that if you are off-campus you will need to be connected to the VPN to login to Great Lakes!***
 
 Intro to Unix and your first command!
 -------------------------------------
@@ -33,20 +33,23 @@ Before we get started executing our first UNIX commands, here are some important
 1. UNIX is case sensitive (typically all lowercase for commands), so check your case if a command is not working
 2. Oftentimes there are spaces between different parts of a UNIX command. Having spaces (or not having them) will impact whether a command runs as intended. 
 
-Typing the ssh command above gave you remote access to the Great Lakes login node. So, while your still typing commands on your own computer, they are actually being executed on the login node! In a UNIX system each user typically has their own home directory, which is where you are placed on login. Your home directory on Great Lakes is `/home/uniqname` where uniqname will be your username that we used for logging in. 
+Typing the ssh command above gave you remote access to the Great Lakes login node. So, while you are still typing commands on your own computer, they are actually being executed on the login node! In a UNIX system each user typically has their own home directory, which is where you are placed on login. Your home directory on Great Lakes is `/home/uniqname` where uniqname will be your username that we used for logging in. 
 
 Next, we are going to learn our first UNIX command, which is among the most important and heavily used commands for beginners.  `pwd` stands for print working directory and is a very handy command to quickly find out where you are in the file system. This is important for making sure you are executing commands in the correct directory (e.g. not deleting files from the wrong directory) and also for re-orienting yourself after moving around. Lets run this command and find where we actually are.
 
 ```
 pwd
 ```
-*To execute a UNIX command you hit enter after typing it
 
-My present working directory is `/home/esnitkin`, and yours should be '/home/uniqname'. What is this actually telling us? Well, it's the path from the top of the directory structure (called the root) to the directory we are currently in. So, for me the path to the current directory takes me down the following path:
+***To execute a UNIX command you hit enter after typing it***
+
+My present working directory is `/home/esnitkin`, and yours should be '/home/uniqname'. 
+
+What is this actually telling us? Well, it's the path from the top of the directory structure (called the root) to the directory we are currently in. So, for me the path to the current directory takes me down the following path:
 
 / -> home -> esnitkin
 
-Note that first '/' is actually a directory, and is called the root directory. Other /'s are spacers separating the names of directories along the path. In the next section we will learn how to move up and down the directory structure using the cd command. 
+Note that first '/' is actually a directory, and is called the root directory. Other /'s are spacers separating the names of directories along the path. In the next section we will learn how to move up and down the directory structure using the `cd` command. 
 
 Before that, let's learn one more UNIX trick. First, let's get our first error by typing pwd incorrectly:
 
@@ -55,15 +58,16 @@ Before that, let's learn one more UNIX trick. First, let's get our first error b
 
 pw
 ```
+
 With a short command like pwd it is pretty easy to visually see what the problem is. However, with longer commands it can be hard (and frustrating) to figure out what is wrong with your command. One trick to ensure we are typing out a valid command is to use tab complete. To see how this works type 'pw' and then 'tab-tab' (tab key two times). What hitting tab-tab does is show you valid commands or files that your shell is aware of. Now, type pwd and hit tab-tab. How does the output change?
 
 Examining the contents of directories with ls
-------------------------------
+---------------------------------------------
 
 Now that we know how to determine what directory we are in, let's next learn how to see what files and directories are in our current directory. First, execute the following command to copy over some directories and files for us to play with. Don't worry about what this command is doing for the time being, but rest assured that you will be learning the 'cp' command very soon!
 
 ```
-cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class1/shell_data/ .”
+cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class1/shell_data/ .
 ```
 
 Hmmm, when we type the command we get no feedback from the shell, so how do we know that it worked? Well, let's learn our next command, which will help us determine if the files were copied over.
@@ -121,7 +125,8 @@ ls ..
 #Look at the contents of the home directory
 ls ~
 ```
-*Note the lines that start with # are comments, you do not need to execute these
+
+***Note the lines that start with # are comments, you do not need to execute these***
 
 Navigating directory structure with cd
 --------------------------------------
@@ -140,7 +145,8 @@ OK - now let's traverse the file system a bit. We are going to use the special d
 ```
 cd ..
 ```
-*Pro tip - if you hit the up arrow at the prompt it will bring up previously executed commands, which prevents you from having to type them again!
+
+***Pro tip - if you hit the up arrow at the prompt it will bring up previously executed commands, which prevents you from having to type them again!***
 
 Alright, you've traversed to the root of the directory tree, but now you want to go back to your home directory. How to do this? Well, there are actually several ways to get home :)
 
@@ -163,7 +169,8 @@ Now, let's look at the 'SraRunTable.txt' file with less:
 ```
 less SraRunTable.txt
 ```
-*Tip - try hitting tab after hitting Sra, I think you will be pleased with the result :)
+
+***Tip - try hitting tab after hitting Sra, I think you will be pleased with the result :)***
 
 Once inside less you can use the same navigation keys as when in the man pages (e.g. arrows, space, ctl-b, q). I also want to point out one other really useful trick, which works in both less and man pages, which is searching with '/'. If you hit '/', you will see a cursor appear at the bottom of the screen. Now type WGS to search for that text. You can now see that it highlighted instances of WGS appearing. Moreover, you can move between instances by hitting 'n'.
 
@@ -178,17 +185,51 @@ Now see if you can view the file using:
 1. Absolute pathways (i.e. the full path to the file)
 2. The special ~ character
 
-***ADD SOLUTIONS
+<details>
+  <summary>Solution 1</summary>
+
+```
+
+less /home/uniqname/shell_data/sra_metadata/SraRunTable.txt
+
+```
+</details>
+
+<details>
+  <summary>Solution 2</summary>
+
+```
+
+less ~/shell_data/sra_metadata/SraRunTable.txt
+
+```
+</details>
 
 To finish up let's get a little more practice with navigation and directories. 
 
 How can we get into the directory '/home/esnitkin/shell_data/untrimmed_fastq'?
 
-***ADD SOLUTION
+<details>
+  <summary>Solution</summary>
+
+```
+ 
+cd ~/shell_data/untrimmed_fastq 
+
+```
+</details>
 
 How can we view the file '/home/esnitkin/shell_data/sra_metadata/SraRunTable.txt', while we are in the untrimmed_fastq directory?
 
-***ADD SOLUTION
+<details>
+  <summary>Solution</summary>
+
+```
+ 
+less ../sra_metadata/SraRunTable.txt 
+
+```
+</details>
 
 Data Carpentry: Introducing the Shell & Navigating Files and Directories
 --------------------------------------------------------------------------
