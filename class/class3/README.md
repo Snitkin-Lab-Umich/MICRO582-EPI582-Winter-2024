@@ -15,20 +15,20 @@ Working with Files and Directories
 
 We will again use [this](https://datacarpentry.org/shell-genomics/03-working-with-files/index.html) data carpentry material to learn how to work with files and directories. 
 
-Data for this lesson is located here - `/scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class2`
+Data for this lesson is located here - `/scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class3`
 
-Change your current location to your working directory and copy class2 folder to your working directory.
+Change your current location to your working directory and copy class3 folder to your working directory.
 
 ```
 cd /scratch/epid582w22_class_root/epid582w22_class/username
 
-cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class2 ./
+cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class3 ./
 ```
 
-Change directory to class2
+Change directory to class3
 
 ```
-cd class2
+cd class3
 ```
 
 Setting up your compute environment
