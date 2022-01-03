@@ -187,5 +187,5 @@ How can we view the file '/home/esnitkin/shell_data/sra_metadata/SraRunTable.txt
 Data Carpentry: Introducing the Shell & Navigating Files and Directories
 --------------------------------------------------------------------------
 
-To learn more about today's lesson check out the following resources [Introducing the Shell](https://datacarpentry.org/shell-genomics/01-introduction/index.html) and [Navigating Files and Directories](https://datacarpentry.org/shell-genomics/02-the-filesystem/index.html) to go over some basic unix commands and learn how to navigate directories.
+To learn more about today's lesson check out the following resources [Introducing the Shell](https://datacarpentry.org/shell-genomics/01-introduction/index.html) and [Navigating Files and Directories](https://datacarpentry.org/shell-genomics/02-the-filesystem/index.html) to go over some basic unix commands and learn how to navigate directories. On the Canvas site we also have links to videos from a workshop we co-led where the instructors go through these and other lessons that will be useful in this course.
 
