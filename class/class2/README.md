@@ -4,13 +4,19 @@ Class 2 – Introduction to Great Lakes and HPC
 Goal
 ----
 
-- In this module, we will review the course's lab directory organization
-- We will set up the compute environment for upcoming lab modules so that we have all the tools/pipelines installed and ready to use
-- We will learn how to load Great lakes modules which are the pre-installed softwares provided by ARC-TS team.
-- We will learn how to submit a cluster job.
+- In this module, we will learn how to work with files and directories using Data Carpentry lesson - [Working with Files and Directories](https://datacarpentry.org/shell-genomics/03-working-with-files/index.html)
+- We will set up the compute environment for upcoming lab modules so that we have all the tools installed and ready for use.
+- We will learn how to load Great lakes modules i.e pre-installed softwares provided by ARC-TS team.
+- We will submit our course's first job to the cluster.
 
-Reviewing directory navigation
-------------------------------
+
+Working with Files and Directories
+----------------------------------
+
+We will again use [this](https://datacarpentry.org/shell-genomics/03-working-with-files/index.html) data carpentry material to learn how to work with files and directories. 
+
+Data for this lesson is located here - `/scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class2`
+
 
 Setting up your compute environment
 -----------------------------------
