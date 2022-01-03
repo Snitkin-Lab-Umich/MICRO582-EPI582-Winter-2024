@@ -1,5 +1,5 @@
 # MICRO582/EPI582 - Genomic Epidemiology Winter 2022
-test
+
 #### Instructor(s): Evan Snitkin
 
 #### Description: Provide an overview of cutting-edge approaches for microbial genomic analysis, with a focus on their application in the emerging field of genomic epidemiology. Lectures will be reinforced with discussions and extensive hands-on training. Students will gain experience on the command-line and in performing downstream analysis and visualization in R.
@@ -22,19 +22,19 @@ test
 - [Navigating directory structure](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class1/README.md#navigating-directory-structure)
 - [Data Carpentry: Introducing the Shell & Navigating Files and Directories](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class1/README.md#data-carpentry:-introducing-the-shell-&-navigating-files-and-directories)
 
-#### [Class 2 – Introduction to Great Lakes and HPC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class2/README.md)
+#### [Class 2 – Sequence data formats](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class2/README.md)
 ***
 
-- [Working with Files and Directories](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class2/README.md#working-with-files-and-directories)
-- [Setting up your compute environment](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class2/README.md#setting-up-your-compute-environment)
-- [Loading modules](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class2/README.md#loading-modules)
-- [Submit a job to cluster](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class2/README.md#submit-a-job-to-cluster)
+- [Using GREP for pattern matching](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class2/README.md#using-grep-for-pattern-matching)
+- [Using for loops to perform same actions on different files](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class2/README.md#using-for-loops-to-perform-same-actions-on-different-files)
 
-#### [Class 3 – Sequence data formats](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class3/README.md)
+#### [Class 3 – Introduction to Great Lakes and HPC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class3/README.md)
 ***
 
-- [Using GREP for pattern matching](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class3/README.md#using-grep-for-pattern-matching)
-- [Using for loops to perform same actions on different files](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class3/README.md#using-for-loops-to-perform-same-actions-on-different-files)
+- [Working with Files and Directories](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class3/README.md#working-with-files-and-directories)
+- [Setting up your compute environment](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class3/README.md#setting-up-your-compute-environment)
+- [Loading modules](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class3/README.md#loading-modules)
+- [Submit a job to cluster](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class3/README.md#submit-a-job-to-cluster)
 
 #### [Class 4 – Illumina sequencing data and QC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class4/README.md)
 ***
