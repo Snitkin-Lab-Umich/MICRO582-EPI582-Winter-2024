@@ -29,9 +29,9 @@ Here, we will use curl command to download some genome assemblies from NCBI ftp 
 - Execute the following commands to copy files for class2 to your home directory: 
 
 ```
-cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class3 ./
+cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class2 ./
 
-cd class3/
+cd class2/
 
 ls
 
