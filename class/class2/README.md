@@ -1,4 +1,4 @@
-Class 3 – Sequence data formats
+Class 2 – Sequence data formats
 ===============================
 
 Goal
@@ -26,7 +26,7 @@ Here, we will use curl command to download some genome assemblies from NCBI ftp 
 
 - Go to your class home directory (use your wd shortcut!)
 
-- Execute the following commands to copy files for class3 to your home directory: 
+- Execute the following commands to copy files for class2 to your home directory: 
 
 ```
 cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class3 ./
