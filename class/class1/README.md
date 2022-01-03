@@ -178,11 +178,17 @@ Now see if you can view the file using:
 1. Absolute pathways (i.e. the full path to the file)
 2. The special ~ character
 
+***ADD SOLUTIONS
+
 To finish up let's get a little more practice with navigation and directories. 
 
 How can we get into the directory '/home/esnitkin/shell_data/untrimmed_fastq'?
 
+***ADD SOLUTION
+
 How can we view the file '/home/esnitkin/shell_data/sra_metadata/SraRunTable.txt', while we are in the untrimmed_fastq directory?
+
+***ADD SOLUTION
 
 Data Carpentry: Introducing the Shell & Navigating Files and Directories
 --------------------------------------------------------------------------
