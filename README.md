@@ -20,6 +20,7 @@
 - [Sign up for Great Lakes account](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class1/README.md#sign-up-for-great-lakes-account)
 - [Intro to Unix](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class1/README.md#intro-to-unix)
 - [Navigating directory structure](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class1/README.md#navigating-directory-structure)
+- [Data Carpentry: Introducing the Shell & Navigating Files and Directories](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class1/README.md#data-carpentry:-introducing-the-shell-&-navigating-files-and-directories)
 
 #### [Class 2 – Introduction to Great Lakes and HPC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class2/README.md)
 ***

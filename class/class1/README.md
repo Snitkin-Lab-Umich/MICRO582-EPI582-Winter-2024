@@ -74,3 +74,10 @@ You should see four folders namely - bin, conda_envs, data, database.
 - conda_envs contains the conda YML file that we will use to set up our environment. This will let us install all the tools required for the lab.
 - bin folder contains tools that were seperately installed due to dependency conflicts in our conda envireonment.
 - database contains public databases that we will use for annotation analysis.
+
+Data Carpentry: Introducing the Shell & Navigating Files and Directories
+--------------------------------------------------------------------------
+
+We will be working with data carpentry lessons [Introducing the Shell](https://datacarpentry.org/shell-genomics/01-introduction/index.html) and [Navigating Files and Directories](https://datacarpentry.org/shell-genomics/02-the-filesystem/index.html) to go over some basic unix commands and learn how to navigate directories.
+
+Data for these lessons are located here - `/scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class1`
