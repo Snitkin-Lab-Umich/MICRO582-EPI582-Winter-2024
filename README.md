@@ -1,5 +1,5 @@
 # MICRO582/EPI582 - Genomic Epidemiology Winter 2022
-
+test
 #### Instructor(s): Evan Snitkin
 
 #### Description: Provide an overview of cutting-edge approaches for microbial genomic analysis, with a focus on their application in the emerging field of genomic epidemiology. Lectures will be reinforced with discussions and extensive hands-on training. Students will gain experience on the command-line and in performing downstream analysis and visualization in R.
