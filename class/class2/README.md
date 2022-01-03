@@ -5,9 +5,9 @@ Goal
 ----
 
 - In this module, we will learn how to work with files and directories using Data Carpentry lesson - [Working with Files and Directories](https://datacarpentry.org/shell-genomics/03-working-with-files/index.html)
-- We will set up the compute environment for upcoming lab modules so that we have all the tools installed and ready for use.
+- We will set up our compute environment for upcoming lab modules so that we have all the tools installed and ready for use.
 - We will learn how to load Great lakes modules i.e pre-installed softwares provided by ARC-TS team.
-- We will submit our course's first job to the cluster.
+- We will submit our first job to the cluster.
 
 
 Working with Files and Directories
@@ -17,6 +17,19 @@ We will again use [this](https://datacarpentry.org/shell-genomics/03-working-wit
 
 Data for this lesson is located here - `/scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class2`
 
+Change your current location to your working directory and copy class2 folder to your working directory.
+
+```
+cd /scratch/epid582w22_class_root/epid582w22_class/username
+
+cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class2 ./
+```
+
+Change directory to class2
+
+```
+cd class2
+```
 
 Setting up your compute environment
 -----------------------------------
@@ -42,7 +55,11 @@ Some examples of ways that we will use environment variables in the class are:
 
 One way to set your environment variables would be to manually set up these variables everytime you log in, but this would be extremely tedious and inefficient. So, Unix has setup a way around this, which is to put your environment variable assignments in special files called .bashrc or .bash_profile. Every user has one or both of these files in their home directory, and what's special about them is that the commands in them are executed every time you login. So, if you simply set your environmental variable assignments in one of these files, your environment will be setup just the way you want it each time you login!
 
-All the softwares/tools that we need in this workshop are installed in a directory `/scratch/epid582w22_class_root/epid582w22_class/shared_data/bin` and we want the shell to look for these installed tools in this directory. 
+All the softwares/tools that we need in this workshop are installed in a directory 
+
+`/scratch/epid582w22_class_root/epid582w22_class/shared_data/bin` 
+
+and we want the shell to look for these installed tools in this directory. 
 
 For this, We will save the full path to these tools in an environment variable PATH.
 
@@ -50,7 +67,7 @@ For this, We will save the full path to these tools in an environment variable P
 	
 ```
 
-cp ~/.bashrc ~/bashrc_backup
+cp ~/.bashrc ~/bashrc_backup_2022_01_05
 
 #Note: "~/" represents your home directory. On great lakes, this means /home/username
 
@@ -115,7 +132,7 @@ Note: Replace "username" under alias shortcuts with your own umich "uniqname". I
 
 You can also customize the alias name such as wd, d1am etc. catering to your own need and convenience.
 
-The above environment settings will set various shortcuts such as "islurm" for entering interactive great lakes session, "wd" to navigate to your workshop directory, call necessary great lakes modules and perl libraries required by certain tools and finally sets the path for bioinformatics programs that we will run during the workshop.
+The above environment settings will set various shortcuts such as "islurm" for entering interactive great lakes session, "wd" to navigate to your workshop directory, call necessary great lakes modules and perl libraries required by certain tools and finally sets the path for bioinformatics programs that we will run during the class.
 
 > ***iii. Save the file and Source .bashrc file to make these changes permanent.***
 
@@ -137,7 +154,7 @@ wd
 
 ```
 
-You should be in your workshop working directory that is /scratch/micro612w21_class_root/micro612w21_class/username 
+You should be in your class working directory that is /scratch/micro612w21_class_root/micro612w21_class/username 
 
 > ***v. Set up a conda environment using a YML file***
 
@@ -162,17 +179,6 @@ conda env create -f /scratch/epid582w22_class_root/epid582w22_class/shared_data/
 # Load your environment and use the tools
 conda activate MICRO582
 
-# Check if the tools were properly installed by conda and are callable from your environment 
-bash /scratch/epid582w22_class_root/epid582w22_class/shared_data/conda_envs/check_MICRO582_installation.sh 
-
-# Commenting out for now. Will uncomment if its necessary for any of the future classes.
-# Problem installing PyVCF and biopython with Conda channels
-# pip install PyVCF --user
-# pip install biopython --user
-
-# Update one of the databases that you would need in one of the Kraken exercises 
-# ktUpdateTaxonomy.sh
-
 # Create Conda environment for MultiQC 
 conda create -n multiqc multiqc
 ```
@@ -191,9 +197,17 @@ To check which tools are available under the Bioinformatics module,
 module av
 ```
 
+Use the space key to explore the entire suite of tools that are available from Great Lakes. We can load any of these tools using `module load toolname` command.
+
 Submit a job to cluster
 -----------------------
 
+Great lakes supports SLURM batch scheduler and resource manager that allows us to run a job on University of Michigan’s high performance computing (HPC) clusters. [This](https://arc.umich.edu/greatlakes/slurm-user-guide/) website provides a great oevrview of the process for submitting and running jobs under the Slurm Workload Manager on the Great Lakes cluster.
 
+Open first_job.sbat using nano and change SLURM directives mail-user to reflect your email ID.
 
+Submit your first SLURM job with 
 
+```
+sbatch first_job.sbat
+```
