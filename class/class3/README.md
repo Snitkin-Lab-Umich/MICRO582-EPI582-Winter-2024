@@ -1,4 +1,4 @@
-Class 2 – Introduction to Great Lakes and HPC
+Class 3 – Introduction to Great Lakes and HPC
 =============================================
 
 Goal
