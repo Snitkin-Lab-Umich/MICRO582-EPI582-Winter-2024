@@ -207,13 +207,19 @@ less ~/shell_data/sra_metadata/SraRunTable.txt
 
 To finish up let's get a little more practice with navigation and directories. 
 
-How can we get into the directory '/home/esnitkin/shell_data/untrimmed_fastq'?
+What are different ways to get into the directory '/home/esnitkin/shell_data/untrimmed_fastq' from the home directory '/home/esnitkin'?
 
 <details>
   <summary>Solution</summary>
 
 ```
+ #Relative path
+ cd shell_data/untrimmed_fastq 
  
+ #Absolute path
+cd /home/esnitkin/shell_data/untrimmed_fastq 
+ 
+ #Tilda home shortcut
 cd ~/shell_data/untrimmed_fastq 
 
 ```
