@@ -48,15 +48,20 @@ curl ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/409/005/GCF_000409005.1_gkp3
 curl ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/165/655/GCF_000165655.1_ASM16565v1/GCF_000165655.1_ASM16565v1_genomic.fna.gz > E_coli.fna.gz
 
 ```
-*If you are working on gitbash and curl doesn't work, then you can download from the Canvas website
 
-- To enable quick file transfers these genome assemblies came in compressed format. So, we will use the 'gzip' command with the '-d' flag to decompress the  compressed fasta files. One option is to run the command three times (once for each file), but as a shortcut we are going to use '*', which is called the wildcard character. Here we are using '*' to tell Unix  to apply our gzip command to all files ending in '.fna.gz'.
+***If you are working on gitbash and curl doesn't work, then you can download from the Canvas website***
+
+- To enable quick file transfers these genome assemblies came in compressed format. So, we will use the 'gzip' command with the '-d' flag to decompress the  compressed fasta files. One option is to run the command three times (once for each file), but as a shortcut we are going to use '\*', which is called the wildcard character. Here we are using '\*' to tell Unix  to apply our gzip command to all files ending in '.fna.gz'.
 
 ```
 gzip -d *.fna.gz
 ```
 
-The decompressed files are genome assemblies in fasta format. The '.fna' extension typcally indicates that these are nucleotide sequences, as opposed to amino acid sequences, which would be .faa. Note that these are really just text files, and the extension is so we can know what's in them and how to work with them. Fasta files are a common sequence data format that is composed of alternating sequence headers (sequence names and comments) and their corresponding sequences. Of great importance, the sequence header lines must start with “>”. These genome assemblies have one header line for each contig in the assembly. First, use less to explore the file and remember the trick of using "/" within less to search. In this case, you can search for ">" and use "n" to move to the next sequence header.
+The decompressed files are genome assemblies in fasta format. The '.fna' extension typcally indicates that these are nucleotide sequences, as opposed to amino acid sequences, which would be .faa. 
+
+***Note that these are really just text files, and the extension is so we can know what's in them and how to work with them.*** 
+
+Fasta files are a common sequence data format that is composed of alternating sequence headers (sequence names and comments) and their corresponding sequences. Of great importance, the sequence header lines must start with “>”. These genome assemblies have one header line for each contig in the assembly. First, use less to explore the file and remember the trick of using "/" within less to search. In this case, you can search for ">" and use "n" to move to the next sequence header.
 
 Next, let's see if we can learn about the sequences in our file using the Unix command 'wc'. 'wc' stands for "word count", and allows you to count the number of lines, words and characters in a text file. Let's run 'wc' on our assemblies to get a sense of how big our E. coli sequence is:
 
@@ -85,7 +90,7 @@ Next, we want to figure out a way to use Unix commands to figure out the number 
 grep ">" E_coli.fna
 ```
 
-*Note that we put ">" in quotation marks, as ">" is a special Unix character, which we will learn about imminently :) 
+***Note that we put ">" in quotation marks, as ">" is a special Unix character, which we will learn about imminently :)***
 
 So, now that we pulled out the sequence headers, we just need to count them to determine how many sequences are in our file. We could do this by hand, but we are lazy computer programers and should never do such a tedious task! Fortunately, we just learned a command for counting lines in files - 'wc'. To enable counting the lines, let's put the output of grep into a file by using output redirection.
 
@@ -123,7 +128,7 @@ grep ">" *.fna | wc -l
 Using for loops to perform same actions on different files
 ----------------------------------------------------------
 
-So, using the wildcard in the command above did not have the desired action, as it told us the total number of lines in all files combined, instead of in each individual one. What we need is a way to execute our wc command on each file, but using a single command. You might say to yourself that it isn't a big deal to just run the command three times (once for each file), but what if you had 10 sequences? Or 100 sequences? It becomes ineffient and error prone, so we want to avoid that. What we are going to do instead is use a for loop, to loop over each file and run our command. For loops are not something unique to Unix, and are a fundamental tool for most programming languages for executing repetative tasks in a streamlines way.
+So, using the wildcard in the command above did not have the desired action, as it told us the total number of lines in all files combined, instead of in each individual one. What we need is a way to execute our wc command on each file, but using a single command. You might say to yourself that it isn't a big deal to just run the command three times (once for each file), but what if you had 10 sequences? Or 100 sequences? It becomes inefficient and error prone, so we want to avoid that. What we are going to do instead is use a for loop, to loop over each file and run our command. For loops are not something unique to Unix, and are a fundamental tool for most programming languages for executing repetitive tasks in a streamlined way.
 
 
 To get a sense for how for loops look in Unix and how they work, try the below example of for loop, that loops over a bunch of numbers and prints out each value until the list is exhausted.
@@ -230,9 +235,9 @@ grep -v '^#' sample.gff | wc -l
 OK - let's learn one last command that can help us explore tabular text files like gff's. What makes it tabular is that each row has the same number of columns, and each column is separate by the same character, in this case a tab. A natural thing to want to do is to pull out a single column to work with. The Unix command to accomplish this is 'cut'. When using cut you will almost always want to use a couple of flags, including -d (delimiter - what separates each column) and -f (field - which column do you want to pull). 
 
 
-- Question: Let's see if we can increase our pipe complexity by strining together three commands! Your task is to count the number of rRNA features in a gff(third column) file using cut, then grep and finally wc? 
+- Question: Let's see if we can increase our pipe complexity by stringing together three commands! Your task is to count the number of rRNA features in a gff(third column) file using cut, then grep and finally wc? 
 
-*Note - the default delimiter is tab, so you don't need to specify the -d command
+***Note - the default delimiter is tab, so you don't need to specify the -d command***
 
 <details>
   <summary>Solution</summary>
