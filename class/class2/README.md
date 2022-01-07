@@ -95,6 +95,16 @@ grep ">" E_coli.fna > E_coli_headers
 wc E_coli_headers
 ```
 
+What flag for wc can you use to just print out the number of lines (hint - look in the man page)?
+
+<details>
+  <summary>Solution</summary>
+
+```
+wc -l E_coli_headers
+```
+</details>
+
 We now can see that our E. coli fasta file has 35 sequences. Now, a downside of what we just did is that we created this intermediate file containing headers that we don't really need. Ideally, we would be able to apply 'wc' to the output of grep, without going through the intermediate step of redirecting grep output to a file. Fortunately for us, Unix thought of this and gave us the '|' (called pipe). You can think of pipes like a literal pipe, where the output of one command flows into the next one. So, let's string our 'grep' and 'wc' commands together into a single command using a pipe.
 
 ```
@@ -113,53 +123,60 @@ grep ">" *.fna | wc -l
 Using for loops to perform same actions on different files
 ----------------------------------------------------------
 
-OK, so now that we have a useful command, wouldn’t it be great to turn it into a program that you can easily apply to a large number of genome assemblies? Of course it would! So, now we are going to take out cool contig counting command, and put it in a shell script that applies it to all files in the desired directory.
+So, using the wildcard in the command above did not have the desired action, as it told us the total number of lines in all files combined, instead of in each individual one. What we need is a way to execute our wc command on each file, but using a single command. You might say to yourself that it isn't a big deal to just run the command three times (once for each file), but what if you had 10 sequences? Or 100 sequences? It becomes ineffient and error prone, so we want to avoid that. What we are going to do instead is use a for loop, to loop over each file and run our command. For loops are not something unique to Unix, and are a fundamental tool for most programming languages for executing repetative tasks in a streamlines way.
 
-<!--- Copy “/scratch/micro612w21_class_root/micro612w21_class/shared/fasta_counter.sh” to your current directory (Hint – use the “cp” command)-->
 
-There will be times when you have multiple sets of files in a folder in which case it becomes cumbersome to run individual commands on each file. To simplify this task, most programming language have a concept of loops that can be employed to repeat a task/command on a bunch of files repeatedly. Here we have three fasta files for which we want to know the number of contigs in each file. We can either run the above mentioned grep command seperately on each file or use it in a "for" loop that iterates through a set of values/files until that list is exhausted. 
-
-Try the below example of for loop, that loops over a bunch of numbers and prints out each value until the list is exhausted.
+To get a sense for how for loops look in Unix and how they work, try the below example of for loop, that loops over a bunch of numbers and prints out each value until the list is exhausted.
 
 ```
 for i in 1 2 3 4 5; do echo "Looping ... number $i"; done
 ```
 
-A simple for loop statement consists of three sections: 
+The above for loop has the following key pieces:
 
-1. for statement that loops through values and files
-2. a do statement that can be any type of command that you want to run on a file or a tool that uses the current loop value  as an input
-3. done statement that indicates completion of a do statement.
+1. for - All for loops start with the word 'for', to indicate the loop command is starting
+2. Loop variable - In our case the loop variable is 'i'. We call it i here, but it could be called anything. The loop variable is what is going to change each time through the loop, and allow us to perform a single command in slightly different ways (e.g. run our grep/wc pipe on different files). 
+3. Loop list - In our case the loop list is '1 2 3 4 5'. The loop list is the set of things you want to apply your command to. 
+4. do - All for loops have the word 'do', which indicates that you are about to enter the command that will be repeated each time through the loop
+5. Loop command(s) - After do comes the command that you want to run. A few things to note: i) this command should always include the loop variable, as that is what is going to change each time the loop statement is executed and ii) when you use the loop variable you need to preface it with a $ (e.g. $i)
+6. done - All for loops have the word 'done', which indicates that the loop is ending. The commands between 'do' and 'done' get executed each time through the loop
 
-Note that the list values - (1 2 3 4 5) in the above for loop can be anything at all. It can be a bunch of files in a folder with a specific extension (\*.gz, \*.fasta, \*.fna) or a list of values generated through a seperate command that we will see later.
+So, what actually happens when we run the above for loop? Well, the following occurs:
 
-We will incorporate a similar type of for loop in fasta_counter.sh script that will loop over all the \*.fna files in the folder. We will provide the name of the folder through a command line argument and count the number of contigs in each file. A command line argument is a sort of input that can be provided to a script which can then be used in different ways inside the script. fasta_counter.sh requires to know which directory to look for for \*.fna files. For this purpose, we will use positional parameters that are a series of special variables ($0 through $9) that contain the contents of the command line. 
+1. The loop variable i is assigned 1 (the first value in our loop list)
+2. echo "Looping ... number 1" is executed
+3. The loop variable i is assigned 2 (the second value in our loop list)
+4. echo "Looping ... number 2" is executed
+5. The loop variable i is assigned 3 (the third value in our loop list)
+6. echo "Looping ... number 3" is executed
+7. The loop variable i is assigned 4 (the fourth value in our loop list)
+8. echo "Looping ... number 4" is executed
+9. The loop variable i is assigned 5 (the fifth value in our loop list)
+10. echo "Looping ... number 5" is executed
 
-Lets take an example to understand what those parameters stands for:
-
-
-```
-./some_program.sh Argument1 Argument2 Argument3
-```
-
-In the above command, we provide three command line Arguments that acts like an input to some_program.sh 
-These command line argument inputs can then be used to inside the scripts in the form of $0, $1, $2 and so on in different ways to run a command or a tool.
-
-Try running the above command and see how it prints out each positional parameters. $0 will be always be the name of the script. $1 would contain "Argument1" , $2 would contain "Argument2" and so on...
-
-Lets try to incorporate a for loop inside the fasta_counter.sh script that uses the first command line argument - i.e directory name and search for \*.fna files in that directory and runs contig counting command on each of them.
-
-- Open “fasta_counter.sh” in nano or your favourite text editor and follow instructions for making edits so it will do what we want it to do
-
-- Run this script in day1am directory and verify that you get the correct results. Basic usage of the script will be:
-
-./fasta_counter.sh <directory containing files>
+OK - now let's create a for loop to count the number of sequences in each of our files!
 
 ```
-./fasta_counter.sh .
+for filename in E_coli.fna Kleb_pneu.fna Acinetobacter_baumannii.fna;
+do
+grep ">" $filename | wc -l
+done
 ```
+It works! One thing that would make it better is if the name of the file was printed out along with the number of sequences. Can you add a line to the for loop to accomplish this ?
 
-The "." sign tells the script to use current directory as its first command line argument($1) 
+Hint - look at how we printed something to the screen in our counting loop.
+
+<details>
+  <summary>Solution</summary>
+
+```
+for filename in E_coli.fna Kleb_pneu.fna Acinetobacter_baumannii.fna;
+do
+echo $filename
+grep ">" $filename | wc -l
+done
+```
+</details>
 
 Power of Unix commands
 ----------------------
