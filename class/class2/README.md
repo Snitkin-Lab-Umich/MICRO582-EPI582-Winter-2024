@@ -178,19 +178,11 @@ done
 ```
 </details>
 
-Power of Unix commands
-----------------------
-
-In software carpentry, you learned working with shell and automating simple tasks using basic unix commands. Lets see how some of these commands can be employed in genomics analysis while exploring various file formats that we use in day to day analysis. For this session, we will try to explore two different types of bioinformatics file formats: 
-
-gff: used for describing genes and other features of DNA, RNA and protein sequences
-
-fastq: used for storing biological sequence / sequencing reads (usually nucleotide sequence) and its corresponding quality scores
-
-
 
 Exploring GFF files
 -------------------
+
+Finally, let's apply grep, wc, pipes and one new Unix command to explore another common sequence file called GFFs. GFFs are used to convey information on annotations of sequences. For instance, they can communicate where in the genome protein coding sequences are found, as well as some details on their function.
 
 The GFF (General Feature Format) format is a tab-seperated file and consists of one line per feature, each containing 9 columns of data.
 
@@ -225,7 +217,7 @@ You will notice that the GFF format follows version 3 specifications("##gff-vers
 
 You can press space bar on keyboard to read more lines and "q" key to exit less command.
 
-- Question: Suppose, you want to find out the number of annotated features in a gff file. how will you achieve this using grep and wc?
+- Question: Suppose, you want to find out the number of annotated features in a gff file. how will you achieve this using grep and wc? The tricky piece is getting rid of the comment lines, and then counting the rest with wc. Fortunately, grep comes with a flag to return the invert-match, which means you can exclude lines matching a pattern. Look at the grep man page to find the correct flag, and then use it count the number of non-comment lines.
 
 <details>
   <summary>Solution</summary>
@@ -235,7 +227,12 @@ grep -v '^#' sample.gff | wc -l
 ```
 </details>
 
-- Question: How about counting the number of rRNA features in a gff(third column) file using grep, cut and wc? You can check the usage for cut by typing "cut --help"
+OK - let's learn one last command that can help us explore tabular text files like gff's. What makes it tabular is that each row has the same number of columns, and each column is separate by the same character, in this case a tab. A natural thing to want to do is to pull out a single column to work with. The Unix command to accomplish this is 'cut'. When using cut you will almost always want to use a couple of flags, including -d (delimiter - what separates each column) and -f (field - which column do you want to pull). 
+
+
+- Question: Let's see if we can increase our pipe complexity by strining together three commands! Your task is to count the number of rRNA features in a gff(third column) file using cut, then grep and finally wc? 
+
+*Note - the default delimiter is tab, so you don't need to specify the -d command
 
 <details>
   <summary>Solution</summary>
@@ -256,17 +253,13 @@ cut -f 3 sample.gff | grep 'tRNA' | wc -l
 
 - Question: Try counting the number of features on a "+" or "-" strand (column 7).
 
-Now, let's use what we learned about for loops and creating shell scripts above to create a script called "feature_counter.sh" This script will take as input a directory and will search for all gff files in the directory. It will calculate and output the number of tRNA features in the gff.   
 
-- Open “feature_counter.sh” in nano or your favourite text editor and follow instructions for making edits so it will do what we want it to do
-
-- Run this script in day1am directory and verify that you get the correct results. Basic usage of the script will be:
-
-./feature_counter.sh <directory containing gff files>
-
-```
-./feature_counter.sh .
+<details>
+  <summary>Solution</summary>
+  
 ```
 
+cut -f 7 sample.gff | grep '+' | wc -l
 
-Some more useful one-line unix commands for GFF files: [here](https://github.com/stephenturner/oneliners#gff3-annotations)
+```
+</details>
