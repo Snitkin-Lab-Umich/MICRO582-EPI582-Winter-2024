@@ -4,10 +4,9 @@ Class 2 – Sequence data formats
 Goal
 ----
 
-- In this module, we will explore different sequence file formats 
-- we will learn how to perform pattern matching using grep to find files and texts in files
-- we will apply for loops to perform same repetitive tasks on different files
-- We will wrap this session up by saving our code in a shell script so that we can turn our commands into a small executable software.
+- In this module, we will explore different sequence file formats using Unix commands
+- We will learn how to perform pattern matching using grep to find files and texts in files
+- We will apply for loops to perform same repetitive tasks on different files
 
 Using GREP for pattern matching
 -------------------------------
@@ -24,17 +23,19 @@ To download sequence data in Unix you can use a variety of unix commands such as
 
 Here, we will use curl command to download some genome assemblies from NCBI ftp location:
 
-- Go to your class home directory (use your wd shortcut!)
+- Go to the directory on your home computer from which you'd like to work (e.g. home or Desktop) 
 
-- Execute the following commands to copy files for class2 to your course directory `/scratch/epid582w22_class_root/epid582w22_class/username`: 
+- Execute the following command to create a new directory in which we will work in, enter it and confirm that it worked
 
 ```
-cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class2 ./
+#Create the directory
+mkdir class2_lab
 
-cd class2/
+#Enter the directory
+cd class2_lab
 
-ls
-
+#Confirm you are in the directory
+pwd
 ```
 
 - Now get three genome sequences with the following commands:
@@ -47,21 +48,67 @@ curl ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/409/005/GCF_000409005.1_gkp3
 curl ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/165/655/GCF_000165655.1_ASM16565v1/GCF_000165655.1_ASM16565v1_genomic.fna.gz > E_coli.fna.gz
 
 ```
+*If you are working on gitbash and curl doesn't work, then you can download from the Canvas website
 
-- Decompress the gzip compressed fasta file using gzip command
+- To enable quick file transfers these genome assemblies came in compressed format. So, we will use the 'gzip' command with the '-d' flag to decompress the  compressed fasta files. One option is to run the command three times (once for each file), but as a shortcut we are going to use '*', which is called the wildcard character. Here we are using '*' to tell Unix  to apply our gzip command to all files ending in '.fna.gz'.
 
 ```
 gzip -d *.fna.gz
 ```
 
-These files are genome assemblies in fasta format. Fasta files are a common sequence data format that is composed of alternating sequence headers (sequence names and comments) and their corresponding sequences. Of great importance, the sequence header lines must start with “>”. These genome assemblies have one header line for each contig in the assembly, and our goal will be to count the number of contigs/sequences. To do this we will string together two Unix commands: “grep” and “wc”. “grep” (stands for global regular expression print), is an extremely powerful pattern matching command, which we will use to identify all the lines that start with a “>”. “wc” (stand for word count) is a command for counting words, characters and lines in a file. To count the number of contigs in one of your fasta files enter:
+The decompressed files are genome assemblies in fasta format. The '.fna' extension typcally indicates that these are nucleotide sequences, as opposed to amino acid sequences, which would be .faa. Note that these are really just text files, and the extension is so we can know what's in them and how to work with them. Fasta files are a common sequence data format that is composed of alternating sequence headers (sequence names and comments) and their corresponding sequences. Of great importance, the sequence header lines must start with “>”. These genome assemblies have one header line for each contig in the assembly. First, use less to explore the file and remember the trick of using "/" within less to search. In this case, you can search for ">" and use "n" to move to the next sequence header.
 
+Next, let's see if we can learn about the sequences in our file using the Unix command 'wc'. 'wc' stands for "word count", and allows you to count the number of lines, words and characters in a text file. Let's run 'wc' on our assemblies to get a sense of how big our E. coli sequence is:
+
+```
+wc E_coli.fna
+
+```
+
+We can see that there are 60091 lines, 60371 words (i.e. character groups separate by space or new line) and 4,866,461 characters. Comfortingly, the E. coli genome is typically around 5 Mb (5 million base pairs), so the number of characters roughly checks out! Although, note that we are including characters in the sequence headers in our count here, so we are overestimating the size of the sequence a bit.
+
+How can we use a single command to run wc on all three of our fasta files?
+
+<details>
+  <summary>Solution</summary>
+
+```
+ 
+wc *.fna 
+
+```
+</details>
+
+Next, we want to figure out a way to use Unix commands to figure out the number of sequences in our file. Unfortunately, each sequence is split up onto more than one line, so we can't just use wc to count the number of lines and divide by 2. So, instead we are going to use the 'grep' command to fish out the sequence header lines and count how many there are. 'grep' stands for 'global regular expression print', and is an extremely powerful tool for searching for patterns in files. Let's now apply grep to search for ">" in our fasta files, as we know that each sequence should start with this character.
+
+```
+grep ">" E_coli.fna
+```
+
+*Note that we put ">" in quotation marks, as ">" is a special Unix character, which we will learn about imminently :) 
+
+So, now that we pulled out the sequence headers, we just need to count them to determine how many sequences are in our file. We could do this by hand, but we are lazy computer programers and should never do such a tedious task! Fortunately, we just learned a command for counting lines in files - 'wc'. To enable counting the lines, let's put the output of grep into a file by using output redirection.
+
+```
+grep ">" E_coli.fna > E_coli_headers
+
+wc E_coli_headers
+```
+
+We now can see that our E. coli fasta file has 35 sequences. Now, a downside of what we just did is that we created this intermediate file containing headers that we don't really need. Ideally, we would be able to apply 'wc' to the output of grep, without going through the intermediate step of redirecting grep output to a file. Fortunately for us, Unix thought of this and gave us the '|' (called pipe). You can think of pipes like a literal pipe, where the output of one command flows into the next one. So, let's string our 'grep' and 'wc' commands together into a single command using a pipe.
 
 ```
 grep ">" E_coli.fna | wc -l
 ```
 
 Try this command on other assemblies to see how many contigs they contain. 
+
+What happens when you do the following in an attempt to use wildcards to get the number of sequences in each file in a single command? Does it give you what you want?
+
+```
+#Number of sequences in each file?
+grep ">" *.fna | wc -l
+```
 
 Using for loops to perform same actions on different files
 ----------------------------------------------------------
