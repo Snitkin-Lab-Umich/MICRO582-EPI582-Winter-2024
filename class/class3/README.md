@@ -342,14 +342,16 @@ For this script $1 would contain "Argument1" , $2 would contain "Argument2" and 
 
 Lets try to incorporate a for loop inside the fasta_counter.sh script that uses the first command line argument - i.e directory name and search for \*.fna files in that directory and runs contig counting command on each of them.
 
-- Open “fasta_counter.sh” in nano or your favourite text editor and follow instructions for making edits so it will do what we want it to do
+- Open “fasta_counter.sh” in nano or your favourite text editor
 
-- Run this script in day1am directory and verify that you get the correct results. Basic usage of the script will be:
+- Input the for loop to count the number of sequences in a fasta file
+
+- Add $1 in the appropriate places to (hint - there are two places where the directory is needed)
+
+- Run this script on the XXXX directory and verify that you get the correct results. Basic usage of the script will be:
 
 ./fasta_counter.sh <directory containing files>
 
 ```
-./fasta_counter.sh .
+./fasta_counter.sh XXX
 ```
-
-The "." sign tells the script to use current directory as its first command line argument($1) 
