@@ -87,7 +87,7 @@ For this, We will save the full path to these tools in an our PATH variable.
 	
 ```
 
-cp ~/.bashrc ~/bashrc_backup_2022_01_05
+cp ~/.bashrc ~/bashrc_backup_2022_01_12
 
 #Note: "~/" represents your home directory. On great lakes, this means /home/username
 
@@ -109,7 +109,7 @@ Once you are in nano you can immediately type and edit. Once you are ready to sa
 2. Exit - type ctl-x
 
 
-Now, let's past the below into your .bashrc:
+Now, let's paste the below code block into your .bashrc:
 
 ```
 
@@ -158,13 +158,15 @@ export PATH=$PATH:/scratch/epid582w22_class_root/epid582w22_class/shared_data/bi
 
 
 
-Note: Replace "username" under alias shortcuts with your own umich "uniqname". In the text editor, nano, you can do this by 
+Note: Replace the word "username" under alias shortcuts with your own umich "uniqname". 
 
-- typing Ctrl + \ and You will then be prompted to type in your search string (here, username). 
-- Press return. Then you will be prompted to enter what you want to replace "username" with (here, your uniqname). 
-- Press return. Then press a to replace all incidences or y to accept each incidence one by one. 
+In the text editor, nano, you can do this by 
 
-You can also customize the alias name such as wd, d1am etc. catering to your own need and convenience.
+- Press Ctrl key and "\" key. Nano will then prompt you to type in your search string (here, username). 
+- Press "return/Enter" key. Then you will be prompted to enter what you want to replace "username" with (here, your uniqname). 
+- Press "return/Enter" key. Then press "a" key to replace all incidences of username or "y" key to accept each incidence one by one. 
+
+You can also customize the alias name such as wd and islurm catering to your own need and convenience.
 
 The above environment settings will set various shortcuts such as "islurm" for entering interactive great lakes session, "wd" to navigate to your workshop directory, call necessary great lakes modules and perl libraries required by certain tools and finally sets the path for bioinformatics programs that we will run during the class.
 
@@ -184,6 +186,8 @@ echo $PATH
 
 #You will see a long list of paths that has been added to your $PATH variable
 
+# Then test your wd shortcut
+
 wd
 
 ```
@@ -201,24 +205,33 @@ The YML file - `MICRO582.yml` required for generating the conda environment is l
 Load great lakes anaconda package and set up a conda environment in the following way - 
 
 ```
-# Load anaconda package from great lakes 
+# Load anaconda package from great lakes
+
 module load python3.8-anaconda/2021.05
 
 # Set channel_priority to false so that it can install packages as per the YML file and not from loaded channels.
+
 conda config --set channel_priority false
 
 # Create a new conda environment - micro612 from a YML file
+
 conda env create -f /scratch/epid582w22_class_root/epid582w22_class/shared_data/conda_envs/MICRO582.yml -n MICRO582
 
 # Load your environment and use the tools
+
 conda activate MICRO582
 
-# Create Conda environment for MultiQC 
+# Create Conda environment for MultiQC. We are creating a seperate conda environment for MultiQC because it messes up the dependecies of other tools in MICRO582 environment
+
 conda create -n multiqc multiqc
+
+# Lets check the list of conda environments. You should see the conda environment name on left and the path to the directories where conda installed all the tools that were described in MICRO582.yml file.
+
+conda env list
 ```
 Loading modules
 ---------------
-Great Lakes also provide support for the installation of Bioinformatics software which can be accessed by loading Bioinformatics module.
+Great Lakes also provide support for the installation of Bioinformatics software which can be accessed by loading Bioinformatics modules.
 
 ```
 module load Bioinformatics
@@ -230,7 +243,9 @@ To check which tools are available under the Bioinformatics module,
 module av
 ```
 
-Use the space key to explore the entire suite of tools that are available from Great Lakes. We can load any of these tools using `module load toolname` command.
+Use the space key to explore the entire suite of tools that are available from Great Lakes. Users can load any of these tools using `module load toolname` command and will be ready for use without the need to install them.
+
+
 Copy over files for today's lesson
 ----------------------------------
 
@@ -243,7 +258,12 @@ Change your current location to your working directory and copy class3 folder to
 ```
 cd /scratch/epid582w22_class_root/epid582w22_class/username
 
+#OR
+
+wd
+
 cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class3 ./
+
 ```
 
 Change directory to class3
