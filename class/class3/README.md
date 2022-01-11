@@ -194,9 +194,10 @@ wd
 
 You should be in your class working directory that is /scratch/micro612w21_class_root/micro612w21_class/username 
 
+
 > ***v. Set up a conda environment using a YML file***
 
-The YML file - `MICRO582.yml` required for generating the conda environment is located here:
+The YML file - `MICRO582_class4_QC.yml` required for generating a conda environment for our next class is located here:
 
 ```
 /scratch/epid582w22_class_root/epid582w22_class/shared_data/conda_envs
@@ -215,9 +216,9 @@ conda config --set channel_priority false
 
 # Create a new conda environment - micro612 from a YML file
 
-conda env create -f /scratch/epid582w22_class_root/epid582w22_class/shared_data/conda_envs/MICRO582.yml -n MICRO582
+conda env create -f /scratch/epid582w22_class_root/epid582w22_class/shared_data/conda_envs/MICRO582_class4_QC.yml -n MICRO582_class4_QC.yml
 
-# Lets check the list of conda environments. You should see the conda environment name on left and the path to the directories where conda installed all the tools that were described in MICRO582.yml file.
+# Lets check the list of conda environments. You should see the conda environment name on left and the path to the directories where conda installed all the tools that were described in MICRO582_class4_QC.yml file.
 
 conda env list
 ```
