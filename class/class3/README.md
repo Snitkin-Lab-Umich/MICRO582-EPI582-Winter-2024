@@ -40,27 +40,6 @@ For any file you create, you have the  power to change permissions using the 'ch
 chmod u=rwx,g=rwx,o=rwx example_file 
 ```
 
-Working with Files and Directories
-----------------------------------
-
-We will again use [this](https://datacarpentry.org/shell-genomics/03-working-with-files/index.html) data carpentry material to learn how to work with files and directories. 
-
-Data for this lesson is located here - `/scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class3`
-
-Change your current location to your working directory and copy class3 folder to your working directory.
-
-```
-cd /scratch/epid582w22_class_root/epid582w22_class/username
-
-cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class3 ./
-```
-
-Change directory to class3
-
-```
-cd class3
-```
-
 Setting up your compute environment
 -----------------------------------
 
@@ -83,6 +62,15 @@ Some examples of ways that we will use environment variables in the class are:
 
 3) Setup a shortcut for getting on a cluster node, so that you don't have to write out the full command each time.
 
+As an example, let's look at one of the most important environment variables, called the 'PATH' variable. The PATH environment variable contains a list of directories where Unix will look whenever you execute a program or run a command. For instance, when you do something as simple as type 'pwd', the operating system looks in the directories listed in your PATH variable to see if any of them contain a program named 'pwd'. By default, your PATH is setup to include directories where all the Unix commands we have learned live. During the course we will be using some bioinformatics programs that we have performed custom installs on, so we will need to add the directories where we have installed these to the PATH. We will see in a moment how to change an environment variable, but let's quickly see how to see what's in one. To examine the contents of an environment variable we use the 'echo' command. For example, to look at your PATH variable type the following:
+
+```
+echo $PATH
+```
+
+You will see that PATH contains a colon separated list of paths. So, when you execute a command, Unix goes in order through this list to see if the program exists. We will look at the PATH variable again after we have added to it!
+
+
 One way to set your environment variables would be to manually set up these variables everytime you log in, but this would be extremely tedious and inefficient. So, Unix has setup a way around this, which is to put your environment variable assignments in special files called .bashrc or .bash_profile. Every user has one or both of these files in their home directory, and what's special about them is that the commands in them are executed every time you login. So, if you simply set your environmental variable assignments in one of these files, your environment will be setup just the way you want it each time you login!
 
 All the softwares/tools that we need in this workshop are installed in a directory 
@@ -91,7 +79,7 @@ All the softwares/tools that we need in this workshop are installed in a directo
 
 and we want the shell to look for these installed tools in this directory. 
 
-For this, We will save the full path to these tools in an environment variable PATH.
+For this, We will save the full path to these tools in an our PATH variable.
 
 > ***i. Make a backup copy of bashrc file in case something goes wrong.***
 	
@@ -106,6 +94,20 @@ cp ~/.bashrc ~/bashrc_backup_2022_01_05
 > ***ii. Open ~/.bashrc file using any text editor and add the following lines at the end of your .bashrc file.***
 
 ***Note: Replace "username" under alias shortcuts with your own umich "uniqname".***
+
+There are many different programs that can be used to edit files in a Unix environment. Some of them are extremely complex and powerful, others are simple and there are even options that have a graphical interface for those of you craving that :). In class we will use the most basic text editor available, which is called nano. To edit the .bashrc file, type the follow command.
+
+```
+nano ~/.bashrc
+```
+
+Once you are in nano you can immediately type and edit. Once you are ready to save and exit, do the following:
+
+1. Save - type ctl-o and then enter
+2. Exit - type ctl-x
+
+
+Now, let's past the below into your .bashrc:
 
 ```
 
@@ -212,6 +214,27 @@ conda activate MICRO582
 # Create Conda environment for MultiQC 
 conda create -n multiqc multiqc
 ```
+Working with Files and Directories
+----------------------------------
+
+We will again use [this](https://datacarpentry.org/shell-genomics/03-working-with-files/index.html) data carpentry material to learn how to work with files and directories. 
+
+Data for this lesson is located here - `/scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class3`
+
+Change your current location to your working directory and copy class3 folder to your working directory.
+
+```
+cd /scratch/epid582w22_class_root/epid582w22_class/username
+
+cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class3 ./
+```
+
+Change directory to class3
+
+```
+cd class3
+```
+
 
 Loading modules
 ---------------
