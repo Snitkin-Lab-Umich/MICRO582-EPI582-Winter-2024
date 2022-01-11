@@ -195,7 +195,7 @@ wd
 You should be in your class working directory that is /scratch/micro612w21_class_root/micro612w21_class/username 
 
 
-> ***v. Set up a conda environment using a YML file***
+> ***v. Set up a conda environment using a YML file (**you will do this on your own for HW, as it takes a few minutes)***
 
 The YML file - `MICRO582_class4_QC.yml` required for generating a conda environment for our next class is located here:
 
