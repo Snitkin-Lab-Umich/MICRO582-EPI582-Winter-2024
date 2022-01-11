@@ -217,10 +217,6 @@ conda config --set channel_priority false
 
 conda env create -f /scratch/epid582w22_class_root/epid582w22_class/shared_data/conda_envs/MICRO582.yml -n MICRO582
 
-# Create a seperate Conda environment for MultiQC. We are creating a seperate conda environment for MultiQC because it messes up the dependecies of other tools in MICRO582 environment
-
-conda create -n multiqc multiqc
-
 # Lets check the list of conda environments. You should see the conda environment name on left and the path to the directories where conda installed all the tools that were described in MICRO582.yml file.
 
 conda env list
