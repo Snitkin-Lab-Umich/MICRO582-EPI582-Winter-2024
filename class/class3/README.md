@@ -214,7 +214,22 @@ conda activate MICRO582
 # Create Conda environment for MultiQC 
 conda create -n multiqc multiqc
 ```
-Working with Files and Directories
+Loading modules
+---------------
+Great Lakes also provide support for the installation of Bioinformatics software which can be accessed by loading Bioinformatics module.
+
+```
+module load Bioinformatics
+```
+
+To check which tools are available under the Bioinformatics module, 
+
+```
+module av
+```
+
+Use the space key to explore the entire suite of tools that are available from Great Lakes. We can load any of these tools using `module load toolname` command.
+Copy over files for today's lesson
 ----------------------------------
 
 We will again use [this](https://datacarpentry.org/shell-genomics/03-working-with-files/index.html) data carpentry material to learn how to work with files and directories. 
@@ -236,31 +251,63 @@ cd class3
 ```
 
 
-Loading modules
----------------
-Great Lakes also provide support for the installation of Bioinformatics software which can be accessed by loading Bioinformatics module.
-
-```
-module load Bioinformatics
-```
-
-To check which tools are available under the Bioinformatics module, 
-
-```
-module av
-```
-
-Use the space key to explore the entire suite of tools that are available from Great Lakes. We can load any of these tools using `module load toolname` command.
-
 Submit a job to cluster
 -----------------------
 
 Great lakes supports SLURM batch scheduler and resource manager that allows us to run a job on University of Michigan’s high performance computing (HPC) clusters. [This](https://arc.umich.edu/greatlakes/slurm-user-guide/) website provides a great oevrview of the process for submitting and running jobs under the Slurm Workload Manager on the Great Lakes cluster.
 
-Open first_job.sbat using nano and change SLURM directives mail-user to reflect your email ID.
 
-Submit your first SLURM job with 
+OK - let's take a look at our first cluster job to see what info is in it:
+
+```
+nano first_job.sbat
+```
+
+Now, let's submit the job and see what happens!
 
 ```
 sbatch first_job.sbat
 ```
+
+Once you've submitted a job it would be nice to be able to check it's status (e.g. is it running? did it error out? is it done?). Do do that you use the squeue command, and supply it with your username to get just your jobs:
+
+```
+squeue -u username
+```
+
+OK - now let's look at the output of our job.
+
+```
+less 
+```
+
+
+Submit our fasta counter job to the cluster
+-------------------------------------------
+In the previous class we wrote a nice piece of code that went through the fasta files in a directory and counted the number of sequences in each file. When we ran that code in class, we were executing it on the login node. However, if the files were huge and numerous, we might want to do it on a cluster node instead because:
+
+1) It's frowned upon to run large jobs on the login node, as it slows down things for other users (and ourselves)
+2) The cluster is comprised of computers with massive amounts of memory, so an intensive job will run faster if we farm it out to a high memory node
+3) If we had a lot of files that we wanted to count the number of sequences in, in principle we could split the job up and run it on multiple nodes. Essentially parallelize our work to get it done much faster! This is in fact the most important and valuable aspect of having access to a compute cluster (- think about processing 1000 genomes in parallel on 1000 compute nodes, versus serially on 1)
+
+OK - so let's open up fasta_counter.sbat in nano to take a look at it, and change the email address.
+
+```
+nano fasta_counter.sbat
+```
+
+Now, what if we want to submit this cluster job, but run it on a different directory? We, could just edit the sbat file, and resubmit it, but then we've lost our record of the job. So, instead, let's create a new version, edit it and submit that! To create a new version we will use the 'cp' command, which stands for copy.
+
+```
+cp fasta_counter.sbat fasta_counter_2.sbat
+```
+
+You can type 'ls' to verify that the original and new file exist. Now, let's say that you don't like the name of the file, and want to rename it. To do that you can use the 'mv' command, which stands for move.
+
+```
+mv fasta_counter_2.sbat fasta_counter_assembly_2.sbat
+```
+
+Now if you type ls, you'll notice that 'fasta_counter_2.sbat' is no longer there! Note that the 'mv' command can be used to rename, but also move files to different directories.
+
+Lastly, edit fasta_counter_assembly_2.sbat to work on the 'xxx' directory, and submit it to the cluster!
