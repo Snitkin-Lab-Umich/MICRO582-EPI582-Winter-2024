@@ -417,7 +417,7 @@ Lets try to incorporate a for loop inside the fasta_counter.sh script that uses 
 
 - Basic usage of the script will be:
 
-./fasta_counter.sh <directory containing files>
+./fasta_counter.sh < directory containing file s>
 
 ```
 ./fasta_counter.sh XXX
