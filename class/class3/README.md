@@ -109,7 +109,7 @@ Once you are in nano you can immediately type and edit. Once you are ready to sa
 2. Exit - type ctl-x
 
 
-Now, let's paste the below code block into your .bashrc:
+Now, let's paste the below code block at the end of your .bashrc:
 
 ```
 
