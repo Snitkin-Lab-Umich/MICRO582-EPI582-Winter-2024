@@ -162,7 +162,7 @@ Note: Replace the word "username" under alias shortcuts with your own umich "uni
 
 In the text editor, nano, you can do this by 
 
-- Press Ctrl key and "\" key. Nano will then prompt you to type in your search string (here, username). 
+- Press Ctrl key and "\\" key. Nano will then prompt you to type in your search string (here, username). 
 - Press "return/Enter" key. Then you will be prompted to enter what you want to replace "username" with (here, your uniqname). 
 - Press "return/Enter" key. Then press "a" key to replace all incidences of username or "y" key to accept each incidence one by one. 
 
