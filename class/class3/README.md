@@ -7,7 +7,7 @@ Goal
 - In this module, we will learn how to work with files and directories using Data Carpentry lesson - [Working with Files and Directories](https://datacarpentry.org/shell-genomics/03-working-with-files/index.html)
 - We will set up our compute environment for upcoming lab modules so that we have all the tools installed and ready for use.
 - We will learn how to load Great lakes modules i.e pre-installed softwares provided by ARC-TS team.
-- We will submit our first job to the cluster.
+- We will learn how to generate a SLURM script and submit our first job to the HPC cluster.
 
 
 Directory organization for the course
@@ -22,13 +22,15 @@ cd /scratch/epid582w22_class_root/epid582w22_class/
 ls
 ```
 
-You will notice that each of you should have your own home directory where you will do work for the class, and also complete your assignments. You will also notice that there is a shared_data directory, where bioinformatics programs and data for the course live. 
+You will notice that each of you should have your own home directory where you will do work for the class, and also complete your assignments. ***You will also notice that there is a shared_data directory, where bioinformatics programs and data for the course live.***
 
-One final thing which you might ask yourself is how is it that certain users can access certain directories/files, while others can't? For instance, you can acceess your own course home directory, but not that of your classmates. Similarly, you can all access the shared_data directory, but users not in the class can't. Well, an important thing to be aware of when working in a Unix environment is that users who create files and directories have very tight control over who can read, write or execute the files or within the directories. If you try to go somewhere you don't have permission or perform an operation on a file that you don't have permissions for, then you will be a permission denied error. 
+One final thing which you might ask yourself is how is it that certain users can access certain directories/files, while others can't? For instance, you can access your own course home directory, but not that of your classmates. Similarly, you can all access the shared_data directory, but users not in the class can't. Well, an important thing to be aware of when working in a Unix environment is that users who create files and directories have very tight control over who can read, write or execute the files or within the directories. If you try to go somewhere you don't have permission or perform an operation on a file that you don't have permissions for, then you will be a permission denied error. 
 
-So, how do you know what the permissions are and how do you alter them? To examine the permissions we can provide the '-l' flag to ls, which stands for list. The '-l' flag provides an expanded listing, which provides information on who owns a file/directory and what it's permissions are. Permissions are organized into three blocks indicating read, write and execute permissions for the owner, the group member and everyone else. For instance, the following permission string would be read as follows:
+So, how do you know what the permissions are and how do you alter them? To examine the permissions we can provide the '-l' flag to ls, which stands for list. 
 
-rwxrw-r--
+The '-l' flag provides an expanded listing, which provides information on who owns a file/directory and what it's permissions are. Permissions are organized into three blocks indicating read, write and execute permissions for the owner, the group member and everyone else. For instance, the following permission string would be read as follows:
+
+```rwxrw-r--```
 
 1) rwx : The owner can read, write or execute  
 2) rw- : Group members can read or write, but not execute
@@ -37,7 +39,7 @@ rwxrw-r--
 For any file you create, you have the  power to change permissions using the 'chmod' command. For example, if we wanted to change permission so the user can do anything, the group members can read only and others can't do anything, then we could run the following command
 
 ```
-chmod u=rwx,g=rwx,o=rwx example_file 
+chmod u=rwx,g=r,o=- example_file 
 ```
 
 Setting up your compute environment
