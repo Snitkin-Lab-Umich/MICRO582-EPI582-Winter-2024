@@ -276,8 +276,23 @@ cd class3
 Submit a job to cluster
 -----------------------
 
-Great lakes supports SLURM batch scheduler and resource manager that allows us to run a job on University of Michigan’s high performance computing (HPC) clusters. [This](https://arc.umich.edu/greatlakes/slurm-user-guide/) website provides a great oevrview of the process for submitting and running jobs under the Slurm Workload Manager on the Great Lakes cluster.
+Great lakes supports SLURM batch scheduler and resource manager that allows us to run a job on University of Michigan’s high performance computing (HPC) clusters. 
 
+The Slurm Workload Manager is a job scheduler that gives you access to the HPC nodes/clusters for a specified duration of time so that we can run our memory and data intensive tasks in background. It provides a framework for starting, executing, and monitoring our cluster jobs and can be set in SLURM scripts using the SLURM directives. SLURM directives may appear as header lines in a batch script here first_job.sbat or as options with the the sbatch command line. They specify the resource requirements of your job and various other attributes. 
+
+A slurm directive line starts with a "#SBATCH " sign, which lets the bash know that they are header lines and are not a part of code. When we submit the job with a ".sbat" script, the SLURM Workload Manager will read these directives and set/allocates the appropriate clusters for your job. 
+
+Some of the key SLURM directives that we recommend using are:
+
+--job-name: This directive sets the job name and lets you find it easily when looking at the long list of jobs that are in queue.
+--mail-type: This directive lets set the mail alert notifications for one or all of these events - BEGIN, END, FAIL, ABORT
+--mail-user: The email ID to send the mail alert notifications.
+--nodes: Number of compute nodes to be assigned for the job.
+--cpus-per-task: Number of CPUs to be allocated for the job.
+--mem-per-cpu: Minimum memory per CPU processor
+--time: Maximum number of days/hours/minutes that the job can run. If the job does not finish within this time frame, it gets killed by the resource manager.
+--account: Account to charge the bill.
+--partition: Request a specific partition for the resource allocation instead of let the batch system assign a default partition i.e standard. If you job requires large memory cores or GPU cores, this is the directive that lets you assign them to your job.
 
 OK - let's take a look at our first cluster job to see what info is in it:
 
@@ -285,17 +300,19 @@ OK - let's take a look at our first cluster job to see what info is in it:
 nano first_job.sbat
 ```
 
+
 Now, let's submit the job and see what happens!
 
 ```
 sbatch first_job.sbat
 ```
 
-Once you've submitted a job it would be nice to be able to check it's status (e.g. is it running? did it error out? is it done?). Do do that you use the squeue command, and supply it with your username to get just your jobs:
+Once you've submitted a job it would be nice to be able to check it's status (e.g. is it running? did it error out? is it done?). To do that you use the squeue command, and supply it with your username to get just your jobs:
 
 ```
 squeue -u username
 ```
+
 
 OK - now let's look at the output of our job.
 
@@ -303,6 +320,7 @@ OK - now let's look at the output of our job.
 less 
 ```
 
+[This](https://arc.umich.edu/greatlakes/slurm-user-guide/) website provides a great detailed overview of the process for submitting and running jobs under the Slurm Workload Manager on Great Lakes cluster.
 
 Submit our fasta counter job to the cluster
 -------------------------------------------
