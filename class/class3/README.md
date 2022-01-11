@@ -152,7 +152,7 @@ alias wd='cd /scratch/epid582w22_class_root/epid582w22_class/username/'
 
 #Bioinformatics Tools installed outside the conda environment due to dependency conflicts.
 export PATH=$PATH:/scratch/epid582w22_class_root/epid582w22_class/shared_data/bin/quast-5.0.2
-
+export PATH=$PATH:/scratch/epid582w22_class_root/epid582w22_class/shared_data/bin/multiqc/bin
 
 ```
 
