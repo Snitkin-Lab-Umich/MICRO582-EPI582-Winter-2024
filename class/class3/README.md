@@ -284,15 +284,23 @@ A slurm directive line starts with a "#SBATCH " sign, which lets the bash know t
 
 Some of the key SLURM directives that we recommend using are:
 
---job-name: This directive sets the job name and lets you find it easily when looking at the long list of jobs that are in queue.
---mail-type: This directive lets set the mail alert notifications for one or all of these events - BEGIN, END, FAIL, ABORT
---mail-user: The email ID to send the mail alert notifications.
---nodes: Number of compute nodes to be assigned for the job.
---cpus-per-task: Number of CPUs to be allocated for the job.
---mem-per-cpu: Minimum memory per CPU processor
---time: Maximum number of days/hours/minutes that the job can run. If the job does not finish within this time frame, it gets killed by the resource manager.
---account: Account to charge the bill.
---partition: Request a specific partition for the resource allocation instead of let the batch system assign a default partition i.e standard. If you job requires large memory cores or GPU cores, this is the directive that lets you assign them to your job.
+**--job-name: This directive sets a job name and makes job monitoring easier when you have multiple jobs running simultaneously on the cluster.**
+
+**--mail-type: This directive lets you set the email alert notifications for one or all of these events - BEGIN, END, FAIL, ABORT**
+
+**--mail-user: The email ID to send the mail alert notifications.**
+
+**--nodes: Number of compute nodes to be assigned for the job.**
+
+**--cpus-per-task: Number of CPUs to be allocated for the job.**
+
+**--mem-per-cpu: Minimum memory per CPU processor**
+
+**--time: Maximum number of days/hours/minutes that the job can run. If the job does not finish within this time frame, it gets killed by the resource manager.**
+
+**--account: Account to charge the bill and acces the resources assigned under this account**
+
+**--partition: Request a specific partition for resource allocation instead of let the batch system assign a default partition. If your job requires large memory cores or GPU cores, this is the directive that lets you allocate them for your job.**
 
 OK - let's take a look at our first cluster job to see what info is in it:
 
@@ -317,7 +325,8 @@ squeue -u username
 OK - now let's look at the output of our job.
 
 ```
-less 
+# Get this sorted.
+less slurm-jobid
 ```
 
 [This](https://arc.umich.edu/greatlakes/slurm-user-guide/) website provides a great detailed overview of the process for submitting and running jobs under the Slurm Workload Manager on Great Lakes cluster.
