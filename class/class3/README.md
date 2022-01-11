@@ -411,14 +411,27 @@ Lets try to incorporate a for loop inside the fasta_counter.sh script that uses 
 
 - Input the for loop to count the number of sequences in a fasta file
 
-- Add $1 in the appropriate places to (hint - there are two places where the directory is needed)
+- Add $1 in the appropriate place where the directory placeholder is needed.
 
 - Run this script on the more_fasta directory and verify that you get the correct results. 
 
 - Basic usage of the script will be:
 
-./fasta_counter.sh < directory containing files >
+```
+./fasta_counter.sh more_fasta
+```
+
+You might get an error saying Permission denied. What's the reason? How do we check the permission and set appropriate permission for this file?
+
+<details>
+  <summary>Solution</summary>
 
 ```
-./fasta_counter.sh XXX
+ 
+ls -l fasta_counter.sh
+	
+chmod u=rwx fasta_counter.sh 
+
 ```
+</details>
+
