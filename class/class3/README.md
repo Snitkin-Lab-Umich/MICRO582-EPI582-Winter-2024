@@ -216,7 +216,7 @@ conda config --set channel_priority false
 
 # Create a new conda environment - micro612 from a YML file
 
-conda env create -f /scratch/epid582w22_class_root/epid582w22_class/shared_data/conda_envs/MICRO582_class4_QC.yml -n MICRO582_class4_QC.yml
+conda env create -f /scratch/epid582w22_class_root/epid582w22_class/shared_data/conda_envs/MICRO582_class4_QC.yml -n MICRO582_class4_QC
 
 # Lets check the list of conda environments. You should see the conda environment name on left and the path to the directories where conda installed all the tools that were described in MICRO582_class4_QC.yml file.
 
