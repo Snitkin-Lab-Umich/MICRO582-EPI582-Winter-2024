@@ -9,7 +9,11 @@ Goal
 
 Overview of Genomics Pipeline
 -----------------------------
-Two different ways we can process raw reads include 1) variant calling and 2) genome assembly. We'll talk about both in this course, and we'll keep coming back to this roadmap to give some perspective on where we are in the pipeline. 
+There are two different ways we can process raw sequencing reads. This include 
+1) variant calling and 
+2) genome assembly. 
+
+We'll talk about both in this course, and we'll keep coming back to this roadmap to give some perspective on where we are in the pipeline. 
 ![Mile high view of a genomics pipeline](genomics_pipeline.png)
 
 Contamination Screening using [Kraken](https://ccb.jhu.edu/software/kraken/)
@@ -18,9 +22,9 @@ Contamination Screening using [Kraken](https://ccb.jhu.edu/software/kraken/)
 
 When running a sequencing pipeline, it is very important to make sure that your data matches appropriate quality threshold and are free from any contaminants. This step will help you make correct interpretations in downstream analysis and will also let you know if you are required to redo the experiment/library preparation or remove contaminant sequences.
 
-For this purpose, we will employ Kraken which is a taxonomic sequence classifier that assigns taxonomic labels to short DNA reads. We will screen our samples against a MiniKraken database (a pre-built database constructed from complete bacterial, archaeal, and viral genomes in RefSeq.) and confirm if the majority of reads in our sample belong to the target species.
+For this purpose, we will employ Kraken which is a taxonomic sequence classifier that assigns taxonomic labels to short DNA reads. We will screen our samples against a MiniKraken database (a pre-built database constructed from complete bacterial, archaeal, and viral genomes in NCBI RefSeq database) and confirm if the majority of reads in our sample belong to the target species.
 
-In our previous class, we learned how to set up our environment using PATH variable. we will repeat the same thing to add path to the Kraken executables.
+In our previous class, we learned how to set up our environment using PATH variable. we will repeat the same thing to add path to the Kraken and Krona executables.
 
 > Open ~/.bashrc file using any text editor and add the following lines at the end of your .bashrc file. 
 
@@ -75,35 +79,26 @@ cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class4 ./
 #Go into the directory
 cd class4/
 
-#Navigate to kraken directory placed under class4 directory.
-
-cd kraken/
 ```
 
-> **iii. Lets run kraken on samples MRSA_CO_HA_473_R1_001.fastq.gz and MRSA_CO_HA_479_R1_001.fastq.gz which were part of the same sequencing library***
+> **iii. Lets run kraken on Rush_KPC_266_1_combine.fastq.gz file before we assess it quality***
 
-Since Kraken takes time to run, we have already placed the output of Kraken command in class4/kraken directory.
+Since Kraken takes time to run, we have already placed the output of Kraken command in class4 directory.
 
 ```
-# Dont run these commands. 
-# MRSA_CO_HA_473_kraken and MRSA_CO_HA_479_kraken are already placed in class4/kraken directory
-# The below commands are for demonstration purposes.
 
-kraken --quick --fastq-input --gzip-compressed --unclassified-out MRSA_CO_HA_473_unclassified.txt --db minikraken_20171013_4GB/ --output MRSA_CO_HA_473_kraken MRSA_CO_HA_473_R1_001.fastq.gz
+kraken --quick --fastq-input --gzip-compressed --unclassified-out Rush_KPC_266_unclassified.txt --db kraken/minikraken_20171013_4GB/ --output Rush_KPC_266_kraken Rush_KPC_266_1_combine.fastq.gz 
 
-
-kraken --quick --fastq-input --gzip-compressed --unclassified-out MRSA_CO_HA_479_unclassified.txt --db minikraken_20171013_4GB/ --output MRSA_CO_HA_479_kraken MRSA_CO_HA_479_R1_001.fastq.gz
 ```
 
+It should take around 2 minutes.
 
 > **iv. Run Kraken report to generate a concise summary report of the species found in reads file.
 
 
 ```
 
-kraken-report --db minikraken_20171013_4GB/ MRSA_CO_HA_473_kraken > MRSA_CO_HA_473_kraken_report.txt
-
-kraken-report --db minikraken_20171013_4GB/ MRSA_CO_HA_479_kraken > MRSA_CO_HA_479_kraken_report.txt
+kraken-report --db kraken/minikraken_20171013_4GB/ Rush_KPC_266_kraken > Rush_KPC_266_kraken_report.txt
 
 ```
 
@@ -118,32 +113,26 @@ The output of kraken-report is tab-delimited, with one line per taxon. The field
 
 
 ```
-less MRSA_CO_HA_473_kraken_report.txt
+less Rush_KPC_266_kraken_report.txt
 ```
 
 Lets extract columns by Species (column 4 - "S") and check the major species indentified in our sample.
 
 ```
-awk '$4 == "S" {print $0}' MRSA_CO_HA_473_kraken_report.txt | head
+awk '$4 == "S" {print $0}' Rush_KPC_266_kraken_report.txt | head
 
-awk '$4 == "S" {print $0}' MRSA_CO_HA_479_kraken_report.txt | head
 ```
 
-- what is the percentage of majority species in MRSA_CO_HA_473 and MRSA_CO_HA_479?
-- how different they look?
-- what is the percentage of Staphylococcus aureus in MRSA_CO_HA_479?
-- majority of reads in MRSA_CO_HA_479 remained unclassified? what could be the possible explanation?
 
 Lets visualize the same information in an ionteractive form.
 
 > v. Generate a HTML report to visualize Kraken report using Krona
 
 ```
-cut -f2,3 MRSA_CO_HA_473_kraken > MRSA_CO_HA_473_krona.input
-cut -f2,3 MRSA_CO_HA_479_kraken > MRSA_CO_HA_479_krona.input
+cut -f2,3 Rush_KPC_266_kraken > Rush_KPC_266_krona.input
 
-ktImportTaxonomy MRSA_CO_HA_473_krona.input -o MRSA_CO_HA_473_krona.out.html
-ktImportTaxonomy MRSA_CO_HA_479_krona.input -o MRSA_CO_HA_479_krona.out.html
+ktImportTaxonomy Rush_KPC_266_krona.input -o Rush_KPC_266_krona.out.html
+
 
 ```
 
@@ -153,11 +142,13 @@ In case you get an error saying - Taxonomy not found, run updateTaxonomy.sh comm
 updateTaxonomy.sh
 ```
 
-Use scp command as shown below or use cyberduck. If you dont the file in cyberduck window, try refreshing it using the refresh button at the top.
+Use scp command as shown below to copy over the Kraken/krona html report to your local system.
+
+***Note: Run this scp command on your local system and not on great lakes.***
 
 ```
 
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/apirani/class4/kraken/*.html /path-to-local-directory/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/apirani/class4/*.html /path-to-local-directory/
 
 #You can use ~/Desktop/ as your local directory path
 
