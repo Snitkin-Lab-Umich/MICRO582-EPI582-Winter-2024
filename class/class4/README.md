@@ -4,9 +4,119 @@ Class 4 – Illumina sequencing data and QC
 Goal
 ----
 
-- We will perform quality control on raw illumina fastq reads to assess the quality of reads using FastQC.
+- We will perform quality control on raw illumina fastq reads to detect contamination and assess the quality of reads using Kraken and FastQC.
 - Clean reads by removing low quality reads and adapters using Trimmomatic.
 
+Overview of Genomics Pipeline
+-----------------------------
+Two different ways we can process raw reads include 1) variant calling and 2) genome assembly. We'll talk about both in this course, and we'll keep coming back to this roadmap to give some perspective on where we are in the pipeline. 
+![Mile high view of a genomics pipeline](genomics_pipeline.png)
+
+Contamination Screening using [Kraken](https://ccb.jhu.edu/software/kraken/)
+--------------------------------------------
+![QC-ing](genomics_pipeline_qc.png)
+
+When running a sequencing pipeline, it is very important to make sure that your data matches appropriate quality threshold and are free from any contaminants. This step will help you make correct interpretations in downstream analysis and will also let you know if you are required to redo the experiment/library preparation or remove contaminant sequences.
+
+For this purpose, we will employ Kraken which is a taxonomic sequence classifier that assigns taxonomic labels to short DNA reads. We will screen our samples against a MiniKraken database (a pre-built database constructed from complete bacterial, archaeal, and viral genomes in RefSeq.) and confirm if the majority of reads in our sample belong to the target species.
+ 
+> i. Get an interactive cluster node to start running programs. Use the shortcut that we created in .bashrc file for getting into interactive flux session.***
+
+How do you know if you are in interactive session?: you should see "username@glXXXX" in your command prompt where XXXX refers to the cluster node number.
+
+```
+islurm
+
+conda activate micro612
+```
+
+Navigate to kraken directory placed under day1pm directory.
+
+```
+cd /scratch/micro612w21_class_root/micro612w21_class/username/day1pm/kraken/
+```
+
+> ii. Lets run kraken on samples MRSA_CO_HA_473_R1_001.fastq.gz and MRSA_CO_HA_479_R1_001.fastq.gz which were part of the same sequencing library***
+
+Since Kraken takes time to run, we have already placed the output of Kraken command in day1pm/kraken directory.
+
+```
+# Dont run these commands. MRSA_CO_HA_473_kraken and MRSA_CO_HA_479_kraken are already placed in day1pm/kraken directory
+kraken --quick --fastq-input --gzip-compressed --unclassified-out MRSA_CO_HA_473_unclassified.txt --db minikraken_20171013_4GB/ --output MRSA_CO_HA_473_kraken MRSA_CO_HA_473_R1_001.fastq.gz
+
+
+kraken --quick --fastq-input --gzip-compressed --unclassified-out MRSA_CO_HA_479_unclassified.txt --db minikraken_20171013_4GB/ --output MRSA_CO_HA_479_kraken MRSA_CO_HA_479_R1_001.fastq.gz
+```
+
+
+> iii. Run Kraken report to generate a concise summary report of the species found in reads file.
+
+
+```
+# Update the taxonomy database before generating kraken report
+ktUpdateTaxonomy.sh
+
+kraken-report --db minikraken_20171013_4GB/ MRSA_CO_HA_473_kraken > MRSA_CO_HA_473_kraken_report.txt
+
+kraken-report --db minikraken_20171013_4GB/ MRSA_CO_HA_479_kraken > MRSA_CO_HA_479_kraken_report.txt
+
+```
+
+The output of kraken-report is tab-delimited, with one line per taxon. The fields of the output, from left-to-right, are as follows:
+
+1. Percentage of reads covered by the clade rooted at this taxon
+2. Number of reads covered by the clade rooted at this taxon
+3. Number of reads assigned directly to this taxon
+4. A rank code, indicating (U)nclassified, (D)omain, (K)ingdom, (P)hylum, (C)lass, (O)rder, (F)amily, (G)enus, or (S)pecies. All other ranks are simply '-'.
+5. NCBI taxonomy ID
+6. indented scientific name
+
+
+```
+less MRSA_CO_HA_473_kraken_report.txt
+```
+
+Lets extract columns by Species (column 4 - "S") and check the major species indentified in our sample.
+
+```
+awk '$4 == "S" {print $0}' MRSA_CO_HA_473_kraken_report.txt | head
+
+awk '$4 == "S" {print $0}' MRSA_CO_HA_479_kraken_report.txt | head
+```
+
+- what is the percentage of majority species in MRSA_CO_HA_473 and MRSA_CO_HA_479?
+- how different they look?
+- what is the percentage of Staphylococcus aureus in MRSA_CO_HA_479?
+- majority of reads in MRSA_CO_HA_479 remained unclassified? what could be the possible explanation?
+
+Lets visualize the same information in an ionteractive form.
+
+> iv. Generate a HTML report to visualize Kraken report using Krona
+
+```
+cut -f2,3 MRSA_CO_HA_473_kraken > MRSA_CO_HA_473_krona.input
+cut -f2,3 MRSA_CO_HA_479_kraken > MRSA_CO_HA_479_krona.input
+
+ktImportTaxonomy MRSA_CO_HA_473_krona.input -o MRSA_CO_HA_473_krona.out.html
+ktImportTaxonomy MRSA_CO_HA_479_krona.input -o MRSA_CO_HA_479_krona.out.html
+
+```
+
+In case you get an error saying - Taxonomy not found, run ktUpdateTaxonomy.sh command again.
+
+```
+ktUpdateTaxonomy.sh
+```
+
+Use scp command as shown below or use cyberduck. If you dont the file in cyberduck window, try refreshing it using the refresh button at the top.
+
+```
+
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/micro612w21_class_root/micro612w21_class/username/day1pm/kraken/*.html /path-to-local-directory/
+
+#You can use ~/Desktop/ as your local directory path
+
+```
 
 Quality Control using FastQC
 ----------------------------
