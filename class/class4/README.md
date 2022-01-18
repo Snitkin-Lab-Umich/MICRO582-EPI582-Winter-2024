@@ -160,17 +160,7 @@ OK, you've performed a sequencing experiment and are eager to dig into your data
 
 We will be performing QC analysis on Illumina sequencing data (see [here](https://youtu.be/fCd6B5HRaZ8)). The tool that we will be using to examine the quality of our sequencing data is FastQC. FastQC is a quality control tool that reads in sequence data in a variety of formats(fastq, bam, sam) and can either provide an interactive application to review the results or create an HTML based report which can be integrated into any pipeline. Running FastQC can give you quick sense of the data quality and whether it exhibits any unusual properties (e.g. contamination or unexpected biological features), and can point you towards next steps in terms of ways to cleanup your data.
 
-> ***i. Login to an interactive cluster node so that we are not all running intensive commands on the login node***
 
-When we previously used the cluster we created an sbat file and included specifications for the resources desired and the commands/programs we wanted to execute on a cluster node with the desired specs. Here we will be working with the cluster in a different way, by creating an interactive cluster job. In essence, gettng an interactive node allows you to login to a cluster node, so you can run commands on a compute system with the desired resources. This is desirable when your job requires a lot of input from you (e.g. testing code, working in R, etc.) or if you want to closely monitor a jobs running behavior. 
-
-To submit an interactive job we will use an alias that we placed in our .bashrc called 'islurm'. When you type islurm, the following command will be executed:
-
-```
-srun --account=epid582w22_class --nodes=1 --ntasks-per-node=1 --mem-per-cpu=5GB --cpus-per-task=1 --time=12:00:00 --pty /bin/bash
-```
-
-When you run islurm what happens? How can you tell that you are now executing commands on a cluster node? How can we verify that indeed we are running a job on the cluster?
 
 > ***i. Go to class4 directory and create a new directory for saving FastQC results.***
 
@@ -211,12 +201,10 @@ The summary.txt file in these directories indicates if the data passed different
 
 You can visualize and assess the quality of data by opening html report in a local browser.
 
-> ***iv. Exit your cluster node so you don’t waste cluster resources and $$$!***
-
-> ***v. Download the FastQC html report to your home computer to examine using scp or cyberduck***
+> ***iv. Download the FastQC html report to your home computer to examine using scp***
 
 ```
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/day1pm/Rush_KPC_266_FastQC_results/before_trimmomatic/*.html /path-to-local-directory/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class4/Rush_KPC_266_FastQC_results/before_trimmomatic/*.html /path-to-local-directory/
 
 ```
 
@@ -245,14 +233,18 @@ For more information on how Trimmomatic tries to achieve this, Please refer [thi
 
 Now we will run Trimmomatic on these raw data to remove low quality reads as well as adapters. 
 
-> ***i. If the interactive session timed out, get an interactive cluster node again to start running programs and navigate to day1pm directory. Also, load the Conda environment - MICRO582_class4_QC.***
+> ***i. If the interactive session timed out, get an interactive cluster node again to start running programs and navigate to class4 directory. Also, load the Conda environment - MICRO582_class4_QC.***
 
-How to know if you are in interactive session: you should see "username@nyx" in your command prompt
+Run this only if you are were logged out of interactive mode.
 
 ```
 islurm
 
 conda activate MICRO582_class4_QC
+
+wd
+
+cd class4
 ```
 
 > ***ii. Create these output directories in your day1pm folder to save trimmomatic results***
