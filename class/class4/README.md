@@ -19,29 +19,71 @@ Contamination Screening using [Kraken](https://ccb.jhu.edu/software/kraken/)
 When running a sequencing pipeline, it is very important to make sure that your data matches appropriate quality threshold and are free from any contaminants. This step will help you make correct interpretations in downstream analysis and will also let you know if you are required to redo the experiment/library preparation or remove contaminant sequences.
 
 For this purpose, we will employ Kraken which is a taxonomic sequence classifier that assigns taxonomic labels to short DNA reads. We will screen our samples against a MiniKraken database (a pre-built database constructed from complete bacterial, archaeal, and viral genomes in RefSeq.) and confirm if the majority of reads in our sample belong to the target species.
- 
-> i. Get an interactive cluster node to start running programs. Use the shortcut that we created in .bashrc file for getting into interactive flux session.***
 
-How do you know if you are in interactive session?: you should see "username@glXXXX" in your command prompt where XXXX refers to the cluster node number.
+In our previous class, we learned how to set up our environment using PATH variable. we will repeat the same thing to add path to the Kraken executables.
 
-```
-islurm
-
-conda activate micro612
-```
-
-Navigate to kraken directory placed under day1pm directory.
+> Open ~/.bashrc file using any text editor and add the following lines at the end of your .bashrc file. 
 
 ```
-cd /scratch/micro612w21_class_root/micro612w21_class/username/day1pm/kraken/
-```
 
-> ii. Lets run kraken on samples MRSA_CO_HA_473_R1_001.fastq.gz and MRSA_CO_HA_479_R1_001.fastq.gz which were part of the same sequencing library***
-
-Since Kraken takes time to run, we have already placed the output of Kraken command in day1pm/kraken directory.
+export PATH=$PATH:/scratch/epid582w22_class_root/epid582w22_class/shared_data/bin/kraken
 
 ```
-# Dont run these commands. MRSA_CO_HA_473_kraken and MRSA_CO_HA_479_kraken are already placed in day1pm/kraken directory
+
+> Now source your bashrc file to make these changes effective.
+
+```
+source ~/.bashrc
+```
+
+> Lets check if we can call kraken help menu from the command line.
+
+```
+kraken -h
+```
+
+If you see the help menu, then we are all set to move forward.
+
+> ***i. Login to an interactive cluster node so that we are not all running intensive commands on the login node***
+
+When we previously used the cluster we created an sbat file and included specifications for the resources desired and the commands/programs we wanted to execute on a cluster node with the desired specs. Here we will be working with the cluster in a different way, by creating an interactive cluster job. In essence, gettng an interactive node allows you to login to a cluster node, so you can run commands on a compute system with the desired resources. This is desirable when your job requires a lot of input from you (e.g. testing code, working in R, etc.) or if you want to closely monitor a jobs running behavior. 
+
+To submit an interactive job we will use an alias that we placed in our .bashrc called 'islurm'. When you type islurm, the following command will be executed:
+
+```
+srun --account=epid582w22_class --nodes=1 --ntasks-per-node=1 --mem-per-cpu=5GB --cpus-per-task=1 --time=12:00:00 --pty /bin/bash
+```
+
+***When you run islurm what happens? 
+***How can you tell that you are now executing commands on a cluster node? 
+***How can we verify that indeed we are running a job on the cluster?
+
+You should see "username@glXXXX" in your command prompt where XXXX refers to the cluster node number.
+
+> **ii. Copy class4 directory to your home directory 
+
+```
+#Go to your class working directory
+wd
+
+#Copy over today's materials
+cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class4 ./
+
+#Go into the directory
+cd class4/
+
+#Navigate to kraken directory placed under class4 directory.
+
+cd kraken/
+```
+
+> **iii. Lets run kraken on samples MRSA_CO_HA_473_R1_001.fastq.gz and MRSA_CO_HA_479_R1_001.fastq.gz which were part of the same sequencing library***
+
+Since Kraken takes time to run, we have already placed the output of Kraken command in class4/kraken directory.
+
+```
+# Dont run these commands. MRSA_CO_HA_473_kraken and MRSA_CO_HA_479_kraken are already placed in class4/kraken directory
+# The below commands are for demonstration purposes.
 kraken --quick --fastq-input --gzip-compressed --unclassified-out MRSA_CO_HA_473_unclassified.txt --db minikraken_20171013_4GB/ --output MRSA_CO_HA_473_kraken MRSA_CO_HA_473_R1_001.fastq.gz
 
 
@@ -49,7 +91,7 @@ kraken --quick --fastq-input --gzip-compressed --unclassified-out MRSA_CO_HA_479
 ```
 
 
-> iii. Run Kraken report to generate a concise summary report of the species found in reads file.
+> **iv. Run Kraken report to generate a concise summary report of the species found in reads file.
 
 
 ```
@@ -91,7 +133,7 @@ awk '$4 == "S" {print $0}' MRSA_CO_HA_479_kraken_report.txt | head
 
 Lets visualize the same information in an ionteractive form.
 
-> iv. Generate a HTML report to visualize Kraken report using Krona
+> v. Generate a HTML report to visualize Kraken report using Krona
 
 ```
 cut -f2,3 MRSA_CO_HA_473_kraken > MRSA_CO_HA_473_krona.input
@@ -139,14 +181,6 @@ When you run islurm what happens? How can you tell that you are now executing co
 > ***ii. Copy class4 directory to your home directory and create a new directory for saving FastQC results.***
 
 ```
-#Go to your class working directory
-wd
-
-#Copy over today's materials
-cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class4 ./
-
-#Go into the directory
-cd  class4/
 
 #Create directory for FastQC results
 mkdir Rush_KPC_266_FastQC_results
