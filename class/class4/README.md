@@ -93,7 +93,7 @@ kraken --quick --fastq-input --gzip-compressed --unclassified-out Rush_KPC_266_u
 
 It should take around 2 minutes.
 
-> **iv. Run Kraken report to generate a concise summary report of the species found in reads file.
+> **iv. Run Kraken report to generate a concise summary report of the species found in reads file.***
 
 
 ```
