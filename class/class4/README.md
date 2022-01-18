@@ -27,6 +27,7 @@ In our previous class, we learned how to set up our environment using PATH varia
 ```
 
 export PATH=$PATH:/scratch/epid582w22_class_root/epid582w22_class/shared_data/bin/kraken
+export PATH=$PATH:/scratch/epid582w22_class_root/epid582w22_class/shared_data/bin/KronaTools-2.8.1/bin/
 
 ```
 
@@ -54,13 +55,15 @@ To submit an interactive job we will use an alias that we placed in our .bashrc 
 srun --account=epid582w22_class --nodes=1 --ntasks-per-node=1 --mem-per-cpu=5GB --cpus-per-task=1 --time=12:00:00 --pty /bin/bash
 ```
 
-***When you run islurm what happens? 
-***How can you tell that you are now executing commands on a cluster node? 
-***How can we verify that indeed we are running a job on the cluster?
+***When you run islurm what happens?***
+
+***How can you tell that you are now executing commands on a cluster node?***
+
+***How can we verify that indeed we are running a job on the cluster?***
 
 You should see "username@glXXXX" in your command prompt where XXXX refers to the cluster node number.
 
-> **ii. Copy class4 directory to your home directory 
+> ***ii. Copy class4 directory to your home directory***
 
 ```
 #Go to your class working directory
@@ -82,8 +85,10 @@ cd kraken/
 Since Kraken takes time to run, we have already placed the output of Kraken command in class4/kraken directory.
 
 ```
-# Dont run these commands. MRSA_CO_HA_473_kraken and MRSA_CO_HA_479_kraken are already placed in class4/kraken directory
+# Dont run these commands. 
+# MRSA_CO_HA_473_kraken and MRSA_CO_HA_479_kraken are already placed in class4/kraken directory
 # The below commands are for demonstration purposes.
+
 kraken --quick --fastq-input --gzip-compressed --unclassified-out MRSA_CO_HA_473_unclassified.txt --db minikraken_20171013_4GB/ --output MRSA_CO_HA_473_kraken MRSA_CO_HA_473_R1_001.fastq.gz
 
 
@@ -95,8 +100,6 @@ kraken --quick --fastq-input --gzip-compressed --unclassified-out MRSA_CO_HA_479
 
 
 ```
-# Update the taxonomy database before generating kraken report
-ktUpdateTaxonomy.sh
 
 kraken-report --db minikraken_20171013_4GB/ MRSA_CO_HA_473_kraken > MRSA_CO_HA_473_kraken_report.txt
 
@@ -144,17 +147,17 @@ ktImportTaxonomy MRSA_CO_HA_479_krona.input -o MRSA_CO_HA_479_krona.out.html
 
 ```
 
-In case you get an error saying - Taxonomy not found, run ktUpdateTaxonomy.sh command again.
+In case you get an error saying - Taxonomy not found, run updateTaxonomy.sh command.
 
 ```
-ktUpdateTaxonomy.sh
+updateTaxonomy.sh
 ```
 
 Use scp command as shown below or use cyberduck. If you dont the file in cyberduck window, try refreshing it using the refresh button at the top.
 
 ```
 
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/micro612w21_class_root/micro612w21_class/username/day1pm/kraken/*.html /path-to-local-directory/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/apirani/class4/kraken/*.html /path-to-local-directory/
 
 #You can use ~/Desktop/ as your local directory path
 
@@ -178,9 +181,13 @@ srun --account=epid582w22_class --nodes=1 --ntasks-per-node=1 --mem-per-cpu=5GB 
 
 When you run islurm what happens? How can you tell that you are now executing commands on a cluster node? How can we verify that indeed we are running a job on the cluster?
 
-> ***ii. Copy class4 directory to your home directory and create a new directory for saving FastQC results.***
+> ***i. Go to class4 directory and create a new directory for saving FastQC results.***
 
 ```
+#Go back to your class4 working directory
+wd
+
+cd class4/
 
 #Create directory for FastQC results
 mkdir Rush_KPC_266_FastQC_results
@@ -189,7 +196,7 @@ mkdir Rush_KPC_266_FastQC_results
 mkdir Rush_KPC_266_FastQC_results/before_trimmomatic
 ```
 
-> ***iii. Verify that FastQC is in your path by invoking it from command line.***
+> ***ii. Verify that FastQC is in your path by invoking it from command line.***
 
 ```
 #Active conda environment giving us access to fastqc
@@ -201,7 +208,7 @@ fastqc -h
 
 FastQC can be run in two modes: "command line" or as a GUI (graphical user interface). We will be using command line version of it.
 
-> ***iv. Run FastQC to generate quality report of sequence reads.***
+> ***iii. Run FastQC to generate quality report of sequence reads.***
 
 ```
 fastqc -o Rush_KPC_266_FastQC_results/before_trimmomatic/ Rush_KPC_266_1_combine.fastq.gz Rush_KPC_266_2_combine.fastq.gz --extract
@@ -213,9 +220,9 @@ The summary.txt file in these directories indicates if the data passed different
 
 You can visualize and assess the quality of data by opening html report in a local browser.
 
-> ***v. Exit your cluster node so you don’t waste cluster resources and $$$!***
+> ***iv. Exit your cluster node so you don’t waste cluster resources and $$$!***
 
-> ***vi. Download the FastQC html report to your home computer to examine using scp or cyberduck***
+> ***v. Download the FastQC html report to your home computer to examine using scp or cyberduck***
 
 ```
 scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/day1pm/Rush_KPC_266_FastQC_results/before_trimmomatic/*.html /path-to-local-directory/
