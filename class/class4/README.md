@@ -14,7 +14,17 @@ OK, you've performed a sequencing experiment and are eager to dig into your data
 
 We will be performing QC analysis on Illumina sequencing data (see [here](https://youtu.be/fCd6B5HRaZ8)). The tool that we will be using to examine the quality of our sequencing data is FastQC. FastQC is a quality control tool that reads in sequence data in a variety of formats(fastq, bam, sam) and can either provide an interactive application to review the results or create an HTML based report which can be integrated into any pipeline. Running FastQC can give you quick sense of the data quality and whether it exhibits any unusual properties (e.g. contamination or unexpected biological features), and can point you towards next steps in terms of ways to cleanup your data.
 
-> ***i. Copy class4 directory to your home directory and create a new directory for saving FastQC results.***
+> ***i. Login to an interactive cluster node so that we are not all running intensive commands on the login node***
+
+When we previously used the cluster we created an sbat file and included specifications for the resources desired and the commands/programs we wanted to execute on a cluster node with the desired specs. Here we will be working with the cluster in a different way, by creating an interactive cluster job. In essence, gettng an interactive node allows you to login to a cluster node, so you can run commands on a compute system with the desired resources. This is desirable when your job requires a lot of input from you (e.g. testing code, working in R, etc.) or if you want to closely monitor a jobs running behavior. 
+
+To submit an interactive job we will use an alias that we placed in our .bashrc called 'islurm'. When you type islurm, the following command will be executed:
+
+```
+srun --account=epid582w22_class --nodes=1 --ntasks-per-node=1 --mem-per-cpu=5GB --cpus-per-task=1 --time=12:00:00 --pty /bin/bash
+```
+
+> ***ii. Copy class4 directory to your home directory and create a new directory for saving FastQC results.***
 
 ```
 wd
@@ -26,7 +36,7 @@ mkdir Rush_KPC_266_FastQC_results
 mkdir Rush_KPC_266_FastQC_results/before_trimmomatic
 ```
 
-> ***ii. Verify that FastQC is in your path by invoking it from command line.***
+> ***iii. Verify that FastQC is in your path by invoking it from command line.***
 
 ```
 fastqc -h
@@ -34,7 +44,7 @@ fastqc -h
 
 FastQC can be run in two modes: "command line" or as a GUI (graphical user interface). We will be using command line version of it.
 
-> ***iii. Run FastQC to generate quality report of sequence reads.***
+> ***iv. Run FastQC to generate quality report of sequence reads.***
 
 ```
 fastqc -o Rush_KPC_266_FastQC_results/before_trimmomatic/ Rush_KPC_266_1_combine.fastq.gz Rush_KPC_266_2_combine.fastq.gz --extract
@@ -46,9 +56,9 @@ The summary.txt file in these directories indicates if the data passed different
 
 You can visualize and assess the quality of data by opening html report in a local browser.
 
-> ***iv. Exit your cluster node so you don’t waste cluster resources and $$$!***
+> ***v. Exit your cluster node so you don’t waste cluster resources and $$$!***
 
-> ***v. Download the FastQC html report to your home computer to examine using scp or cyberduck***
+> ***vi. Download the FastQC html report to your home computer to examine using scp or cyberduck***
 
 ```
 
