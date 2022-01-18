@@ -24,15 +24,24 @@ To submit an interactive job we will use an alias that we placed in our .bashrc 
 srun --account=epid582w22_class --nodes=1 --ntasks-per-node=1 --mem-per-cpu=5GB --cpus-per-task=1 --time=12:00:00 --pty /bin/bash
 ```
 
+When you run islurm what happens? How can you tell that you are now executing commands on a cluster node? How can we verify that indeed we are running a job on the cluster?
+
 > ***ii. Copy class4 directory to your home directory and create a new directory for saving FastQC results.***
 
 ```
+#Go to your class working directory
 wd
 
+#Copy over today's materials
 cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class4 ./
 
+#Go into the directory
+cd  class4/
+
+#Create directory for FastQC results
 mkdir Rush_KPC_266_FastQC_results
 
+#Create directory for trimmomatic results
 mkdir Rush_KPC_266_FastQC_results/before_trimmomatic
 ```
 
@@ -61,7 +70,6 @@ You can visualize and assess the quality of data by opening html report in a loc
 > ***vi. Download the FastQC html report to your home computer to examine using scp or cyberduck***
 
 ```
-
 scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/micro612w21_class_root/micro612w21_class/username/day1pm/Rush_KPC_266_FastQC_results/before_trimmomatic/*.html /path-to-local-directory/
 
 ```
