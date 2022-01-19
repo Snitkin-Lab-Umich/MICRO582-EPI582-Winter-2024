@@ -8,7 +8,7 @@ Goal
 - Assess the quality of genome assemblies with Quast.
 - Generate multiple sample report using a bunch of pre-assembled data as input and visualize the summary report.
 
-![roadmap]genome_assembly.png)
+![roadmap](genome_assembly.png)
 
 
 Execute the following command to copy files for today's exercises to your workshop home directory: 
