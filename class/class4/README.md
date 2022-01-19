@@ -9,20 +9,15 @@ Goal
 
 Overview of Genomics Pipeline
 -----------------------------
-There are two different ways we can process raw sequencing reads. This include 
-1) variant calling and 
-2) genome assembly. 
+Now that we're getting into genomic analysis, let's come back to the overview of the analysis workflow. The first step leading to all downstream analyses is data quality control (QC), which is what we will cover today.
 
-We'll talk about both in this course, and we'll keep coming back to this roadmap to give some perspective on where we are in the pipeline. 
 ![Mile high view of a genomics pipeline](genomics_pipeline.png)
+
+![QC-ing](genomics_pipeline_qc.png)
 
 Contamination Screening using [Kraken](https://ccb.jhu.edu/software/kraken/)
 --------------------------------------------
-![QC-ing](genomics_pipeline_qc.png)
-
-When running a sequencing pipeline, it is very important to make sure that your data matches appropriate quality threshold and are free from any contaminants. This step will help you make correct interpretations in downstream analysis and will also let you know if you are required to redo the experiment/library preparation or remove contaminant sequences.
-
-For this purpose, we will employ Kraken which is a taxonomic sequence classifier that assigns taxonomic labels to short DNA reads. We will screen our samples against a MiniKraken database (a pre-built database constructed from complete bacterial, archaeal, and viral genomes in NCBI RefSeq database) and confirm if the majority of reads in our sample belong to the target species.
+One important QC to perform when getting your sequencing data is to make sure you sequenced what you think you did. For this purpose, we will employ Kraken which is a taxonomic sequence classifier that assigns taxonomic labels to short DNA reads. We will screen our samples against a MiniKraken database (a pre-built database constructed from complete bacterial, archaeal, and viral genomes in NCBI RefSeq database) and confirm if the majority of reads in our sample belong to the target species.
 
 In our previous class, we learned how to set up our environment using PATH variable. we will repeat the same thing to add path to the Kraken and Krona executables.
 
@@ -124,7 +119,7 @@ awk '$4 == "S" {print $0}' Rush_KPC_266_kraken_report.txt | head
 ```
 
 
-Lets visualize the same information in an ionteractive form.
+Lets visualize the same information in an interactive form.
 
 > v. Generate a HTML report to visualize Kraken report using Krona
 
@@ -132,7 +127,6 @@ Lets visualize the same information in an ionteractive form.
 cut -f2,3 Rush_KPC_266_kraken > Rush_KPC_266_krona.input
 
 ktImportTaxonomy Rush_KPC_266_krona.input -o Rush_KPC_266_krona.out.html
-
 
 ```
 
