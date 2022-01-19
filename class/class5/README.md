@@ -58,14 +58,14 @@ Now, we will use a genome assembly tool called Spades for assembling the reads.
 
 > ***ii. Test out Spades to make sure it's in your path***
 
-Load the course conda environment MICRO582. To make sure that your conda paths are set up correctly, try running Spades with the –h (help) flag, which should produce usage instruction. 
+Lets load spades module from the Great lakes provided Bioinformatics Modules.
 
 ```
 > check if spades is working. 
 
-conda activate MICRO582
+module load Bioinformatics
 
-spades.py -h     
+spades -h  
 
 ```
 
@@ -84,7 +84,7 @@ nano spades.sbat
 
 > Copy and paste the below command to the bottom of spades.sbat file.
 
-spades.py -1 forward_paired.fq.gz -2 reverse_paired.fq.gz -o MSSA_SRR5244781_assembly_result/ --careful
+spades -1 forward_paired.fq.gz -2 reverse_paired.fq.gz -o MSSA_SRR5244781_assembly_result/ --careful
 
 ```
 
@@ -111,19 +111,14 @@ To evaluate some example assemblies we will use the tool quast. Quast produces a
 
 > ***i. Run quast on a set of previously generated assemblies***
 
-Now to check the example assemblies residing in your day2am folder, run the below quast command. Make sure you are in day2am folder in your home directory using 'pwd'
+Now to check the example assemblies residing in your class5 folder, run the below quast command. Make sure you are in class5 folder in your home directory using 'pwd'
 
-SInce Quast needs an older version of python, we will deactivate the current environment and run quast outside micro612 environment.  
 
 ```
-conda deactivate 
-
-module load python2.7-anaconda/2019.03
-
 quast.py -o quast SRR5244781_contigs.fasta SRR5244821_contigs.fasta
 ```
 
-The command above will generate a report file in /scratch/epid582w22_class_root/epid582w22_class/username/day2am/quast
+The command above will generate a report file in /scratch/epid582w22_class_root/epid582w22_class/username/class5/quast
 
 > ***ii. Explore quast output***
 
@@ -176,10 +171,6 @@ if you are not in day2am folder, navigate to it and change directory to multiqc_
 cd /scratch/epid582w22_class_root/epid582w22_class/username/class5/
 
 cd multiqc_analysis
-
-#Activate conda environment
-
-conda activate multiqc
 
 multiqc -h
 
