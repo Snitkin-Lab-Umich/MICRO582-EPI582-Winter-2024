@@ -177,15 +177,15 @@ multiqc -h
 
 #Run multiqc on sample reports
 
-multiqc ./ --force --filename workshop_multiqc
+multiqc ./ --force --filename class5_multiqc
 
-#Check if workshop_multiqc.html report was generated
+#Check if class5_multiqc.html report was generated
 
 ls
 
-#transfer this multiqc report - workshop_multiqc.html to your local system and open it in a browser for visual inspection
+#transfer this multiqc report - class5_multiqc.html to your local system and open it in a browser for visual inspection
 
-scp username@flux-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class_5/workshop_multiqc.html /path-to-local-directory/
+scp username@flux-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class_5/multiqc_analysis/class5_multiqc.html /path-to-local-directory/
 
 ```
 
