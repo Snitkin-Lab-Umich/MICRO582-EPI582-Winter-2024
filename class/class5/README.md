@@ -41,14 +41,14 @@ Here we will use the Spades assembler with default parameters. Because genome as
 
 > ***i. Create directory to hold your assembly output.***
 
-Create a new directory for the spades output in your day2am folder
+Create a new directory for the spades output in your class_5 folder
 
 ```
 > Note: Make sure you change 'username' in the below command with your 'uniqname'. 
 
 cd /scratch/epid582w22_class_root/epid582w22_class/username/class5
 
-> We will create a new directory in day2am to save genome assembly results:
+> We will create a new directory in class_5 to save genome assembly results:
 
 mkdir MSSA_SRR5244781_assembly_result 
 
@@ -73,7 +73,7 @@ spades -h
 
 Since it takes a huge amount of memory and time to assemble genomes using spades, we will run a slurm script on great lakes cluster for this step.
 
-Now, open the spades.sbat file residing in the day2aming folder with nano and add the following spades command to the bottom of the file. Replace the EMAIL_ADDRESS in spades.sbat file with your actual email-address. This will make sure that whenever the job starts, aborts or ends, you will get an email notification.
+Now, open the spades.sbat file residing in the class_5 folder with nano and add the following spades command to the bottom of the file. Replace the EMAIL_ADDRESS in spades.sbat file with your actual email-address. This will make sure that whenever the job starts, aborts or ends, you will get an email notification.
 
 ```
 > Open the spades.sbat file using nano:
@@ -145,13 +145,13 @@ Thankfully, there is a tool called multiqc which parses the results directory co
 
 Lets take a look at one such mutiqc report that was generated using FastQC results on *C. difficile* samples.
 
-Download the html report Cdiff_multiqc_report.html from your day2am folder.
+Download the html report Cdiff_multiqc_report.html from your class_5 folder.
 
 ```
 #Note: Make sure you change 'username' in the below command to your 'uniqname'.
 
 
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/day2am/Cdiff_multiqc_report.html /path-to-local-directory/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class_5/Cdiff_multiqc_report.html /path-to-local-directory/
 
 
 ```
@@ -164,7 +164,7 @@ scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epi
 
 Lets run multiqc on one such directory where we ran and stored FastQC, FastQ Screen and Quast reports.
 
-if you are not in day2am folder, navigate to it and change directory to multiqc_analysis
+if you are not in class_5 folder, navigate to it and change directory to multiqc_analysis
 
 ```
 
@@ -184,7 +184,7 @@ ls
 
 #transfer this multiqc report - workshop_multiqc.html to your local system and open it in a browser for visual inspection
 
-scp username@flux-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/day2am/workshop_multiqc.html /path-to-local-directory/
+scp username@flux-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class_5/workshop_multiqc.html /path-to-local-directory/
 
 ```
 
