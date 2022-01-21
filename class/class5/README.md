@@ -64,6 +64,7 @@ Lets load spades module from the Great lakes provided Bioinformatics Modules.
 > check if spades is working. 
 
 module load Bioinformatics
+module load spades
 
 spades -h  
 
