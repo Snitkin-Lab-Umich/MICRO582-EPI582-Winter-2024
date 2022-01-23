@@ -28,32 +28,59 @@ Finally, the results of all of these annotations are stored in a series of stand
 
 With that background, let's try it on for ourselves! We are going to run Prokka on a Staphylococcus aureus genome that we downloaded the assembly for. Since Prokka annotation is a time intensive run, we will submit an annotation job and go over the results later at the end of this session. 
 
+Lets add Prokka to our environment and check if we can invoke it.
 
-Before we submit the job, run this command to make sure that prokka is setup properly in your environment.
+Add this line at the end of your .bashrc file and source it.
+
+```
+export PATH=$PATH:/scratch/epid582w22_class_root/epid582w22_class/shared_data/bin/prokka/bin/
+```
+
+Let load some perl-modules that prokka requires and invoke prokka's help menu.
+
+```
+module load perl-modules
+
+prokka -h
+```
+
+Before we submit the job, run this command to make sure that prokka is setup properly in your environment. - (we dont need to run this. when everyone tries to run this at once, it throws some error. Avoid setting it up because its already been set up by us)
 
 ```
 prokka -setupdb
 ```
 
-Now add these line at the end of the slurm script.
+Lets copy over class6 data to your class working directory.
+
+```
+wd
+
+cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class6 ./
+
+cd class6
+```
+
+Now add these line at the end of the slurm script - .
 
 ```
 echo "Prokka results will be saved in $SLURM_WORKING_DIR/SRR5244781_prokka"
 mkdir SRR5244781_prokka 
-prokka -kingdom Bacteria -outdir SRR5244781_prokka -force -prefix SRR5244781_contigs_ordered SRR5244781_contigs_ordered.fasta
+prokka -kingdom Bacteria -outdir SRR5244781_prokka -force -prefix SRR5244781_contigs SRR5244781_contigs.fasta
 
 ```
 
 Next, let's explore some of the output files using our ever growing bag of Unix tricks :). First, lets take a look at the overall summary file that Prokka creates which indicates how many of each type of genomic feature was identified:
 
 ```
-less SRR5244781_contigs_ordered.txt
+cd SRR5244781_prokka
+
+less SRR5244781_contigs.txt
 ```
 
 You'll notice that this file is actually short, so instead of viewing in less it might be easier to dump the contents to the screen. You can do this with the 'cat' command:
 
 ```
-cat SRR5244781_contigs_ordered.txt
+cat SRR5244781_contigs.txt
 ```
 
 Next, as an exercise, see if you can write a for loop that goes through the gff file created by Prokka and counts the number of occurences of each type of feature.
@@ -68,7 +95,7 @@ do
   echo $feat;
   
   #COUNT THE NUMBER OF OCCURENCES OF THE FEATURE IN THE THIRD COLUMN OF THE gff
-  cut -f 3 SRR5244781_contigs_ordered.gff| grep $feat | wc -l; 
+  cut -f 3 SRR5244781_contigs.gff| grep $feat | wc -l; 
 
 done
 
@@ -81,8 +108,9 @@ One more quick exercise - apply a Unix command to the appropriate fasta file to 
   <summary>Solution</summary>
 
 ```
-grep ">" SRR5244781_contigs_ordered.faa | wc -l
-
+  
+grep ">" SRR5244781_contigs.faa | wc -l
+  
 ```
 </details>
 
