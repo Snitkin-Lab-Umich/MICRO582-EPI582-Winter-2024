@@ -10,7 +10,23 @@ Goal
 Genome annotation using PROKKA
 ------------------------------
 
-Since Prokka annotation is a time intensive run, we will submit an annotation job and go over the results later at the end of this session. 
+Our genome asembly consists of long nucleotide sequences called contigs. However, having ~5Mb of sequence isn't super useful on it's own! What makes a genome informative are annotations, such that we can gain insight into the functions encoded in a genome and interpret the impact of genetic variation among a set of genomes. Over the past ~20 years there has been a great deal of bioinformatics research into how to identify functional elements in genomes, and in turn how to generate hypotheses regarding the molecular functions they perform and the biological processes in which they participate. Nowadays, there are pipelines available that combine different sets of tools in order to produce a fully annotated genome. For bacteria, the most commonly used tool is called Prokka. Prokka takes as input a genome assembly and performs the following functions:
+
+1. Applies a tool called [Prodigal](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-119) to identify putative protein coding sequences.
+2. Applies a tool called [RNAmmer](https://academic.oup.com/nar/article-abstract/35/9/3100/2401119) to identify rRNA encoding genes
+3. Applies a tool called [Aragorn](https://academic.oup.com/nar/article-abstract/32/1/11/1194008) to identify tRNA encoding genes
+4. Applies a tool called [Infernal](https://academic.oup.com/bioinformatics/article/29/22/2933/316439?login=true) to identify small RNA encoding genes
+
+After applying these tools to identify functional elements, it then compares them to databases  of curated sequences (e.g. using BLAST) and transfers annotation. It is important to note that these annotations should be considered as bioinformatically generated hypotheses, with the confidence being associated with how closely related the sequence in the database is to the sequence you are annotating. 
+
+Finally, the results of all of these annotations are stored in a series of standard genome annotation files, including:
+1. .ffn - A fasta formated file of the nucleotide sequences of annotated features
+2. .faa - A fasta formated file of the amino acid sequences of annotated coding regions
+3. .gff - A gff formatted file of genome annotations
+4. .gbk - A genbank formatted file of genome annotations and sequences
+5. .tsv - A tab-separated value formatted file of genome annotations
+
+With that background, let's try it on for ourselves! We are going to run Prokka on a Staphylococcus aureus genome that we downloaded the assembly for. Since Prokka annotation is a time intensive run, we will submit an annotation job and go over the results later at the end of this session. 
 
 
 Before we submit the job, run this command to make sure that prokka is setup properly in your environment.
