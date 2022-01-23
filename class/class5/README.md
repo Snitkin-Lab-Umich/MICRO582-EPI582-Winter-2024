@@ -151,9 +151,7 @@ Download the html report Cdiff_multiqc_report.html from your class_5 folder.
 ```
 #Note: Make sure you change 'username' in the below command to your 'uniqname'.
 
-
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class_5/Cdiff_multiqc_report.html /path-to-local-directory/
-
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class5/Cdiff_multiqc_report.html ~/Desktop/
 
 ```
 
