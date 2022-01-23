@@ -129,5 +129,9 @@ Submit the job using sbatch
 sbatch annotate.sbat
 ```
 
+The primary output file created by Eggnog mapper is a tab-delimited file providing different annotations for each gene (All_features_annotations.emapper.annotations). If you examine the file using less you will notice that the first three lines are comments, and the fourth line is a set of column headers. In order to explore specific annotations with Unix commands it would be super useful to know which annotations are on which columns. To do this you could tediously count across, but you should know by now that we don't like to do things manually :). So, let's check out a cool Unix trick to get what we want! There are two new concepts here. The first is the use of the 'tr' command, which we will use to "traslate" the tabs in the file to carriage returns. The second is the use of 'cat' with the -n flag, which provides line numbers to the output. To pull out the line of interest there are a variety of Unix commands we could employ, but to avoid introducing too many new concepts, let's just go with a grep solution:
 
+```
+grep "^#query" All_features_annotations.emapper.annotations | tr "\t" "\n" | cat -n
+```
 
