@@ -91,6 +91,14 @@ grep ">" SRR5244781_contigs_ordered.faa | wc -l
 Functional annotation using eggnog
 ----------------------------------
 
+Prokka provides you with some basic annotations (e.g. putative function of protein coding genes). However, it is often valuable to have richer annotations that place genes into different functional categories and/or pathway assignments such that:
+
+1. You can gain a quick overview of how a genome is partitioned into different functional classes
+2. You can compare genomes holistically to get a sense of how they are functionally different (e.g. nutrient sources they can utilize/environments they can grow in)
+3. When evaluating the differences between pairs of genomes or sets of genomes (e.g. differences in gene content, gene expression, etc.), you can get a quick sense of the overall functional differences, which can lead to more focused and data-driven hypotheses
+
+To get richer annotation of our genome we will apply a tool called Eggnog mapper. Eggnog mapper leverages a database of curated sequences (the Eggnog database), and applies an algorithm to map inputted genes to the most likely evolutionary counterpart (i.e. it's [ortholog](https://www.nature.com/articles/nrg3456)). There is a wide array of annotations that are provided, but two of special importance are [Gene Ontology](https://www.nature.com/articles/nrg3456) (GO) and [KEGG](https://www.genome.jp/kegg/) annotation. GO is an ontology scheme that assigned each gene to a biological process, molecular function and cellular component. One powerful aspect of GO is that it is hierarchical, such that you can categorize the role of genes at different levels (e.g. metabolism -> central carbon metabolism -> glycolysis). KEGG has a multitude of useful databases, but the most commonly used are it's pathway maps, which group genes into biochemical pathways and signalling cascades. 
+
 Set up the Eggnog database directory so that Eggnog mapper knows where to look for the Eggnog Diamond database
 
 ```
@@ -120,3 +128,6 @@ Submit the job using sbatch
 ```
 sbatch annotate.sbat
 ```
+
+
+
