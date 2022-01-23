@@ -44,6 +44,49 @@ prokka -kingdom Bacteria -outdir SRR5244781_prokka -force -prefix SRR5244781_con
 
 ```
 
+Next, let's explore some of the output files using our ever growing bag of Unix tricks :). First, lets take a look at the overall summary file that Prokka creates which indicates how many of each type of genomic feature was identified:
+
+```
+less SRR5244781_contigs_ordered.txt
+```
+
+You'll notice that this file is actually short, so instead of viewing in less it might be easier to dump the contents to the screen. You can do this with the 'cat' command:
+
+```
+cat SRR5244781_contigs_ordered.txt
+```
+
+Next, as an exercise, see if you can write a for loop that goes through the gff file created by Prokka and counts the number of occurences of each type of feature.
+
+<details>
+  <summary>Solution</summary>
+
+```
+for feat in CDS repeat_region rRNA tmRNA tRNA; 
+do 
+  #PRINT OUT THE NAME OF THE FEATURE
+  echo $feat;
+  
+  #COUNT THE NUMBER OF OCCURENCES OF THE FEATURE IN THE THIRD COLUMN OF THE gff
+  cut -f 3 SRR5244781_contigs_ordered.gff| grep $feat | wc -l; 
+
+done
+
+```
+</details>
+
+One more quick exercise - apply a Unix command to the appropriate fasta file to count the number of coding sequences and verify that it matches up with your loop.
+
+<details>
+  <summary>Solution</summary>
+
+```
+grep ">" SRR5244781_contigs_ordered.faa | wc -l
+
+```
+</details>
+
+
 
 Functional annotation using eggnog
 ----------------------------------
