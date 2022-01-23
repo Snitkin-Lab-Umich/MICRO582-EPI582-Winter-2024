@@ -179,7 +179,7 @@ multiqc ./ --force --filename class5_multiqc
 
 #Check if class5_multiqc.html report was generated
 
-ls
+ls -la class5_multiqc.html 
 
 #transfer this multiqc report - class5_multiqc.html to your local system and open it in a browser for visual inspection
 
