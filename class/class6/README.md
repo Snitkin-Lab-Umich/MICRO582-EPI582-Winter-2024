@@ -148,7 +148,7 @@ download_eggnog_data.py
 Open annotate.sbat file using nano and add commands for eggnog.
 
 ```
-/scratch/epid582w22_class_root/epid582w22_class/shared_data/bin/eggnog-mapper/emapper.py -i SRR5244781_prokka/SRR5244781_contigs_ordered.faa --output SRR5244781_eggnog -m diamond --override --itype proteins
+/scratch/epid582w22_class_root/epid582w22_class/shared_data/bin/eggnog-mapper/emapper.py -i SRR5244781_prokka/SRR5244781_contigs.faa --output SRR5244781_eggnog -m diamond --override --itype proteins
 ```
 
 Submit the job using sbatch
