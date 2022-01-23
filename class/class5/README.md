@@ -183,7 +183,7 @@ ls -la class5_multiqc.html
 
 #transfer this multiqc report - class5_multiqc.html to your local system and open it in a browser for visual inspection
 
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/apirani/class5/multiqc_analysis/class5_multiqc.html /path-to-local-directory/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class5/multiqc_analysis/class5_multiqc.html /path-to-local-directory/
 
 ```
 
