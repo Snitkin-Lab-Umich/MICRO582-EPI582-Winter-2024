@@ -101,6 +101,13 @@ sbatch spades.sbat
 squeue -u username 
 ```
 
+### SPAdes output
+
+SPAdes stores all output files in `<output_dir> `, which is set by the user. It generate various intermediate files that can be further used to explore the assembled genome in graphical format. For this class, we will be focusing on the final genome fasta file that was assembled by Spades. After the SPAdes job is done, it will save the assembled genome in `<output_dir>/contigs.fasta` file which we have already placed in the class5 folder and renamed it to `SRR5244781_contigs.fasta`.  
+
+
+We will now evaluate SRR5244781_contigs.fasta and SRR5244821_contigs.fasta assemblies using Quast.
+
 Assembly evaluation using [QUAST](http://bioinf.spbau.ru/quast)
 ---------------------------------
 
