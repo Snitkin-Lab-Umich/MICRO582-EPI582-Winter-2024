@@ -46,11 +46,6 @@ module load perl-modules
 prokka -h
 ```
 
-Before we submit the job, run this command to make sure that prokka is setup properly in your environment. - (we dont need to run this. when everyone tries to run this at once, it throws some error. Avoid setting it up because its already been set up by us)
-
-```
-prokka -setupdb
-```
 
 Lets copy over class6 data to your class working directory.
 
