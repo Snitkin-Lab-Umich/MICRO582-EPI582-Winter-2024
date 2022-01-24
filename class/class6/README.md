@@ -278,11 +278,17 @@ less -S gene_presence_absence.Rtab
 
 **Read matrices into R, generate exploratory plots and query pan-genome**
 
+Make a directory onto your local system
+
+```
+mkdir ~/Desktop/class6
+```
+
 Use scp or cyberduck to get `gene_presence_absence.csv` and `gene_presence_absence.Rtab` onto your laptop desktop folder.
 
 ```
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class6/panaroo/gene_presence_absence.csv ~/Desktop/
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class6/panaroo/gene_presence_absence.Rtab ~/Desktop/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class6/panaroo/gene_presence_absence.csv ~/Desktop/class6
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class6/panaroo/gene_presence_absence.Rtab ~/Desktop/class6
 ```
 
 > ***i. Prepare and clean data***
@@ -291,9 +297,9 @@ scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epi
 
 ```
 # read in annotations (only need 3rd column)
-annots = read.csv('~/Desktop/micro612/day2pm/gene_presence_absence.csv')[,3]
+annots = read.csv('~/Desktop/class6/gene_presence_absence.csv')[,3]
 # read in presence-absence heatmap
-pg_matrix = read.delim('~/Desktop/micro612/day2pm/gene_presence_absence.Rtab', row.names = 1, header=TRUE)
+pg_matrix = read.delim('~/Desktop/class6/gene_presence_absence.Rtab', row.names = 1, header=TRUE)
 ```
 
 - Use head, str, dim, etc. to explore the matrix.
