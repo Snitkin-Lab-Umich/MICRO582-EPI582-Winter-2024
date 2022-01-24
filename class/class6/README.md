@@ -65,10 +65,14 @@ Now add these line at the end of the slurm script - .
 
 ```
 echo "Prokka results will be saved in $SLURM_WORKING_DIR/SRR5244781_prokka"
+
 mkdir SRR5244781_prokka 
-prokka -kingdom Bacteria -outdir SRR5244781_prokka -force -prefix SRR5244781_contigs SRR5244781_contigs.fasta
+
+prokka -kingdom Bacteria -outdir SRR5244781_prokka -force -prefix SRR5244781_contigs SRR5244781_contigs.fasta --cpus 0
 
 ```
+
+It should take around 3 minutes to finish the prokka run.
 
 Next, let's explore some of the output files using our ever growing bag of Unix tricks :). First, lets take a look at the overall summary file that Prokka creates which indicates how many of each type of genomic feature was identified:
 
