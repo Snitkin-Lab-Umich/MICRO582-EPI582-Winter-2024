@@ -1,4 +1,4 @@
-Class 6 – Genome annotation
+Class 7 – Resistome analysis
 ===========================
 
 Goal
