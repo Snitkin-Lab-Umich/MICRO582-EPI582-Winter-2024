@@ -57,7 +57,7 @@ cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class6 ./
 cd class6
 ```
 
-Now add these line at the end of the slurm script - .
+Now add these line at the end of the slurm script - annotate.sbat.
 
 ```
 echo "Prokka results will be saved in $SLURM_WORKING_DIR/SRR5244781_prokka"
