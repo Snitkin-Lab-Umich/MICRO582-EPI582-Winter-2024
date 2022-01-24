@@ -40,6 +40,7 @@ export PATH=$PATH:/scratch/epid582w22_class_root/epid582w22_class/shared_data/bi
 Let load some perl-modules that prokka requires and invoke prokka's help menu.
 
 ```
+module load Bioinformatics
 module load perl-modules
 
 prokka -h
