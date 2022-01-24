@@ -151,6 +151,7 @@ In the previous class, we learned how to assess and control the quality of sampl
 
 Thankfully, there is a tool called multiqc which parses the results directory containing output from various tools, reads the log report created by those tools (ex: FastQC, FastqScreen, Quast), aggregates them and creates a single report summarizing all of these results so that you have everything in one place. This helps greatly in identifying the outliers and removing or reanalysizing it individually.
 
+### Applying multiQC to explore the sequence quality of sequenced *C. difficile* genomes
 First, let's start by applying multiQC to a set of FastQC runs that we performed for a set of ~50 *C. difficile* samples. In particular, here are the steps that were taken to generate our multiQC report:
 
 1) Planned our sequencing experiment, such that our objective was to sequence 50 *C. difficile* genomes to 50X coverage (remember coverage means the mean number of times each base in the genome is sequenced). We were sequencing on a MiSeq instrument that generated 300 bp reads and the *C. difficile* genome is ~4Mb. So, to meet our coverage targets we need: (4e6 bases * 50X coverage)/ (300 bp reads) = ~666,666 reads per sample.
@@ -196,36 +197,55 @@ Scrolling down to our FastQC sections, we see the following:
 Overall, it seems that the quality of the sequencing data is reasonable (e.g. good read lengths, good base quality, etc.), but uneven barcoding resulted in many sequences having insufficient coverage and insufficient starting material for some samples resulting in high sequence duplication levels. So, ultimately it would be best to redo this sequencing experiment to get data that is better suited for downstream analysis.
  
 
-Lets run multiqc on one such directory where we ran and stored FastQC, FastQ Screen and Quast reports.
+### Applying multiqc to explore sequence quality, organism identity and assembly quality for sequenced *S. aureus* and *E. coli* genomes
 
-if you are not in class_5 folder, navigate to it and change directory to multiqc_analysis
+In the previous example we explored multqc results that compiled fastQC runs that we performed on a set of genomes. Next, we are going to compile output of fastQC, but also fastqscreen and quast. To remind you:
+
+1. fastQC provides information on the quality of your underlying sequencing data (e.g. number of reads, length of reads, quality of reads and contamination)
+2. quast provides you with summary metrics for genome assemblies that were performed on cleaned sequencingdata
+3. fastq screen is a new tool, that compares your sequencing reads to a predefined database to determine what organism the reads are a best match for. Here, we are going to check whether the reads for each genome map best to S. aureus, E. coli, human or mouse.
+
+We have already run these three tools on the input genomes and placed all the results in the directory multiqc_analysis. So, all we have to do is go into that directory and run multiqc, and it will recognize the output files from these tools and compile a single html report.
+
+If you are not in class_5 folder, navigate to it and change directory to multiqc_analysis
 
 ```
 
+#Change directory
 cd /scratch/epid582w22_class_root/epid582w22_class/username/class5/
 
 cd multiqc_analysis
 
+#Verify that multiqc works for you by prrinting out help message
 multiqc -h
 
-#Run multiqc on sample reports
 
+#Run multiqc on sample reports
 multiqc ./ --force --filename class5_multiqc
 
-#Check if class5_multiqc.html report was generated
 
+#Check if class5_multiqc.html report was generated
 ls -la class5_multiqc.html 
 
-#transfer this multiqc report - class5_multiqc.html to your local system and open it in a browser for visual inspection
-
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class5/multiqc_analysis/class5_multiqc.html /path-to-local-directory/
+#Use cyberduck to bring the class5_multiqc.html to your home computer and open up in a web browser
 
 ```
 
-The report contains the Assembly, Fastq Screen and FastQC report for a mixture of 51 organisms' sequence data. Sample names for Assembly statistics ends with "l500_contigs".
+Let's start by looking at the general statistics section, which has information about fastQC and quast results. So, for every sequenced genome there are two rows:
 
-- Question: Which two sample's genome length i.e column Length (Mbp) stand out from all the other genome lengths and what is the reason (hint – check their GC % and their FastQ Screen result)?
+1. Assembly (ends in \_contigs) - Provides information on the assembly N50 (N50 Kbp) and overall assembly length (Length (Mbp).
+2. FastQC - Provides information on sequence duplication levels (%Dups), GC content (%GC), mean read length (Length) and number of sequence reads (M seqs).
 
-- Question: Which sample has the worst N50 value? What do you think must be the reason (hint - check out the general stats)?
+Next, let's look at our GC content. You'll notice that most have a GC content of ~50%, but there are two genomes with a GC content of 33%. We can verify that this is actually an expected outcome by going down to the FastQscreen results and seeing that while most of our genomes are *E. coli* (CFT073 is the representative in the database), two genome are *S. aureus* (MRSA_USA_300 is the representative in the database). The x-axis are the percent of reads mapping to the representative.
 
-- Question: Which sample has the second worst N50 value? Is it the same or a different issue from the worst sample (hint - check out general stats and then the fastQC results)?
+Next, let's sort of by number of sequences. We can see while it is a bit uneven, it is much better than for our C diff library. However, we are still below our sequencing target as detailed above, so we may want to consider sequencing this library again to get more data.
+
+Next, sorting by %Dups and Length reveal do not reveal any cause for concern (typical amount of duplication and sequence lengths in the expected range)
+
+Now, let's take a look at our assemblies and see how they are. Sorting by N50 indicates that most assemblies are quite good, with more than half of most assemblies being on contigs greater than 100 kb. However, there are two assemblies that are much worse than the others (G001 - 40 kb and G009 - 0.6 kb). Let's see if we can use the other data in this report to deduce what the issue is with these samples, so we can understand how best to proceed.
+
+Under General Stats if you sort by sample name you can group together assembly and fastqc summary stats. Looking at G009-1-G-E-coli-CIP-R_S10, we can quickly see that the underlying issue is insufficient sequencing data. In particular, we observe that there are 0.0 M sequencing reads (likely not zero, but some small number) and that the total length of the assembly is 0.3 Mbp. So, we will need to sequence this genome again.
+
+Looking at G001, sequencing depth doesn't seem to be the issue, as there are not an epecially small number of reads relative to other samples and the total assembly length looks OK. So, what might be causing the fragementation of this assembly? One possibility is that while we generated enough data, it is of poor quality. To evaluate this lets go to the FastQC report and examine the sequence quality histograms. You can see that one sample stands apart from the others, in having sequence quality deteriorate earlier in the sequencing reads that typical. So, we conclude that poor sequencing quality is the issue with this sample, and again, we will likely want to re-sequence it.
+
+
