@@ -151,9 +151,16 @@ In the previous class, we learned how to assess and control the quality of sampl
 
 Thankfully, there is a tool called multiqc which parses the results directory containing output from various tools, reads the log report created by those tools (ex: FastQC, FastqScreen, Quast), aggregates them and creates a single report summarizing all of these results so that you have everything in one place. This helps greatly in identifying the outliers and removing or reanalysizing it individually.
 
-Lets take a look at one such mutiqc report that was generated using FastQC results on *C. difficile* samples.
+First, let's start by applying multiQC to a set of FastQC runs that we performed for a set of ~50 *C. difficile* samples. In particular, here are the steps that were taken to generate our multiQC report:
 
-Download the html report Cdiff_multiqc_report.html from your class_5 folder.
+1) Planned our sequencing experiment, such that our objective was to sequence 50 *C. difficile* genomes to 50X coverage (remember coverage means the mean number of times each base in the genome is sequenced). We were sequencing on a MiSeq instrument that generated 300 bp reads and the *C. difficile* genome is ~4Mb. So, to meet our coverage targets we need: (4e6 bases * 50X coverage)/ (300 bp reads) = ~666,666 reads per sample.
+2) Extracted DNA from 50 *C. difficile* isolates
+3) Performed Illumina library preparation and barcoded our 50 samples such that we could sequence on a single run
+4) Retrieved Fastq files for each of our 50 genomes from the Illumina machine
+5) Ran FastQC on each genome to assess the quality of the sequencing data
+6) Ran MultiQC on the directory where we stored all the FastQC results
+
+Now, let's take a look and see how our data quality looks. Download the html report Cdiff_multiqc_report.html from your class_5 folder.
 
 ```
 #Note: Make sure you change 'username' in the below command to your 'uniqname'.
@@ -162,11 +169,32 @@ scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epi
 
 ```
 
-- Question: Open this report in a browser and try to find the outlier sample/s
+OK, open up the report in a web browser and let's explore it.
 
-- Question: What is the most important parameter to look for while identifying contamination or bad samples?
+First, let's start by looking at the "General Statistics" section of the report. The columns are:
+1. Sample name (i.e. the names of our 50 sequence *C. difficile* genomes
+2. % Dups (i.e. the level of duplication in our data). High levels of duplication could indicate that insufficient sample material entered into the library preparation. Insufficient sample material results in you sequencing the same DNA fragments repeatedly, as opposed to when you have sufficient material, it would be unlikely to sequence the same genomic fragment multiple times unless you sequence super deeply.
+3. %GC is the GC content of the sequences. Genomes of a given species tend to have pretty consistent GC%, so an abberant GC could indicate you sequenced the wrong thing
+4. Length is the mean length of sequencing reads
+5. M Seqs is millions of sequences, which we can use to confirm that we hit our target sequencing depth
 
-- Question: What is the overall quality of data? 
+Now let's try sorting by the different columns to get a sense of any issues with our data:
+1. Looking at %Dups we see that some of our genomes have extremely high duplication levels, which is suggestive of not enough starting material entering the library preparation
+2. Sorting by %GC, we see that most genomes are between 30% and 35% GC, which fits in our expectation for *C. difficile*. However, there is one sample with 53% GC, which is likely means that it is not *C. difficile*.
+3. Sorting by length we see that the mean read lengths are pretty high (~250 bp), which is pretty reasonable.
+4. Soring by M Seqs we see a serious problem, which is that the sequencing coverage is highly variable across our genomes. Some have far more than our target read count, but the majority have far less. This issue seems to stem from uneven barcoding. In particular, when constructing a library there is a pooling step, where samples with different barcodes are pooled together at roughly equal proportions. Here, it seems that there was an issue here.
+ 
+Scrolling down to our FastQC sections, we see the following:
+1. Sequence quality histograms are satisfactory, with minimal deterioration of sequence quality across the read.
+2. Per sequence quality scores look good, with the mean quality of sequences being well above our target Phred score cutoff of ~25-30.
+3. Per base sequence content looks a bit wobbly. Remember, we expect roughly even base content when lining up all the reads we sequenced, where each position should average A/C/T/G at frequencies equal to the genome-wide average. I suspect these are more uneven because the sequencing coverage was so low, and therefor we have noisy estimates of the average fequencies.
+4. Per sequence GC content looks mostly OK, although there are a few issues. First, we see that the one genome that is not *C. difficile* stands out as having a distribution centered around 50 %GC. The other distributions look noisy and in many cases bimodal, which is again likely an artefact of poor sequencing coverage making for noisy distributions.
+5. Sequence length distribution looks reasonable, as reads were between 250bp and 300bp
+6. Sequence duplication levels reveal two issues. First, there are some repetative sequences that occur more than 10K times in most genomes. As we discussed last time, these are likely Illumina adaptor sequences that failed to be removed, but should easily be dealt with using Trimmomattic. The second issue is that most genomes seem to have large numbers of sequences that occur 2, 3, 4 and 5 times, which as mentioned above is an indication that there was not enough starting material and we are sequencing the same fragments repeatedly, instead of sequencing different parts of the genome.
+7. Adaptor content reveals that there is indeed residual adaptor contamination that needs to be dealt with.
+
+Overall, it seems that the quality of the sequencing data is reasonable (e.g. good read lengths, good base quality, etc.), but uneven barcoding resulted in many sequences having insufficient coverage and insufficient starting material for some samples resulting in high sequence duplication levels. So, ultimately it would be best to redo this sequencing experiment to get data that is better suited for downstream analysis.
+ 
 
 Lets run multiqc on one such directory where we ran and stored FastQC, FastQ Screen and Quast reports.
 
