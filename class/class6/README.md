@@ -151,7 +151,7 @@ Lets go to class6 directory and Open annotate_eggnog.sbat file using nano and ad
 
 ```
 
-emapper.py -i SRR5244781_prokka/SRR5244781_contigs.faa --output SRR5244781_eggnog -m diamond --override --itype proteins
+emapper.py -i SRR5244781_prokka/SRR5244781_contigs.faa --output SRR5244781_eggnog -m diamond --override --itype proteins --cpu 0
 ```
 
 Submit the job using sbatch
