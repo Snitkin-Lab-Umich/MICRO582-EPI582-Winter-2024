@@ -153,10 +153,10 @@ Lets go to class6 directory and Open annotate_eggnog.sbat file using nano and ad
 emapper.py -i SRR5244781_prokka/SRR5244781_contigs.faa --output SRR5244781_eggnog -m diamond --override --itype proteins --cpu 0
 ```
 
-Submit the job using sbatch
+Submit the job using sbatch - we wont submit this job because it takes ~20 minutes to finish this run so instead we will copy the results from Results folder
 
 ```
-sbatch annotate.sbat
+cp /scratch/epid582w22_class_root/epid582w22_class/shared_data/Results/class6/SRR5244781_eggnog.emapper.annotations ./
 ```
 
 The primary output file created by Eggnog mapper is a tab-delimited file with an extension `.emapper.annotations` providing different annotations for each gene. If you examine the file using less you will notice that the first three lines are comments, and the fourth line is a set of column headers. In order to explore specific annotations with Unix commands it would be super useful to know which annotations are on which columns. 
