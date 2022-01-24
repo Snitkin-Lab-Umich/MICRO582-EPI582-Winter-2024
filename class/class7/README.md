@@ -54,8 +54,8 @@ conda activate day2pm
 less ariba.sbat
 ```
 
-
-> ***ii. Run ARIBA summary function to generate a summary report.***
+Explore ARIBA summary reports
+-----------------------------
 
 ARIBA has a summary function that summarises the results from one or more sample runs of ARIBA and generates an output report with various level of information determined by the `-preset` parameter. The parameter `-preset minimal` will generate a minimal report showing only the presence/absence of resistance genes whereas `-preset all` will output all the extra information related to each database hit such as reads and reference sequence coverage, variants and their associated annotations (if the variant confers resistance to an antibiotic) etc.
 
@@ -91,8 +91,6 @@ scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/micro612w21_class_root/mi
 ```
 
 Drag and drop these two files onto the [Phandango](http://jameshadfield.github.io/phandango/#/) website. What types of resistance genes do you see in these *Klebsiella* genomes? 
-
-> ***iii. Explore full ARIBA matrix in R***
 
 Now, fire up RStudio and read in the ARIBA full report `kpneumo_ariba_all_results.csv` so we can take a look at the results.
 
