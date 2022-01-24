@@ -159,22 +159,29 @@ Submit the job using sbatch
 sbatch annotate.sbat
 ```
 
-The primary output file created by Eggnog mapper is a tab-delimited file with an extension `.emapper.annotations` providing different annotations for each gene. If you examine the file using less you will notice that the first three lines are comments, and the fourth line is a set of column headers. In order to explore specific annotations with Unix commands it would be super useful to know which annotations are on which columns. To do this you could tediously count across, but you should know by now that we don't like to do things manually :). So, let's check out a cool Unix trick to get what we want! There are two new concepts here. The first is the use of the 'tr' command, which we will use to "traslate" the tabs in the file to carriage returns. The second is the use of 'cat' with the -n flag, which provides line numbers to the output. To pull out the line of interest there are a variety of Unix commands we could employ, but to avoid introducing too many new concepts, let's just go with a grep solution:
+The primary output file created by Eggnog mapper is a tab-delimited file with an extension `.emapper.annotations` providing different annotations for each gene. If you examine the file using less you will notice that the first three lines are comments, and the fourth line is a set of column headers. In order to explore specific annotations with Unix commands it would be super useful to know which annotations are on which columns. 
+
+To do this you could tediously count across, but you should know by now that we don't like to do things manually :). So, let's check out a cool Unix trick to get what we want! 
+
+There are two new concepts here. 
+- The first is the use of the 'tr' command, which we will use to "traslate" the tabs in the file to carriage returns. 
+- The second is the use of 'cat' with the -n flag, which provides line numbers to the output. 
+- To pull out the line of interest there are a variety of Unix commands we could employ, but to avoid introducing too many new concepts, let's just go with a grep solution:
 
 ```
-grep "^#query" All_features_annotations.emapper.annotations | tr "\t" "\n" | cat -n
+grep "^#query" SRR5244781_eggnog.emapper.annotations | tr "\t" "\n" | cat -n
 ```
 
 Next, let's get a sense for how the S. aureus genome is distributed among the different COG functional categories. From the above command you can see that the 21st column is COG functional categories. If you check out the file we provide 'COG_functional_categories.txt', you can see that each functional category is represented by a single letter code, and you can also see what the different categories are. Let's now pipe together some Unix commands we have used before to see all the unique COG categories in the Eggnog annotation file. We are also going to use one new flag (-c with uniq), which will tell us how many times each category occurs.
 
 ```
-grep -v "#" All_features_annotations.emapper.annotations | cut -f 21 | sort | uniq -c 
+grep -v "#" SRR5244781_eggnog.emapper.annotations | cut -f 21 | sort | uniq -c 
 ```
 
 One thing that's annoying about the above command is that it's in somewhat random order, so it's not easy to see which are the most common COG categories. Lucky for us - Unix can fix that for us! Let's add one more pipe to the 'sort' command, with flags to indicate which column to sort by (-k) and that we'd like to sort by numeric (-n).
 
 ```
-grep -v "#" All_features_annotations.emapper.annotations | cut -f 21 | sort | uniq -c | sort -n -k 1
+grep -v "#" SRR5244781_eggnog.emapper.annotations | cut -f 21 | sort | uniq -c | sort -n -k 1
 ```
 
 Now we can see how often annotations are observed in the Eggnog file, but one thing that would make this even easier to interpret is if we were also printing out the description of the COG code, so we wouldn't have to remember what they stand for. Essentially, what we want to do is loop through each COG category, print out the name in the lookup file and then count the number of times it occurs in the Eggnog output. How to do something so fancy though? Well, you already have all the tools to accomplish this! To make it more exciting and useful we are going to put these commands into a shell script that we could then use with any Eggnog mapper output file. 
