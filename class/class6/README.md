@@ -150,7 +150,6 @@ emapper.py -h
 Lets go to class6 directory and Open annotate_eggnog.sbat file using nano and add commands for eggnog.
 
 ```
-cd ../
 
 emapper.py -i SRR5244781_prokka/SRR5244781_contigs.faa --output SRR5244781_eggnog -m diamond --override --itype proteins
 ```
