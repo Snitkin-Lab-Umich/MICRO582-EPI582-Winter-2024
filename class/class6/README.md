@@ -138,11 +138,7 @@ We already downloaded Eggnog Diamond database into this directory
 /scratch/epid582w22_class_root/epid582w22_class/shared_data/database/eggnog/
 ```
 
-The command that was used to download the database was
-
-```
-download_eggnog_data.py
-```
+The command that was used to download the database was `download_eggnog_data.py`
 
 Lets check if we can invoke Eggnog executable emapper.py from the command line.
 
