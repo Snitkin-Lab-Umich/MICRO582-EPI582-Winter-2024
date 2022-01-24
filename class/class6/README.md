@@ -281,8 +281,8 @@ less -S gene_presence_absence.Rtab
 Use scp or cyberduck to get `gene_presence_absence.csv` and `gene_presence_absence.Rtab` onto your laptop desktop folder.
 
 ```
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/micro612w21_class_root/micro612w21_class/username/day2pm/roary/Abau_genomes_roary_output/gene_presence_absence.csv ~/Desktop/micro612/day2pm
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/micro612w21_class_root/micro612w21_class/username/day2pm/roary/Abau_genomes_roary_output/gene_presence_absence.Rtab ~/Desktop/micro612/day2pm
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/apirani/class6/panaroo/gene_presence_absence.csv ~/Desktop/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/apirani/class6/panaroo/gene_presence_absence.Rtab ~/Desktop/
 ```
 
 > ***i. Prepare and clean data***
