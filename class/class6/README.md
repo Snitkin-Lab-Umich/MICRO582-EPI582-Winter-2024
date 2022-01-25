@@ -126,39 +126,6 @@ Prokka provides you with some basic annotations (e.g. putative function of prote
 
 To get richer annotation of our genome we will apply a tool called Eggnog mapper. Eggnog mapper leverages a database of curated sequences (the Eggnog database), and applies an algorithm to map inputted genes to the most likely evolutionary counterpart (i.e. it's [ortholog](https://www.nature.com/articles/nrg3456)). There is a wide array of annotations that are provided, but two of special importance are [Gene Ontology](https://www.nature.com/articles/nrg3456) (GO) and [KEGG](https://www.genome.jp/kegg/) annotation. GO is an ontology scheme that assigned each gene to a biological process, molecular function and cellular component. One powerful aspect of GO is that it is hierarchical, such that you can categorize the role of genes at different levels (e.g. metabolism -> central carbon metabolism -> glycolysis). KEGG has a multitude of useful databases, but the most commonly used are it's pathway maps, which group genes into biochemical pathways and signalling cascades. 
 
-Set up the Eggnog database directory so that Eggnog mapper knows where to look for the Eggnog Diamond database
-
-```
-export EGGNOG_DATA_DIR=/scratch/epid582w22_class_root/epid582w22_class/shared_data/database/eggnog
-```
-
-We already downloaded Eggnog Diamond database into this directory 
-
-```
-/scratch/epid582w22_class_root/epid582w22_class/shared_data/database/eggnog/
-```
-
-The command that was used to download the database was `download_eggnog_data.py`
-
-Lets check if we can invoke Eggnog executable emapper.py from the command line.
-
-```
-emapper.py -h
-```
-
-
-Lets go to class6 directory and Open annotate_eggnog.sbat file using nano and add this command at the end of slurm script.
-
-```
-emapper.py -i SRR5244781_prokka/SRR5244781_contigs.faa --output SRR5244781_eggnog -m diamond --override --itype proteins --cpu 0
-```
-
-Submit the job using sbatch - we wont submit this job because it takes ~20 minutes to finish this run so instead we will copy the results from Results folder
-
-```
-cp /scratch/epid582w22_class_root/epid582w22_class/shared_data/Results/class6/SRR5244781_eggnog.emapper.annotations ./
-```
-
 The primary output file created by Eggnog mapper is a tab-delimited file with an extension `.emapper.annotations` providing different annotations for each gene. If you examine the file using less you will notice that the first three lines are comments, and the fourth line is a set of column headers. In order to explore specific annotations with Unix commands it would be super useful to know which annotations are on which columns. 
 
 To do this you could tediously count across, but you should know by now that we don't like to do things manually :). So, let's check out a cool Unix trick to get what we want! 
