@@ -242,7 +242,7 @@ less -S gene_presence_absence.csv
 # presence/absence information
 less -S gene_presence_absence.Rtab
 ```
-
+<!---
 **Read matrices into R, generate exploratory plots and query pan-genome**
 
 Make a directory onto your local system
@@ -356,3 +356,5 @@ sum(grepl("hypothetical" , core_annots)) / sum(rowSums(pg_matrix > 0) == 4)
 ```
 
 Why does this make sense?
+
+-->
