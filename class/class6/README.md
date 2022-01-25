@@ -34,7 +34,7 @@ Add this line at the end of your .bashrc file and source it.
 
 ```
 export PATH=$PATH:/scratch/epid582w22_class_root/epid582w22_class/shared_data/bin/prokka/bin/
-export PATH=$PATH:/scratch/epid582w22_class_root/epid582w22_class/shared_data/bin/eggnog-mapper/
+export EGGNOG_DATA_DIR=/scratch/epid582w22_class_root/epid582w22_class/shared_data/database/eggnog
 ```
 
 Let load some perl-modules that prokka requires and invoke prokka's help menu.
