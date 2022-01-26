@@ -142,13 +142,13 @@ grep "^#query" SRR5244781_eggnog.emapper.annotations | tr "\t" "\n" | cat -n
 Next, let's get a sense for how the S. aureus genome is distributed among the different COG functional categories. From the above command you can see that the 21st column is COG functional categories. If you check out the file we provide 'COG_functional_categories.txt', you can see that each functional category is represented by a single letter code, and you can also see what the different categories are. Let's now pipe together some Unix commands we have used before to see all the unique COG categories in the Eggnog annotation file. We are also going to use one new flag (-c with uniq), which will tell us how many times each category occurs.
 
 ```
-grep -v "#" SRR5244781_eggnog.emapper.annotations | cut -f 21 | sort | uniq -c 
+grep -v "#" SRR5244781_eggnog.emapper.annotations | cut -f 7 | sort | uniq -c 
 ```
 
 One thing that's annoying about the above command is that it's in somewhat random order, so it's not easy to see which are the most common COG categories. Lucky for us - Unix can fix that for us! Let's add one more pipe to the 'sort' command, with flags to indicate which column to sort by (-k) and that we'd like to sort by numeric (-n).
 
 ```
-grep -v "#" SRR5244781_eggnog.emapper.annotations | cut -f 21 | sort | uniq -c | sort -n -k 1
+grep -v "#" SRR5244781_eggnog.emapper.annotations | cut -f 7 | sort | uniq -c | sort -n -k 1
 ```
 
 Now we can see how often annotations are observed in the Eggnog file, but one thing that would make this even easier to interpret is if we were also printing out the description of the COG code, so we wouldn't have to remember what they stand for. Essentially, what we want to do is loop through each COG category, print out the name in the lookup file and then count the number of times it occurs in the Eggnog output. How to do something so fancy though? Well, you already have all the tools to accomplish this! To make it more exciting and useful we are going to put these commands into a shell script that we could then use with any Eggnog mapper output file. 
@@ -163,7 +163,7 @@ do
         #GET THE NAME OF THE COG CATEGORY FROM COG_functional_categories.txt
 
 
-        #COUNT THE NUMBER OF OCCURENCES IN COLUMN 21 OF THE E-MAPPER DATA
+        #COUNT THE NUMBER OF OCCURENCES IN COLUMN 7 OF THE E-MAPPER DATA
 
 done
 ```
@@ -179,8 +179,8 @@ do
         #GET THE NAME OF THE COG CATEGORY FROM COG_functional_categories.txt
         grep ^$COG_code $2;
 
-        #COUNT THE NUMBER OF OCCURENCES IN COLUMN 21 OF THE E-MAPPER DATA
-        cut -f 21 $1 | grep $COG_code | wc -l
+        #COUNT THE NUMBER OF OCCURENCES IN COLUMN 7 OF THE E-MAPPER DATA
+        cut -f 7 $1 | grep $COG_code | wc -l
 
 done
 ```
