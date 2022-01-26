@@ -64,6 +64,7 @@
 #### [Class 7 – Resistome analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class7/README.md)
 ***
 
+- [Determine which genomes contain KPC genes using BLAST](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class7/README.md#determine-which-genomes-contain-KPC-genes-using-blast)
 - [Identify antibiotic resistance genes with ARIBA directly from paired end reads](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class7/README.md#identify-antibiotic-resistance-genes-with-ariba-directly-from-paired-end-reads)
 - Explore ARIBA summary reports
 
