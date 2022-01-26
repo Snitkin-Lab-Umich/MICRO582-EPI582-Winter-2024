@@ -6,15 +6,103 @@ Goal
 
 In class6, we learned how to perform basic and functional genome annotation using Prokka and Eggnog. Now we will up the ante and do some more sophisticated comparative genomics analyses!
 
-- We will use the tool [ARIBA - Antimicrobial Resistance Identification By Assembly](https://github.com/sanger-pathogens/ariba/wiki) to identify the complete antibiotic resistome in our genomes.
-- Explore Ariba summary reports to gain insights into the types of resistance genes that our genome contains. 
-- Then, we will move beyond antibiotic resistance, and look at the entire pan genome structure of our dataset.
+- First, we will create custom BLAST databases to identify specific antibiotic resistance genes of interest in a set of genomes. 
+- Second, We will use the tool [ARIBA - Antimicrobial Resistance Identification By Assembly](https://github.com/sanger-pathogens/ariba/wiki) to identify the complete antibiotic resistome in our genomes by mapping reads to CARD database.
+- Then, we will explore Ariba summary reports to gain insights into the types of resistance genes that our genome contains. 
 
 ![roadmap](comp_genomics.png)
 
+For BLAST and ARIBA, we will be looking at 8 *Klebsiella pneumoniae* genomes from human and environmental sources. Six of these genomes are from [this paper](https://www.pnas.org/content/112/27/E3574), and the other two are sequences from our lab. We are interested in learning more about potential differences in the resistomes of human and environmental isolates. 
 
-For our analysis today, We will be looking at 8 *Klebsiella pneumoniae* genomes from human and environmental sources. Six of these genomes are from [this paper](https://www.pnas.org/content/112/27/E3574), and the other two are sequences from our lab. We are interested in learning more about potential differences in the resistomes of human and environmental isolates. 
+Determine which genomes contain KPC genes using [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi)
+----------------------------------------------------
 
+![blast](comp_genomics_details_blast.png)
+Before comparing full genomic content, lets start by looking for the presence of particular genes of interest. Some *K. pneumoniae* harbor a KPC gene that confers resistance to carbapenems, a class of antibiotics of last resort (more information [here](https://www.sciencedirect.com/science/article/pii/S1473309913701907?via%3Dihub) and [here](https://academic.oup.com/jid/article/215/suppl_1/S28/3092084)). 
+
+We will see if any of our samples have a KPC gene, by comparing the genes in our genomes to KPC genes extracted from the antibiotic resistance database ([ARDB](http://ardb.cbcb.umd.edu/)). These extracted genes can be found in the file `blast/data/blast_kleb/ardb_KPC_genes.pfasta`, which we will use to generate a BLAST database.
+
+First, change directories to the working directory and copy class7 directory:
+
+```
+wd
+
+cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class7 ./ 
+
+cd class7/blast
+```
+
+> ***i. Run makeblastdb on the file of KPC genes to create a BLAST database.***
+
+makeblastdb takes as input: 
+
+1) an input fasta file of protein or nucleotide sequences (`data/blast_kleb/ardb_KPC_genes.pfasta`) and 
+
+2) a flag indicating whether to construct a protein or nucleotide database (in this case protein: `-dbtype prot`).
+
+```
+makeblastdb -in data/blast_kleb/ardb_KPC_genes.pfasta -dbtype prot
+
+```
+
+> ***ii. BLAST K. pneumoniae protein sequences against our custom KPC database.***
+
+Run BLAST! 
+
+The input parameters are: 
+
+1) query sequences (`-query data/blast_kleb/kpneumo_all.pfasta`), 
+
+2) the database to search against (`-db data/blast_kleb/ardb_KPC_genes.pfasta`), 
+
+3) the name of a file to store your results (`-out KPC_blastp_results.tsv`), 
+
+4) output format (`-outfmt 6`), 
+
+5) e-value cutoff (`-evalue 1e-100`), 
+
+6) number of database sequences to return (`-max_target_seqs 1`) (Note that when using large databases, this might not give you the best hit. See [here](https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/bty833/5106166) for more details.)
+
+
+```
+blastp -query data/blast_kleb/kpneumo_all.pfasta -db data/blast_kleb/ardb_KPC_genes.pfasta -out KPC_blastp_results.tsv -outfmt 6 -evalue 1e-100 -max_target_seqs 1
+```
+
+Use `less` to look at `KPC_blastp_results.tsv`. Which genomes have a KPC gene?
+
+```
+less KPC_blastp_results.tsv
+```
+
+[Here](http://www.metagenomics.wiki/tools/blast/blastn-output-format-6) is more information about the content for each of the output file columns.
+
+- **Exercise:** In this exercise you will try a different type of blasting – blastx. Blastx compares a nucleotide sequence to a protein database by translating the nucleotide sequence in all six frames and running blastp. Your task is to determine which Enterococcus genomes are vancomycin resistant (VRE, vs. VSE) by blasting against a database of van genes. The required files are located in `blast/data/blast_ent` folder in the `day2pm` directory.
+
+Your steps should be:
+
+1) Concatenate the `data/blast_ent/*.fasta` files (VRE/VSE genomes) into a single file (your blast query file) using the `cat` command.
+2) Create a blastp database from `data/blast_ent/ardb_van.pfasta`
+3) Run blastx
+4) Verify that only the VRE genomes hit the database
+5) For extra credit, determine which van genes were hit by using grep to search for the hit gene ID in `data/blast_ent/ardb_van.pfasta`
+
+<details>
+  <summary>Solution</summary>
+  
+```
+cd blast/data/blast_ent
+
+# Make sure you are in blast_ent folder
+cat *.fasta > VRE_VSE_genomes.fasta
+
+makeblastdb -in ardb_van.pfasta -dbtype prot
+
+blastx -query VRE_VSE_genomes.fasta -db ardb_van.pfasta -out van_blastp_results.tsv -outfmt 6 -evalue 1e-100 -max_target_seqs 1
+
+```
+</details>
+
+- **Exercise:** Experiment with the `–outfmt` parameter, which controls different output formats that BLAST can produce. You can use `blastp -help | less` to get more information about the different output formats. You can search for the `-outfmt` flag by typing `/outfmt` and then typing `n` to get to the next one.
 
 Identify antibiotic resistance genes with [ARIBA](https://github.com/sanger-pathogens/ariba) directly from paired end reads
 ----------------------------------------------------------
@@ -39,16 +127,9 @@ The fastq reads are in the `ariba/data/kpneumo_fastq/` directory.
 
 ```
 # navigate to ariba directory
-cd /scratch/micro612w21_class_root/micro612w21_class/username/day2pm
+wd
 
-# or
-
-d2a
-
-cd ariba
-
-# load conda environment if not already loaded
-conda activate day2pm
+cd class7/ariba
 
 # look at ariba commands
 less ariba.sbat
@@ -81,13 +162,12 @@ The ARIBA summary generates three output:
 Lets copy these  files, along with a metadata file, to the local system using cyberduck or scp.
 
 ```
-mkdir ~/Desktop/micro612
-mkdir ~/Desktop/micro612/day2pm
+mkdir ~/Desktop/epid582w22_class
+mkdir ~/Desktop/epid582w22_class/class7
 
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/micro612w21_class_root/micro612w21_class/username/day2pm/ariba/results/kpneumo_card* ~/Desktop/micro612/day2pm
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/micro612w21_class_root/micro612w21_class/username/day2pm/ariba/data/kpneumo_source.tsv ~/Desktop/micro612/day2pm
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/micro612w21_class_root/micro612w21_class/username/day2pm/ariba/data/mlst_typing/kpneumo_mlst.tsv ~/Desktop/micro612/day2pm
-
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class7/ariba/results/kpneumo_card* ~/Desktop/epid582w22_class/class7
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class7/ariba/data/kpneumo_source.tsv ~/Desktop/epid582w22_class/class7
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class7/ariba/data/mlst_typing/kpneumo_mlst.tsv ~/Desktop/epid582w22_class/class7
 ```
 
 Drag and drop these two files onto the [Phandango](http://jameshadfield.github.io/phandango/#/) website. What types of resistance genes do you see in these *Klebsiella* genomes? 
@@ -129,7 +209,7 @@ Go to your R studio and overlay MLST metadata as an additional row annotation to
 
 ```
 #read in MLST data
-annots_mlst = read.table('~/Desktop/micro612/day2pm/kpneumo_mlst.tsv',row.names=1)
+annots_mlst = read.table('~/Desktop/epid582w22_class/class7/kpneumo_mlst.tsv',row.names=1)
 
 #make sure order of genomes is the same as source annotation
 annots_mlst$ST = annots_mlst[row.names(annots),]
