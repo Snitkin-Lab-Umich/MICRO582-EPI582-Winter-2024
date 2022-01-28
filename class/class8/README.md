@@ -16,17 +16,25 @@ Goal
 Download datasets from NCBI using SRA toolkit
 ------------------------------------------------
 
+Lets start an interactive session to start the download of the subset of data.
+
 ```
 islurm
 
 wd
 
 mkdir class8
+
 cd class8/
+
+#Create condo environment and install SRA toolkit, mashtree
+conda create -n class8 -c bioconda sra-tools mashtree
 
 conda activate class8
 
 fasterq-dump -h
+
+mashtree -h
 
 # Use this or just provide them with the SRA accessions. Whichever makes it less confusing. 
 # Esearch/Esummary/Xtract can be a little intimidating at first.
@@ -44,13 +52,11 @@ Compare genomes using Mashtree
 ```
 islurm
 
+#Fastest way to get the Mashtree
 time mashtree --numcpus 8 *.fastq --outtree mashtree_faster.dnd --outmatrix mashtree_faster.tsv
 
 #real	6m49.139s
 #user	6m32.699s
 #sys	0m12.186s
 
-time mashtree --numcpus 8 *.fastq --outtree mashtree_accurate.dnd --outmatrix mashtree_accurate.tsv --mindepth 0
-
-time mashtree_bootstrap.pl --reps 100 --numcpus 8 --min-depth 0 --outtree mashtree_bootstrap.dnd --outmatrix mashtree_bootstrap.tsv --mindepth 0 *.fastq
 ```
