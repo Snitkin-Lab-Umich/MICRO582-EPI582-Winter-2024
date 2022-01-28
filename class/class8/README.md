@@ -11,6 +11,7 @@ Goal
 ### Add NCBI database stucture descriptions.
 ### Difference between Bioproject, Biosample, SRA accession.
 
+![roadmap](comp_genomics.png)
 
 Download data for a Bioproject using SRA toolkit
 ------------------------------------------------
