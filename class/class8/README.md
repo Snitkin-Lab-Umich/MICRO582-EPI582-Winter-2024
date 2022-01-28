@@ -13,6 +13,6 @@ Goal
 
 ![roadmap](comp_genomics.png)
 
-Download data for a Bioproject using SRA toolkit
+Download datasets from NCBI using SRA toolkit
 ------------------------------------------------
 
