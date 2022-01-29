@@ -119,7 +119,7 @@ ARIBA reports which of the reference sequences were found, plus detailed informa
 
 ARIBA is compatible with various databases and also contains a utility to download these databases - argannot, card, megares, plasmidfinder, resfinder, srst2_argannot, vfdb_core. 
 
-Today, we will be working with the [card](https://card.mcmaster.ca/) database (`ariba/data/CARD/` in your `class7` directory).
+Today, we will be working with the [CARD](https://card.mcmaster.ca/) database (`ariba/data/CARD/` in your `class7` directory).
 
 Now let's look at the full spectrum of antibiotic resistance genes in our *Klebsiella* genomes!
 
@@ -161,6 +161,7 @@ The ARIBA summary generates three output:
 
 2. `kpneumo_card*.phandango.{csv,tre}` that allow you to view the results in [Phandango](http://jameshadfield.github.io/phandango/#/). You can drag-and-drop these files straight into Phandango.
 
+<!---
 Lets copy these  files, along with a metadata file, to the local system using cyberduck or scp.
 
 ```
@@ -284,4 +285,5 @@ bash scripts/summarize_mlst.sh results/mlst
 ```
 </details>
 
+--->
 
