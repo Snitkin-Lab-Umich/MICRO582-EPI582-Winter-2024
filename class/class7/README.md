@@ -27,11 +27,21 @@ We will see if any of our samples have a KPC gene, by comparing the genes in our
 First, change directories to the working directory and copy class7 directory:
 
 ```
+
 wd
 
 cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class7 ./ 
 
 cd class7/blast
+
+```
+
+Now activate the class7 conda environment.
+
+```
+# If you haven't installed class7 then install it with: conda create -n class7 -c bioconda blast ariba
+
+conda activate class7
 ```
 
 > ***i. Run makeblastdb on the file of KPC genes to create a BLAST database.***
@@ -53,7 +63,7 @@ Run BLAST!
 
 The input parameters are: 
 
-1) query sequences (`-query data/blast_kleb/kpneumo_all.pfasta`), 
+1) query sequences - These are protein sequences from all the 8 genomes created by concatenating each Prokka \*.faa output files (`-query data/blast_kleb/kpneumo_all.pfasta`), 
 
 2) the database to search against (`-db data/blast_kleb/ardb_KPC_genes.pfasta`), 
 
@@ -67,6 +77,8 @@ The input parameters are:
 
 
 ```
+# Takes around 0m43.271s
+
 blastp -query data/blast_kleb/kpneumo_all.pfasta -db data/blast_kleb/ardb_KPC_genes.pfasta -out KPC_blastp_results.tsv -outfmt 6 -evalue 1e-100 -max_target_seqs 1
 ```
 
