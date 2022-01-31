@@ -73,7 +73,7 @@ Compare genomes using Mashtree
 There are many ways to process these sequence data and perform genome comparison. But using Mash distances and generating a tree based on this Mash distances is the fastest way to get a quick and dirty picture of how each of these samples are related to each other. Mash stands for MinhASH which is the name of algorithm that this disctance estimation is based on. 
 
 
-![mash](mash.png)
+![mash](Mash.png)
 
 ```
 islurm
