@@ -80,6 +80,8 @@ There are various ways to process these sequence data and perform genome compari
 ```
 cp /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class8/mashtree.sbat ./
 
+conda activate class8_mashtree
+
 nano mashtree.sbat
 
 sbatch mashtree.sbat
