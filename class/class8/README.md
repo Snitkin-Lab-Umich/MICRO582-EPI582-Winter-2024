@@ -46,7 +46,7 @@ for accession in $(cut -f2 PRJEB2111-info_30_samples.tsv); do printf "\n  Workin
 Or
 
 cut -f2 PRJEB2111-info_30_samples.tsv | parallel fasterq-dump {}
-# The parallel command will finish in 7m12.465s so this is a better option if we decide to run in class.
+# The parallel command will finish in 7m12.465s so this is a better option if we decide to run in class. Can make it fast if we run more cores on islurm.
 
 ls
 ```
