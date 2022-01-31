@@ -70,11 +70,9 @@
 #### [Class 8 – Data download and genome comparison](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class8/README.md)
 ***
 
-- Download datasets from NCBI using SRA toolkit
-- Assess quality of downloaded dataset using fastQC, QUAST, multiQC
-- Perform in silico MLST detection using ARIBA
-- Perform Genome comparison using 
-- Visualize data using iTol
+- [Download datasets from NCBI using SRA toolkit](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class8/README.md#download-datasets-from-ncbi-using-sra-toolkit)
+- [Compare genomes using Mashtree](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class8/README.md#compare-genomes-using-mashtree)
+- [Visualize data and overlay metadata using iTol](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class8/README.md#visualize-data-and-overlay-metadata-using-itol)
 
 #### [Class 9 – Reference based variant calling](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class10/README.md)
 ***
