@@ -23,13 +23,27 @@ Each SRA record is given a unique accession number based on the source database 
 - Experiment (e.g., the SRA record for a specific experiment or run(s)): SRX#, ERX#, or DRX#
 - Run (e.g., the SRA record for a specific run): SRR#, ERR#, or DRR#
 
-A BioProject is a collection of biological data related to a large-scale research effort such as genome sequencing, epigenomic analyses, genome-wide association studies (GWAS) and variation analyses. it provides a single place to find links to the diverse data types generated for that research project. Whereas, The BioSample database contains descriptions of biological source materials used in experimental assays.
+A BioProject is a collection of biological data related to a large-scale research effort such as genome sequencing, epigenomic analyses, genome-wide association studies (GWAS) and variation analyses. it provides a single place to find links to the diverse data types generated for that research project. Whereas, The BioSample database contains descriptions of biological source materials used in experimental assays. Each Biosample under a Bioproject can be accessed through a SRA Run accession number that lets you download the sequencing data as well as the metadata associated with it.
 
+NCBI provides a suite of command line tools called Entrez Direct also known as E-utilities to access the metadata stored in its various databases. The three main tools of E-utilities are - esearch, esummary and xtract that lets you query any of the NCBI databases and extract the metadata associated with the query. The query can be anything(Bioproject, Biosample, SRA accession, Genbank assembly accession). 
 
+Here is the command that we used to extract metadata information for the research study which performed a detailed genomic analysis of K. pneumoniae's diversity, population structure, virulence, and antimicrobial resistance around the world. 
+
+```
+conda activate class8_sratools
+
+esearch -h
+
+esearch -db sra -query PRJEB2111 | esummary | xtract -pattern DocumentSummary -element Experiment@acc,Run@acc,Platform@instrument_model,Sample@acc | head -n30 > PRJEB2111-info_30_samples.tsv
+```
+
+The Bioproject associated with the study is PRJEB2111. Esearch will return a Edirect object for your query that is then summarized by esummary in XML format. Xtract is then used to extract the metadata elements from this XML format.
 
 
 Download datasets from NCBI using SRA toolkit
 ------------------------------------------------
+
+We will now use fasterq-dump tool available from SRA toolkit to download sequencing data for each of the SRA runs that we just saved to PRJEB2111-info_30_samples.tsv file.
 
 Lets start an interactive session to start the download of the subset of data.
 
@@ -42,19 +56,9 @@ mkdir class8
 
 cd class8/
 
-#Create condo environment and install SRA toolkit, mashtree
-conda create -n class8 -c bioconda sra-tools mashtree
-
-conda activate class8
+conda activate class8_sratools
 
 fasterq-dump -h
-
-mashtree -h
-
-# Use this or just provide them with the SRA accessions. Whichever makes it less confusing. 
-# Esearch/Esummary/Xtract can be a little intimidating at first.
-# Lets keep it simple and just provide them with the 3o SRA accession from PRJEB2111 stucy.
-# esearch -db sra -query PRJEB2111 | esummary | xtract -pattern DocumentSummary -element Experiment@acc,Run@acc,Platform@instrument_model,Sample@acc | head -n30 > PRJEB2111-info_30_samples.tsv
 
 for accession in $(cut -f2 PRJEB2111-info_30_samples.tsv); do printf "\n  Working on: ${accession}\n\n"; fasterq-dump ${accession};  done
 
