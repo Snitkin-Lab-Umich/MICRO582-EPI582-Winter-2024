@@ -4,14 +4,29 @@ Class 8 – Data download and genome comparison
 Goal
 ----
 
-- In this class, we will learn about NCBI public database and how to download entire datasets peratianing to a research study using SRAtoolkit.
-- We will then apply the QC skills that we learned in our previous class such as FastQC and MultiQC to assess the downloaded dataset.
+- In this class, we will learn about NCBI public database and how to download entire datasets pertianing to a research study using SRAtoolkit.
+- We will then apply the QC skills that we learned in our previous class such as FastQC and MultiQC to assess the downloaded dataset. (Need to decide if we are going this route)
 - We will then do a quick genomic comparison of the downloaded dataset using Mashtree. 
 
-### Add NCBI database stucture descriptions.
-### Difference between Bioproject, Biosample, SRA accession.
+### Databases hosted by NCBI
 
 ![SRA](anatomy_of_SRA_submission.png)
+
+The National Center for Biotechnology Information (NCBI) provides bioinformatics tools and hosts approximately 40 online literature and molecular biology databases. Some of the most used and popular databases are PubMed, Genbank, SRA etc. MOst of the NCBI databases are linked together through unique accession numbers and therfore provide a comprehensive resource for biomedical research. For this class, we will focusing on SRA - Sequence read archive database which is the largest publicly available repository of high throughput raw sequencing and alignment data. 
+
+SRA can be searched independently, or SRA records associated with a specific BioProject or BioSample accessions are linked from their respective records.
+
+Each SRA record is given a unique accession number based on the source database (SRA, European Bioinformatics Institute (EBI), or DNA Data Bank of Japan (DDBJ)), and the type of record (Study, Sample, Experiment, Run):
+
+- Study (e.g., the SRA record associated with a specific BioProject): SRP#, ERP#, or DRP#
+- Sample (e.g.,the SRA record associated with a specific BioSample): SRS#, ERS#, or DRS#
+- Experiment (e.g., the SRA record for a specific experiment or run(s)): SRX#, ERX#, or DRX#
+- Run (e.g., the SRA record for a specific run): SRR#, ERR#, or DRR#
+
+A BioProject is a collection of biological data related to a large-scale research effort such as genome sequencing, epigenomic analyses, genome-wide association studies (GWAS) and variation analyses. it provides a single place to find links to the diverse data types generated for that research project. Whereas, The BioSample database contains descriptions of biological source materials used in experimental assays.
+
+
+
 
 Download datasets from NCBI using SRA toolkit
 ------------------------------------------------
