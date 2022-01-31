@@ -43,6 +43,11 @@ mashtree -h
 
 for accession in $(cut -f2 PRJEB2111-info_30_samples.tsv); do printf "\n  Working on: ${accession}\n\n"; fasterq-dump ${accession};  done
 
+Or
+
+cut -f2 PRJEB2111-info_30_samples.tsv | parallel fasterq-dump {}
+# The parallel command will finish in 7m12.465s so this is a better option if we decide to run in class.
+
 ls
 ```
 
