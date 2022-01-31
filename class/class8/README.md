@@ -34,7 +34,7 @@ conda activate class8_sratools
 
 esearch -h
 
-esearch -db sra -query PRJEB2111 | esummary | xtract -pattern DocumentSummary -element Experiment@acc,Run@acc,Platform@instrument_model,Sample@acc | head -n30 > PRJEB2111-info_30_samples.tsv
+esearch -db sra -query PRJEB2111 | esummary | xtract -pattern DocumentSummary -element Experiment@acc,Run@acc,Platform@instrument_model,Sample@acc > PRJEB2111-info.tsv
 ```
 
 The Bioproject associated with the study is PRJEB2111. Esearch will return a Edirect object for your query that is then summarized by esummary in XML format. Xtract is then used to extract the metadata elements from this XML format.
@@ -43,13 +43,10 @@ The Bioproject associated with the study is PRJEB2111. Esearch will return a Edi
 Download datasets from NCBI using SRA toolkit
 ------------------------------------------------
 
-We will now use fasterq-dump tool available from SRA toolkit to download sequencing data for each of the SRA runs that we just saved to PRJEB2111-info_30_samples.tsv file.
+We will now use fasterq-dump tool available from SRA toolkit to download sequencing data for each of the SRA runs that we just saved to PRJEB2111-info.tsv file.
 
-Lets start an interactive session to start the download of the subset of data.
 
 ```
-islurm
-
 wd
 
 mkdir class8
@@ -60,18 +57,23 @@ conda activate class8_sratools
 
 fasterq-dump -h
 
-for accession in $(cut -f2 PRJEB2111-info_30_samples.tsv); do printf "\n  Working on: ${accession}\n\n"; fasterq-dump ${accession};  done
+# This is how the data was downloaded. We have already downloaded the data in /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class8
+for accession in $(cut -f2 PRJEB2111-info_subset.tsv); do printf "\n  Working on: ${accession}\n\n"; fasterq-dump ${accession};  done
 
 Or
 
-cut -f2 PRJEB2111-info_30_samples.tsv | parallel fasterq-dump {}
-# The parallel command will finish in 7m12.465s so this is a better option if we decide to run in class. Can make it fast if we run more cores on islurm.
+cut -f2 PRJEB2111-info_subset.tsv | parallel fasterq-dump {}
 
 ls
 ```
 
 Compare genomes using Mashtree
 ------------------------------
+
+There are many ways to process these sequence data and perform genome comparison. But using Mash distances and generating a tree based on this Mash distances is the fastest way to get a quick and dirty picture of how each of these samples are related to each other. Mash stands for MinhASH which is the name of algorithm that this disctance estimation is based on. 
+
+
+![mash](mash.png)
 
 ```
 islurm
