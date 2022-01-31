@@ -70,20 +70,19 @@ ls
 Compare genomes using Mashtree
 ------------------------------
 
-There are many ways to process these sequence data and perform genome comparison. But using Mash distances and generating a tree based on this Mash distances is the fastest way to get a quick and dirty picture of how each of these samples are related to each other. Mash stands for MinhASH which is the name of algorithm that this disctance estimation is based on. 
+There are various ways to process these sequence data and perform genome comparison. But using Mash distances and generating a tree based on this Mash distances is the fastest way to get a quick and dirty picture of how each of these samples are related to each other. Mash stands for MinhASH which is the name of algorithm that this disctance estimation is based on. In the min-hash algorithm, all kmers are recorded and transformed into integers using hashing and a Bloom filter (Bloom, 1970). These hashed kmers are sorted and only the first several kmers are retained. The kmers that appear at the top of the sorted list are collectively called the sketch. Any two sketches can be compared by counting how many hashed kmers they have in common. Because min-hash creates distances between any two genomes, min-hash values can be used to rapidly cluster genomes into trees using the neighbor-joining algorithm. 
 
 
 ![mash](Mash.png)
 
+
+
 ```
-islurm
+cp /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class8/mashtree.sbat ./
 
-#Fastest way to get the Mashtree
-time mashtree --numcpus 8 *.fastq --outtree mashtree_faster.dnd --outmatrix mashtree_faster.tsv
+nano mashtree.sbat
 
-#real	6m49.139s
-#user	6m32.699s
-#sys	0m12.186s
+sbatch mashtree.sbat
 
 ```
 
