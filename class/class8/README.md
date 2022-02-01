@@ -79,7 +79,7 @@ conda activate class8_sratools
 fasterq-dump -h
 ```
 
-# This is how the data was downloaded. We have already downloaded the data in /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class8/fastq_download
+*This is how the data was downloaded. We have already downloaded the data in /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class8/fastq_download*
 
 We have put the commands to download the genomes of interest in the sbat script download.sbat. Let's look at the code that is doing the work for us:
 
@@ -129,15 +129,67 @@ The kmer distances that are being computed are called Mash distances. Mash stand
 ![mash](Mash.png)
 
 
+*We have already run mashtree for you, but here is how we did it
 
 ```
-cp /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class8/mashtree.sbat ./
-
+#Activate the environment so we can run mashtree
 conda activate class8_mashtree
 
+#Edit the .sbat file to put in your email address
 nano mashtree.sbat
 
+#Submit the job to the cluster
 sbatch mashtree.sbat
+```
+
+
+Determine antibiotic resistance gene content with ARIBA
+-------------------------------------------------------
+Last class we ran ARIBA on a subset of the genomes in this dataset to visualized the output in Phandango. Here we will run on the larger genomic dataset that we downloaded, and then summarize the results to count the number of antibiotic resistance genes in each genome.
+
+*We have run ARIBA, but here is how we did it*
+
+To save time we have run ARIBA for you, but want to take some time to look at how this was done. The commands are in ariba.sbat, but let's look at the code that is actually running ARIBA insight the script:
+
+```
+# List forward end fastq files in the directory and save the filenames into the variable samples. 
+samples=$(ls fastq_download/*1.fastq) #forward reads
+
+# Set ARIBA dabase directory to the CARD database that we downloaded in the below folder
+db_dir=data/CARD/CARD_db #reference database
+
+# Make directory for ariba CARD and MLST results
+mkdir ariba_results
+
+# Run for loop, where it generates ARIBA CARD and MLSt commands for each of the forward end files.
+for samp in $samples;
+do
+
+        echo $samp
+
+        #Get the name of the reverse reads by swapping 1.fastq for 2.fastq
+        samp2=${samp//1.fastq/2.fastq} #reverse reads   
+
+        #Create output directory for the name of each sample
+        outdir=ariba_results/$(echo ${samp//_1.fastq/} | cut -d/ -f3)
+
+        #Run ARIBA
+        echo "ariba run --threads 4 --force $db_dir $samp $samp2 $outdir"
+        ariba run --threads 4 --force $db_dir $samp $samp2 $outdir
+
+done
+```
+
+Most of what's going on here we have seen before. However, there are a couple of new concepts that are important to highlight:
+
+1. () - We again are using the parentheses to put the results of a Unix command in a variable. In this case, we are getting the forward reads from our sequenced genomes.
+2. Getting the reverse reads - Our for loop is going through our list of forward reads. However, ARIBA wants the forward and reverse reads - so what are we to do? Well, we are taking advantage of the fact that forward and reverse reads share the same prefix, and just differ in whether they end in '_1.fastq' or '_2.fastq'. Therefore, what we do is apply a Unix command to search for '_1.fastq' and replace it with '_2.fastq'.
+3. Creating output directories for each genome - Since ARIBA creates the same output files for each run, we need to put the results in different directories. So, what we do here is name the ouptut directories by the name of the genome. To accomplish this we use this search and replace feature, but this time replace "_1.fastq" with "" (i.e. nothing).
+
+One more trick if you are interested - to enable ARIBA jobs to be run on multiple processors we used the parallel command that we used for data download above. Check out ariba_parallel.sbat to see how we did it.
+
+After running ARIBA, we need to run the summarize function to assemble the results into a single spreadsheet. We did that with the following command:
 
 ```
 
+```
