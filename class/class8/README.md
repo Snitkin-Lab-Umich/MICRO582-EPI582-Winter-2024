@@ -210,3 +210,29 @@ ariba_data$count = rowSums(ariba_data == 'yes')
 write.csv(ariba_data[,c('name', 'count')], 'ariba_amr_count.csv',
           quote = FALSE, row.names = FALSE)
 ```
+
+Visualize our tree and metadata using iTOL
+------------------------------------------
+Now we are ready to put it all together and visualize the tree we built from our downloaded genomes, and overlay some meta-data on resistance gene content and sample type. In subsequent sessions we will learn how to visualize phylogenies and meta-data in R. This is preferable for a few reasons:
+1. You can avoid manual steps and therefore perform reproducible analyses
+2. You often want to visualize similar types of data on a tree (e.g. location/facility of isoaltion), so it would be nice to automate this
+
+However, since we haven't gotten into R yet, we are going to use another commonly used tool for making pretty trees called [iTOL](https://itol.embl.de/). iTOL is actually quite nice, and allows you to easily customize your tree visualization in a drag and drop interface. In addition, it allows you to add annotations to your tree in a semi-automated way by creating these annotation files that can be drag and dropped onto your tree ([template files](https://itol.embl.de/help/templates.zip)). iTOL has lot's of functionality, but since I am a novice, I will just walk you through some basics :).
+
+To get ready for iTOL bring the following files to your computer using cyberduck:
+1. dataset_simplebar_ariba_amr_count.txt - Located in the itol_files directory, this contains the AMR gene counts for each genome to be plotted as a barplot
+2. dataset_symbols_inf_status.txt - Located in the itol_files directory, this contains information on the origin of each isolate, that I got from the supplementary material in the manuscript
+3. mashtree_accurate.dnd - The newick formatted phylogenetic tree created by Mashtree
+
+Now, do the following to view our tree:
+1. Go to the [iTOL](https://itol.embl.de/) website and click on Upload on the top menu
+2. Drag your tree file
+3. Drag your annotation files
+4. Enjoy!
+
+A couple of things we notice by viewing our data this way:
+1. Human and bovine isolates are generally in genetically distinct groups, suggesting niche adaptation
+2. Human infections form different clusters on the tree, indicating multiple lineages of Klebsiella capable of causing human infections
+3. Human carrier and infection isolates can be seen clustered together, suggesting that a given strain can either colonize or cause infection
+4. The number of antibiotic resistance genes appears on average larger in human associated isolates, which is consistent with the results in the manuscript.
+
