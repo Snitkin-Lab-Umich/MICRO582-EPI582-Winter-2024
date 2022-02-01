@@ -191,5 +191,22 @@ One more trick if you are interested - to enable ARIBA jobs to be run on multipl
 After running ARIBA, we need to run the summarize function to assemble the results into a single spreadsheet. We did that with the following command:
 
 ```
+ariba summary --preset minimal ariba_analysis/kpneumo_card_minimal_results ariba_analysis/*/report.tsv
+```
 
+Lastly, we took the file kpneumo_card_minimal_results.csv into R and counted the number of antibiotic resistance genes for each genome. This is super easy, and we will see how we did this once we start using R, but here are the commands if you want a sneak peak
+
+```
+#READ IN THE ARIBA DATA
+ariba_data = read.csv('kpneumo_card_minimal_results.csv')
+
+#MAKE THE NAMES OF THE GENOMES CONSITENT WITH THE MASHTREE
+ariba_data$name = gsub("$", "_1", ariba_data$name)
+
+#COUNT THE NUMBER OF ANTIBIOTIC RESISTANCE GENES
+ariba_data$count = rowSums(ariba_data == 'yes')
+
+#WRITE THE COUNTS TO A FILE
+write.csv(ariba_data[,c('name', 'count')], 'ariba_amr_count.csv',
+          quote = FALSE, row.names = FALSE)
 ```
