@@ -8,6 +8,31 @@ Goal
 - We will then do a quick genomic comparison of the downloaded dataset using Mashtree. 
 - Finally, we will visualize our rough phylogeny and associated meta-data in iTOL
 
+#### Set up conda environment
+
+We will be setting up two environments for the class today. class8_sratools will install SRA toolkit that we will use to extract metadata information from NCBI database and download the samples that we will then compare with Mashtree using class8_mashtree environment.
+
+Lets create two environments using the YML files MICRO582_class8_sratools.yml and MICRO582_class8_mashtree.yml.
+
+```
+# class8_sratools environment
+conda env create -f /scratch/epid582w22_class_root/epid582w22_class/shared_data/conda_envs/MICRO582_class8_sratools.yml
+
+conda activate class8_sratools
+
+esearch -h
+
+fasterq-dump -h
+
+# class8_mashtree environment
+conda env create -f /scratch/epid582w22_class_root/epid582w22_class/shared_data/conda_envs/MICRO582_class8_mashtree.yml
+
+conda activate class8_mashtree
+
+mashtree -h
+```
+If you can see the help menu for each of these tools then you are all set for today's analysis.
+
 ### Databases hosted by NCBI
 
 ![SRA](anatomy_of_SRA_submission.png)
@@ -101,22 +126,10 @@ done
 In essence, we have seen this before, but there are two new concepts that are worth highlighting - the use of () and {}.
 
 1. () - The commands inside parentheses will be execute. So in the example above the loop list gets the second column of the file PRJEB2111-info_subset.tsv, which contains the accession IDs we want to download
-2. {} - The curly braces are used to indicate where the name of a variable beging and end. They are not always neccesary, but can prevent problems from occuring when it is not obvious where a variable name ends. Below is an example where the curly braces are neccesary:
-
-```
-#Create a new variable test, doesn't matter if you use curly braces to print it
-test=10
-echo $test
-echo ${test}
-
-#However, in these two cases you need the curly braces to have the desired outcome
-append=${test}_1.fastq
-test2=${append//1.fastq/2.fastq}
-echo ${test2}
-```
+2. {} - The curly braces are used to indicate where the name of a variable beging and end. They are not always neccesary, but can prevent problems from occuring when it is not obvious where a variable name ends
 
 
-The above command for fasterq-dump is a bit drawn out for illustrative purposes. However, in practice we want to take advantage of the computing power of Great Lakes and the existance of multi-processor nodes. To do this we can use the below shortcut which downloads the sample IDs of interest in parallel!
+The above command is a bit drawn out for illustrative purposes. However, in practice we want to take advantage of the computing power of Great Lakes and the existance of multi-processor nodes. To do this we can use the below shortcut which downloads the sample IDs of interest in parallel!
 
 ```
 cut -f2 PRJEB2111-info_subset.tsv | parallel fasterq-dump {}
