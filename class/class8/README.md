@@ -101,10 +101,22 @@ done
 In essence, we have seen this before, but there are two new concepts that are worth highlighting - the use of () and {}.
 
 1. () - The commands inside parentheses will be execute. So in the example above the loop list gets the second column of the file PRJEB2111-info_subset.tsv, which contains the accession IDs we want to download
-2. {} - The curly braces are used to indicate where the name of a variable beging and end. They are not always neccesary, but can prevent problems from occuring when it is not obvious where a variable name ends
+2. {} - The curly braces are used to indicate where the name of a variable beging and end. They are not always neccesary, but can prevent problems from occuring when it is not obvious where a variable name ends. Below is an example where the curly braces are neccesary:
+
+```
+#Create a new variable test, doesn't matter if you use curly braces to print it
+test=10
+echo $test
+echo ${test}
+
+#However, in these two cases you need the curly braces to have the desired outcome
+append=${test}_1.fastq
+test2=${append//1.fastq/2.fastq}
+echo ${test2}
+```
 
 
-The above command is a bit drawn out for illustrative purposes. However, in practice we want to take advantage of the computing power of Great Lakes and the existance of multi-processor nodes. To do this we can use the below shortcut which downloads the sample IDs of interest in parallel!
+The above command for fasterq-dump is a bit drawn out for illustrative purposes. However, in practice we want to take advantage of the computing power of Great Lakes and the existance of multi-processor nodes. To do this we can use the below shortcut which downloads the sample IDs of interest in parallel!
 
 ```
 cut -f2 PRJEB2111-info_subset.tsv | parallel fasterq-dump {}
