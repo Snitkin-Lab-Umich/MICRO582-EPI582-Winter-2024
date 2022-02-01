@@ -5,8 +5,8 @@ Goal
 ----
 
 - In this class, we will learn about NCBI public database and how to download entire datasets pertianing to a research study using SRAtoolkit.
-- We will then apply the QC skills that we learned in our previous class such as FastQC and MultiQC to assess the downloaded dataset. (Need to decide if we are going this route)
 - We will then do a quick genomic comparison of the downloaded dataset using Mashtree. 
+- Finally, we will visualize our rough phylogeny and associated meta-data in iTOL
 
 ### Databases hosted by NCBI
 
@@ -23,9 +23,22 @@ Each SRA record is given a unique accession number based on the source database 
 - Experiment (e.g., the SRA record for a specific experiment or run(s)): SRX#, ERX#, or DRX#
 - Run (e.g., the SRA record for a specific run): SRR#, ERR#, or DRR#
 
-A BioProject is a collection of biological data related to a large-scale research effort such as genome sequencing, epigenomic analyses, genome-wide association studies (GWAS) and variation analyses. it provides a single place to find links to the diverse data types generated for that research project. Whereas, The BioSample database contains descriptions of biological source materials used in experimental assays. Each Biosample under a Bioproject can be accessed through a SRA Run accession number that lets you download the sequencing data as well as the metadata associated with it.
+A BioProject is a collection of biological data related to a large-scale research effort such as genome sequencing, epigenomic analyses, genome-wide association studies (GWAS) and variation analyses. it provides a single place to find links to the diverse data types generated for that research project. Whereas, the BioSample database contains descriptions of biological source materials used in experimental assays. Each Biosample under a Bioproject can be accessed through a SRA Run accession number that lets you download the sequencing data as well as the metadata associated with it.
 
-NCBI provides a suite of command line tools called Entrez Direct also known as E-utilities to access the metadata stored in its various databases. The three main tools of E-utilities are - esearch, esummary and xtract that lets you query any of the NCBI databases and extract the metadata associated with the query. The query can be anything(Bioproject, Biosample, SRA accession, Genbank assembly accession). 
+### Get the sample IDs associated with the Bioproject of interest
+
+For today's lab we will download and analyze genomes from a previously published study examining the genetic diversity of *Klebsiella pnuemoniae* isolated from different sources ([Holt et al., PNAS, 2015](https://www.pnas.org/content/112/27/E3574.full)). In particular, we will perform the following tasks.
+
+1. Retrieve sample IDs from NCBI using the Bioproject as our query
+2. Subset to the samples to a smaller subset of interest
+3. Download fastq files for the samples of interest from the sra
+4. Run mashtree to construct a phylogeny based on kmer distances among the sequenced genomes
+5. Run ARIBA to determine the antibiotic resistance gene content of each genome
+6. Visualize the mashtree phylogeny and meta-data using iTOL
+
+To start, let's get the sample IDs associated with the Bioproject. It is common for the set of genomes associated with a study or manuscript to all fall under a single bioproject, and that is the case here ([PRJEB2111](https://www.ncbi.nlm.nih.gov/bioproject/PRJEB2111)). 
+
+To get a list of sample IDs associated with this bioproject we will use tools provided by NCBI. In particular, NCBI provides a suite of command line tools called Entrez Direct also known as E-utilities to access the metadata stored in its various databases. The three main tools of E-utilities are - esearch, esummary and xtract that lets you query any of the NCBI databases and extract the metadata associated with the query. The query can be anything(Bioproject, Biosample, SRA accession, Genbank assembly accession). 
 
 Here is the command that we used to extract metadata information for the research study which performed a detailed genomic analysis of K. pneumoniae's diversity, population structure, virulence, and antimicrobial resistance around the world. 
 
@@ -43,7 +56,15 @@ The Bioproject associated with the study is PRJEB2111. Esearch will return a Edi
 Download datasets from NCBI using SRA toolkit
 ------------------------------------------------
 
-We will now use fasterq-dump tool available from SRA toolkit to download sequencing data for each of the SRA runs that we just saved to PRJEB2111-info.tsv file.
+In principle we could download the entire dataset (i.e. all of the IDs associated with the bioproject), but to make things a little more manageable I have selected a subset of interest by going through the [supplementary materials](https://www.pnas.org/highwire/filestream/619654/field_highwire_adjunct_files/1/pnas.1501049112.sd01.xlsx) in the manuscript and selecting ~30 genomes that are a mix of human infection, human carraige, bovine infection and bovine colonization.
+
+Next, we will use a new trick to subset the file we downloaded to contain entries only for the genomes of interest. In particular, we will apply grep to pull lines from PRJEB2111-info.tsv that match any of the genome IDs in the file genome_IDs_to_download.
+
+```
+grep -f genome_IDs_to_download PRJEB2111-info.tsv > PRJEB2111-info_subset.tsv
+```
+
+We will now use fasterq-dump tool available from SRA toolkit to download sequencing data for each of the SRA runs that we just saved to PRJEB2111-info_subset.tsv file. First, let's make sure we are in the correct directory and activated the conda environment.
 
 
 ```
@@ -56,21 +77,53 @@ cd class8/
 conda activate class8_sratools
 
 fasterq-dump -h
+```
 
-# This is how the data was downloaded. We have already downloaded the data in /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class8
-for accession in $(cut -f2 PRJEB2111-info_subset.tsv); do printf "\n  Working on: ${accession}\n\n"; fasterq-dump ${accession};  done
+# This is how the data was downloaded. We have already downloaded the data in /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class8/fastq_download
 
-Or
+We have put the commands to download the genomes of interest in the sbat script download.sbat. Let's look at the code that is doing the work for us:
 
+```
+cd $SLURM_SUBMIT_DIR
+
+#Make output directory
+mkdir fastq_download
+
+for accession in $(cut -f2 PRJEB2111-info_subset.tsv);
+do
+
+        printf "\n  Working on: ${accession}\n\n";
+        fasterq-dump -O fastq_download/ ${accession};
+        
+done
+```
+
+In essence, we have seen this before, but there are two new concepts that are worth highlighting - the use of () and {}.
+
+1. () - The commands inside parentheses will be execute. So in the example above the loop list gets the second column of the file PRJEB2111-info_subset.tsv, which contains the accession IDs we want to download
+2. {} - The curly braces are used to indicate where the name of a variable beging and end. They are not always neccesary, but can prevent problems from occuring when it is not obvious where a variable name ends
+
+
+The above command is a bit drawn out for illustrative purposes. However, in practice we want to take advantage of the computing power of Great Lakes and the existance of multi-processor nodes. To do this we can use the below shortcut which downloads the sample IDs of interest in parallel!
+
+```
 cut -f2 PRJEB2111-info_subset.tsv | parallel fasterq-dump {}
-
-ls
 ```
 
 Compare genomes using Mashtree
 ------------------------------
 
-There are various ways to process these sequence data and perform genome comparison. But using Mash distances and generating a tree based on this Mash distances is the fastest way to get a quick and dirty picture of how each of these samples are related to each other. Mash stands for MinhASH which is the name of algorithm that this disctance estimation is based on. In the min-hash algorithm, all kmers are recorded and transformed into integers using hashing and a Bloom filter (Bloom, 1970). These hashed kmers are sorted and only the first several kmers are retained. The kmers that appear at the top of the sorted list are collectively called the sketch. Any two sketches can be compared by counting how many hashed kmers they have in common. Because min-hash creates distances between any two genomes, min-hash values can be used to rapidly cluster genomes into trees using the neighbor-joining algorithm. 
+Now that we have downloaded the genomes of interest, we would like to construct a phylogeny to quantify the evolutionary relationships among the sequenced genomes. In later sessions we will learn how to perform rigorous phylogenetic analysis for various genomic epidemiology applications. However, pipelines to detect genome-wide variants and use them to perform phylogenetic inference tend to be quite computationally expensive. Therefore, in cases where a rough estimation of the phylogeny is sufficient, we use a different suite of methods. Examples where a rough estimation of the phylogeny is appropriate are:
+
+1. You have sequenced a set of genomes and would like to get a sense of the genetic diversity before proceeding
+2. You know that you have a very diverse set of genomes, and would like to visualize their relative relationships
+
+Here, we have a diverse set of Klebsiella genomes and are primarily interested in the rough relationships among them, so we will use one of the quick and dirty methods! The tool that we are going to use is called mashtree. Mashtree performs the following steps:
+
+1. Compute pairwise distances among each pair of genomes based on kmer distances
+2. Constructs a Neighbor Joining tree, which is a tree building algorithm that takes as input a distance matrix
+
+The kmer distances that are being computed are called Mash distances. Mash stands for MinhASH which is the name of algorithm that this disctance estimation is based on. In the min-hash algorithm, all kmers are recorded and transformed into integers using hashing and a Bloom filter (Bloom, 1970). These hashed kmers are sorted and only the first several kmers are retained. The kmers that appear at the top of the sorted list are collectively called the sketch. Any two sketches can be compared by counting how many hashed kmers they have in common. Because min-hash creates distances between any two genomes, min-hash values can be used to rapidly cluster genomes into trees using the neighbor-joining algorithm. 
 
 
 ![mash](Mash.png)
