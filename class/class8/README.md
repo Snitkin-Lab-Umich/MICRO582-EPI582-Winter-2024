@@ -39,7 +39,7 @@ If you can see the help menu for each of these tools then you are all set for to
 
 ![SRA](anatomy_of_SRA_submission.png)
 
-The National Center for Biotechnology Information (NCBI) provides bioinformatics tools and hosts approximately 40 online literature and molecular biology databases. Some of the most used and popular databases are PubMed, Genbank, SRA etc. MOst of the NCBI databases are linked together through unique accession numbers and therfore provide a comprehensive resource for biomedical research. For this class, we will focusing on SRA - Sequence read archive database which is the largest publicly available repository of high throughput raw sequencing and alignment data. 
+The National Center for Biotechnology Information (NCBI) provides bioinformatics tools and hosts approximately 40 online literature and molecular biology databases. Some of the most used and popular databases are PubMed, Genbank, SRA etc. MOst of the NCBI databases are linked together through unique accession numbers and therfore provide a comprehensive resource for biomedical research. For this class, we will be focusing on SRA - Sequence read archive database which is the largest publicly available repository of high throughput raw sequencing and alignment data. 
 
 SRA can be searched independently, or SRA records associated with a specific BioProject or BioSample accessions are linked from their respective records.
 
@@ -67,7 +67,7 @@ To start, let's get the sample IDs associated with the Bioproject. It is common 
 
 To get a list of sample IDs associated with this bioproject we will use tools provided by NCBI. In particular, NCBI provides a suite of command line tools called Entrez Direct also known as E-utilities to access the metadata stored in its various databases. The three main tools of E-utilities are - esearch, esummary and xtract that lets you query any of the NCBI databases and extract the metadata associated with the query. The query can be anything(Bioproject, Biosample, SRA accession, Genbank assembly accession). 
 
-Here is the command that we used to extract metadata information for the research study which performed a detailed genomic analysis of K. pneumoniae's diversity, population structure, virulence, and antimicrobial resistance around the world. 
+Here is the command that we used to extract metadata information for the above mentioned research study.
 
 ```
 conda activate class8_sratools
@@ -136,6 +136,7 @@ The above command is a bit drawn out for illustrative purposes. However, in prac
 ```
 cut -f2 PRJEB2111-info_subset.tsv | parallel fasterq-dump {}
 ```
+
 
 Compare genomes using Mashtree
 ------------------------------
