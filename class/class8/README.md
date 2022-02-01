@@ -18,14 +18,16 @@ Lets create two environments using the YML files MICRO582_class8_sratools.yml an
 # class8_sratools environment
 conda env create -f /scratch/epid582w22_class_root/epid582w22_class/shared_data/conda_envs/MICRO582_class8_sratools.yml
 
+# class8_mashtree environment
+conda env create -f /scratch/epid582w22_class_root/epid582w22_class/shared_data/conda_envs/MICRO582_class8_mashtree.yml
+
 conda activate class8_sratools
 
 esearch -h
 
 fasterq-dump -h
 
-# class8_mashtree environment
-conda env create -f /scratch/epid582w22_class_root/epid582w22_class/shared_data/conda_envs/MICRO582_class8_mashtree.yml
+conda deactivate
 
 conda activate class8_mashtree
 
