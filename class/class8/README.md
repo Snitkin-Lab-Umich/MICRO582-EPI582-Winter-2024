@@ -70,8 +70,19 @@ To get a list of sample IDs associated with this bioproject we will use tools pr
 Here is the command that we used to extract metadata information for the above mentioned research study.
 
 ```
+#Go to class working directory
+wd
+
+#Copy over files
+cp -r ../shared_data/data/class8/ .
+
+#Enter class 8 directory
+cd class8
+
+#Activate conda environment
 conda activate class8_sratools
 
+#Run esearch command to pull sample meta-data for bioproject
 esearch -h
 
 esearch -db sra -query PRJEB2111 | esummary | xtract -pattern DocumentSummary -element Experiment@acc,Run@acc,Platform@instrument_model,Sample@acc > PRJEB2111-info.tsv
@@ -91,20 +102,7 @@ Next, we will use a new trick to subset the file we downloaded to contain entrie
 grep -f genome_IDs_to_download PRJEB2111-info.tsv > PRJEB2111-info_subset.tsv
 ```
 
-We will now use fasterq-dump tool available from SRA toolkit to download sequencing data for each of the SRA runs that we just saved to PRJEB2111-info_subset.tsv file. First, let's make sure we are in the correct directory and activated the conda environment.
-
-
-```
-wd
-
-mkdir class8
-
-cd class8/
-
-conda activate class8_sratools
-
-fasterq-dump -h
-```
+We will now use fasterq-dump tool available from SRA toolkit to download sequencing data for each of the SRA runs that we just saved to PRJEB2111-info_subset.tsv file. 
 
 *This is how the data was downloaded. We have already downloaded the data in /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class8/fastq_download*
 
