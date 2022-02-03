@@ -74,7 +74,7 @@
 - [Compare genomes using Mashtree](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class8/README.md#compare-genomes-using-mashtree)
 - [Visualize data and overlay metadata using iTol](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class8/README.md#visualize-our-tree-and-metadata-using-itol)
 
-#### [Class 9 – Reference based variant calling](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class10/README.md)
+#### [Class 9 – Reference based variant calling](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class9/README.md)
 ***
 
 - Variant calling using SNIPPY - mapping Resistant sample to susceptible reference genome
