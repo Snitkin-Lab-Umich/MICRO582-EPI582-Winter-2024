@@ -81,9 +81,10 @@ There are various tools that can you can try for variant filteration such as vcf
 ***Caveat: This filter criteria should be applied carefully after giving some thought to the type of library, coverage, average mapping quality, type of analysis and other such requirements.***
 
 
-Variant Annotation using snpEff
--------------------------------
+***Variant Annotation***
+
 ![variant annotation using snpeff](variant_annot.png)
+
 Variant annotation is one of the crucial steps in any variant calling pipeline. Most of the variant annotation tools create their own database or use an external one to assign function and predict the effect of variants on genes. We will try to touch base on some basic steps of annotating variants in our vcf file using snpEff. 
 
 You can annotate these variants before performing any filtering steps that we did earlier or you can decide to annotate just the final filtered variants. 
