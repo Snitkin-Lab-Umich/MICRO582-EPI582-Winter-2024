@@ -77,8 +77,7 @@
 #### [Class 9 – Reference based variant calling](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class9/README.md)
 ***
 
-- Variant calling using SNIPPY - mapping Resistant sample to susceptible reference genome
-- Run Snippy on unknown R to screen for variants in gene of interest
+- [Variant calling using SNIPPY]()
 - Explore alignments and variants in IGV
 
 
