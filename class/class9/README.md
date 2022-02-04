@@ -21,6 +21,9 @@ Here is a visual representation of these steps:
 
 ![var_call_steps](detailed_var_call.png)
 
+Variant calling Pipeline:
+-------------------------
+
 ***Indexing and Read Mapping:***
 
 Read Mapping is a time-consuming step that involves searching the reference and finding the optimal location for the alignment for millions of reads. Creating an index file of a reference sequence for quick lookup/search operations significantly decreases the time required for read alignment. Imagine indexing a genome sequence like the index at the end of a book. If you want to know on which page a word appears or a chapter begins, it is much more efficient to look it up in a pre-built index than going through every page of the book. Similarly, an index of a large DNA sequence allows aligners to rapidly find shorter sequences embedded within it. 
@@ -77,6 +80,9 @@ Variant annotation is one of the crucial steps in any variant calling pipeline. 
 You can annotate these variants before performing any filtering steps that we did earlier or you can decide to annotate just the final filtered variants. 
 
 snpEff contains a database of about 20,000 reference genomes built from trusted and public sources. Lets check if snpEff contains a database of our reference genome.
+
+Variant calling using SNIPPY
+----------------------------
 
 A typical Bioinformatics variant calling pipeline stitches these tools together in any programming language so that we dont have to run each of the individual commands seperately on hundreds of samples. 
 
