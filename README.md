@@ -77,8 +77,9 @@
 #### [Class 9 – Reference based variant calling](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class9/README.md)
 ***
 
-- [Variant calling using SNIPPY]()
-- Explore alignments and variants in IGV
+- [Variant calling Pipeline](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class9/README.md#variant-calling-pipeline)
+- [Variant calling using SNIPPY](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class9/README.md#variant-calling-using-snippy)
+- [Visualize BAM and VCF files in [IGV](http://software.broadinstitute.org/software/igv/)](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class9/README.md#visualize-bam-and-vcf-files-in-IGV)
 
 
 ### Section - Basic phylogenetic analysis
