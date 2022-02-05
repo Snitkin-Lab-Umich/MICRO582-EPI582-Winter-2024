@@ -29,7 +29,7 @@ A typical variant calling analysis involves:
 
 Here is a visual representation of these steps:
 
-![var_call_steps](detailed_var_call.png)
+![var_call_steps](simplified_var_call.png.png)
 
 Variant calling Pipeline:
 -------------------------
