@@ -161,12 +161,39 @@ The annotation step add an extra field named 'ANN' at the end of INFO field. Let
 
 Detailed information of the ANN field and sequence ontology terms that it uses can be found [here](https://pcingola.github.io/SnpEff/).
 
-Lets see how many high-impact variants are there based on the snpEff annotation?
+Let's now use some Unix commands to explore our file and extract some useful information. First, it would be nice to see how many MODIFIER (non-coding), LOW (synonymous), MODERATE (non-synonymous) AND HIGH IMPACT (frameshift/stop) variants there are. First, let's see which column has the annotation info:
 
 ```
-grep HIGH snps.vcf | wc -l
+grep "CHROM" snps.filt.vcf | tr "\t" "\n" | cat -n
+```
+
+Next, let's see which entry in the annotation contains information on the impact of the variant:
 
 ```
+grep -v "#" snps.vcf | cut -f 8 | head -n +1 | tr "\|" "\n" | cat -n
+```
+
+Finally, let's count them!
+
+```
+grep -v "#" snps.vcf | cut -f 8 | cut -d"|" -f 3 | sort | uniq -c
+```
+
+You can see that most variants are LOW (synonymous) or MODERATE (non-synonymous). Let's now pull the positions of high impact variants so we can pull them out of the more nicely formatted annotation files.
+
+```
+grep HIGH snps.vcf |cut -f 2 > high_impact_pos
+```
+
+Finally, let's pull out the genes that these high impact mutations are in
+
+```
+grep -f high_impact_pos snps.tab | cut -f 14
+```
+
+You can see that of the 13 high impact mutations, one is in mgrB, which is one of our genes known to be involved in colistin resistance.
+
+
 
 Visualize BAM and VCF files in [IGV](http://software.broadinstitute.org/software/igv/) (Integrative Genome Viewer)
 ------------------------------------------------------------------------------------------------------------------
