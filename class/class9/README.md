@@ -220,7 +220,7 @@ Copy these files over to your desktop and start IGV to load them.
 Start IGV.
 
 Load the following files (each is a separate panel or 'track'):
-- `File` &rarr; `Load from File` &rarr; navigate to `IGV_files` &rarr; `KPNIH1.gbk`
+- `Genomes` &rarr; `Load Genome from File` &rarr; navigate to `IGV_files` &rarr; `KPNIH1.gbk`
   - Shows what genes are present (looks like a blue bar when zoomed out)
 - `File` &rarr; `Load from File` &rarr; navigate to `IGV_files` &rarr; `snps.vcf.gz`
   - Shows variants found in the sample (when you zoom in)
