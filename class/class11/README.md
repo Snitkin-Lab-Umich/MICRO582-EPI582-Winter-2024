@@ -22,4 +22,25 @@ In order for us to all work in the same environment we are going to create an RP
 6. Create a new R script (File > New File > R script) and save it in your working directory (e.g. class_11_introR.R)
 
 
+Creating variables, performing operations and applying functions
+----------------------------------------------------------------
+Check out this Data Carpentry overview of the [basic R syntax](https://datacarpentry.org/R-genomics/01-intro-to-R.html)
+
+Let's start out by briefly reviewing the basics of working in R. 
+
+```
+#Let's create some variables using the <- operator
+a <- 2
+b <- 7
+
+#Now let's perform an operation on our two variables
+c <- a+b
+
+#Finally, let's apply a function to a variable
+sqrt_c <- sqrt(c)
+
+#If you ever want to learn how to use a function, use the ?
+?sqrt
+```
+
 
