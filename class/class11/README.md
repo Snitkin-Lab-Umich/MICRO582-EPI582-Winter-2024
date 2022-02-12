@@ -68,3 +68,37 @@ species
 #Now that we've named our vector, we can index by position or name
 glengths['human']
 ```
+
+Finally, let's learn about how to get subsets of data by indexing with vectors or logicals.
+
+```
+#Let's start by using a special variable in R containing letters
+LETTERS
+
+#We saw before how to pull out one element, now let's pull out
+LETTERS[c(1,2,3)]
+LETTERS[c(1,26)]
+
+#A quicker way to pull sequential elements is by using a colon
+LETTERS[1:3]
+
+#Next, let's create a vector of numbers to play with
+nums <- 1:10
+
+#Now we are going to use logical operators to subset, but first, let's learn about logicals
+nums == 1
+nums > 5
+nums < 5
+nums != 10
+nums >= 5
+nums <= 5
+
+#We can use logicals to index vectors, as long as the logical is the same length
+10_letters <- LETTERS[1:10];
+
+10_letters[nums == 1]
+
+10_letters[nums < 5]
+
+10_letters[nums >= 5]
+```
