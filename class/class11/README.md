@@ -103,9 +103,42 @@ nums <= 5
 10_letters[nums >= 5]
 ```
 
-Reading in and exploring tabular data
--------------------------------------
+Reading in and parsing a gff file
+---------------------------------
+In previous sessions we used Unix commands to explore gff files. Now let's work with a gff file in R!
+
+```
+# Read in gff file
+gff = read.table('class_11/SRR5244781_contigs.gff',
+                 sep = "\t", #tab delimited file
+                  comment.char = "#", #define comment character and ignore those lines
+                  quote = "", #tells R no quotes, so the file is parsed correctly
+                  header = F)#tells R no header
+# Rename columns
+colnames(gff) = c('seqname','source','feature','start','end','score','strand','frame','attribute')
+
+# Examine the structure of the gff variable
+str(gff)
+
+# Look at the head of the gff file
+head(gff)
+
+#Count the number of each type of feature (it's a bit easier than in unix :))
+table(gff$feature)
+
+# Get the gene lengths
+gene_lengths = gff$end - gff$start
+
+# Plot a histogram of the gene lengths
+hist(gene_lengths,
+     breaks = 100, # 100 cells
+     xlab = 'Gene Length (bp)', # change x label
+     main = '') # no title
+```
+
+Exploring the pan-genome matrix created by panaroo
+--------------------------------------------------
 
 
-Making some basic plots
------------------------
+Plotting a heatmap of AMR genes from ARIBA
+------------------------------------------
