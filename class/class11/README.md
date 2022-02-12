@@ -43,4 +43,28 @@ sqrt_c <- sqrt(c)
 ?sqrt
 ```
 
+Next, let's look at working with vectors.
 
+```
+#Let's create a vector of genome lengths
+glengths <- c(4.6, 3000, 50000)
+
+#Next let's ask R what type of variable this is
+class(glengths)
+
+#Now, let's see how to get elements from this vector by indexing
+glengths[1] #1st element
+glengths[2] #2nd element
+glengths[3] #3rd element
+
+#OK - let's create another vector with the names of genomes
+species <- c("ecoli", "human", "corn")
+class(species)
+
+#Finally, let's make the association between these two vectors explicit by naming our genome lengths
+names(glengths) <- species
+species
+
+#Now that we've named our vector, we can index by position or name
+glengths['human']
+```
