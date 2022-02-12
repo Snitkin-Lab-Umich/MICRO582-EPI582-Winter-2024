@@ -134,7 +134,34 @@ hist(gene_lengths,
      breaks = 100, # 100 cells
      xlab = 'Gene Length (bp)', # change x label
      main = '') # no title
+     
+# Plot a histogram of the gene lengths less than 5Kb
+hist(gene_lengths[gene_lengths < 5000],
+     breaks = 100, # 100 cells
+     xlab = 'Gene Length (bp)', # change x label
+     main = '') # no title
 ```
+
+Exercise: Count how many genes are on the +/- strands? 
+
+<details>
+  <summary>Solution</summary>  
+```
+table(gff$strand)
+```
+</details>
+
+Exercise: Plot a histogram of the length of genes on the + strand
+
+<details>
+  <summary>Solution</summary>  
+```
+hist(gene_lengths[gff$strand == "+"],
+     breaks = 100, # 100 cells
+     xlab = 'Gene Length (bp)', # change x label
+     main = '') # no title
+  ```
+</details>
 
 Exploring the pan-genome matrix created by panaroo
 --------------------------------------------------
