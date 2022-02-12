@@ -109,7 +109,7 @@ In previous sessions we used Unix commands to explore gff files. Now let's work 
 
 ```
 # Read in gff file
-gff = read.table('class_11/SRR5244781_contigs.gff',
+gff = read.table('class11/SRR5244781_contigs.gff',
                  sep = "\t", #tab delimited file
                   comment.char = "#", #define comment character and ignore those lines
                   quote = "", #tells R no quotes, so the file is parsed correctly
@@ -169,7 +169,53 @@ hist(gene_lengths[gff$strand == "+"],
 
 Exploring the pan-genome matrix created by panaroo
 --------------------------------------------------
+In class 6 we performed a pan-genome analysis to determine the genes that were present or absent across a set of genomes. Here we will load the pan-genome matrix into R and explore it.
 
+```
+#Read in the pan-genome matrix
+panaroo_mat <- read.table('class11/gene_presence_absence.Rtab', 
+                          sep = "\t",
+                          header = T,
+                          row.names = 1)
+                          
+#Determine the structure of the pan-genome matrix
+str(panaroo_mat)
+
+#Look at the first few entries in the matrix
+head(panaroo_mat)
+
+#Determine the number of genes present in each genome
+colSums(panaroo_mat)
+
+#Get the number of genomes each gene is present in
+genomes_per_gene = rowSums(panaroo_mat)
+
+#Determine the number of genes present in each number of genomes
+table(genomes_per_gene)
+
+#Plot the distribution of the number of genomes each gene is present in
+hist(genomes_per_gene,
+     xlab = 'Number of genomes gene is present in', # change x label
+     main = '') # no title
+```
+
+Exercise: Read in the file 'gene_presence_absence.csv', which holds information on each of the pan-genome genes and print out the annotation for genes present in only a single genome (hint - the rows in the two files are in the same order)
+
+<details>
+  <summary>Solution</summary>  
+
+```
+#Read in the matrix
+panaroo_genes <- read.table('class11/gene_presence_absence.csv', 
+                            sep = ",",
+                            header = T,
+                            quote = "")
+                 
+#Print out gene annotation for genes present in 1 genome
+panaroo_genes$Annotation[genomes_per_gene == 1]       
+```
+
+</details>
 
 Plotting a heatmap of AMR genes from ARIBA
 ------------------------------------------
