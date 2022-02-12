@@ -102,3 +102,10 @@ nums <= 5
 
 10_letters[nums >= 5]
 ```
+
+Reading in and exploring tabular data
+-------------------------------------
+
+
+Making some basic plots
+-----------------------
