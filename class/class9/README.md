@@ -9,7 +9,7 @@ Goal
 - Visualize these variants in IGV which is a great visualization tool to put the variant calling steps in perspective.
 
 
-Applications of variant identification
+Applications of variant identification:
 --------------------------------------
 One of the most common goals of in sequencing a microbial genome is to identify small genetic variants like nucleotide substitutions or small insertions/deletions (i.e. indels). Identifying these genetic variants in one or multiple genomes has several important downstream applications:
 
@@ -19,7 +19,7 @@ One of the most common goals of in sequencing a microbial genome is to identify 
 
 3. Functional analysis - In previous sessions we identified different types of genetic variation including differences in gene content and antibiotic resistance variation. Small changes in the genome like those identified through variant calling pipelines can also have significant functional impacts on genome function.
 
-Overview of variant calling pipelines
+Overview of variant calling pipelines:
 -------------------------------------
 A typical variant calling analysis involves:
 - ***Read Mapping:*** Mapping sequenced reads to the reference genome using a read mapper
