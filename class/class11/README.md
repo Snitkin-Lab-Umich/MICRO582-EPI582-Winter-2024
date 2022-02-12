@@ -146,21 +146,25 @@ Exercise: Count how many genes are on the +/- strands?
 
 <details>
   <summary>Solution</summary>  
+  
 ```
 table(gff$strand)
 ```
+
 </details>
 
 Exercise: Plot a histogram of the length of genes on the + strand
 
 <details>
   <summary>Solution</summary>  
+
 ```
 hist(gene_lengths[gff$strand == "+"],
      breaks = 100, # 100 cells
      xlab = 'Gene Length (bp)', # change x label
      main = '') # no title
-  ```
+```
+
 </details>
 
 Exploring the pan-genome matrix created by panaroo
