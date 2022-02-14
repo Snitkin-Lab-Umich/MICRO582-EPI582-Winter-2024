@@ -74,13 +74,14 @@ Finally, let's learn about how to get subsets of data by indexing with vectors o
 ```
 #Let's start by using a special variable in R containing letters
 LETTERS
+ten_letters <- LETTERS[1:10];
 
 #We saw before how to pull out one element, now let's pull out
-LETTERS[c(1,2,3)]
-LETTERS[c(1,26)]
+ten_letters[c(1,2,3)]
+ten_letters[c(1,9)]
 
 #A quicker way to pull sequential elements is by using a colon
-LETTERS[1:3]
+ten_letters[1:3]
 
 #Next, let's create a vector of numbers to play with
 nums <- 1:10
@@ -94,8 +95,6 @@ nums >= 5
 nums <= 5
 
 #We can use logicals to index vectors, as long as the logical is the same length
-ten_letters <- LETTERS[1:10];
-
 ten_letters[nums == 1]
 
 ten_letters[nums < 5]
@@ -114,6 +113,10 @@ gff = read.table('class11/SRR5244781_contigs.gff',
                   comment.char = "#", #define comment character and ignore those lines
                   quote = "", #tells R no quotes, so the file is parsed correctly
                   header = F)#tells R no header
+ 
+# Examine the structure of the gff variable
+str(gff)
+
 # Rename columns
 colnames(gff) = c('seqname','source','feature','start','end','score','strand','frame','attribute')
 
@@ -140,6 +143,10 @@ hist(gene_lengths[gene_lengths < 5000],
      breaks = 100, # 100 cells
      xlab = 'Gene Length (bp)', # change x label
      main = '') # no title
+
+# Look at the feature types with length greater than 2 Kb
+table(gff$feature[gene_lengths > 2000])
+
 ```
 
 Exercise: Count how many genes are on the +/- strands? 
