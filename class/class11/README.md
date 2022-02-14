@@ -94,13 +94,13 @@ nums >= 5
 nums <= 5
 
 #We can use logicals to index vectors, as long as the logical is the same length
-10_letters <- LETTERS[1:10];
+ten_letters <- LETTERS[1:10];
 
-10_letters[nums == 1]
+ten_letters[nums == 1]
 
-10_letters[nums < 5]
+ten_letters[nums < 5]
 
-10_letters[nums >= 5]
+ten_letters[nums >= 5]
 ```
 
 Reading in and parsing a gff file
