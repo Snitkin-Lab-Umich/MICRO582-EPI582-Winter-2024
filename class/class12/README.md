@@ -87,15 +87,24 @@ Based on the tree - do you think there is evidence of an HA-lineage of USA300?
 <details>
   <summary>Solution</summary>  
   
-```
-If there were an HA-lineage of USA300 we would expect that all the HA isolates would group together on the tree and share a common ancestor dating back to the emergence of this HA-linage. However, the intermixing of CA and HA isolates on the tree, indicates that there is a single lineage of USA300 capable of causing infections in both settings. [Based on some work our group has done with a collaborator](https://pubmed.ncbi.nlm.nih.gov/28486667/), we hypothesize that the uptick in HA infections is not neccesarily due to increased transmission in healthcare settings, but rather due to an increased prevalence in the community and patients transitioning from colonization to infection in the hospital (i.e. asymptomatically colonized on admission, but only show symptoms of infection later in their stay).
-```
+  If there were an HA-lineage of USA300 we would expect that all the HA isolates would group together on the tree and share a common ancestor dating back to the
+  emergence of this HA-linage. However, the intermixing of CA and HA isolates on the tree, indicates that there is a single lineage of USA300 capable of causing
+  infections in both settings. [Based on some work our group has done with a collaborator](https://pubmed.ncbi.nlm.nih.gov/28486667/), we hypothesize that the
+  uptick in HA infections is not neccesarily due to increased transmission in healthcare settings, but rather due to an increased prevalence in the community and
+  patients transitioning from colonization to infection in the hospital (i.e. asymptomatically colonized on admission, but only show symptoms of infection later
+  in their stay).
 
 </details>
 
 
 Tracking the origin of an blaNDM ST147 Klebsiella pneumoniae outbreak using phylogenetic analysis
 -------------------------------------------------------------------------------------------------
+For our second phylogenetic exercise we are going to try and understand the origin of an outbreak of NDM-containing /Klebsiella pneumoniae/ in Chicago-area hospitals. Point-prevalence studies for carbapenem-resistant organisms are routinely performed in the Chicago-region due to high prevelence of KPC-containing organisms. However, a few years ago NDM began being observed and then showed a big spike in a handful of skilled-nursing facilities. We undertook a genomic epidemiology investigation to understand the basis for this uptick. Initial sequence analysis revealed that most isolates were from a single sequence type - ST147 of /Klebsiella pneumoniae/. To understand whether this NDM containing organism was imported into the region (once or multiple times) or if perhaps a circulating ST147 strain picked up the NDM gene locally, we performed a phylogenetic analysis including the outbreak isoaltes along with all publically available ST147 genomes. Based on the clustering of our outbreak genomes, as well as the pattern of NDM on the phylgoeny, we hoped to improve our understanding of the outbreak. Below is R code to do the following:
+
+1) Read in a maximum likelihood phylogeny of outbreak and public isolates that we created using reference based variant calling and the too IQTREE
+2) Read in meta-data describing the location of origin and whether an isolate harbored NDM
+3) Plot the phylogenetic tree
+4) Plot next to the tree a heatmap showing location and NDM status of each isolate
 
 ```
 #Read in libraries
@@ -127,3 +136,19 @@ phydataplot(as.matrix(meta_data),
             lwd = 0.1,
             funcol = f)
 ```
+
+Based on the tree - what can we infer about the origins of ST147-NDM containing isoaltes in Chicago?
+
+<details>
+  <summary>Solution</summary>  
+Placing our outbreak genomes in the context of public genomes revealed several interesting things:
+  
+1) First, the Chicago isolates for a close cluster on the tree, supporting a single introduction followed by regional spread. We followed up on this observation by performing more fine-grained genetic distance and phylogenetic analyses, supporting this hypothesis.
+ 
+2) Second, we observe on the phylogeny that NDM appears to have been acquired multiple times independently in ST147, as evidenced by the discrete clusters observed across the globe.
+  
+3) Third, we observe that within our outbreak there exists close genetic neighbors of the outbreak strain that do not carry NDM (they actually carry KPC). This supports an NDM-containing plasmid potentially having been acquired by circulating ST147 in the region, and going on to cause a regional outbreak. We performed some detailed analysis of plasmid carraige to confirm this hypothesis.
+  
+For more details on the analysis check out [our manuscript](https://academic.oup.com/cid/article/73/8/1431/6277037?login=true).
+  
+</details>
