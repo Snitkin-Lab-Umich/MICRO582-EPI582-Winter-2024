@@ -19,9 +19,25 @@ A few noteworthy R packages:
 4. [phangorn](https://cran.r-project.org/web/packages/phangorn/index.html) (phylogenetic functions and tree visualization)
 
 
+Setup
+-----
+We are going to be working in RStudio again today. Take the following steps to get ready for the lab:
+
+1. Start up your epid582 Rproject and create a new directory in it called class12 to hold data we will be analyzing today. 
+2. Go on to Great Lakes and copy over the class 12 files to your working directory
+3. Use cyberduck to bring the files down to the class12 directory you created on your own computer
+
+
 Exploring the relationship between community- and healthcare-acquired MRSA using phylogenetic analysis
 ------------------------------------------------------------------------------------------------------
+For our first phylogenetics exercise, we are going to test the epidemiologic hypothesis that there are different strains of MRSA that are causing hospital-associated (HA) versus community-associated (CA) infections. As a little background, up until the early 2000's methicillin-resistant Staphylococcus aureus (MRSA) infections were almost exclusively restricted to healthcare settings. Then, in the early 2000's a new strain of MRSA burst on the sceen called USA300, which was capable of causing infections in otherwise healthy individuals in the community, outside of healthcare settings. While initially only seeming to occur in the community, over the next several years USA300 was observered to cause infections in hospitals. Some hypothesized that this might be because of an evolutionary event in USA300 that created a new sublineage that was better adapted for spread in hospitals. 
 
+Here, we are going to test this hypothesis by creating a whole-genome phylogeny for a panel of MRSA genomes from a single healthcare center. Half of our genomes are community-associated (i.e. infections on admission to the hospital) and the other half are hosiptal-associated (i.e. infection after 3 days of admission. Below is R code we will go through to do the following:
+
+1) Read in a DNA alignment of MRSA genomes created by a read mapping pipeline
+2) Compute a pairwise distance matrix using the dist.dna function
+3) Build a neighbor joining tree from the distance matrix using the nj function
+4) Visualize our phylogenetic tree, along with CA/HA labels to see if we detect evidence of an HA USA300 strain responsible for healthcare infections
 
 ```
 #Read in needed R packages
@@ -65,6 +81,18 @@ plot(nj_tree, label.offset = 0.001)
 cols = structure(c('red', 'blue'), names = unique(annot$SOURCE))
 tiplabels(col = cols, pch = 16)
 ```
+
+Based on the tree - do you think there is evidence of an HA-lineage of USA300?
+
+<details>
+  <summary>Solution</summary>  
+  
+```
+If there were an HA-lineage of USA300 we would expect that all the HA isolates would group together on the tree and share a common ancestor dating back to the emergence of this HA-linage. However, the intermixing of CA and HA isolates on the tree, indicates that there is a single lineage of USA300 capable of causing infections in both settings. [Based on some work our group has done with a collaborator](https://pubmed.ncbi.nlm.nih.gov/28486667/), we hypothesize that the uptick in HA infections is not neccesarily due to increased transmission in healthcare settings, but rather due to an increased prevalence in the community and patients transitioning from colonization to infection in the hospital (i.e. asymptomatically colonized on admission, but only show symptoms of infection later in their stay).
+```
+
+</details>
+
 
 Tracking the origin of an blaNDM ST147 Klebsiella pneumoniae outbreak using phylogenetic analysis
 -------------------------------------------------------------------------------------------------
