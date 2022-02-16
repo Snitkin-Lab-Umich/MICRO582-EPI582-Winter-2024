@@ -44,10 +44,10 @@ Here, we are going to test this hypothesis by creating a whole-genome phylogeny 
 library(ape)
 
 #Read in DNA alignment and annotations
-mrsa_aln <- read.dna('MRSA_USA300_var_aln.fa',
+mrsa_aln <- read.dna('class12/MRSA_USA300_var_aln.fa',
                      format = "fasta")
 
-annot <- read.table('MRSA_USA300_annot.txt',
+annot <- read.table('class12/MRSA_USA300_annot.txt',
                     row.names = 1,
                     header = T)
 
@@ -74,9 +74,9 @@ plot(nj_tree_rooted, x.lim = 0.075)
 phydataplot(as.matrix(annot),  nj_tree_rooted, style = "m", offset = 0.01)
 
 #Plot with colored tips
-plot(nj_tree, label.offset = 0.001)
+plot(nj_tree, label.offset = 0.001, cex = 0.5)
 
-#plot(nj_tree, type = "fan", label.offset = 0.001)
+#plot(nj_tree, type = "fan", label.offset = 0.001, cex = 0.5)
 
 cols = structure(c('red', 'blue'), names = unique(annot$SOURCE))
 tiplabels(col = cols, pch = 16)
