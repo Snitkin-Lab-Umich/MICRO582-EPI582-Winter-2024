@@ -75,7 +75,7 @@ nj_tree_rooted <- midpoint.root(nj_tree)
 
 #Plot tree with colored tips
 #Create vector linking colors to HA/CA
-cols = structure(c('red', 'blue'), names = unique(annot$SOURCE))
+cols = structure(c('blue', 'red'), names = unique(annot$SOURCE))
 
 #Create vector linking isolate names to CA/HA designation
 isolate_legend = structure(annot[nj_tree_rooted$tip.label,], 
