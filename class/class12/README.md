@@ -77,17 +77,12 @@ nj_tree_rooted <- midpoint.root(nj_tree)
 #Create vector linking colors to HA/CA
 cols = structure(c('blue', 'red'), names = unique(annot$SOURCE))
 
-#Create vector linking isolate names to CA/HA designation
-isolate_legend = structure(annot[nj_tree_rooted$tip.label,], 
-                           names = nj_tree_rooted$tip.label)
-
 #Plot tree
 #plot(nj_tree_rooted, label.offset = 0.001, cex = 0.5)
 plot(nj_tree_rooted, type = "fan", label.offset = 0.001, cex = 0.5)
 
 #Add colors to tips
-tiplabels(pie = to.matrix(isolate_legend,names(cols)), 
-          piecol = cols, cex = 0.3)
+tiplabels(col = cols[annot[nj_tree_rooted$tip.label,]], pch = 16, frame = "none")
 
 #Add legend
 legend('bottomleft', legend = names(cols), 
