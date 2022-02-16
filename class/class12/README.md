@@ -42,6 +42,7 @@ Here, we are going to test this hypothesis by creating a whole-genome phylogeny 
 ```
 #Read in needed R packages
 library(ape)
+library(phytools)
 
 #Read in DNA alignment and annotations
 mrsa_aln <- read.dna('class12/MRSA_USA300_var_aln.fa',
@@ -61,25 +62,36 @@ class(annot)
 str(annot)
 
 
+#Build NJ tree
 #Create a distance matrix from 
 dist_mat <- dist.dna(mrsa_aln)
 
 #Create a neighbor joining tree from distance matrix
 nj_tree = nj(dist_mat)
 
+#Midpoint root tree
 nj_tree_rooted <- midpoint.root(nj_tree)
 
-#Plot with heatmap
-plot(nj_tree_rooted, x.lim = 0.075)
-phydataplot(as.matrix(annot),  nj_tree_rooted, style = "m", offset = 0.01)
 
-#Plot with colored tips
-plot(nj_tree, label.offset = 0.001, cex = 0.5)
-
-#plot(nj_tree, type = "fan", label.offset = 0.001, cex = 0.5)
-
+#Plot tree with colored tips
+#Create vector linking colors to HA/CA
 cols = structure(c('red', 'blue'), names = unique(annot$SOURCE))
-tiplabels(col = cols, pch = 16)
+
+#Create vector linking isolate names to CA/HA designation
+isolate_legend = structure(annot[nj_tree_rooted$tip.label,], 
+                           names = nj_tree_rooted$tip.label)
+
+#Plot tree
+#plot(nj_tree_rooted, label.offset = 0.001, cex = 0.5)
+plot(nj_tree_rooted, type = "fan", label.offset = 0.001, cex = 0.5)
+
+#Add colors to tips
+tiplabels(pie = to.matrix(isolate_legend,names(cols)), 
+          piecol = cols, cex = 0.3)
+
+#Add legend
+legend('bottomleft', legend = names(cols), 
+       col = "black", pt.bg = cols, pch = 21, cex = 1)
 ```
 
 Based on the tree - do you think there is evidence of an HA-lineage of USA300?
