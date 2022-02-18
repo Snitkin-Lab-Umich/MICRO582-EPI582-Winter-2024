@@ -4,8 +4,8 @@ Class13 - Whole genome alignment and Recombination Detection
 Goal
 ----
 
-- In this section, we will employ Parsnp to align three hospital outbreak acinetobacter genomes and create a multiple sequence alignment and visualize how they align in Gingr. 
-- Explore different tools for generating and visualizing phylogenetic trees.
+- In this section, we will employ Parsnp to align three hospital outbreak Acinetobacter genomes.
+- Create a multiple sequence alignment and visualize them in Gingr. 
 - Perform recombination filtering with Gubbins and see how recombination can distort phylogenetic signal.
 
 ![phylo](phylo.png)
@@ -20,9 +20,13 @@ One of the goals of our published study was to understand the relationship among
 
 The types of phylogenetic analyses you will be performing here are the same types that we used to decipher this mystery.
 
-The other two genomes you will be using are ACICU and AB0057. ACICU is an isolate from a hospital in France, and its close relationship to our isolates makes it a good reference for comparison. AB0057 is a more distantly related isolate that we will utilize as an out-group in our phylogenetic analysis. The utility of an out-group is to help us root our phylogenetic tree, and gain a more nuanced understanding of the relationship among strains.
+The other two genomes you will be using are **ACICU and AB0057.** 
 
-Execute the following command to copy files for this afternoon’s exercises to your class13 directory:
+**ACICU** is an isolate from a hospital in France, and its close relationship to our isolates makes it a good reference for comparison. 
+
+**AB0057** is a more distantly related isolate that we will utilize as an out-group in our phylogenetic analysis. The utility of an out-group is to help us root our phylogenetic tree, and gain a more nuanced understanding of the relationship among strains.
+
+Execute the following command to copy files for todays class:
 
 ```
 wd
@@ -39,7 +43,7 @@ An alternative approach for identification of variants among genomes is to perfo
 
 > ***i. Perform genome alignment with Parsnp***
 
-Create a conda environment day3am that will install Parsnp/Harvesttools for you. Run these commands to generate a new conda environment.
+Create a conda environment class13 that will install Parsnp/Harvesttools/Gubbins for you. 
 
 ```
 conda create -n class13 -c bioconda parsnp harvesttools gubbins
@@ -70,9 +74,9 @@ Parsnp will generate various output files in parsnp_results folder:
 - Gingr formatted binary archive: parsnp_results/parsnp.ggr
 - XMFA formatted multiple alignment: parsnp_results/parsnp.xmfa
 
-> ***ii. Convert ginger formatted binary file to fasta format***
+> ***ii. Convert ginger formatted binary file to fasta format to use for Gubbins***
 
-We will use harvesttools to convert parsnp.ggr to a multi-fasta alignment output (concatenated LCBs) file - parsnpLCB.aln
+We will use harvesttools to convert parsnp.ggr to a multi-fasta alignment output (concatenated LCBs) file - parsnpLCB.aln that we will use later as input for Gubbins.
 
 ```
 cd parsnp_results
@@ -104,7 +108,7 @@ Notice the structure of the tree (i.e. which genomes are closely related to one 
 Perform DNA sequence comparisons and phylogenetic analysis in [APE](http://ape-package.ird.fr/), an R package
 ------------------------------------------------------------------------
 
-We've did initial visualization of the parsnp output files in gingr, now we are going to do further exploration of DNA alignments in R. 
+We did initial visualization of parsnp output files in gingr, now we are going to do further exploration of DNA alignments in R. 
 
 First we will determine how many variants separate each genome, second we will visualize the phylogenetic tree produced by parsnp and finally we will look for evidence of recombination among our genomes.
 
@@ -267,11 +271,6 @@ Phandango is a web based tool that is useful for visualizing output from many co
 
 First let's download a summary of recombinant regions in gff format onto your local system. Use cyberduck to drag and drop these files to ~/Desktop/Abau_parsnp - parsnpLCB.recombination_predictions.gff, parsnpLCB.node_labelled.final_tree.tre 
 
-```
-
-cd ~/Desktop/Abau_parsnp
-
-```
 
 Next, go the the phandango website (https://jameshadfield.github.io/phandango/#/), and just drag the gff file - parsnpLCB.recombination_predictions.gff and parsnpLCB.node_labelled.final_tree.tre into your web browser. 
 
