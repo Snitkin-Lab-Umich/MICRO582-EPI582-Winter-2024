@@ -105,8 +105,8 @@ Now, fire up gingr and use File->open tab to read in parsnp.ggr
 Notice the structure of the tree (i.e. which genomes are closely related to one another) and whether variants are or aren't evenly spaced across the genome.
 
 
-Perform DNA sequence comparisons and phylogenetic analysis in [APE](http://ape-package.ird.fr/), an R package
-------------------------------------------------------------------------
+Phylogenetic analysis in [APE](http://ape-package.ird.fr/)
+----------------------------------------------------------
 
 We did initial visualization of parsnp output files in gingr, now we are going to do further exploration of DNA alignments in R. 
 
