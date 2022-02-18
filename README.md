@@ -110,7 +110,7 @@
 #### [Class 13 – Recombination detection](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class13/README.md)
 ***
 
-- Whole genome alignment with parsnp
+- Perform Whole genome alignment with Parsnp
 - Recombination filtering with Gubbins
 - Phylogenetic analysis of outbreak
 
