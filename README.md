@@ -110,9 +110,10 @@
 #### [Class 13 – Recombination detection](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class13/README.md)
 ***
 
-- Perform Whole genome alignment with Parsnp
-- Recombination filtering with Gubbins
-- Phylogenetic analysis of outbreak
+- [Perform Whole genome alignment with Parsnp](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md#perform-whole-genome-alignment-with-parsnp)
+- [Phylogenetic analysis in APE](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md#phylogenetic-analysis-in-ape)
+- [Perform SNP density analysis to discern evidence of recombination](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md#perform-snp-density-analysis-to-discern-evidence-of-recombination)
+- [Perform recombination filtering with Gubbins](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md#perform-recombination-filtering-with-gubbins)
 
 ### Section - Hospital outbreak investigation
 ----------------------------------------------------
