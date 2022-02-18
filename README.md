@@ -88,7 +88,11 @@
 #### [Class 10 – Intro to RStudio](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md)
 ***
 
-- Introduction to Rstudio
+- [The RStudio Interface and setting up an RProject](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class10/README.md#the-rstudio-interface-and-setting-up-an-rproject)
+- [Creating variables, performing operations and applying functions](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class10/README.md#creating-variables,-performing-operations-and-applying-functions)
+- [Reading in and parsing a gff file](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class10/README.md#reading-in-and-parsing-a-gff-file)
+- [Exploring the pan-genome matrix created by panaroo](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class10/README.md#exploring-the-pan-genome-matrix-created-by-panaroo)
+- [Plotting a heatmap of AMR genes from ARIBA](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class10/README.md#plotting-a-heatmap-of-AMR-genes-from-ariba)
 
 
 #### [Class 11 – Basic phylogenetic analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class12/README.md)
