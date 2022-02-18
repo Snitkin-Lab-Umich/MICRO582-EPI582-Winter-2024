@@ -98,10 +98,7 @@
 #### [Class 11 – Basic phylogenetic analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class12/README.md)
 ***
 
-- Overlaying antibiotic resistance on a phylogeny to understand patterns of evolution/spread
-- Overlaying geography on a phylogeny to put local isolates in global context
-- Overlay origin on a phylogeny to understand how infections with differing epidemiology are related
-
+- Exploring the relationship between community- and healthcare-acquired MRSA using phylogenetic analysis
 
 #### [Class 12 – Genome-wide association studies](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class13/README.md)
 ***
