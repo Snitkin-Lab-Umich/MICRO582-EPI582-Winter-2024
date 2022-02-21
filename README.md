@@ -85,74 +85,74 @@
 ### Section - Basic phylogenetic analysis
 -------------------------------------
 
-#### [Class 10 – Intro to RStudio](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class10/README.md)
+#### [Class 11 – Intro to RStudio](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md)
 ***
 
-- [The RStudio Interface and setting up an RProject](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class10/README.md#the-rstudio-interface-and-setting-up-an-rproject)
-- [Creating variables, performing operations and applying functions](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class10/README.md#creating-variables,-performing-operations-and-applying-functions)
-- [Reading in and parsing a gff file](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class10/README.md#reading-in-and-parsing-a-gff-file)
-- [Exploring the pan-genome matrix created by panaroo](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class10/README.md#exploring-the-pan-genome-matrix-created-by-panaroo)
-- [Plotting a heatmap of AMR genes from ARIBA](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class10/README.md#plotting-a-heatmap-of-AMR-genes-from-ariba)
+- [The RStudio Interface and setting up an RProject](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md#the-rstudio-interface-and-setting-up-an-rproject)
+- [Creating variables, performing operations and applying functions](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md#creating-variables,-performing-operations-and-applying-functions)
+- [Reading in and parsing a gff file](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md#reading-in-and-parsing-a-gff-file)
+- [Exploring the pan-genome matrix created by panaroo](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md#exploring-the-pan-genome-matrix-created-by-panaroo)
+- [Plotting a heatmap of AMR genes from ARIBA](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md#plotting-a-heatmap-of-AMR-genes-from-ariba)
 
 
-#### [Class 11 – Basic phylogenetic analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md)
+#### [Class 12 – Basic phylogenetic analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class12/README.md)
 ***
 
-- [Exploring the relationship between community- and healthcare-acquired MRSA using phylogenetic analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md#exploring-the-relationship-between-community-and-healthcare-acquired-mrsa-using-phylogenetic-analysis)
-- [Tracking the origin of an blaNDM ST147 Klebsiella pneumoniae outbreak using phylogenetic analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md#tracking-the-origin-of-an-blandm-st147-klebsiella-pneumoniae-outbreak-using-phylogenetic-analysis)
+- [Exploring the relationship between community- and healthcare-acquired MRSA using phylogenetic analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class12/README.md#exploring-the-relationship-between-community-and-healthcare-acquired-mrsa-using-phylogenetic-analysis)
+- [Tracking the origin of an blaNDM ST147 Klebsiella pneumoniae outbreak using phylogenetic analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class12/README.md#tracking-the-origin-of-an-blandm-st147-klebsiella-pneumoniae-outbreak-using-phylogenetic-analysis)
 
-#### [Class 12 – Genome-wide association studies](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class12/README.md)
+#### [Class 13 – Genome-wide association studies](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class13/README.md)
 ***
 
 - Perform bGWAS for antibiotic resistance
 
 
-#### [Class 13 – Recombination detection](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class13/README.md)
+#### [Class 14 – Recombination detection](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class14/README.md)
 ***
 
-- [Perform Whole genome alignment with Parsnp](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class13/README.md#perform-whole-genome-alignment-with-parsnp)
-- [Phylogenetic analysis in APE](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class13/README.md#phylogenetic-analysis-in-ape)
-- [Perform SNP density analysis to discern evidence of recombination](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class13/README.md#perform-snp-density-analysis-to-discern-evidence-of-recombination)
-- [Perform recombination filtering with Gubbins](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class13/README.md#perform-recombination-filtering-with-gubbins)
+- [Perform Whole genome alignment with Parsnp](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class14/README.md#perform-whole-genome-alignment-with-parsnp)
+- [Phylogenetic analysis in APE](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class14/README.md#phylogenetic-analysis-in-ape)
+- [Perform SNP density analysis to discern evidence of recombination](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class14/README.md#perform-snp-density-analysis-to-discern-evidence-of-recombination)
+- [Perform recombination filtering with Gubbins](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class14/README.md#perform-recombination-filtering-with-gubbins)
 
 ### Section - Hospital outbreak investigation
 ----------------------------------------------------
 
-#### [Class 14 – Overview of genomic epidemiology](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class14/README.md)
+#### [Class 15 – Overview of genomic epidemiology](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class15/README.md)
 ***
 
 
 
 
-#### [Class 15 – Guest lecture on AMR in public health](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class15/README.md)
+#### [Class 16 – Guest lecture on AMR in public health](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class16/README.md)
 ***
 
 
 
 
-#### [Class 16 – Transmission in endemic settings](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class16/README.md)
+#### [Class 17 – Transmission in endemic settings](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class17/README.md)
 ***
 
 
 
 
-#### [Class 17 – Regional outbreaks](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class17/README.md)
+#### [Class 18 – Regional outbreaks](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class18/README.md)
 ***
 
 -  Investigating Regional transmission using Genomic data
 
 
-#### [Class 18 – Regional endemic spread](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class18/README.md)
+#### [Class 19 – Regional endemic spread](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class19/README.md)
 ***
 
 - Analyze AAC paper in regentrans
 
-#### [Class 19 – Nanopore sequencing](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class19/README.md)
+#### [Class 20 – Nanopore sequencing](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class20/README.md)
 ***
 
 
 
-#### [Class 20– Guest lecture on AMR surveillance in the environment](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class20/README.md)
+#### [Class 21– Guest lecture on AMR surveillance in the environment](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class21/README.md)
 ***
 
 
@@ -160,18 +160,18 @@
 ### Section - Genomic epidemiology of SARS-CoV-2
 --------------------------------------------
 
-#### [Class 21 – Guest lecture on COVID genomics in public health](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class21/README.md)
+#### [Class 22 – Guest lecture on COVID genomics in public health](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class22/README.md)
 ***
 
 
 
-#### [Class 22 – SARS-CoV-2 genomics](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class22/README.md)
+#### [Class 23 – SARS-CoV-2 genomics](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class23/README.md)
 ***
 
 - Examine the impact of data QC on genetic distance distributions
 - Identify putative transmission clusters and examine makeup
 
-#### [Class 23 – Dated phylogenetic analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class23/README.md)
+#### [Class 24 – Dated phylogenetic analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class24/README.md)
 ***
 
 - Perform root-to-tip analysis before and after data QC
