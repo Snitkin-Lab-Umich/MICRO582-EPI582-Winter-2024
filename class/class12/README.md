@@ -57,16 +57,16 @@ library(treeWAS)
 
 
 ### Read in Pangenome gene presence/absence matrix from Panaroo
-geno_df <- read.table(file="/data/geno.tsv", 
+geno_df <- read.table(file="class13/geno.tsv", 
                       header = TRUE)
 
 ### Read in Phyogenetic tree.
-tree <- read.tree(file = "data/cdc_tree_rooted.tree")
+tree <- read.tree(file = "class13/cdc_tree_rooted.tree")
 
 
 ###  Read in binary Phenotype data - whether a MRSA sample 
 ###  is clindamycin resistant(1) or not(0)
-phen_df <- read.table(file="data/pheno.tsv", 
+phen_df <- read.table(file="class13/pheno.tsv", 
                       header = TRUE)
 
 #Create phen vector inputted according to treeWAS format
