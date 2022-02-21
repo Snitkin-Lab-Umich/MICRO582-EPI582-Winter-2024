@@ -20,6 +20,13 @@ The treeWAS R package
 ---------------------
 [TreeWAS](https://github.com/caitiecollins/treeWAS) is an R package that is commonly applied for bGWAS analysis. Included in treeWAS are three different association tests that attempt to quantify different ways that a genotype and phenotype can be associated. Today we will focus on the synchonous test, which explicitly evaluates whether the emergence of a genetic variant on a phylogeny co-occurs with the emergence of a phenotype more than would be expected by chance. Put differently,the synchronous tests recreates the evolution of the phenotype and each genetic variant on a phylogeny, and tests whether a variant and phenotype show a strong correlation in when they arise. If a given genetic variant always arises at the same time as a phenotype, that supports a potential causal association.
 
+Setup
+-----
+We are going to be working in RStudio again today. Take the following steps to get ready for the lab:
+
+1. Start up your epid582 Rproject and create a new directory in it called class13 to hold data we will be analyzing today. 
+2. Go on to Great Lakes and copy over the class 13 files to your working directory
+3. Use cyberduck to bring the files down to the class13 directory you created on your own computer
 
 Identifying genes associated with clindamycin resistance in USA300 MRSA
 -----------------------------------------------------------------------
