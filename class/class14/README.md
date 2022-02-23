@@ -156,7 +156,7 @@ plot(parsnp_tree)
 Next, let's root our tree by the outgroup so that the structure is correct.
 
 ```
-parsnp_tree$tip.label<-gsub("\'","",parsnp_tree$tip.label)
+parsnp_tree$tip.label<-gsub("\'|.fasta|.fa","",parsnp_tree$tip.label)
 parsnp_tree_rooted = root(parsnp_tree, "Abau_AB0057_genome.fa")
 plot(parsnp_tree_rooted)
 ```
