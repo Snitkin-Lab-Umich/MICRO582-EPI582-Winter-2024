@@ -41,6 +41,8 @@ Perform Whole genome alignment with [Parsnp](https://harvest.readthedocs.io/en/l
 
 An alternative approach for identification of variants among genomes is to perform whole genome alignments of assemblies. If the original short read data is unavailable, this might be the only approach available to you. Typically, these programs don’t scale well to large numbers of genomes (e.g. > 100), but they are worth being familiar with. We will use the tool mauve for constructing whole genome alignments of our five A. baumannii genomes.
 
+**Note that we have run Parsnp for you, so you can skip this step and the conversion of format using harvesttools**
+
 > ***i. Perform genome alignment with Parsnp***
 
 Create a conda environment class13 that will install Parsnp/Harvesttools/Gubbins for you. 
@@ -242,6 +244,9 @@ Perform recombination filtering with [Gubbins](https://www.google.com/search?q=g
 ----------------------------------------------
 
 Now that we know there is recombination, we know that we need to filter out the recombinant regions to discern the true phylogenetic relationship among our strains. In fact, this is such an extreme case (~99% of variants of recombinant), that we could be totally misled without filtering recombinant regions. To accomplish this we will use the tool gubbins, which essentially relies on elevated regions of variant density to perform recombination filtering.
+
+**Note that we have run gubbins for you, so you can skip this step**
+
 
 > ***i. Run gubbins on your fasta alignment***
 
