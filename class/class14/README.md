@@ -38,7 +38,6 @@ We are going to be working in RStudio again today. Take the following steps to g
  - parsnp.tree (tree created by parsnp based on the unfiltered alignment)
  - parsnpLCB.final_tree.tre (recombination filtered tree created by gubbins)
  - parsnpLCB.recombination_predictions.gff (gff file of recombination events produced by gubbins)
- - parsnpLCB.node_labelled.final_tree.tre (A differently formatted tree produced by gubbins)
 
 
 Perform Whole genome alignment with [Parsnp](https://harvest.readthedocs.io/en/latest/content/parsnp.html)
@@ -249,7 +248,7 @@ run_gubbins.py --filter_percentage 50 --outgroup Abau_AB0057_genome.fa parsnpLCB
 
 Phandango is a web based tool that is useful for visualizing output from many common microbial genomic analysis programs. Here we will use it to visualize the recombination regions detected by gubbins. 
 
-Next, go the the phandango website (https://jameshadfield.github.io/phandango/#/), and just drag the gff file - parsnpLCB.recombination_predictions.gff and parsnpLCB.node_labelled.final_tree.tre into your web browser. 
+Next, go the the phandango website (https://jameshadfield.github.io/phandango/#/), and just drag the gff file - parsnpLCB.recombination_predictions.gff and parsnpLCB.final_tree.tre into your web browser. 
 
 Does gubbins seem to have identified recombinant regions where we saw elevated variant density? In addition, which genomes seem to share the most recombinant regions?
 
