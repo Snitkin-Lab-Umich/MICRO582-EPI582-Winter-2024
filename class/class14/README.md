@@ -26,14 +26,19 @@ The other two genomes you will be using are **ACICU and AB0057.**
 
 **AB0057** is a more distantly related isolate that we will utilize as an out-group in our phylogenetic analysis. The utility of an out-group is to help us root our phylogenetic tree, and gain a more nuanced understanding of the relationship among strains.
 
-Execute the following command to copy files for todays class:
 
-```
-wd
+Setup
+-----
+We are going to be working in RStudio again today. Take the following steps to get ready for the lab:
 
-cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class14 ./
-
-```
+1. Start up your epid582 Rproject and create a new directory in it called class14 to hold data we will be analyzing today. 
+2. Go on to Great Lakes and copy over the class 14 files to your working directory
+3. Use cyberduck to bring the files down to the following files from the parnsnp_results directory to the class14 firectory you created on your own computer
+ - parsnpLCB.aln (whole-genome alignment created by parsnp)
+ - parsnp.tree (tree created by parsnp based on the unfiltered alignment)
+ - parsnpLCB.final_tree.tre (recombination filtered tree created by gubbins)
+ - parsnpLCB.recombination_predictions.gff (gff file of recombination events produced by gubbins)
+ - parsnpLCB.node_labelled.final_tree.tre (A differently formatted tree produced by gubbins)
 
 
 Perform Whole genome alignment with [Parsnp](https://harvest.readthedocs.io/en/latest/content/parsnp.html)
@@ -45,7 +50,7 @@ An alternative approach for identification of variants among genomes is to perfo
 
 > ***i. Perform genome alignment with Parsnp***
 
-Create a conda environment class13 that will install Parsnp/Harvesttools/Gubbins for you. 
+Create a conda environment class14 that will install Parsnp/Harvesttools/Gubbins for you. 
 
 ```
 conda create -n class14 -c bioconda parsnp harvesttools gubbins
@@ -116,7 +121,7 @@ First we will determine how many variants separate each genome, second we will v
 
 > ***i. Read alignment into R***
 
-Fire up RStudio, set your working directory to ~/Desktop/Abau_parsnp/ or wherever you have downloaded your parsnp files and install/load ape
+Fire up RStudio, and get into your class R Project!
 
 Use the read.dna function in ape to read in you multiple alignments. 
 Print out the variable to get a summary.
@@ -146,7 +151,7 @@ Examining the pairwise distances among our isolates, we see that our genomes hav
 
 > ***iii. View phylogenetic tree***
 
-First, let's read in the tree produced by parsnp and plot it using ape.
+Next, let's read in the tree produced by parsnp and plot it using ape.
 
 ```
 parsnp_tree = read.tree('parsnp.tree')
@@ -220,10 +225,10 @@ Now that we know there is recombination, we know that we need to filter out the 
 
 > ***i. Run gubbins on your fasta alignment***
 
-Go back on great lakes and activate class13 environment
+Go back on great lakes and activate class14 environment
 
 ```
-conda activate class13
+conda activate class14
 ```
 
 Run gubbins on your fasta formatted alignment
@@ -231,7 +236,7 @@ Run gubbins on your fasta formatted alignment
 ```
 wd
 
-cd class13
+cd class14
 
 cd parsnp_results
 
@@ -244,9 +249,6 @@ run_gubbins.py --filter_percentage 50 --outgroup Abau_AB0057_genome.fa parsnpLCB
 
 Phandango is a web based tool that is useful for visualizing output from many common microbial genomic analysis programs. Here we will use it to visualize the recombination regions detected by gubbins. 
 
-First let's download a summary of recombinant regions in gff format onto your local system. Use cyberduck to drag and drop these files to ~/Desktop/Abau_parsnp - parsnpLCB.recombination_predictions.gff, parsnpLCB.node_labelled.final_tree.tre 
-
-
 Next, go the the phandango website (https://jameshadfield.github.io/phandango/#/), and just drag the gff file - parsnpLCB.recombination_predictions.gff and parsnpLCB.node_labelled.final_tree.tre into your web browser. 
 
 Does gubbins seem to have identified recombinant regions where we saw elevated variant density? In addition, which genomes seem to share the most recombinant regions?
@@ -257,23 +259,13 @@ Finally, lets look at the recombination-filtered tree to see if this alters our 
 To view the tree we will use the ape package in R:
 
 ```
-
-# In RStudio
-
-# Load ape library
-library(ape)
-
-# Path to tree file
-tree_file <- '~/Desktop/Abau_parsnp/parsnpLCB.node_labelled.final_tree.tre'
-
 # Read in tree
-gubbins_tree <- read.tree(tree_file)
+gubbins_tree <- read.tree('class14/parsnpLCB.final_tree.tre')
 
 # Drop the outgroup for visualization purposes
 gubbins_tree_noOG = drop.tip(gubbins_tree, c('Abau_AB0057_genome.fa'))
 
-plot(gubbins_tree_noOG)
-
+plot(gubbins_tree_noOG, cex = 0.5)
 ```
 
 How does the structure look different than the unfiltered tree?
