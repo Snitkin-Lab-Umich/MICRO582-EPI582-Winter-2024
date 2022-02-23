@@ -59,7 +59,7 @@ harvesttools -h
 
 run_gubbins.py -h
 
-cd class13
+cd class14
 ```
 
 Now we will ask parsnp to align all the genomes in Abau_genomes directory and also ask parsnp to use Reference_genome/ACICU_genome.fasta as a reference genome.
@@ -184,38 +184,28 @@ For this analysis we want to exclude the out-group, because we are interested in
 abau_msa_no_outgroup to check that it worked.
 
 ```
-abau_msa_no_outgroup = abau_msa[c('ACICU_genome.ref','AbauA_genome','AbauB_genome','AbauC_genome'),]
+abau_msa_no_outgroup = abau_msa[parsnp_tree_rooted_drop$tip.label,]
 
 ```
 
 > ***ii. Get variable positions***
 
-Next, we will get the variable positions, as before
+Next, we will get the variable positions
+
+```
+abau_msa_no_outgroup_var_pos = apply(abau_msa_no_outgroup, 2, 
+                                 FUN = function(x){
+                                          sum(x == x[1]) < 4
+                                   }) 
 
 ```
 
-abau_msa_no_outgroup_bin = apply(abau_msa_no_outgroup, 2, FUN = function(x){x == x[1]}) 
-
-abau_no_outgroup_var_pos = colSums(abau_msa_no_outgroup_bin) < 4
-
-```
-
-> ***iii. Get non-gap positions***
-
-Next, we will get the core positions, as before
-
-```
-
-abau_no_outgroup_non_gap_pos = colSums(as.character(abau_msa_no_outgroup) == '-') == 0
-
-```
-
-> ***iv. Create overall histogram of SNP density***
+> ***iii. Create overall histogram of SNP density***
 
 Finally, create a histogram of SNP density across the genome. 
 
 ```
-hist(which(abau_no_outgroup_var_pos & abau_no_outgroup_non_gap_pos), 10000)
+hist(which(abau_no_outgroup_var_pos), 10000)
 ```
 
 Does the density look even, or do you think there might be just a touch of recombination?
