@@ -157,15 +157,15 @@ Next, let's root our tree by the outgroup so that the structure is correct.
 
 ```
 parsnp_tree$tip.label<-gsub("\'|.fasta|.fa","",parsnp_tree$tip.label)
-parsnp_tree_rooted = root(parsnp_tree, "Abau_AB0057_genome.fa")
-plot(parsnp_tree_rooted)
+parsnp_tree_rooted = root(parsnp_tree, "Abau_AB0057_genome")
+plot(parsnp_tree_rooted, cex = 0.5)
 ```
 
 Now that the tree is rooted, let's drop the outgroup so we can more clearly see the tree structure for our isolates of interest.
 
 ```
-parsnp_tree_rooted_drop = drop.tip(parsnp_tree_rooted, c('Abau_AB0057_genome.fa', 'ACICU_genome.fasta.ref'))
-plot(parsnp_tree_rooted_drop)
+parsnp_tree_rooted_drop = drop.tip(parsnp_tree_rooted, c('Abau_AB0057_genome'))
+plot(parsnp_tree_rooted_drop, cex = 0.5)
 ```
 
 Notice that with this tree, genomes A and B are more closely related, suggesting that they share a more recent common ancestor than C. In the realm of genomic epidemiology we would infer that A and B are more closely related in a putative transmission chain. Let's see if the tree structure, and therefore our understanding of the outbreak is influenced by filtering out recombinant regions.
