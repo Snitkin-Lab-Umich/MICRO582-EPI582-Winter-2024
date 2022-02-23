@@ -128,43 +128,23 @@ setwd("~/Desktop/Abau_parsnp/")
 library(ape)
 
 #READ IN THE MULTIPLE GENOME ALIGNMENT AND CHANGE THE NAMES TO REMOVE FILE EXTENSIONS
-abau_msa = read.dna('parsnpLCB.aln', format = "fasta") 
+abau_msa = read.dna('class14/parsnpLCB.aln', format = "fasta") 
 row.names(abau_msa) = gsub(".fa|.fasta", "", row.names(abau_msa))
 ```
 
-> ***ii. Get variable positions***
+> ***ii. Count number of variants between sequences***
 
-The DNA object created by read.dna can also be addressed as a matrix, where the columns are positions in the alignment and rows are your sequences. We will next treat our alignment as a matrix, and use apply and colSums to get positions in the alignment that vary among our sequences. Examine these commands in detail to understand how they are working together to give you a logical vector indicating which positions vary in your alignment.
-
-```
-
-abau_msa_bin = apply(abau_msa, 2, FUN = function(x){x == x[1]}) 
-
-abau_var_pos = colSums(abau_msa_bin) < 5
-```
-
-> ***iii. Get non-gap positions***
-
-For our phylogenetic analysis we want to focus on the core genome, so we will next identify positions in the alignment where all our genomes have sequence.
-
-```
-non_gap_pos = colSums(as.character(abau_msa) == '-') == 0
-```
-
-> ***iv. Count number of variants between sequences***
-
-Now that we know which positions in the alignment are core and variable, we can extract these positions and count how many variants there are among our genomes. To count pairwise variants we will use the dist.dna function in ape. The model parameter indicates that we want to compare sequences by counting differences. Print out the resulting matrix to see how different our genomes are.
+Now lets count how many variants there are among our genomes. To count pairwise variants we will use the dist.dna function in ape. The model parameter indicates that we want to compare sequences by counting differences. Print out the resulting matrix to see how different our genomes are.
 
 ```
 
-abau_msa_var = abau_msa[,abau_var_pos & non_gap_pos ]
-var_count_matrix = dist.dna(abau_msa_var, model = "N")
+var_count_matrix = dist.dna(abau_msa, model = "N")
 
 ```
 
 Examining the pairwise distances among our isolates, we see that our genomes have thousands of variants between them. Based on the estimated evolutionary rate of Acinetobacter, we would expect this amount of variation to take hundreds of years to accumulate via mutation and vertical inherentence. Thus, based on this observation it seems unlikely that these are related by recent transmission. However, before we reach our final conclusion we need to assess whether all of this variation was due to mutation and vertical inheretance, or if some of the variation is due to horizontal transfer via recombination.
 
-> ***vi. View phylogenetic tree***
+> ***iii. View phylogenetic tree***
 
 First, let's read in the tree produced by parsnp and plot it using ape.
 
