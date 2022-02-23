@@ -31,7 +31,7 @@ Execute the following command to copy files for todays class:
 ```
 wd
 
-cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class13 ./
+cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class14 ./
 
 ```
 
@@ -46,9 +46,9 @@ An alternative approach for identification of variants among genomes is to perfo
 Create a conda environment class13 that will install Parsnp/Harvesttools/Gubbins for you. 
 
 ```
-conda create -n class13 -c bioconda parsnp harvesttools gubbins
+conda create -n class14 -c bioconda parsnp harvesttools gubbins
 
-conda activate class13
+conda activate class14
 
 # invoke parsnp and harvesttool's help menu to check if it was installed properly
 parsnp -h
