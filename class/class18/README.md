@@ -43,7 +43,7 @@ The data we will analyze comes from a regional outbreak of NDM containing ST147 
 
 Our collaborators in Chicago have done a great deal of work attempting to impliment regional approaches to infection prevention. To monitor the impact of a regional intervention they performed regional point-prevalence surveys to track the prevalence of CRKP across regional healthcare facilities. For these regional point prevalence surveys, investigator teams would go to a facility during a week and perform rectal surveillance screening for CRE on every patient in the facility. During one of these surveys in 2016/2017 investigators observed that while most CRKP isolates harbored KPC, some harbored NDM. Of note, most of the NDM isolates were observed in a specific type of post-acute care facility, called ventilator skilled nursing facilities (vSNFs). The other types of surveyed facilities (ICUs - intensive care units and LTACHs - long-term acute care hospitals), showed few cases. In three subsequent surveys in 2018/2019, NDM showed a drastic increase in prevalence, particularlly in three vSNFs, while KPC remained relatively steady.
 
-To start, let's read in sample meta-data from the outbreak and plot isolate prevelance across facilities over time.
+To understand how this outbreak started and progressed we performed whole-genome sequencing on all KPC and NDM isolates from the first survey, and then all NDM containing isolates from the subsequent three surveys. To start, let's read in sample meta-data of isolates sequenced from the outbreak and plot isolate distribution across facilities over time.
 
 
 ```
@@ -62,6 +62,13 @@ ggplot(data=st147_meta_data, aes(x=f_id, fill = bla), ylim = 20) +
 
 Calculate pairwise genetic distances and look for evidence of transmission within facilities
 --------------------------------------------------------------------------------------------
+To start our analysis of the outbreak we will examine pairwise distances among isolates. We have a few goals in this analysis:
+1. To further assess whether all isolates are part of a clonal outbreak. If they are, then we expect a unimodal distribution, where the maximum genetic distance is consistent with the amount of evolution that could occur during the time span of the outbreak. If the data supports a clonal outbreak, then a time-scaled phylogenetic analysis can be performed to gain more nuanced insight into the evolutionary rate of the outbreak strain and when key events occured (e.g. introduction into the region).
+2. To get a sense of whether we are sampling recent direct or indirect transmission events. Given that we rarely have a comprehensive sampling of all cases, it is helpful to first get a sense of how much recent transmission is being detected, before moving on to interpretation. One line of support for sampling recent transmission is the existance of closely related isolates (i.e. small SNV distances), although this in itself is not sufficient, as early in outbreaks there is often low overall genetic diversity. Therefore, we also consider epidemiologic data in the form of the facility of isolation. If we are sampling recent transmission, we expect an enrichment of epidemiologic linkages (i.e. being from the same facility) at small SNV distances.
+3. By examining where the enrichment for epidemiologic overlap declines, we can identify a reasonable threshold for detecting transmission moving forward based on the observed evolutionary rate of the organism and how rapidly it moves within and between facilities.
+
+
+First, lets get pairwise distances, process them in regentrans and then use ggplot to plot histograms of pairwise distances from pairs from the same or different facilities.
 
 ```
 ##Make plots of pairwise distances within and between facilities
@@ -98,7 +105,10 @@ ggplot(data = pair_types, aes(x = pairwise_dist, fill = pair_type)) +
   labs(x = "Pairwise SNV distance", y = "Count", fill = "") +
   xlim(-1,51)
   
-#Plot intra versus inter facility dists over time
+#Plot intra versus inter facility dists over time and notice:
+#1) How the maximum of the distribution gets larger as time goes on (i.e. evolution is occuring)
+#2) The amount of transmission we are observing increases over time as evidenced by the larger spikes in small SNVS
+#3) In the last survey we detect more evidence of inter-facility transmission as evidenced by small inter-facility pairs, indicating increasing regional spread
 surveys <- structure(st147_meta_data_subset$survey, names = st147_meta_data_subset$gID) #get surveys named by isolates
 
 pair_types %>% 
@@ -110,6 +120,7 @@ pair_types %>%
   facet_grid(~surv1) 
 ```
 
+Finally, let's make it a bit easier to identify a threshold where enrichment for facility overlap falls off by plotting the fraction of intra-facility pairs at increasing SNV thresholds.
 
 ```
 ##Look for evidence of SNV threshold enriched in intra-facility transmission
