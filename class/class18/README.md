@@ -39,7 +39,11 @@ library(ggtree)
 
 Background on regional outbreak
 -------------------------------
+The data we will analyze comes from a regional outbreak of NDM containing ST147 Klebsiella pneumoniae in Chicago-area healthcare facilities that we previously [published on](https://academic.oup.com/cid/article/73/8/1431/6277037). A little bit of background. Carbapenem resisistant Klebsiella pneumoniae (CRKP) has been prevelant in Chicago since it's initial [introduction ~2008](https://www.science.org/doi/pdf/10.1126/scitranslmed.aan0093?download=true). However, CRKP isolates up until this outbreak exclusively harbored the KPC carbapenemase, with NDM only having been observed sporadically. A significant difference between KPC and NDM is that KPC harboring strains are susceptible to new line combination therapies that combine carbapenems/carbapenemase inhibitors, while NDM harboring strains are not. Thus, a shift from NDM to KPC would be cause for concern.
 
+Our collaborators in Chicago have done a great deal of work attempting to impliment regional approaches to infection prevention. To monitor the impact of a regional intervention they performed regional point-prevalence surveys to track the prevalence of CRKP across regional healthcare facilities. For these regional point prevalence surveys, investigator teams would go to a facility during a week and perform rectal surveillance screening for CRE on every patient in the facility. During one of these surveys in 2016/2017 investigators observed that while most CRKP isolates harbored KPC, some harbored NDM. Of note, most of the NDM isolates were observed in a specific type of post-acute care facility, called ventilator skilled nursing facilities (vSNFs). The other types of surveyed facilities (ICUs - intensive care units and LTACHs - long-term acute care hospitals), showed few cases. In three subsequent surveys in 2018/2019, NDM showed a drastic increase in prevalence, particularlly in three vSNFs, while KPC remained relatively steady.
+
+To start, let's read in sample meta-data from the outbreak and plot isolate prevelance across facilities over time.
 
 
 ```
