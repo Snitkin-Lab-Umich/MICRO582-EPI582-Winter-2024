@@ -21,7 +21,7 @@ For performing descriptive analyses of a regional outbreak we will use several n
 
 A few other notes on packages that we wil be using:
 1. In prior sessions we have made plots using base R. Today we will be using ggplot, which is extremely powerful for creating informative figures for observational data. I will not be discussing ggplot in detail, but there are lots of great online resources to learn more!
-2. In prior sessions we used ape to plot our trees with meta-data. Today we will ue ggtree, which in my opinion allows for creation of much more aestetically pleasing figures, with options for overlaying different types of meta-data. Again, we will not discuss in detail, but there is great (documentation)[https://yulab-smu.top/treedata-book/]!
+2. In prior sessions we used ape to plot our trees with meta-data. Today we will ue ggtree, which in my opinion allows for creation of much more aestetically pleasing figures, with options for overlaying different types of meta-data. Again, we will not discuss in detail, but there is great [documentation](https://yulab-smu.top/treedata-book/)
 
 ```
 #Setup regentrans
