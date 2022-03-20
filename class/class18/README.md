@@ -165,6 +165,10 @@ ggtree(st147_tree) +
 
 Next, let's try quantifying some of our observations with respect to the size of transmission clusters within facilities. To do this we will use regentrans to identify sub-clusters with a desired level of pureness (i.e. proportion of isolates from facility of interest) and then plot the size of these sub-clusters. Note that this is not perfect, as importation and exportation can results in a transmission cluster within a facility being broken up by isolates from other facilities, but this is an informative first pass that can be complimented with other simple approaches (e.g. SNV thresholds) or more sophisticated ones (e.g. phylogeographic analyses).
 
+Notice a few things:
+1. It appears that likely transmission within vSNF L isn't captured well. Why do you think this is?
+2. Otherwise, do the clusters match your intuition from the phylogeny?
+
 ```
 ##Extract phylogenetic clusters containing isolates from each facility
 ##and plot size distribution
