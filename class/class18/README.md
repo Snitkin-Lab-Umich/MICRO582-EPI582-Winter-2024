@@ -188,6 +188,12 @@ ggplot(data = pure_subtree_info, aes(x = loc, y = subtr_size, color = loc)) +
 
 Look for inter-facility transmission as evidenced by closely related isolates shared between facilities
 -------------------------------------------------------------------------------------------------------
+There are numerous approaches to examine transmission between facilities, and we will explore some more of those next class. For now, we willuse our SNV threshold of 10 SNVs and examine connectivity to get a rough sense for isolate sharing between facilities.
+
+Notice the following:
+1. We now see that vSNF L has large numbers of intra-facility pairs (despite what phylogenetic clusters showed).
+2. We are see that vSNF L is highly connected to other facilities, as we expected by examining the tree
+3. In contrast we see that despite having large numbers of intra-facility pairs, vSNF K is relatively isolated from other facilities.
 
 ```
 ##Get number of closely related pairs between facilities and
