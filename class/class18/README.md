@@ -138,6 +138,14 @@ ggplot(data =frac_intra, aes(x = pairwise_dist, y = frac_intra)) +
 
 Examine whole-genome phylogeny and extract putative transmission clusters
 -------------------------------------------------------------------------
+Next, we are going to explore our outbreak by plotting the whole-genome phylogeny and overlaying facility of isolation on the tips. Things we will be looking for are:
+1. The existance of clustering by individual facility, which we interpret as transmission clusters within a facility
+2. Patterns of intermixing of isolates between facilities, which we interpret as putative transmission between facilities. While we will ultimately quantify this, it is helpful to look for larger patterns (e.g. certain facilities seeding many other facilities, frequent intermixing of isolates from certain facility pairs, etc.).
+
+Let's go ahead and plot our tree using ggtree! A few things to notice:
+1. There are large clusters on the tree for the three vSNFs with highest prevalence (vSNFs J/K/L), suggesting that transmission within each facility is driving prevalence
+2. vSNFs L and J appear particularly important in regional dissemination, with isolates from many other facilities linking off clusters of isolates from those facilities.
+3. Some vSNFs show evidence of repeated importation, with smaller clusters of isolates
 
 ```
 ##Plot tree with tips colored by facility
@@ -155,6 +163,7 @@ ggtree(st147_tree) +
   labs(col = 'Facility') 
 ```
 
+Next, let's try quantifying some of our observations with respect to the size of transmission clusters within facilities. To do this we will use regentrans to identify sub-clusters with a desired level of pureness (i.e. proportion of isolates from facility of interest) and then plot the size of these sub-clusters. Note that this is not perfect, as importation and exportation can results in a transmission cluster within a facility being broken up by isolates from other facilities, but this is an informative first pass that can be complimented with other simple approaches (e.g. SNV thresholds) or more sophisticated ones (e.g. phylogeographic analyses).
 
 ```
 ##Extract phylogenetic clusters containing isolates from each facility
