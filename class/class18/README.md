@@ -173,7 +173,7 @@ Notice a few things:
 ##Extract phylogenetic clusters containing isolates from each facility
 ##and plot size distribution
 #Get clusters with regentrans
-clusters <- get_clusters(st147_tree_subset,facils[st147_tree_subset$tip.label], pureness = 1, pt = pts[st147_tree_subset$tip.label])
+clusters <- get_clusters(st147_tree,facils[st147_tree$tip.label], pureness = 1, pt = pts[st147_tree$tip.label])
 
 #Get pure subtree info for plotting
 pure_subtree_info <- clusters$pure_subtree_info
