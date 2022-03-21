@@ -35,6 +35,7 @@ library(ggplot2)
 library(tibble)
 library(tidyverse)
 library(ggtree)
+library(pheatmap)
 ```
 
 Background on regional outbreak
