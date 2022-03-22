@@ -28,17 +28,23 @@ library(pheatmap)
 
 Background on the data
 ----------------------
+For today's lab we will be working on a sample and data collection comprising carbapenem-resistant Klebsiella pneumoniae (CRKP) collected from 21 long-term acute care hospitals (LTACHs) in the United States. The majority of isolates came from 11 LTACHs in LA County, where CRKP is highly prevalent due to the circulation of epidemic lineage ST258. In today's lab we are going to use regentrans to replicate some of the analyses from our [publication](https://pubmed.ncbi.nlm.nih.gov/31451495/) on this data, where we showed how genomic analysis could inform where regional transmission is occurring, and the pathways of transmission between regional LTACHs. 
 
+The data from this manuscript comes as the default dataset in regentrans, so just loading the library gives you access to the variables below!
+
+Also, check out the great [vignette](https://snitkin-lab-umich.github.io/regentrans/articles/Introduction.html) that Sophie and Zena created showing you different types of analayses/visualizations that regentrans can enable. We will just look at a couple today.
 
 ```
-head(metadata)
-class(aln)
-dists[1:5, 1:5]
-class(tr)
-head(pt_trans_df)
+#Preloaded dataset that comes with regentrans
+
+head(metadata) #meta-data of study isolates
+class(aln) #variant alignment of ST258 genomes
+dists[1:5, 1:5] #distance matrix constructed from variant alignment
+class(tr) #maximum likelihood tree constructed from variant alignment
+head(pt_trans_df) #counts of patient transfers between pairs of healthcare facilities
 ```
 
-
+To start, let's plot a tree of the isolates with facility overlaid. With a dataset this large, it's hard to see much just from this type of visualization :)
 ```
 #Plot tree with facilities overlaid
 facils_tip <- c(facils[tr$tip.label],
