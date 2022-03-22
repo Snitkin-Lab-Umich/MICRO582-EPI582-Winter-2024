@@ -58,8 +58,12 @@ ggtree(tr) +
 
 Calculate pairwise genetic distances and look for evidence of transmission within facilities
 --------------------------------------------------------------------------------------------
+As we did in the previous class for our regional outbreak, we are going to look at pairwise SNV distances among isolates from the same and different facilities to:
+1. Assess whether we are detecting recent transmission in our data set as evidenced by closely related pairs
+2. If we see evidence of a appropraite SNV threshold for recent transmission, as evidenced by degradation for the enrichment in epidemiologic association with increasing SNV thresholds
 
 
+To start, let's plot our histograms colored by inta- and inter-facility pairs.
 ```
 #Get facility and patient named vectors
 facils <- structure(metadata$facility, names = metadata$isolate_id)
@@ -75,6 +79,8 @@ ggplot(data = pair_types, aes(x= pairwise_dist, fill = pair_type)) +
   xlim(-1,50)
 ```
 
+As with last time, it does appear that there is an enrichment among isolates from the same facility at the smallest SNV distances. So, let's look at how this enrichment tails off, and whether there is a reasonable SNV threshold for recent transmission. 
+
 ```
 #Get fraction of intra-facility pairs at different SNV cutoffs
 frac_intra <- get_frac_intra(pair_types = pair_types)
@@ -86,10 +92,12 @@ ggplot(data = frac_intra, aes(x= pairwise_dist, y = frac_intra)) +
   ylim(0,1) + 
   xlim(0,50)
 ```
-
+From this it looks like 8 or 10 SNVs could be a good threshold. This is actually somewhat reassuring as the evolutionary rate of ST258 is 4 SNVs per genome per year. So, since our study was a year long, it is reasonable to expect that isolates linked by recent transmission could be within this range of genetic distance, which could accumulate over the course of a year.
 
 Look for inter-facility transmission as evidenced by closely related isolates shared between facilities
 -------------------------------------------------------------------------------------------------------
+
+Next, we are going to use our SNV threshold of 10 SNVs to look at the number of putative transmission linkages identified within and between each pair of facilities, and plot a heatmap of the results.
 
 ```
 #Calculate pairwise linkages among facilities
@@ -117,9 +125,15 @@ pheatmap(log2(facil_pair_count+1),
          cluster_cols = F)
 ```
 
+You can see that there is variation in the amount of intra-facility transmission, as well as the amount of connection between different pairs of facilities.
 
 Compare genetic linkages between facilities to patient transfer network
 -----------------------------------------------------------------------
+Finally, we are going to evaluate how the amount of putative transmission between facilities as inferred from genomic ananlysis relates to connectivity between facilities as determined by patient transfer data. 
+
+For patient transfer data we are going to use a function in regentrans to calculate the patient flow between each pair of facilities. Essentially, this takes into account all the direct and indirect pathways between each pair of facilities, and sums them up to estimate overall connectivity between pairs of facilities.
+
+For genomic data we will use two metrics to quantify density of transmission. The first is the previously calculated number of isolate pairs below our SNV threshold. The second is a metric called fsp (which is computed by regentrans). Fsp is a population genetic metric that quantifies the amount of intermixing between two populations, or in our case between two facilities. In essence, this metric quantifies the amount of shared genetic variation among isolates from pairs of facilities, and in this way gets at inter-facility transmission without having to impose an SNV threshold.
 
 
 ```
