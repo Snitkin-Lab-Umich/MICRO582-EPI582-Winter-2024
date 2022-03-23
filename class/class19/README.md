@@ -10,9 +10,7 @@ Setup
 -----
 We are going to be working in RStudio again today. Take the following steps to get ready for the lab:
 
-1. Start up your epid582 Rproject and create a new directory in it called class19 to hold data we will be analyzing today. 
-2. Go on to Great Lakes and copy over the class 19 files to your working directory
-3. Use cyberduck to bring the files down to the class19 directory you created on your own computer
+1. No need to download any files today - we will be using the data that comes with regentrans.
 
 Once in R, load the following libraries
 
