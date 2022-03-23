@@ -46,6 +46,10 @@ head(pt_trans_df) #counts of patient transfers between pairs of healthcare facil
 
 To start, let's plot a tree of the isolates with facility overlaid. With a dataset this large, it's hard to see much just from this type of visualization :)
 ```
+#Get facility and patient named vectors
+facils <- structure(metadata$facility, names = metadata$isolate_id)
+pts <- structure(metadata$patient_id, names = metadata$isolate_id)
+
 #Plot tree with facilities overlaid
 facils_tip <- c(facils[tr$tip.label],
                 rep(NA, Nnode(tr)))
@@ -65,10 +69,6 @@ As we did in the previous class for our regional outbreak, we are going to look 
 
 To start, let's plot our histograms colored by inta- and inter-facility pairs.
 ```
-#Get facility and patient named vectors
-facils <- structure(metadata$facility, names = metadata$isolate_id)
-pts <- structure(metadata$patient_id, names = metadata$isolate_id)
-
 #Get pair types data frame from regentrans
 pair_types <- get_pair_types(dists = dists, locs = facils, pt = pts)
 
