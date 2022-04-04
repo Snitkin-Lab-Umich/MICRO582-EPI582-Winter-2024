@@ -147,22 +147,17 @@
 
 - Analyze AAC paper in regentrans
 
-#### [Class 20 – Nanopore sequencing](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class20/README.md)
+#### [Class 20 – Guest lecture on AMR surveillance in the environment](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class20/README.md)
 ***
-
-
-
-#### [Class 21– Guest lecture on AMR surveillance in the environment](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class21/README.md)
-***
-
 
 
 ### Section - Genomic epidemiology of SARS-CoV-2
 --------------------------------------------
-
-#### [Class 22 – Guest lecture on COVID genomics in public health](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class22/README.md)
+#### [Class 21– Guest lecture on COVID genomics in public health](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class21/README.md)
 ***
 
+#### [Class 22 – Final project planning session](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class22/README.md)
+***
 
 
 #### [Class 23 – SARS-CoV-2 genomics](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class23/README.md)
