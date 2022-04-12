@@ -92,6 +92,8 @@ ggtree(contAR_tree, root.position = 2019.91, aes(color=ContAR), alpha = 0.35) +
     theme(legend.position="right")
 ```
 
-
-
+Looking at the tree:
+1) How many importations into Illinois does there seem to have been?
+2) Where did these importations come from?
+3) When did these importations occur?
 
