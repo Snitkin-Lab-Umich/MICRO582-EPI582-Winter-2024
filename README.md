@@ -166,7 +166,7 @@
 - Examine the impact of data QC on genetic distance distributions
 - Identify putative transmission clusters and examine makeup
 
-#### [Class 24 – Dated phylogenetic analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class24/README.md)
+#### [Class 25 – Dated phylogenetic analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class24/README.md)
 ***
 
 - Perform root-to-tip analysis before and after data QC
