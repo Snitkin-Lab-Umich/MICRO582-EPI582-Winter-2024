@@ -70,6 +70,11 @@ Visualizing time-scaled trees in R
 Lastly, we are going to read in our time-scaled ancestrally reconstructed trees into R and visualize them with ggtree.
 
 ```
+#Read in libraries
+library(ggtree)
+library(RColorBrewer)#you may have to install first
+library(treeio) #you may have to install first
+
 #Read in tree
 contAR_tree = read.beast('continent_AR_tree_subset.tree')
 
