@@ -4,30 +4,180 @@ Class 4 – Illumina sequencing data and QC
 Goal
 ----
 
-- We will perform quality control on raw illumina fastq reads to assess the quality of reads using FastQC.
+- We will perform quality control on raw illumina fastq reads to detect contamination and assess the quality of reads using Kraken and FastQC.
 - Clean reads by removing low quality reads and adapters using Trimmomatic.
 
+Overview of Genomics Pipeline
+-----------------------------
+Now that we're getting into genomic analysis, let's come back to the overview of the analysis workflow. The first step leading to all downstream analyses is data quality control (QC), which is what we will cover today.
+
+![Mile high view of a genomics pipeline](genomics_pipeline.png)
+
+![QC-ing](genomics_pipeline_qc.png)
+
+Contamination Screening using [Kraken](https://ccb.jhu.edu/software/kraken/)
+--------------------------------------------
+One important QC to perform when getting your sequencing data is to make sure you sequenced what you think you did. For this purpose, we will employ Kraken which is a taxonomic sequence classifier that assigns taxonomic labels to short DNA reads. We will screen our samples against a MiniKraken database (a pre-built database constructed from complete bacterial, archaeal, and viral genomes in NCBI RefSeq database) and confirm if the majority of reads in our sample belong to the target species.
+
+In our previous class, we learned how to set up our environment using PATH variable. we will repeat the same thing to add path to the Kraken and Krona executables.
+
+> Open ~/.bashrc file using any text editor and add the following lines at the end of your .bashrc file. 
+
+```
+
+export PATH=$PATH:/scratch/epid582w22_class_root/epid582w22_class/shared_data/bin/kraken
+export PATH=$PATH:/scratch/epid582w22_class_root/epid582w22_class/shared_data/bin/KronaTools-2.8.1/bin/
+
+```
+
+> Now source your bashrc file to make these changes effective.
+
+```
+source ~/.bashrc
+```
+
+> Lets check if we can call kraken help menu from the command line.
+
+```
+kraken -h
+```
+
+If you see the help menu, then we are all set to move forward.
+
+> ***i. Login to an interactive cluster node so that we are not all running intensive commands on the login node***
+
+When we previously used the cluster we created an sbat file and included specifications for the resources desired and the commands/programs we wanted to execute on a cluster node with the desired specs. Here we will be working with the cluster in a different way, by creating an interactive cluster job. In essence, gettng an interactive node allows you to login to a cluster node, so you can run commands on a compute system with the desired resources. This is desirable when your job requires a lot of input from you (e.g. testing code, working in R, etc.) or if you want to closely monitor a jobs running behavior. 
+
+To submit an interactive job we will use an alias that we placed in our .bashrc called 'islurm'. When you type islurm, the following command will be executed:
+
+```
+srun --account=epid582w22_class --nodes=1 --ntasks-per-node=1 --mem-per-cpu=5GB --cpus-per-task=1 --time=12:00:00 --pty /bin/bash
+```
+
+***When you run islurm what happens?***
+
+***How can you tell that you are now executing commands on a cluster node?***
+
+***How can we verify that indeed we are running a job on the cluster?***
+
+You should see "username@glXXXX" in your command prompt where XXXX refers to the cluster node number.
+
+> ***ii. Copy class4 directory to your home directory***
+
+```
+#Go to your class working directory
+wd
+
+#Copy over today's materials
+cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class4 ./
+
+#Go into the directory
+cd class4/
+
+```
+
+> **iii. Lets run kraken on Rush_KPC_266_1_combine.fastq.gz file before we assess it quality***
+
+Since Kraken takes time to run, we have already placed the output of Kraken command in class4 directory.
+
+```
+
+kraken --quick --fastq-input --gzip-compressed --unclassified-out Rush_KPC_266_unclassified.txt --db kraken/minikraken_20171013_4GB/ --output Rush_KPC_266_kraken Rush_KPC_266_1_combine.fastq.gz 
+
+```
+
+It should take around 2 minutes.
+
+> **iv. Run Kraken report to generate a concise summary report of the species found in reads file.***
+
+
+```
+
+kraken-report --db kraken/minikraken_20171013_4GB/ Rush_KPC_266_kraken > Rush_KPC_266_kraken_report.txt
+
+```
+
+The output of kraken-report is tab-delimited, with one line per taxon. The fields of the output, from left-to-right, are as follows:
+
+1. Percentage of reads covered by the clade rooted at this taxon
+2. Number of reads covered by the clade rooted at this taxon
+3. Number of reads assigned directly to this taxon
+4. A rank code, indicating (U)nclassified, (D)omain, (K)ingdom, (P)hylum, (C)lass, (O)rder, (F)amily, (G)enus, or (S)pecies. All other ranks are simply '-'.
+5. NCBI taxonomy ID
+6. indented scientific name
+
+
+```
+less Rush_KPC_266_kraken_report.txt
+```
+
+Lets extract columns by Species (column 4 - "S") and check the major species indentified in our sample.
+
+```
+awk '$4 == "S" {print $0}' Rush_KPC_266_kraken_report.txt | head
+
+```
+
+
+Lets visualize the same information in an interactive form.
+
+> v. Generate a HTML report to visualize Kraken report using Krona
+
+```
+cut -f2,3 Rush_KPC_266_kraken > Rush_KPC_266_krona.input
+
+ktImportTaxonomy Rush_KPC_266_krona.input -o Rush_KPC_266_krona.out.html
+
+```
+
+In case you get an error saying - Taxonomy not found, run updateTaxonomy.sh command.
+
+```
+updateTaxonomy.sh
+```
+
+Use scp command as shown below to copy over the Kraken/krona html report to your local system.
+
+***Note: Run this scp command on your local system and not on great lakes.***
+
+```
+
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/apirani/class4/*.html /path-to-local-directory/
+
+#You can use ~/Desktop/ as your local directory path
+
+```
 
 Quality Control using FastQC
 ----------------------------
-Now we will run FastQC on some sample raw data to assess its quality. FastQC is a quality control tool that reads in sequence data in a variety of formats(fastq, bam, sam) and can either provide an interactive application to review the results or create an HTML based report which can be integrated into any pipeline. It is generally the first step that you take upon receiving the sequence data from sequencing facility to get a quick sense of its quality and whether it exhibits any unusual properties (e.g. contamination or unexpected biological features)
+OK, you've performed a sequencing experiment and are eager to dig into your data and see what it reveals. However, before you get to analyzing, you first need to make sure that the data are of good enough quality to warrent further analysis, and to ensure that you don't get led astray by messy data. 
 
-> ***i. In your day1pm directory, create a new directory for saving FastQC results.***
+We will be performing QC analysis on Illumina sequencing data (see [here](https://youtu.be/fCd6B5HRaZ8)). The tool that we will be using to examine the quality of our sequencing data is FastQC. FastQC is a quality control tool that reads in sequence data in a variety of formats(fastq, bam, sam) and can either provide an interactive application to review the results or create an HTML based report which can be integrated into any pipeline. Running FastQC can give you quick sense of the data quality and whether it exhibits any unusual properties (e.g. contamination or unexpected biological features), and can point you towards next steps in terms of ways to cleanup your data.
+
+
+
+> ***i. Go to class4 directory and create a new directory for saving FastQC results.***
 
 ```
-cd /scratch/micro612w21_class_root/micro612w21_class/username/day1pm/
+#Go back to your class4 working directory
+wd
 
-#or
+cd class4/
 
-d1a
-
+#Create directory for FastQC results
 mkdir Rush_KPC_266_FastQC_results
+
+#Create directory for trimmomatic results
 mkdir Rush_KPC_266_FastQC_results/before_trimmomatic
 ```
 
 > ***ii. Verify that FastQC is in your path by invoking it from command line.***
 
 ```
+#Active conda environment giving us access to fastqc
+conda activate MICRO582_class4_QC
+
+#Verify that you can run fastqc
 fastqc -h
 ```
 
@@ -45,13 +195,10 @@ The summary.txt file in these directories indicates if the data passed different
 
 You can visualize and assess the quality of data by opening html report in a local browser.
 
-> ***iv. Exit your cluster node so you don’t waste cluster resources and $$$!***
-
-> ***v. Download the FastQC html report to your home computer to examine using scp or cyberduck***
+> ***iv. Download the FastQC html report to your home computer to examine using scp***
 
 ```
-
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/micro612w21_class_root/micro612w21_class/username/day1pm/Rush_KPC_266_FastQC_results/before_trimmomatic/*.html /path-to-local-directory/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class4/Rush_KPC_266_FastQC_results/before_trimmomatic/*.html /path-to-local-directory/
 
 ```
 
@@ -80,20 +227,18 @@ For more information on how Trimmomatic tries to achieve this, Please refer [thi
 
 Now we will run Trimmomatic on these raw data to remove low quality reads as well as adapters. 
 
-> ***i. If the interactive session timed out, get an interactive cluster node again to start running programs and navigate to day1pm directory. Also, load the Conda environment - micro612.***
+> ***i. If the interactive session timed out, get an interactive cluster node again to start running programs and navigate to class4 directory. Also, load the Conda environment - MICRO582_class4_QC.***
 
-How to know if you are in interactive session: you should see "username@nyx" in your command prompt
+Run this only if you are were logged out of interactive mode.
 
 ```
 islurm
 
-cd /scratch/micro612w21_class_root/micro612w21_class/username/day1pm/
+conda activate MICRO582_class4_QC
 
-#or
+wd
 
-d1a
-
-conda activate micro612
+cd class4
 ```
 
 > ***ii. Create these output directories in your day1pm folder to save trimmomatic results***
@@ -114,14 +259,14 @@ trimmomatic –h
 
 ```
 
-trimmomatic PE Rush_KPC_266_1_combine.fastq.gz Rush_KPC_266_2_combine.fastq.gz Rush_KPC_266_trimmomatic_results/forward_paired.fq.gz Rush_KPC_266_trimmomatic_results/forward_unpaired.fq.gz Rush_KPC_266_trimmomatic_results/reverse_paired.fq.gz Rush_KPC_266_trimmomatic_results/reverse_unpaired.fq.gz ILLUMINACLIP:/scratch/micro612w21_class_root/micro612w21_class/shared/conda_envs/day1pm/share/trimmomatic-0.39-1/adapters/TruSeq3-PE.fa:2:30:10:8:true SLIDINGWINDOW:4:15 MINLEN:40 HEADCROP:0
+trimmomatic PE Rush_KPC_266_1_combine.fastq.gz Rush_KPC_266_2_combine.fastq.gz Rush_KPC_266_trimmomatic_results/forward_paired.fq.gz Rush_KPC_266_trimmomatic_results/forward_unpaired.fq.gz Rush_KPC_266_trimmomatic_results/reverse_paired.fq.gz Rush_KPC_266_trimmomatic_results/reverse_unpaired.fq.gz ILLUMINACLIP:/scratch/epid582w22_class_root/epid582w22_class/shared_data/database/trimmomatic-0.39-1/adapters/TruSeq3-PE.fa:2:30:10:8:true SLIDINGWINDOW:4:15 MINLEN:40 HEADCROP:0
 
 ```
 
 
 ![alt tag](https://github.com/alipirani88/Comparative_Genomics/blob/master/_img/day1_morning/trimm_parameters.png)
 
-First, Trimmomatic searches for any matches between the reads and adapter sequences. Adapter sequences are stored in this directory of Trimmomatic tool: /scratch/micro612w21_class_root/micro612w21_class/shared/bin/Trimmomatic/adapters/. Trimmomatic comes with a list of standard adapter fasta sequences such TruSeq, Nextera etc. You should use appropriate adapter fasta sequence file based on the illumina kit that was used for sequencing. You can get this information from your sequencing centre or can find it in FastQC html report (Section: Overrepresented sequences).
+First, Trimmomatic searches for any matches between the reads and adapter sequences. Adapter sequences are stored in this directory of Trimmomatic tool: /scratch/epid582w22_class_root/epid582w22_class/shared_data/database/trimmomatic-0.39-1/adapters/. Trimmomatic comes with a list of standard adapter fasta sequences such TruSeq, Nextera etc. You should use appropriate adapter fasta sequence file based on the illumina kit that was used for sequencing. You can get this information from your sequencing centre or can find it in FastQC html report (Section: Overrepresented sequences).
 
 Short sections (2 bp as determined by seed misMatch parameter) of each adapter sequences (contained in TruSeq3-PE.fa) are tested in each possible position within the reads. If it finds a perfect match, It starts searching the entire adapter sequence and scores the alignment. The advantage here is that the full alignment is calculated only when there is a perfect seed match which results in considerable efficiency gains. So, When it finds a match, it moves forward with full alignment and when the match reaches 10 bp determined by simpleClipThreshold, it finally trims off the adapter from reads.  
 
@@ -141,7 +286,7 @@ Get these html reports to your local system.
 
 ```
 
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/micro612w21_class_root/micro612w21_class/username/day1pm/Rush_KPC_266_FastQC_results/after_trimmomatic/*.html /path-to-local-directory/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class4/Rush_KPC_266_FastQC_results/after_trimmomatic/*.html /path-to-local-directory/
 
 ```
 
@@ -162,7 +307,7 @@ This doesn't look very bad but you can remove the red cross sign by trimming the
 mkdir Rush_KPC_266_trimmomatic_results_with_headcrop/
 
 
-time trimmomatic PE Rush_KPC_266_1_combine.fastq.gz Rush_KPC_266_2_combine.fastq.gz Rush_KPC_266_trimmomatic_results_with_headcrop/forward_paired.fq.gz Rush_KPC_266_trimmomatic_results_with_headcrop/forward_unpaired.fq.gz Rush_KPC_266_trimmomatic_results_with_headcrop/reverse_paired.fq.gz Rush_KPC_266_trimmomatic_results_with_headcrop/reverse_unpaired.fq.gz ILLUMINACLIP:/scratch/micro612w21_class_root/micro612w21_class/shared/conda_envs/day1pm/share/trimmomatic-0.39-1/adapters/TruSeq3-PE.fa:2:30:10:8:true SLIDINGWINDOW:4:20 MINLEN:40 HEADCROP:9
+time trimmomatic PE Rush_KPC_266_1_combine.fastq.gz Rush_KPC_266_2_combine.fastq.gz Rush_KPC_266_trimmomatic_results_with_headcrop/forward_paired.fq.gz Rush_KPC_266_trimmomatic_results_with_headcrop/forward_unpaired.fq.gz Rush_KPC_266_trimmomatic_results_with_headcrop/reverse_paired.fq.gz Rush_KPC_266_trimmomatic_results_with_headcrop/reverse_unpaired.fq.gz ILLUMINACLIP:/scratch/epid582w22_class_root/epid582w22_class/shared_data/database/trimmomatic-0.39-1/adapters/TruSeq3-PE.fa:2:30:10:8:true SLIDINGWINDOW:4:20 MINLEN:40 HEADCROP:9
 
 ```
 
@@ -178,7 +323,7 @@ fastqc -o Rush_KPC_266_FastQC_results/after_trimmomatic_headcrop/ --extract -f f
 Download the reports again and see the difference.
 ```
 
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/micro612w21_class_root/micro612w21_class/username/day1pm/Rush_KPC_266_FastQC_results/after_trimmomatic_headcrop/*.html /path-to-local-directory/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class4/Rush_KPC_266_FastQC_results/after_trimmomatic_headcrop/*.html /path-to-local-directory/
 
 ```
 

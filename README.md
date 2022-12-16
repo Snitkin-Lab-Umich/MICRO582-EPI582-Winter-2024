@@ -1,21 +1,14 @@
 # MICRO582/EPI582 - Genomic Epidemiology Winter 2022
 
-### Instructor(s): Evan Snitkin
+#### Instructor(s): Evan Snitkin
 
-### Description: 
+#### Description: Provide an overview of cutting-edge approaches for microbial genomic analysis, with a focus on their application in the emerging field of genomic epidemiology. Lectures will be reinforced with discussions and extensive hands-on training. Students will gain experience on the command-line and in performing downstream analysis and visualization in R.
 
-### Date: Winter Term 2022
+#### Date: Winter Term 2022
 
-### Prerequisites:
+#### Course Discipline: Epidemiology
 
-### Working directory
----------------------
-
-***The directory on Great Lakes that you will be working in is - `TBD`***
-
-You can find a folder named after your username/uniqname; for example if my uniqname is `apirani`, I will be working in `TBD` This would be the directory that couse attendees will be working from.
-
-## Overview:
+### Overview:
 ------------
 
 ### Section - Working with sequence data at the command line
@@ -24,30 +17,30 @@ You can find a folder named after your username/uniqname; for example if my uniq
 #### [Class 1 – Setting up Great Lakes account and Introduction to UNIX](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class1/README.md)
 ***
 
-- Sign up for Great Lakes account
-- Intro to Unix
-- Navigating directory structure
-- Running UNIX commands
+- [Sign up for Great Lakes account](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class1/README.md#sign-up-for-great-lakes-account)
+- [Intro to Unix](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class1/README.md#intro-to-unix)
+- [Navigating directory structure](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class1/README.md#navigating-directory-structure)
+- [Data Carpentry: Introducing the Shell & Navigating Files and Directories](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class1/README.md#data-carpentry:-introducing-the-shell-&-navigating-files-and-directories)
 
-#### [Class 2 – Introduction to Great Lakes and HPC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class2/README.md)
+#### [Class 2 – Sequence data formats](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class2/README.md)
 ***
 
-- Reviewing directory navigation
-- Setting up your compute environment
-- Loading modules
-- Submit a job to cluster
+- [Using GREP for pattern matching](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class2/README.md#using-grep-for-pattern-matching)
+- [Using for loops to perform same actions on different files](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class2/README.md#using-for-loops-to-perform-same-actions-on-different-files)
 
-#### [Class 3 – Sequence data formats](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class3/README.md)
+#### [Class 3 – Introduction to Great Lakes and HPC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class3/README.md)
 ***
 
-- Using GREP for pattern matching
-- Using for loops to perform same actions on different files
+- [Working with Files and Directories](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class3/README.md#working-with-files-and-directories)
+- [Setting up your compute environment](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class3/README.md#setting-up-your-compute-environment)
+- [Loading modules](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class3/README.md#loading-modules)
+- [Submit a job to cluster](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class3/README.md#submit-a-job-to-cluster)
 
 #### [Class 4 – Illumina sequencing data and QC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class4/README.md)
 ***
 
-- Quality Control using FastQC
-- Quality Trimming using Trimmomatic
+- [Quality Control using FastQC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class4/README.md#quality-control-using-fastqc)
+- [Quality Trimming using Trimmomatic](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class4/README.md#quality-trimming-using-trimmomatic)
 
 
 ### Section - Generating sequence data and performing annotation
@@ -56,45 +49,37 @@ You can find a folder named after your username/uniqname; for example if my uniq
 #### [Class 5 – Genome assembly](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class5/README.md)
 ***
 
-- Performing assembly on the cluster
-- Assess assembly quality with Quast
-- Aggregate and Assess dataset quality using multiQC
+- [Performing assembly on the cluster](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class5/README.md#performing-assembly-on-the-cluster)
+- [Assess assembly quality with Quast](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class5/README.md#assess-assembly-quality-with-quast)
+- [Aggregate and Assess dataset quality using multiQC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class5/README.md#aggregate-and-assess-dataset-quality-using-multiqc)
 
-#### [Class 6 – Sequence databases](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class6/README.md)
+#### [Class 6 – Genome annotation](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class6/README.md)
 ***
 
-- Download datasets from NCBI using SRA toolkit
-- Assess quality of downloaded dataset using fastQC, QUAST, multiQC
+- [Genome annotation using PROKKA](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class6/README.md#genome-annotation-using-prokka)
+- [Functional annotation using eggnog](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class6/README.md#functional-annotation-using-eggnog)
+- [Perform pan-genome analysis with Panaroo](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class6/README.md#perform-pan-genome-analysis-with-panaroo)
 
-#### [Class 7 – Rapid genome comparison](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class7/README.md)
+
+#### [Class 7 – Resistome analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class7/README.md)
 ***
 
-- Perform in silico MLST detection using ARIBA
-- Perform Genome comparison using 
-- Visualize data using iTol
+- [Determine which genomes contain KPC genes using BLAST](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class7/README.md#determine-which-genomes-contain-KPC-genes-using-blast)
+- [Identify antibiotic resistance genes with ARIBA directly from paired end reads](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class7/README.md#identify-antibiotic-resistance-genes-with-ariba-directly-from-paired-end-reads)
 
-
-#### [Class 8 – Genome annotation](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class8/README.md)
+#### [Class 8 – Data download and genome comparison](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class8/README.md)
 ***
 
-- Download assemblies from NCBI
-- Genome annotation using PROKKA
-- Functional annotation using eggnog
+- [Download datasets from NCBI using SRA toolkit](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class8/README.md#download-datasets-from-ncbi-using-sra-toolkit)
+- [Compare genomes using Mashtree](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class8/README.md#compare-genomes-using-mashtree)
+- [Visualize data and overlay metadata using iTol](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class8/README.md#visualize-our-tree-and-metadata-using-itol)
 
-#### [Class 9 – Resistome analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class9/README.md)
+#### [Class 9 – Reference based variant calling](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class9/README.md)
 ***
 
-- Identify antibiotic resistance genes with ARIBA directly from paired end reads
-- Explore ARIBA summary reports
-- Determine AR genes using BLAST
-
-
-#### [Class 10 – Reference based variant calling](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class10/README.md)
-***
-
-- Variant calling using SNIPPY - mapping Resistant sample to susceptible reference genome
-- Run Snippy on unknown R to screen for variants in gene of interest
-- Explore alignments and variants in IGV
+- [Variant calling Pipeline](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class9/README.md#variant-calling-pipeline)
+- [Variant calling using SNIPPY](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class9/README.md#variant-calling-using-snippy)
+- [Visualize BAM and VCF files in IGV(http://software.broadinstitute.org/software/igv/)](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class9/README.md#visualize-bam-and-vcf-files-in-IGV)
 
 
 ### Section - Basic phylogenetic analysis
@@ -103,16 +88,18 @@ You can find a folder named after your username/uniqname; for example if my uniq
 #### [Class 11 – Intro to RStudio](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md)
 ***
 
-- Introduction to Rstudio
+- [The RStudio Interface and setting up an RProject](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md#the-rstudio-interface-and-setting-up-an-rproject)
+- [Creating variables, performing operations and applying functions](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md#creating-variables,-performing-operations-and-applying-functions)
+- [Reading in and parsing a gff file](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md#reading-in-and-parsing-a-gff-file)
+- [Exploring the pan-genome matrix created by panaroo](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md#exploring-the-pan-genome-matrix-created-by-panaroo)
+- [Plotting a heatmap of AMR genes from ARIBA](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class11/README.md#plotting-a-heatmap-of-AMR-genes-from-ariba)
 
 
 #### [Class 12 – Basic phylogenetic analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class12/README.md)
 ***
 
-- Overlaying antibiotic resistance on a phylogeny to understand patterns of evolution/spread
-- Overlaying geography on a phylogeny to put local isolates in global context
-- Overlay origin on a phylogeny to understand how infections with differing epidemiology are related
-
+- [Exploring the relationship between community- and healthcare-acquired MRSA using phylogenetic analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class12/README.md#exploring-the-relationship-between-community-and-healthcare-acquired-mrsa-using-phylogenetic-analysis)
+- [Tracking the origin of an blaNDM ST147 Klebsiella pneumoniae outbreak using phylogenetic analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class12/README.md#tracking-the-origin-of-an-blandm-st147-klebsiella-pneumoniae-outbreak-using-phylogenetic-analysis)
 
 #### [Class 13 – Genome-wide association studies](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class13/README.md)
 ***
@@ -123,9 +110,10 @@ You can find a folder named after your username/uniqname; for example if my uniq
 #### [Class 14 – Recombination detection](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class14/README.md)
 ***
 
-- Whole genome alignment with parsnp
-- Recombination filtering with Gubbins
-- Phylogenetic analysis of outbreak
+- [Perform Whole genome alignment with Parsnp](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class14/README.md#perform-whole-genome-alignment-with-parsnp)
+- [Phylogenetic analysis in APE](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class14/README.md#phylogenetic-analysis-in-ape)
+- [Perform SNP density analysis to discern evidence of recombination](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class14/README.md#perform-snp-density-analysis-to-discern-evidence-of-recombination)
+- [Perform recombination filtering with Gubbins](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class14/README.md#perform-recombination-filtering-with-gubbins)
 
 ### Section - Hospital outbreak investigation
 ----------------------------------------------------
@@ -159,22 +147,17 @@ You can find a folder named after your username/uniqname; for example if my uniq
 
 - Analyze AAC paper in regentrans
 
-#### [Class 20 – Nanopore sequencing](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class20/README.md)
+#### [Class 20 – Guest lecture on AMR surveillance in the environment](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class20/README.md)
 ***
-
-
-
-#### [Class 21 – Guest lecture on AMR surveillance in the environment](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class21/README.md)
-***
-
 
 
 ### Section - Genomic epidemiology of SARS-CoV-2
 --------------------------------------------
-
-#### [Class 22 – Guest lecture on COVID genomics in public health](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class22/README.md)
+#### [Class 21– Guest lecture on COVID genomics in public health](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class21/README.md)
 ***
 
+#### [Class 22 – Final project planning session](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class22/README.md)
+***
 
 
 #### [Class 23 – SARS-CoV-2 genomics](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class23/README.md)
@@ -183,7 +166,7 @@ You can find a folder named after your username/uniqname; for example if my uniq
 - Examine the impact of data QC on genetic distance distributions
 - Identify putative transmission clusters and examine makeup
 
-#### [Class 24 – Dated phylogenetic analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class24/README.md)
+#### [Class 25 – Dated phylogenetic analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2022/blob/main/class/class24/README.md)
 ***
 
 - Perform root-to-tip analysis before and after data QC
