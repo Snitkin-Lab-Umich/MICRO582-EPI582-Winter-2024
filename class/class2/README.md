@@ -209,7 +209,8 @@ column 8: frame - One of '0', '1' or '2'. '0' indicates that the first base of t
 
 column 9: attribute - A semicolon-separated list of tag-value pairs, providing additional information about each feature such as gene name, product name etc.
 
-Lets firs
+Lets first download the sample.gff file from Canvas [here](https://umich.instructure.com/courses/585715/pages/02-working-with-files-from-the-shell).
+
 - Use less to explore first few lines of a gff file sample.gff
 
 ```
