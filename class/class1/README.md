@@ -67,7 +67,7 @@ Examining the contents of directories with ls
 Now that we know how to determine what directory we are in, let's next learn how to see what files and directories are in our current directory. First, execute the following command to copy over some directories and files for us to play with. Don't worry about what this command is doing for the time being, but rest assured that you will be learning the 'cp' command very soon!
 
 ```
-cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class1/shell_data/ .
+cp -r /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class1/shell_data/ .
 ```
 
 Hmmm, when we type the command we get no feedback from the shell, so how do we know that it worked? Well, let's learn our next command, which will help us determine if the files were copied over.
