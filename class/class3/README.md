@@ -87,7 +87,7 @@ For this, We will save the full path to these tools in an our PATH variable.
 	
 ```
 
-cp ~/.bashrc ~/bashrc_backup_2022_01_12
+cp ~/.bashrc ~/bashrc_backup_2023_01_11
 
 #Note: "~/" represents your home directory. On great lakes, this means /home/username
 
@@ -211,7 +211,12 @@ Load great lakes anaconda package and set up a conda environment in the followin
 ```
 # Load anaconda package from great lakes
 
-module load python3.8-anaconda/2021.05
+module load python3.9-anaconda/2021.11
+
+# Install Bash kernel for Jupyter Notebook.
+pip install bash_kernel
+
+python -m bash_kernel.install
 
 # Set channel_priority to false so that it can install packages as per the YML file and not from loaded channels.
 
@@ -436,4 +441,28 @@ chmod u=rwx fasta_counter.sh
 
 ```
 </details>
+
+
+Setting up Jupyter Notebook with Great Lakes Open OnDemand
+----------------------------------------------------------
+
+Advanced Research Computing's Open OnDemand offers several interactive applications for a user to use: RStudio, Jupyter Lab and Notebook, MATLAB, Spark and the ability to set up various Linux remote desktops on Great Lakes or Lighthouse. For all our subsequent class labs, we will be running genomics analysis in a Jupyter Notebook environment provided by Advanced Research Computing's Open OnDemand. Going forward, We will call opening OnDemand interactive apps as an interactive notebook session.
+
+More details about different Advanced Research Computing's Open OnDemand offerings can be found [here](https://arc.umich.edu/open-ondemand/)
+
+Lets set the interactive notebook session.
+
+1. Go to Great Lakes interactive session [link](https://greatlakes.arc-ts.umich.edu/pun/sys/dashboard/) and login with your UMICH uniqname and password. This will land you to the Great Lakes Homepage. At the top bar of the page, you would find dropdown buttons that lets us perform various interactive tasks using a web server instead of an terminal. Lets go through each of these buttons so that we are comfortable with the interactive session.
+
+    - If you click "Files", you would get an option to go to the Home Directory. This would be your Great Lakes Home directory path (/home/username) that you usually land up when you login to your great lakes accounts from command line.
+    - "Jobs" will give two options - "Active Jobs" and "Job Composer". Active Jobs shows you the jobs that are running on cluster under your account. "Job Composer" lets you compose and submit a job from a specified location. Composing a job and submitting it from here is similar to creating an sbatch script and submitting it with sbatch on command line.
+    - "Clusters" button lets you open a great lakes login terminal from a webpage.
+    - "Interactive Apps" button lets you start an interactive app such as Jupyter Notebook, Rstudio etc. Lets go ahead and start the Jupyter Notebook session.
+    - Use Slurm account "epid582w23_class" and hit the launch button. You should see a panel showing your job is about to start. Once the job starts, hit "Connect to Jupyter" button. As a default, Jupyter Notebook session will open in your home directory. No, we want to open notebook "Setup_Jupyter.ipynb" from the class3 folder that you just copied. Go to your class3 directory by first clicking the folder icon shown below "Select items to perform actions on them." line. 
+    - Click on scratch -> epid582w23_class -> "your username" -> class3 -> Setup_Jupyter.ipynb
+    - This will open up the notebook that we will run to set up the notebook environment.
+
+
+ 
+
 
