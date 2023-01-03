@@ -41,7 +41,7 @@ pwd
 - Now get three genome sequences with the following commands:
 
 ```
-curl ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/241/685/GCF_000241685.1_ASM24168v2/GCF_000241685.1_ASM24168v2_genomic.fna.gz >Acinetobacter_baumannii.fna.gz
+curl ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/241/685/GCF_000241685.1_ASM24168v2/GCF_000241685.1_ASM24168v2_genomic.fna.gz > Acinetobacter_baumannii.fna.gz
 
 curl ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/409/005/GCF_000409005.1_gkp33v01/GCF_000409005.1_gkp33v01_genomic.fna.gz > Kleb_pneu.fna.gz
 
@@ -49,7 +49,7 @@ curl ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/165/655/GCF_000165655.1_ASM1
 
 ```
 
-***If you are working on gitbash and curl doesn't work, then you can download from the Canvas website***
+***If you are working on gitbash and curl doesn't work, then you can download the fasta files from Canvas website [here](https://umich.instructure.com/courses/585715/pages/02-working-with-files-from-the-shell)***
 
 - To enable quick file transfers these genome assemblies came in compressed format. So, we will use the 'gzip' command with the '-d' flag to decompress the  compressed fasta files. One option is to run the command three times (once for each file), but as a shortcut we are going to use '\*', which is called the wildcard character. Here we are using '\*' to tell Unix  to apply our gzip command to all files ending in '.fna.gz'.
 
@@ -209,6 +209,7 @@ column 8: frame - One of '0', '1' or '2'. '0' indicates that the first base of t
 
 column 9: attribute - A semicolon-separated list of tag-value pairs, providing additional information about each feature such as gene name, product name etc.
 
+Lets firs
 - Use less to explore first few lines of a gff file sample.gff
 
 ```
