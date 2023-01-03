@@ -20,12 +20,12 @@ wd
 
 #or 
 
-cd /scratch/epid582w22_class_root/epid582w22_class/username
+cd /scratch/epid582w23_class_root/epid582w23_class/username
 
 
 > Note: Copy files for today's exercise in your home directory.
 
-cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class5 ./
+cp -r /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class5 ./
 ```
 
 Genome Assembly using [Spades](http://bioinf.spbau.ru/spades) Pipeline
@@ -46,7 +46,7 @@ Create a new directory for the spades output in your class_5 folder
 ```
 > Note: Make sure you change 'username' in the below command with your 'uniqname'. 
 
-cd /scratch/epid582w22_class_root/epid582w22_class/username/class5
+cd /scratch/epid582w23_class_root/epid582w23_class/username/class5
 
 > We will create a new directory in class_5 to save genome assembly results:
 
@@ -126,7 +126,7 @@ Now to check the example assemblies residing in your class5 folder, run the belo
 quast.py -o quast SRR5244781_contigs.fasta SRR5244821_contigs.fasta
 ```
 
-The command above will generate a report file in /scratch/epid582w22_class_root/epid582w22_class/username/class5/quast
+The command above will generate a report file in /scratch/epid582w23_class_root/epid582w23_class/username/class5/quast
 
 > ***ii. Explore quast output***
 
@@ -166,7 +166,7 @@ Now, let's take a look and see how our data quality looks. Download the html rep
 ```
 #Note: Make sure you change 'username' in the below command to your 'uniqname'.
 
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class5/Cdiff_multiqc_report.html ~/Desktop/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w23_class_root/epid582w23_class/username/class5/Cdiff_multiqc_report.html ~/Desktop/
 
 ```
 
@@ -212,7 +212,7 @@ If you are not in class_5 folder, navigate to it and change directory to multiqc
 ```
 
 #Change directory
-cd /scratch/epid582w22_class_root/epid582w22_class/username/class5/
+cd /scratch/epid582w23_class_root/epid582w23_class/username/class5/
 
 cd multiqc_analysis
 

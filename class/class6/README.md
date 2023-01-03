@@ -33,8 +33,8 @@ Lets add Prokka to our environment and check if we can invoke it.
 Add this line at the end of your .bashrc file and source it.
 
 ```
-export PATH=$PATH:/scratch/epid582w22_class_root/epid582w22_class/shared_data/bin/prokka/bin/
-export EGGNOG_DATA_DIR=/scratch/epid582w22_class_root/epid582w22_class/shared_data/database/eggnog
+export PATH=$PATH:/scratch/epid582w23_class_root/epid582w23_class/shared_data/bin/prokka/bin/
+export EGGNOG_DATA_DIR=/scratch/epid582w23_class_root/epid582w23_class/shared_data/database/eggnog
 ```
 
 Let load some perl-modules that prokka requires and invoke prokka's help menu.
@@ -52,7 +52,7 @@ Lets copy over class6 data to your class working directory.
 ```
 wd
 
-cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class6 ./
+cp -r /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class6 ./
 
 cd class6
 ```
@@ -254,8 +254,8 @@ mkdir ~/Desktop/class6
 Use scp or cyberduck to get `gene_presence_absence.csv` and `gene_presence_absence.Rtab` onto your laptop desktop folder.
 
 ```
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class6/panaroo/gene_presence_absence.csv ~/Desktop/class6
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class6/panaroo/gene_presence_absence.Rtab ~/Desktop/class6
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w23_class_root/epid582w23_class/username/class6/panaroo/gene_presence_absence.csv ~/Desktop/class6
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w23_class_root/epid582w23_class/username/class6/panaroo/gene_presence_absence.Rtab ~/Desktop/class6
 ```
 
 > ***i. Prepare and clean data***

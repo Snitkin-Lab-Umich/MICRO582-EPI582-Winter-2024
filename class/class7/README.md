@@ -30,7 +30,7 @@ First, change directories to the working directory and copy class7 directory:
 
 wd
 
-cp -r /scratch/epid582w22_class_root/epid582w22_class/shared_data/data/class7 ./ 
+cp -r /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class7 ./ 
 
 cd class7/blast
 
@@ -177,12 +177,12 @@ The ARIBA summary generates three output:
 Lets copy these  files, along with a metadata file, to the local system using cyberduck or scp.
 
 ```
-mkdir ~/Desktop/epid582w22_class
-mkdir ~/Desktop/epid582w22_class/class7
+mkdir ~/Desktop/epid582w23_class
+mkdir ~/Desktop/epid582w23_class/class7
 
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class7/ariba/results/kpneumo_card* ~/Desktop/epid582w22_class/class7
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class7/ariba/data/kpneumo_source.tsv ~/Desktop/epid582w22_class/class7
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w22_class_root/epid582w22_class/username/class7/ariba/data/mlst_typing/kpneumo_mlst.tsv ~/Desktop/epid582w22_class/class7
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w23_class_root/epid582w23_class/username/class7/ariba/results/kpneumo_card* ~/Desktop/epid582w23_class/class7
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w23_class_root/epid582w23_class/username/class7/ariba/data/kpneumo_source.tsv ~/Desktop/epid582w23_class/class7
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w23_class_root/epid582w23_class/username/class7/ariba/data/mlst_typing/kpneumo_mlst.tsv ~/Desktop/epid582w23_class/class7
 ```
 
 Drag and drop these two files onto the [Phandango](http://jameshadfield.github.io/phandango/#/) website. What types of resistance genes do you see in these *Klebsiella* genomes? 
@@ -224,7 +224,7 @@ Go to your R studio and overlay MLST metadata as an additional row annotation to
 
 ```
 #read in MLST data
-annots_mlst = read.table('~/Desktop/epid582w22_class/class7/kpneumo_mlst.tsv',row.names=1)
+annots_mlst = read.table('~/Desktop/epid582w23_class/class7/kpneumo_mlst.tsv',row.names=1)
 
 #make sure order of genomes is the same as source annotation
 annots_mlst$ST = annots_mlst[row.names(annots),]
