@@ -462,7 +462,7 @@ Lets set the interactive notebook session.
 
     At the top bar of the page, you would find dropdown buttons that lets us perform various interactive tasks using a web server instead of an terminal. Lets go through each of these buttons so that we are comfortable with the interactive session.
 
-   ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/img/GL-Homepage_Highlights_2)
+   ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/img/GL-Homepage_Highlights_2.png)
 
     ***Files:*** If you click "Files", you would get an option to go to the Home Directory. This would be your Great Lakes Home directory path (/home/username) that you usually land up when you login to your great lakes accounts from command line.
     
@@ -476,7 +476,7 @@ Lets set the interactive notebook session.
 
     Lets go ahead and start the Jupyter Notebook session by clicking "Interactive Apps" -> "Jupyter Notebook"
 
-    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/img/)
+    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/img/Jupyter-Notebook-Interactive-App-highlight.png)
 
     This will land you to the Job composer page. Make sure you use "epid582w23_class" as the slurm account name under which you will start this job. If all the parameters looks okay, hit the launch button.
 
