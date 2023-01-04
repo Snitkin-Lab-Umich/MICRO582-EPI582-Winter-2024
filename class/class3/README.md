@@ -452,17 +452,57 @@ More details about different Advanced Research Computing's Open OnDemand offerin
 
 Lets set the interactive notebook session.
 
-1. Go to Great Lakes interactive session [link](https://greatlakes.arc-ts.umich.edu/pun/sys/dashboard/) and login with your UMICH uniqname and password. This will land you to the Great Lakes Homepage. At the top bar of the page, you would find dropdown buttons that lets us perform various interactive tasks using a web server instead of an terminal. Lets go through each of these buttons so that we are comfortable with the interactive session.
+- Step 1
 
-    - If you click "Files", you would get an option to go to the Home Directory. This would be your Great Lakes Home directory path (/home/username) that you usually land up when you login to your great lakes accounts from command line.
-    - "Jobs" will give two options - "Active Jobs" and "Job Composer". Active Jobs shows you the jobs that are running on cluster under your account. "Job Composer" lets you compose and submit a job from a specified location. Composing a job and submitting it from here is similar to creating an sbatch script and submitting it with sbatch on command line.
-    - "Clusters" button lets you open a great lakes login terminal from a webpage.
-    - "Interactive Apps" button lets you start an interactive app such as Jupyter Notebook, Rstudio etc. Lets go ahead and start the Jupyter Notebook session.
-    - Use Slurm account "epid582w23_class" and hit the launch button. You should see a panel showing your job is about to start. Once the job starts, hit "Connect to Jupyter" button. As a default, Jupyter Notebook session will open in your home directory. No, we want to open notebook "Setup_Jupyter.ipynb" from the class3 folder that you just copied. Go to your class3 directory by first clicking the folder icon shown below "Select items to perform actions on them." line. 
-    - Click on scratch -> epid582w23_class -> "your username" -> class3 -> Setup_Jupyter.ipynb
-    - This will open up the notebook that we will run to set up the notebook environment.
+    Go to Great Lakes interactive session [link](https://greatlakes.arc-ts.umich.edu/pun/sys/dashboard/) and login with your UMICH uniqname and Level-1 password. 
+    
+    This will land you to the Great Lakes Homepage. 
+    
+    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/tree/main/class/class3/img/GL-Homepage.png)
 
+    At the top bar of the page, you would find dropdown buttons that lets us perform various interactive tasks using a web server instead of an terminal. Lets go through each of these buttons so that we are comfortable with the interactive session.
 
- 
+   ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/tree/main/class/class3/img/GL-Homepage_Highlights_2)
+
+    ***Files:*** If you click "Files", you would get an option to go to the Home Directory. This would be your Great Lakes Home directory path (/home/username) that you usually land up when you login to your great lakes accounts from command line.
+    
+    ***Jobs:*** "Jobs" will give two options - "Active Jobs" and "Job Composer". Active Jobs shows you the jobs that are running on cluster under your account. "Job Composer" lets you compose and submit a job from a specified location. Composing a job and submitting it from here is similar to creating a sbatch script and submitting it with sbatch on command line.
+    
+    ***Clusters***: Clusters button lets you open a great lakes login terminal from a webpage.
+
+    ***Interactive Apps:*** "Interactive Apps" button lets you start an interactive app such as Jupyter Notebook, Rstudio etc. 
+
+- Step 2
+
+    Lets go ahead and start the Jupyter Notebook session by clicking "Interactive Apps" -> "Jupyter Notebook"
+
+    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/tree/main/class/class3/img/)
+
+    This will land you to the Job composer page. Make sure you use "epid582w23_class" as the slurm account name under which you will start this job. If all the parameters looks okay, hit the launch button.
+
+    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/tree/main/class/class3/img/Jupyter-Notebook-Interactive-App-highlight.png)
+
+    You would see a page that would look something like the below page. This indicates that your job is in queue and is about to start.
+
+    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/tree/main/class/class3/img/Jupyter-Notebook-Job-Start-highlights-job.png)
+
+- Step 3
+
+    When the jobs starts, it will give you an option to "Connect to Jupyter". 
+
+    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/tree/main/class/class3/img/Connect-to-jupyter.png)
+
+    Hit that button and you will land to your home directory and will look something like the image below. Note: As a default, the Jupyter Notebook navigation will always start from your home directory.
+
+    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/tree/main/class/class3/img/Jupyter-Home.png)
+
+    Now, click on the folder icon as shown below "Select items to perform actions on them." line (See below screenshot for reference). 
+
+    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/tree/main/class/class3/img/link-to-root_final.png)
+
+    Click on scratch -> epid582w23_class -> "your username" -> class3 -> Setup_Jupyter.ipynb
+
+    This will open up jupyter notebook that we will run to set up the notebook environment.
+
 
 
