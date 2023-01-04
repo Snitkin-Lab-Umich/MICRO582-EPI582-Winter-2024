@@ -35,6 +35,7 @@
 - [Setting up your compute environment](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/README.md#setting-up-your-compute-environment)
 - [Loading modules](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/README.md#loading-modules)
 - [Submit a job to cluster](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/README.md#submit-a-job-to-cluster)
+- [Setting up Jupyter Notebook with Great Lakes Open OnDemand](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/README.md#setting-up-jupyter-notebook-with-great-lakes-open-ondemand)
 
 #### [Class 4 – Illumina sequencing data and QC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class4/README.md)
 ***
