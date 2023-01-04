@@ -458,11 +458,11 @@ Lets set the interactive notebook session.
     
     This will land you to the Great Lakes Homepage. 
     
-    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/tree/main/class/class3/img/GL-Homepage.png)
+    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/img/GL-Homepage.png)
 
     At the top bar of the page, you would find dropdown buttons that lets us perform various interactive tasks using a web server instead of an terminal. Lets go through each of these buttons so that we are comfortable with the interactive session.
 
-   ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/tree/main/class/class3/img/GL-Homepage_Highlights_2)
+   ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/img/GL-Homepage_Highlights_2)
 
     ***Files:*** If you click "Files", you would get an option to go to the Home Directory. This would be your Great Lakes Home directory path (/home/username) that you usually land up when you login to your great lakes accounts from command line.
     
@@ -476,29 +476,29 @@ Lets set the interactive notebook session.
 
     Lets go ahead and start the Jupyter Notebook session by clicking "Interactive Apps" -> "Jupyter Notebook"
 
-    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/tree/main/class/class3/img/)
+    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/img/)
 
     This will land you to the Job composer page. Make sure you use "epid582w23_class" as the slurm account name under which you will start this job. If all the parameters looks okay, hit the launch button.
 
-    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/tree/main/class/class3/img/Jupyter-Notebook-Interactive-App-highlight.png)
+    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/img/Jupyter-Notebook-Interactive-App-highlight.png)
 
     You would see a page that would look something like the below page. This indicates that your job is in queue and is about to start.
 
-    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/tree/main/class/class3/img/Jupyter-Notebook-Job-Start-highlights-job.png)
+    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/img/Jupyter-Notebook-Job-Start-highlights-job.png)
 
 - Step 3
 
     When the jobs starts, it will give you an option to "Connect to Jupyter". 
 
-    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/tree/main/class/class3/img/Connect-to-jupyter.png)
+    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/img/Connect-to-jupyter.png)
 
     Hit that button and you will land to your home directory and will look something like the image below. Note: As a default, the Jupyter Notebook navigation will always start from your home directory.
 
-    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/tree/main/class/class3/img/Jupyter-Home.png)
+    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/img/Jupyter-Home.png)
 
     Now, click on the folder icon as shown below "Select items to perform actions on them." line (See below screenshot for reference). 
 
-    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/tree/main/class/class3/img/link-to-root_final.png)
+    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/img/link-to-root_final.png)
 
     Click on scratch -> epid582w23_class -> "your username" -> class3 -> Setup_Jupyter.ipynb
 
