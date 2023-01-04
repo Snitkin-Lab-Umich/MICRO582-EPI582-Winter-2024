@@ -504,5 +504,16 @@ Lets set the interactive notebook session.
 
     This will open up jupyter notebook that we will run to set up the notebook environment.
 
+- Step 4
+
+    Jupyter Notebook requires you to have your Bash Kernel setup in order to run Bash commands. (Kernels are programming language specific processes that run independently and interact with the Jupyter Applications and their user interfaces.)
+
+    We installed Bash kernel while setting up our conda environment in our previous steps. Now, we will make sure that we are able to run the commands from this notebook. 
+
+    Let check if the kernel is installed. Click on "Kernel" at the top dropdown and select "Change Kernel". Select the Bash option. If you dont see a Bash option, this means that the Bash kernel was not installed/setup properly.
+
+    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/img/Bashkernel.png)
+
+    Lets run a few bash commands (from notebook - go to the end of notebook) to check if we can run Bash commands from this notebook.
 
 
