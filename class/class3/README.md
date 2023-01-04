@@ -480,7 +480,7 @@ Lets set the interactive notebook session.
 
     This will land you to the Job composer page. Make sure you use "epid582w23_class" as the slurm account name under which you will start this job. If all the parameters looks okay, hit the launch button.
 
-    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/img/Jupyter-Notebook-Interactive-App-highlight.png)
+    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/img/Jupyter-Notebook-Job-Start-highlights-job.png)
 
     You would see a page that would look something like the below page. This indicates that your job is in queue and is about to start.
 
