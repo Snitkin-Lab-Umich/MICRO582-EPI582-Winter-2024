@@ -474,6 +474,8 @@ Lets set the interactive notebook session.
 
 - Step 2
 
+    Jupyter Notebook allows us to create and share documents with other researchers. We can integrate live code, equations, computational output, visualizations, and other multimedia resources, along with explanatory text in a single document. This feature makes Jupyter Notebooks one of the most popular tool for reproducing projects. 
+
     Lets go ahead and start the Jupyter Notebook session by clicking "Interactive Apps" -> "Jupyter Notebook"
 
     ![alt tag](https://raw.githubusercontent.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/main/class/class3/img/Jupyter-Notebook-Interactive-App-highlight.png)
@@ -514,6 +516,6 @@ Lets set the interactive notebook session.
 
     ![alt tag](https://raw.githubusercontent.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/main/class/class3/img/Bashkernel.png)
 
-    Lets run a few bash commands (from notebook - go to the end of notebook) to check if we can run Bash commands from this notebook.
+    Lets run a few bash commands (from notebook - go to the end of notebook) to check if we can run Bash commands.
 
-
+    We only touched upon the surface of what we can do with Jupyter Notebooks. 
