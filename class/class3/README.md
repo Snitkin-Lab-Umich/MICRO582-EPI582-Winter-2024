@@ -484,7 +484,7 @@ Lets set the interactive notebook session.
 
     You would see a page that would look something like the below page. This indicates that your job is in queue and is about to start.
 
-    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/img/Jupyter-Notebook-Job-Start-highlights-job.png)
+    ![alt tag](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/img/Session_starting.png)
 
 - Step 3
 
