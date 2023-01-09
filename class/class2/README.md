@@ -226,8 +226,19 @@ grep -v '^#' sample.gff | wc -l
 ```
 </details>
 
-OK - let's learn one last command that can help us explore tabular text files like gff's. What makes it tabular is that each row has the same number of columns, and each column is separate by the same character, in this case a tab. A natural thing to want to do is to pull out a single column to work with. The Unix command to accomplish this is 'cut'. When using cut you will almost always want to use a couple of flags, including -d (delimiter - what separates each column) and -f (field - which column do you want to pull). 
+OK - let's learn one last command that can help us explore tabular text files like gff's. Let's motivate our new commands by first trying to determine the number of annotations in our gff that are ribosomal RNA genes (rRNAs). As a first attempt let's use the grep and wc commands we learned above.
 
+```
+#Try to use grap and wc to count the number of rRNA genes
+grep "rRNA" sample.gff | wc
+
+#Just to make sure it's working as intended, let's pipe to less instead
+grep "rRNA" sample.gff | less
+```
+
+Looking at the results of the grep command you will notice that we are pulling entries that have CDS as their feature type (i.e. the third column is CDS, not rRNA). Looking closely we can see that this is because the text description in column 9 contains the phrase rRNA (e.g. rRNA modifying enzyme). So, to determine the number of rRNA genes, we really want to limit our grep search to the third column.
+
+To extract the third column of our gff we can use the cut command. The Unix cut command works on tabular files (e.g. comma or tab delimited files), and extracts one or more columns. When using cut you will almost always want to use a couple of flags, including -d (delimiter - what separates each column) and -f (field - which column do you want to pull). 
 
 - Question: Let's see if we can increase our pipe complexity by stringing together three commands! Your task is to count the number of rRNA features in a gff(third column) file using cut, then grep and finally wc? 
 
