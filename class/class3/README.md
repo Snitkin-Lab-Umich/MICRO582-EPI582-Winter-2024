@@ -195,7 +195,7 @@ wd
 
 ```
 
-You should be in your class working directory that is /scratch/micro612w21_class_root/micro612w21_class/username 
+You should be in your class working directory that is /scratch/epid582w23_class_root/epid582w23_class/username 
 
 
 Copy over files for today's lesson
