@@ -4,27 +4,18 @@ Class 3 – Introduction to Great Lakes and HPC
 Goal
 ----
 
-- In this module, we will learn how to work with files and directories using Data Carpentry lesson - [Working with Files and Directories](https://datacarpentry.org/shell-genomics/03-working-with-files/index.html)
-- We will set up our compute environment for upcoming lab modules so that we have all the tools installed and ready for use.
+- We will learn how to read and change file or directory permissions
+- We will set up our compute environment to more efficiently working on Great Lakes.
 - We will learn how to load Great lakes modules i.e pre-installed softwares provided by ARC-TS team.
 - We will learn how to generate a SLURM script and submit our first job to the HPC cluster.
+- We will learn how to put Unix commands into a shell script to make them more reusable
 
 
 Directory organization for the course
 -------------------------------------
-In the first class on Great Lakes we worked in our home directory and copied files over there. For the remainder of the course we will be working in our course home directories. The reason for this is that your home directory is only accessible to you. However, we want to be able to share files, work in teams and have instructors review your work. To accomplish this we have worked with the administrators to setup this course directory with the neccesary permissions to do all of this! To go to this directory use the following cd command (and don't forget about your tab completes!):
+Last time we started working in our course home directories (i.e. /scratch/epid582w23_class_root/epid582w23_class/). We briefly alluded to the fact that this is useful because we can set permissions on different directories such that each of you has a workspace only accessible to you and the instructors, as well a shared_data directory that is accessible to everyone in the class. 
 
-```
-#Go to the class directory
-cd /scratch/epid582w23_class_root/epid582w23_class/
-
-#Check out what's here
-ls
-```
-
-You will notice that each of you should have your own home directory where you will do work for the class, and also complete your assignments. ***You will also notice that there is a shared_data directory, where bioinformatics programs and data for the course live.***
-
-One final thing which you might ask yourself is how is it that certain users can access certain directories/files, while others can't? For instance, you can access your own course home directory, but not that of your classmates. Similarly, you can all access the shared_data directory, but users not in the class can't. Well, an important thing to be aware of when working in a Unix environment is that users who create files and directories have very tight control over who can read, write or execute the files or within the directories. If you try to go somewhere you don't have permission or perform an operation on a file that you don't have permissions for, then you will be a permission denied error. 
+What are these "permissions", and how do they specify that certain users can access certain directories/files, while others can't? For instance, you can access your own course home directory, but not that of your classmates. Similarly, you can all access the shared_data directory, but users not in the class can't. Well, an important thing to be aware of when working in a Unix environment is that users who create files and directories have very tight control over who can read, write or execute the files or within the directories. If you try to go somewhere you don't have permission or perform an operation on a file that you don't have permissions for, then you will be a permission denied error. 
 
 So, how do you know what the permissions are and how do you alter them? To examine the permissions we can provide the '-l' flag to ls, which stands for list. 
 
@@ -60,7 +51,7 @@ Some examples of ways that we will use environment variables in the class are:
 
 1) Create shortcuts for directories that you frequently go to,
 
-2) Setup a conda environment to install all the required tools and have them available in your environment
+2) Setup a conda environment to install required tools and have them available in your environment
 
 3) Setup a shortcut for getting on a cluster node, so that you don't have to write out the full command each time.
 
@@ -72,21 +63,15 @@ echo $PATH
 
 You will see that PATH contains a colon separated list of paths. So, when you execute a command, Unix goes in order through this list to see if the program exists. We will look at the PATH variable again after we have added to it!
 
-
 One way to set your environment variables would be to manually set up these variables everytime you log in, but this would be extremely tedious and inefficient. So, Unix has setup a way around this, which is to put your environment variable assignments in special files called .bashrc or .bash_profile. Every user has one or both of these files in their home directory, and what's special about them is that the commands in them are executed every time you login. So, if you simply set your environmental variable assignments in one of these files, your environment will be setup just the way you want it each time you login!
-
-All the softwares/tools that we need in this workshop are installed in a directory 
-
-`/scratch/epid582w23_class_root/epid582w23_class/shared_data/bin` 
-
-and we want the shell to look for these installed tools in this directory. 
-
-For this, We will save the full path to these tools in an our PATH variable.
 
 > ***i. Make a backup copy of bashrc file in case something goes wrong.***
 	
 ```
+#Go to your home directory
+cd
 
+#Make a backup of your .bashrc
 cp ~/.bashrc ~/bashrc_backup_2023_01_11
 
 #Note: "~/" represents your home directory. On great lakes, this means /home/username
@@ -160,7 +145,6 @@ export PATH=$PATH:/scratch/epid582w23_class_root/epid582w23_class/shared_data/bi
 ```
 
 
-
 Note: Replace the word "username" under alias shortcuts with your own umich "uniqname". 
 
 In the text editor, nano, you can do this by 
@@ -198,6 +182,61 @@ wd
 You should be in your class working directory that is /scratch/micro612w21_class_root/micro612w21_class/username 
 
 
+<<<<<<< HEAD
+=======
+> ***v. Set up a conda environment using a YML file (you will do this on your own for HW, as it takes a few minutes)***
+
+The YML file - `MICRO582_class4_QC.yml` required for generating a conda environment for our next class is located here:
+
+```
+/scratch/epid582w23_class_root/epid582w23_class/shared_data/conda_envs
+```
+
+Load great lakes anaconda package and set up a conda environment in the following way - 
+
+```
+# Load anaconda package from great lakes
+
+module load python3.9-anaconda/2021.11
+
+# Install Bash kernel for Jupyter Notebook.
+pip install bash_kernel
+
+python -m bash_kernel.install
+
+# Set channel_priority to false so that it can install packages as per the YML file and not from loaded channels.
+
+conda config --set channel_priority false
+
+# Create a new conda environment - micro612 from a YML file
+
+conda env create -f /scratch/epid582w23_class_root/epid582w23_class/shared_data/conda_envs/MICRO582_class4_QC.yml -n MICRO582_class4_QC
+
+# Lets check the list of conda environments. 
+# You should see the conda environment name on left 
+# and the path to the directories where conda installed all the tools that were described in MICRO582_class4_QC.yml file.
+
+conda env list
+```
+
+Loading modules
+---------------
+Great Lakes also provide support for the installation of Bioinformatics software which can be accessed by loading Bioinformatics modules.
+
+```
+module load Bioinformatics
+```
+
+To check which tools are available under the Bioinformatics module, 
+
+```
+module av
+```
+
+Use the space key to explore the entire suite of tools that are available from Great Lakes. Users can load any of these tools using `module load toolname` command and will be ready for use without the need to install them.
+
+
+>>>>>>> 5aee7792f4f1e7d77bcbb126266d693b0f705225
 Copy over files for today's lesson
 ----------------------------------
 
@@ -443,5 +482,3 @@ conda env create -f /scratch/epid582w23_class_root/epid582w23_class/shared_data/
 # You should see the conda environment name on left 
 # and the path to the directories where conda installed all the tools that were described in MICRO582_class4_QC.yml file.
 
-conda env list
-```

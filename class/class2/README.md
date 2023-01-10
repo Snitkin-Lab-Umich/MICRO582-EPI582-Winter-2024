@@ -8,50 +8,44 @@ Goal
 - We will learn how to perform pattern matching using grep to find files and texts in files
 - We will apply for loops to perform same repetitive tasks on different files
 
+
+Navigating to your course directory
+-----------------------------------
+In the first class we learned that when you log in to Great Lakes you are placed in your home directory (e.g. /home/esnitkin). Importantly, your home directory is only accessible by you, and the files in it are only viewable by you. To enable sharing files within the course, we have created another home base for you to work in during labs and assignments. To get to this course home directory enter the following cd command (and don't forget your tab completes :) ):
+
+```
+#Change directory
+cd /scratch/epid582w23_class_root/epid582w23_class/
+
+#Make sure it worked
+pwd
+
+#Look at what directories/files are there
+ls
+```
+
+After executing the cd, do pwd to make sure you are in the correct directory, and then an ls to see what files and directories are there. You should see a directory with your user name, which will be your course home directory. You will also see a directory called "shared_data", which is where shared files will live, and where you can work on group projects together.
+
+Now, let's all go into our course home directory, and copy over some files that we will be working with today.
+
+```
+#Go into your course home directory using the relative path (*replace esnitkin with your user name)
+cd esnitkin 
+
+#Copy over files for today using the relative path
+cp -r ../../shared_data/data/class2/ .
+
+#Make sure the copy worked
+ls
+
+#Go into the directory
+cd class2
+```
+
 Using GREP for pattern matching
 -------------------------------
 
-Up until now you’ve probably accessed sequence data from NCBI by going to the website, laboriously clicking around and finally finding and downloading the data you want. 
-
-There are a lot of reasons that is not ideal:
-
-- It’s frustrating and slow to deal with the web interface
-- It can be hard to keep track of where the data came from and exactly which version of a sequence you downloaded
-- Its not conducive to downloading lots of sequence data
-
-To download sequence data in Unix you can use a variety of unix commands such as sftp, wget, curl. In class 6, we will use third party tools that are specifically developed to download data from sequence databases.
-
-Here, we will use curl command to download some genome assemblies from NCBI ftp location:
-
-- Go to the directory on your home computer from which you'd like to work (e.g. home or Desktop) 
-
-- Execute the following command to create a new directory in which we will work in, enter it and confirm that it worked
-
-```
-#Create the directory
-mkdir class2_lab
-
-#Enter the directory
-cd class2_lab
-
-#Confirm you are in the directory
-pwd
-```
-
-- Now get three genome sequences with the following commands:
-
-```
-curl ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/241/685/GCF_000241685.1_ASM24168v2/GCF_000241685.1_ASM24168v2_genomic.fna.gz > Acinetobacter_baumannii.fna.gz
-
-curl ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/409/005/GCF_000409005.1_gkp33v01/GCF_000409005.1_gkp33v01_genomic.fna.gz > Kleb_pneu.fna.gz
-
-curl ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/165/655/GCF_000165655.1_ASM16565v1/GCF_000165655.1_ASM16565v1_genomic.fna.gz > E_coli.fna.gz
-
-```
-
-***If you are working on gitbash and curl doesn't work, then you can download the fasta files from Canvas website [here](https://umich.instructure.com/courses/585715/pages/02-working-with-files-from-the-shell)***
-
-- To enable quick file transfers these genome assemblies came in compressed format. So, we will use the 'gzip' command with the '-d' flag to decompress the  compressed fasta files. One option is to run the command three times (once for each file), but as a shortcut we are going to use '\*', which is called the wildcard character. Here we are using '\*' to tell Unix  to apply our gzip command to all files ending in '.fna.gz'.
+The first files we are going to work with in this session are genome assemblies in fasta format. More on fasta format below, but first we have to do a pre-processing step to work with these fasta files. To enable quick file transfers these genome assemblies came in compressed format. So, we will use the 'gzip' command with the '-d' flag to decompress the compressed fasta files. One option is to run the command three times (once for each file), but as a shortcut we are going to use '\*', which is called the wildcard character. Here we are using '\*' to tell Unix  to apply our gzip command to all files ending in '.fna.gz'.
 
 ```
 gzip -d *.fna.gz
@@ -209,8 +203,6 @@ column 8: frame - One of '0', '1' or '2'. '0' indicates that the first base of t
 
 column 9: attribute - A semicolon-separated list of tag-value pairs, providing additional information about each feature such as gene name, product name etc.
 
-Lets first download the sample.gff file from Canvas [here](https://umich.instructure.com/courses/585715/pages/02-working-with-files-from-the-shell).
-
 - Use less to explore first few lines of a gff file sample.gff
 
 ```
@@ -234,8 +226,19 @@ grep -v '^#' sample.gff | wc -l
 ```
 </details>
 
-OK - let's learn one last command that can help us explore tabular text files like gff's. What makes it tabular is that each row has the same number of columns, and each column is separate by the same character, in this case a tab. A natural thing to want to do is to pull out a single column to work with. The Unix command to accomplish this is 'cut'. When using cut you will almost always want to use a couple of flags, including -d (delimiter - what separates each column) and -f (field - which column do you want to pull). 
+OK - let's learn one last command that can help us explore tabular text files like gff's. Let's motivate our new commands by first trying to determine the number of annotations in our gff that are ribosomal RNA genes (rRNAs). As a first attempt let's use the grep and wc commands we learned above.
 
+```
+#Try to use grap and wc to count the number of rRNA genes
+grep "rRNA" sample.gff | wc
+
+#Just to make sure it's working as intended, let's pipe to less instead
+grep "rRNA" sample.gff | less
+```
+
+Looking at the results of the grep command you will notice that we are pulling entries that have CDS as their feature type (i.e. the third column is CDS, not rRNA). Looking closely we can see that this is because the text description in column 9 contains the phrase rRNA (e.g. rRNA modifying enzyme). So, to determine the number of rRNA genes, we really want to limit our grep search to the third column.
+
+To extract the third column of our gff we can use the cut command. The Unix cut command works on tabular files (e.g. comma or tab delimited files), and extracts one or more columns. When using cut you will almost always want to use a couple of flags, including -d (delimiter - what separates each column) and -f (field - which column do you want to pull). 
 
 - Question: Let's see if we can increase our pipe complexity by stringing together three commands! Your task is to count the number of rRNA features in a gff(third column) file using cut, then grep and finally wc? 
 
