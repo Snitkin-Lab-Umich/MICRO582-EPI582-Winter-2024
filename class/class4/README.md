@@ -39,7 +39,7 @@ source ~/.bashrc
 
 -->
 
-> All the tools that you would need for class4 QC are installed in your Conda environment MICRO582_class4_QC. If you have not created the conda environment, please run the commands described in the class3 section -  [#set-up-a-conda-environment-using-a-yml-file]https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/README.md#set-up-a-conda-environment-using-a-yml-file
+> All the tools that you would need for class4 QC are installed in your Conda environment MICRO582_class4_QC. If you have not created the conda environment, please run the commands described in the class3 section -  [#set-up-a-conda-environment-using-a-yml-file](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/README.md#set-up-a-conda-environment-using-a-yml-file)
 
 Lets load the conda environment and check if we can call kraken help menu.
 
