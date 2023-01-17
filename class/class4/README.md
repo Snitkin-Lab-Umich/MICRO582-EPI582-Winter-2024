@@ -45,6 +45,8 @@ Lets load the conda environment and check if we can call kraken help menu.
 
 ```
 conda activate MICRO582_class4_QC
+
+
 kraken -h
 ```
 
