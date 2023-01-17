@@ -19,6 +19,7 @@ Contamination Screening using [Kraken](https://ccb.jhu.edu/software/kraken/)
 --------------------------------------------
 One important QC to perform when getting your sequencing data is to make sure you sequenced what you think you did. For this purpose, we will employ Kraken which is a taxonomic sequence classifier that assigns taxonomic labels to short DNA reads. We will screen our samples against a MiniKraken database (a pre-built database constructed from complete bacterial, archaeal, and viral genomes in NCBI RefSeq database) and confirm if the majority of reads in our sample belong to the target species.
 
+<!---
 In our previous class, we learned how to set up our environment using PATH variable. we will repeat the same thing to add path to the Kraken and Krona executables.
 
 > Open ~/.bashrc file using any text editor and add the following lines at the end of your .bashrc file. 
@@ -36,7 +37,11 @@ export PATH=$PATH:/scratch/epid582w23_class_root/epid582w23_class/shared_data/bi
 source ~/.bashrc
 ```
 
-> Lets check if we can call kraken help menu from the command line.
+-->
+
+> All the tools that you would need for class4 QC are installed in your Conda environment MICRO582_class4_QC. If you have not created the conda environment, please run the commands described in the class3 section -  [set-up-a-conda-environment-using-a-yml-file]https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class3/README.md#set-up-a-conda-environment-using-a-yml-file
+
+Lets load the conda environment and check if we can call kraken help menu.
 
 ```
 kraken -h
