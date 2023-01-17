@@ -235,13 +235,11 @@ For more information on how Trimmomatic tries to achieve this, Please refer [thi
 
 Now we will run Trimmomatic on these raw data to remove low quality reads as well as adapters. 
 
-> ***i. If the interactive session timed out, get an interactive cluster node again to start running programs and navigate to class4 directory. Also, load the Conda environment - MICRO582_class4_QC.***
+> ***i. If the interactive session timed out, get an interactive cluster node again (using alias `islurm`) to start running programs and navigate to class4 directory. Also, load the Conda environment - MICRO582_class4_QC.***
 
 Run this only if you are were logged out of interactive mode.
 
 ```
-islurm
-
 conda activate MICRO582_class4_QC
 
 wd
