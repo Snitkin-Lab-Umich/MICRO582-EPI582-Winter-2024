@@ -44,7 +44,7 @@ All the tools that you would need for class4 QC are installed in your Conda envi
 Lets load the conda environment and check if we can call kraken help menu.
 
 ```
-cona activate MICRO582_class4_QC
+conda activate MICRO582_class4_QC
 kraken -h
 ```
 
