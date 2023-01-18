@@ -5,7 +5,7 @@ Goal
 ----
 
 - We will perform quality control on raw illumina fastq reads to detect contamination and assess the quality of reads using Kraken and FastQC.
-- Clean reads by removing low quality reads and adapters using Trimmomatic.
+- We will clean reads by removing low quality reads and adapters using Trimmomatic, and check its performance using FastQC.
 
 Overview of Genomics Pipeline
 -----------------------------
@@ -158,7 +158,7 @@ scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w23_class_root/epi
 
 Quality Control using FastQC
 ----------------------------
-OK, you've performed a sequencing experiment and are eager to dig into your data and see what it reveals. However, before you get to analyzing, you first need to make sure that the data are of good enough quality to warrent further analysis, and to ensure that you don't get led astray by messy data. 
+OK, you've verified that you sequenced the correct thing using Kraken and are eager to dig into your data and see what it reveals. However, before you get to analyzing, you first need to make sure that the data are of good enough quality to warrent further analysis, and to ensure that you don't get led astray by messy data. 
 
 We will be performing QC analysis on Illumina sequencing data (see [here](https://youtu.be/fCd6B5HRaZ8)). The tool that we will be using to examine the quality of our sequencing data is FastQC. FastQC is a quality control tool that reads in sequence data in a variety of formats(fastq, bam, sam) and can either provide an interactive application to review the results or create an HTML based report which can be integrated into any pipeline. Running FastQC can give you quick sense of the data quality and whether it exhibits any unusual properties (e.g. contamination or unexpected biological features), and can point you towards next steps in terms of ways to cleanup your data.
 
