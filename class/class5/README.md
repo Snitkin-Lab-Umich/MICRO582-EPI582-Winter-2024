@@ -279,7 +279,7 @@ for i in data/IMPALA_*_R1.fastq.gz; do fastqc -o fastqc/ $i --extract; done
 
 ```
 
-
+for i in *_kraken; do kraken-report --db /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class4/kraken/minikraken_20171013_4GB/ $i > $i\_report.txt; done
 
 ```
 
