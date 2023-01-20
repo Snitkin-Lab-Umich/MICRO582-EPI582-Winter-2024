@@ -275,10 +275,9 @@ for i in data/IMPALA_*_R1.fastq.gz; do fastqc -o fastqc/ $i --extract; done
 
 ```
 
-- Run Kraken on these samples
+- Generate Kraken Report from Kraken results (Since Kraken is a time consuming step, We already ran Kraken in advanced and placed the results in kraken directory.)
 
 ```
-mkdir kraken
 
 
 
