@@ -273,8 +273,14 @@ mkdir fastqc
 ```
 for i in data/IMPALA_*_R1.fastq.gz; do fastqc -o fastqc/ $i --extract; done
 
-mkdir kraken
-
 ```
 
+- Run Kraken on these samples
+
+```
+mkdir kraken
+
+
+
+```
 
