@@ -249,3 +249,20 @@ Under General Stats if you sort by sample name you can group together assembly a
 Looking at G001, sequencing depth doesn't seem to be the issue, as there are not an epecially small number of reads relative to other samples and the total assembly length looks OK. So, what might be causing the fragementation of this assembly? One possibility is that while we generated enough data, it is of poor quality. To evaluate this lets go to the FastQC report and examine the sequence quality histograms. You can see that one sample stands apart from the others, in having sequence quality deteriorate earlier in the sequencing reads that typical, and hovering over it we can see that it is indeed G001. So, we conclude that poor sequencing quality is the issue with this sample, and again, we will likely want to re-sequence it.
 
 
+### Assess Sequencing Quality of IMPALA Samples
+
+```
+wd
+
+cp -r /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class5/ ./
+
+cd class5/impala_qc
+
+conda activate MICRO582_class4_QC
+
+mkdir fastqc
+
+for i in data/IMPALA_*_R1.fastq.gz; do fastqc -o fastqc/ $i --extract; done
+
+
+```
