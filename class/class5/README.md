@@ -251,18 +251,30 @@ Looking at G001, sequencing depth doesn't seem to be the issue, as there are not
 
 ### Assess Sequencing Quality of IMPALA Samples
 
-```
-wd
+- Move into impala_qc directory and run FastQC on the four IMPALA samples.
 
-cp -r /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class5/ ./
+```
 
 cd class5/impala_qc
 
+```
+
+- Activate conda environment and create a new directory called fastqc to save FastQC results.
+
+```
 conda activate MICRO582_class4_QC
 
 mkdir fastqc
 
-for i in data/IMPALA_*_R1.fastq.gz; do fastqc -o fastqc/ $i --extract; done
+```
 
+- Use a for loop to run FastQC on all the four samples.
 
 ```
+for i in data/IMPALA_*_R1.fastq.gz; do fastqc -o fastqc/ $i --extract; done
+
+mkdir kraken
+
+```
+
+
