@@ -66,7 +66,7 @@ Lets load spades module from the Great lakes provided Bioinformatics Modules.
 module load Bioinformatics
 module load spades
 
-spades -h  
+spades.py -h  
 
 ```
 
