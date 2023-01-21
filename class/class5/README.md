@@ -271,7 +271,7 @@ mkdir fastqc
 - Use a for loop to run FastQC on all the four samples.
 
 ```
-for i in data/IMPALA_*_R1.fastq.gz; do fastqc -o fastqc/ $i --extract; done
+for i in data/fastq/IMPALA_*_R1.fastq.gz; do fastqc -o fastqc/ $i --extract; done
 
 ```
 
@@ -279,7 +279,7 @@ for i in data/IMPALA_*_R1.fastq.gz; do fastqc -o fastqc/ $i --extract; done
 
 ```
 
-for i in *_kraken; do kraken-report --db /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class4/kraken/minikraken_20171013_4GB/ $i > $i\_report.txt; done
+for i in kraken/*_kraken; do kraken-report --db /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class4/kraken/minikraken_20171013_4GB/ $i > $i\_report.txt; done
 
 ```
 
@@ -294,5 +294,5 @@ quast.py -o quast data/assembly/IMPALA_207.fasta data/assembly/IMPALA_94.fasta d
 - Run MultiQC on FastQC, Kraken and Quast results
 
 ```
-
+multiqc ./ --force --filename impala_qc_multiqc
 ```
