@@ -283,3 +283,8 @@ for i in *_kraken; do kraken-report --db /scratch/epid582w23_class_root/epid582w
 
 ```
 
+- Run Quast to generate assembly statitics 
+
+```
+
+```
