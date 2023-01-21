@@ -255,7 +255,7 @@ Looking at G001, sequencing depth doesn't seem to be the issue, as there are not
 
 ```
 
-cd class5/impala_qc
+cd impala_qc
 
 ```
 
