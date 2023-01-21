@@ -288,5 +288,11 @@ for i in *_kraken; do kraken-report --db /scratch/epid582w23_class_root/epid582w
 ```
 mkdir quast
 
+quast.py -o quast data/assembly/IMPALA_207.fasta data/assembly/IMPALA_94.fasta data/assembly/IMPALA_487.fasta data/assembly/IMPALA_582.fasta
+```
+
+- Run MultiQC on FastQC, Kraken and Quast results
+
+```
 
 ```
