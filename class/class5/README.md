@@ -251,7 +251,7 @@ Looking at G001, sequencing depth doesn't seem to be the issue, as there are not
 
 ### Assess Sequencing Quality of IMPALA Samples
 
-- Move into impala_qc directory and run FastQC on the four IMPALA samples.
+- Move into impala_qc directory placed under class5 and run FastQC on the four IMPALA samples.
 
 ```
 
