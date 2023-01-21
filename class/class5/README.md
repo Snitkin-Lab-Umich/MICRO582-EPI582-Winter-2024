@@ -85,7 +85,7 @@ nano spades.sbat
 
 > Copy and paste the below command to the bottom of spades.sbat file.
 
-spades -1 forward_paired.fq.gz -2 reverse_paired.fq.gz -o MSSA_SRR5244781_assembly_result/ --careful
+spades.py -1 forward_paired.fq.gz -2 reverse_paired.fq.gz -o MSSA_SRR5244781_assembly_result/ --careful
 
 ```
 
