@@ -267,6 +267,7 @@ In the quast section we see a table of assembly statistics, and then a barplot s
 - Length of the assembly - Does the size of the assembly match our expectation for the genome size of teh sequenced organism?
 - N50 - Is our assembly in relatively large pieces (i.e. half the assembly on fragments > 50Kb in size).
 
+
 > ***ii. The good - IMPALA_207.***
 
 THe first sample we will look at is one of the ones that didn't show any issues. For the purposes of examining these samples, we will start with the assembly, to see if that shows any red flags, and then proceed through the other QC reports.
@@ -293,6 +294,7 @@ Looking at Kraken results we can see that the only species detected to any appre
 
 All QC metrics check out, with the sequence being of high quality, showing no evidence of contamination and yielding a good quality assembly.
 
+
 > ***iii. The bad part 1 - IMPALA_487.***
 
 Next, let's move on to our first problem sequence, IMAPAL_487, and see if we can figure out the issue.
@@ -315,6 +317,7 @@ The Kraken report looks OK, although we notice 1.5% of the sample is predicted t
 
 This sample has been undersequenced. Given the potential evidence for contamination, my recomendation would be to go back to the original sample, restreak for colonies to ensure a genetically pure sample, and go through the DNA extraction/library prep/sequencing process.
 
+
 > ***iv. The bad part 2 - IMPALA_582.***
 
 For the last two samples, you take a stab at reading and interpretting the reports :). We will provide solutions, but they will be initially hidden to  make it easier to resist taking a peak.
@@ -322,41 +325,85 @@ For the last two samples, you take a stab at reading and interpretting the repor
 ****Assembly report in quast****
 
 <details>
-<summary><b>How does the assembly look?</b>
- 
- 
- </summary>
+<summary>How does the assembly look?</summary>
 
-Any folded content here. It requires an empty line just above it.
-
+As with the previous sample, this assembly looks poor. The N50 is 12.6 Kpb, although in this case the largest contig is 287 Kpb. What to make of this mixed message?
+ 
+ We get our first hint when we see the total assembly size is 11.3 Mb. What could be the issue? Let's proceed to sequence quality and see if there are any clues there!
+ 
 </details>
 
 
 ****Sequence quality in FastQC****
 
-How does the quality of the sequence look?
+<details>
+<summary>How does the quality of the sequence look?</summary>
+
+Overall, sequence quality metrics look similar to our good sample. There is plenty of sequence (~115X of E. coli), and there is an expected amount of duplication given the depth of sequencing. In addition the quality of the sequence looks good. 
+ 
+ The GC content distribtuion looks a bit skewed to the right compared to our good sample, but enough to be concerned?
+ 
+</details>
 
 ****Sample composition with Kraken****
 
-How does the Kraken report look?
+<details>
+<summary>How does the Kraken report look?</summary>
+
+Finally, let's look at the Kraken results, which ties everything together. We can see that there are two dominant species detected - E. coli (16%) and Klebsiella pneumoniae (12%)! Now everything we saw before makes sense. 
+ - We got a poor N50, becuase we were assembling a mixture of E. coli and Klebsiella reads, leading to a fragmented assembly
+ - We presume that our largest contig was still big, as part of the E.coli/Kleb genome is distinct enough to assembly cleanly
+ - The GC distribution is skewed, but only slightly, because E. coli and Kleb have similar GC content
+ 
+</details>
 
 ****Conclusion****
 
-What is the issue with this sample, and how should we proceed?
+<details>
+<summary>What is the issue with this sample, and how should we proceed?</summary>
 
+This sample has clear evidence of contamination with Klebsiella, and need to be reprocessed starting from the original culutre, and isolating a pure coli colony.
+ 
+</details>
 
 
 > ***v. The bad part 3 - IMPALA_94.***
 
 ****Assembly report in quast****
 
+<details>
+<summary>How does the assembly look?</summary>
+
+Any folded content here. It requires an empty line just above it.
+
+</details>
+
 ****Sequence quality in FastQC****
+
+<details>
+<summary>How does the quality of the sequence look?</summary>
+
+Any folded content here. It requires an empty line just above it.
+
+</details>
 
 ****Sample composition with Kraken****
 
+<details>
+<summary>How does the Kraken report look?</summary>
+
+Any folded content here. It requires an empty line just above it.
+
+</details>
+
 ****Conclusion****
 
+<details>
+<summary>What is the issue with this sample, and how should we proceed?</summary>
 
+Any folded content here. It requires an empty line just above it.
+
+</details>
 
 
 <!--
