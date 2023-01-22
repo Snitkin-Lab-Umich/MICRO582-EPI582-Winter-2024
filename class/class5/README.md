@@ -295,14 +295,25 @@ All QC metrics check out, with the sequence being of high quality, showing no ev
 
 > ***iii. The bad part 1 - IMPALA_487.***
 
+Next, let's move on to our first problem sequence, IMAPAL_487, and see if we can figure out the issue.
+
 ****Assembly report in quast****
+
+The assembly for IMPALA_487 shows many issues, with an N50 of 600bp and a largest contig of 2.3Kb, indicating this is highly fragmented. Most troubling, the total length of the assembly is only 300 Kb, far below our expected ~5Mb. 
 
 ****Sequence quality in FastQC****
 
+Looking at sequence counts we can quickly see what the issue is, as there are only 40K unique reads, which would equate to a depth of 1.2X (0.04 M reads * 150bp / 5Mb). 
+
+On the brighter side, we can see that the sequence is of good quality :). Also notice that there is not evidence of much duplication, because we are far from saturating our coverage of the genome.
+
 ****Sample composition with Kraken****
+
+The Kraken report looks OK, although we notice 1.5% of the sample is predicted to be Klebsiella, which is more than is typical. This is further cause for concern when we later discover other examples of clear species mixtures below.
 
 ****Conclusion****
 
+This sample has been undersequenced. Given the potential evidence for contamination, my recomendation would be to go back to the original sample, restreak for colonies to ensure a genetically pure sample, and go through the DNA extraction/library prep/sequencing process.
 
 > ***iv. The bad part 2 - IMPALA_582.***
 
