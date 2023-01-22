@@ -268,6 +268,7 @@ In the quast section we see a table of assembly statistics, and then a barplot s
 - N50 - Is our assembly in relatively large pieces (i.e. half the assembly on fragments > 50Kb in size).
 
 > ***ii. The good - IMPALA_207.***
+
 THe first sample we will look at is one of the ones that didn't show any issues. For the purposes of examining these samples, we will start with the assembly, to see if that shows any red flags, and then proceed through the other QC reports.
 
 -Assembly report in quast
