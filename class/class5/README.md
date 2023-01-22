@@ -157,10 +157,11 @@ The data we will look at comes from an actual project that we worked on that had
 
 In the interest of time we have run kraken, fastqc, spades/quast and multiqc. Don't worry - you will get experience running these tools in the next assignment :). Before looking at the output, let's go through the steps we performed to generate the multiqc report.
 
-Running QC tools and aggregating output with multiqc
----------------------------------------------------
+### Running QC tools and aggregating output with multiqc
 
-- Move into impala_qc directory placed under class5 and run FastQC on the four IMPALA samples.
+> ***i. Run FastQC on the four IMPALA samples.***
+
+- Move into impala_qc directory placed under class5 and r
 
 ```
 
@@ -179,13 +180,15 @@ mkdir fastqc
 
 - Use a for loop to run FastQC on all the four samples.
 - Note the use of the wildcard to create a loop list that has all the forward (_R1) fastq files in the directory
+- Also note we are using raw reads (i.e. before running trimmomatic), for illustrative purposes, normaly we would run trimmomatic as a first step
 
 ```
 for i in data/fastq/IMPALA_*_R1.fastq.gz; do fastqc -o fastqc/ $i --extract; done
 
 ```
 
-- Run Kraken on each of our samples
+> ***ii. Run Kraken and generate Kraken reports for the four IMPALA samples.***
+-Run Kraken on the four samples
 ```
 
 ```
@@ -198,18 +201,21 @@ for i in kraken/*_kraken; do kraken-report --db /scratch/epid582w23_class_root/e
 
 ```
 
-- Generate assemblies from cleaned reads using spades
+> ***iii. Run spades to generate assemblies***
+- Note we are using reads that have been cleaned with trimmomatic for the assemmbly. 
 ```
 
 ```
 
-- Run Quast to generate assembly statitics 
+> ***iv. Run quast on spades assemblies to generate summary metrics***
 
 ```
 mkdir quast
 
 quast.py -o quast data/assembly/IMPALA_207.fasta data/assembly/IMPALA_94.fasta data/assembly/IMPALA_487.fasta data/assembly/IMPALA_582.fasta
 ```
+
+> ***v. Run multiqc to create aggregate QC reports***
 
 
 - Finally, run MultiQC on FastQC, Kraken and Quast results
@@ -218,8 +224,7 @@ quast.py -o quast data/assembly/IMPALA_207.fasta data/assembly/IMPALA_94.fasta d
 multiqc ./ --force --filename impala_qc_multiqc
 ```
 
-Going through multiqc report to identify bad samples and deduce the problem
----------------------------------------------------------------------------
+### Going through multiqc report to identify bad samples and deduce the problem
 
 
 
