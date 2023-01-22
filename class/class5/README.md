@@ -270,7 +270,7 @@ In the quast section we see a table of assembly statistics, and then a barplot s
 
 > ***ii. The good - IMPALA_207.***
 
-THe first sample we will look at is one of the ones that didn't show any issues. For the purposes of examining these samples, we will start with the assembly, to see if that shows any red flags, and then proceed through the other QC reports.
+The first sample we will look at is one of the ones that didn't show any issues. For the purposes of examining these samples, we will start with the assembly, to see if that shows any red flags, and then proceed through the other QC reports. All four samples we are looking at should be pure E. coli, which has a GC content of ~51% and a total genome size in the range of 4.5-5.5Mb.
 
 ****Assembly report in quast****
 
@@ -374,8 +374,8 @@ This sample has clear evidence of contamination with Klebsiella, and need to be 
 <details>
 <summary>How does the assembly look?</summary>
 
-Any folded content here. It requires an empty line just above it.
-
+The overall quality of this sample looks great, with an N50 of 142, and a largest contig that is 395 Kb, the biggest we've seen yet! However, our excitement is quickly dashed, as we see a total assembly size of 9.4 Mb, which is much larger than we expect for E. coli. What could be going on?
+ 
 </details>
 
 ****Sequence quality in FastQC****
@@ -383,8 +383,8 @@ Any folded content here. It requires an empty line just above it.
 <details>
 <summary>How does the quality of the sequence look?</summary>
 
-Any folded content here. It requires an empty line just above it.
-
+The sequence depth, quality and level of duplication all look reasonable, so no issues there. But, that GC content distibution sure looks bimodal, which suggests that we have a contaminant :(
+ 
 </details>
 
 ****Sample composition with Kraken****
@@ -392,8 +392,8 @@ Any folded content here. It requires an empty line just above it.
 <details>
 <summary>How does the Kraken report look?</summary>
 
-Any folded content here. It requires an empty line just above it.
-
+Looking at the Kraken report confirms our fears, and we see that while E. coli is the dominant species (18.9%), we have a lot of Acinetobacter (9.1%).
+ 
 </details>
 
 ****Conclusion****
@@ -401,8 +401,7 @@ Any folded content here. It requires an empty line just above it.
 <details>
 <summary>What is the issue with this sample, and how should we proceed?</summary>
 
-Any folded content here. It requires an empty line just above it.
-
+As with the previous sample, we see that there is clear evidence of contamination. This sample needs to be re-prepped from the original sample, to isolate pure E. coli colonies, and re-sequence.
 </details>
 
 
