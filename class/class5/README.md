@@ -149,9 +149,16 @@ Let's imagine a real-life scenario where you are working on a project which requ
 
 In the previous class, we learned how to assess and control the quality of samples as well as screen for contaminants. But the problem with such tools or any other tools is, they work on per-sample basis and produce only single report/logs per sample. Therefore, it becomes cumbersome to dig through each sample's reports and make appropriate quality control calls.  
 
-Thankfully, there is a tool called multiqc which parses the results directory containing output from various tools, reads the log report created by those tools (ex: FastQC, FastqScreen, Quast), aggregates them and creates a single report summarizing all of these results so that you have everything in one place. This helps greatly in identifying the outliers and removing or reanalysizing it individually.
+Thankfully, there is a tool called multiqc which parses the results directory containing output from various tools, reads the log report created by those tools (ex: FastQC, kraken, Quast), aggregates them and creates a single report summarizing all of these results so that you have everything in one place. This helps greatly in identifying the outliers and removing or reanalysizing it individually. Today, we will look at the results of a multiqc aggregate report to see if we can pick out the bad samples, and understand the basis for their problems.
+
 
 ### Assess Sequencing Quality of IMPALA Samples
+The data we will look at comes from an actual project that we worked on that had some significant quality control issues. In addition to standard issues that arise with projects processing hundreds or thousands of samples, there was evidence of more widespread issues based examination of quast and kraken reports. We have selected four representative samples, one good and three bad, and aggregated fastQC, kraken and quast results in multiqc. We will first learn how to explore the output of multiqc, and then try and deduce what the problem is with each of our bad samples.
+
+In the interest of time we have run kraken, fastqc, spades/quast and multiqc. Don't worry - you will get experience running these tools in the next assignment :). Before looking at the output, let's go through the steps we performed to generate the multiqc report.
+
+Running QC tools and aggregating output with multiqc
+---------------------------------------------------
 
 - Move into impala_qc directory placed under class5 and run FastQC on the four IMPALA samples.
 
@@ -171,17 +178,28 @@ mkdir fastqc
 ```
 
 - Use a for loop to run FastQC on all the four samples.
+- Note the use of the wildcard to create a loop list that has all the forward (_R1) fastq files in the directory
 
 ```
 for i in data/fastq/IMPALA_*_R1.fastq.gz; do fastqc -o fastqc/ $i --extract; done
 
 ```
 
-- Generate Kraken Report from Kraken results (Since Kraken is a time consuming step, We already ran Kraken in advanced and placed the results in kraken directory.)
+- Run Kraken on each of our samples
+```
+
+```
+
+- Generate Kraken Report from Kraken results 
 
 ```
 
 for i in kraken/*_kraken; do kraken-report --db /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class4/kraken/minikraken_20171013_4GB/ $i > $i\_report.txt; done
+
+```
+
+- Generate assemblies from cleaned reads using spades
+```
 
 ```
 
@@ -193,11 +211,20 @@ mkdir quast
 quast.py -o quast data/assembly/IMPALA_207.fasta data/assembly/IMPALA_94.fasta data/assembly/IMPALA_487.fasta data/assembly/IMPALA_582.fasta
 ```
 
-- Run MultiQC on FastQC, Kraken and Quast results
+
+- Finally, run MultiQC on FastQC, Kraken and Quast results
 
 ```
 multiqc ./ --force --filename impala_qc_multiqc
 ```
+
+Going through multiqc report to identify bad samples and deduce the problem
+---------------------------------------------------------------------------
+
+
+
+
+
 
 <!--
 
