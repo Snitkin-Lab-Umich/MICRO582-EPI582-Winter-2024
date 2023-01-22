@@ -226,8 +226,49 @@ multiqc ./ --force --filename impala_qc_multiqc
 
 ### Going through multiqc report to identify bad samples and deduce the problem
 
+Because of all the steps involved, and their respective run times, we have pre-run them so we can look at the results together. So, let's copy over the multiqc report to our class5 directory.
 
+```
+cp ../../shared_data/Results/class5/impala_qc/impala_qc_multiqc.html .
+```
 
+Now let's bring down the report to our home computers for viewing using [Cyberduck[(https://cyberduck.io/download/), or your preferred FTP client.
+
+> ***i. Get an overview of the report.***
+The multiqc report is broken into several sections. Let's get a sense for what's in each section and how to go through the report.
+
+- General stats
+In the general stats section we are provided with key information for each of the tools we have run. From FastQC we can see the number of reads (did we sequence enough?), the percent duplication (was our input library complex enough?) and the GC content (does it match our expectation for the organism of interest?). From quast we can see the assembly length (does it match our expectation?) and the N50 (is our assembly in large pieces?). From Kraken we can see the percent of reads assigned to our expected species (are we finding the species we expect?), the percent of reads assigned to top 5 species (are we finding other things besides our expected species) and percent unclassified (is the database classifying what we sequenced?).
+
+- FastQC
+In the FastQC section you will see the same sections as we saw in the single sample report. We want to pay most attention to: 
+
+i) Sequence counts - did we sequence enough?
+ii) Sequence quality across the read - Does quality degrade sooner than is typical?
+iii) Per sequence quality scores - Are our reads on average of high overall quality?
+iv) Per sequence GC content - Is there evidence of contamination based on multi-modal distribution?
+v) Sequence duplication levels - Is our library complex enough and is there any residual Illumina adaptor/bar code sequences?
+vi) Adaptor content - Are there residual Illumina adaptors?
+
+- Kraken
+In the Kraken section you see a bar plot showing how reads are distributed across different taxonomic levels. This allows you to ask:
+
+i) Did you sequence what you expected to?
+ii) Is there evidence of contamination with a secondary species?
+
+- Quast
+In the quast section we see a table of assembly statistics, and then a barplot showing the sizes of different contigs in the assembly. We are primarily interested in:
+i) Number of contigs  - Is our assembly in relatively few pieces (i.e. < 200 contigs)
+ii) Length of the assembly - Does the size of the assembly match our expectation for the genome size of teh sequenced organism?
+iii) N50 - Is our assembly in relatively large pieces (i.e. half the assembly on fragments > 50Kb in size).
+
+> ***ii. The good - IMPALA_207.***
+
+> ***iii. The bad part 1 - IMPALA_487.***
+
+> ***iv. The bad part 2 - IMPALA_582.***
+
+> ***v. The bad part 3 - IMPALA_94.***
 
 
 
