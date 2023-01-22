@@ -6,7 +6,7 @@ Goal
 
 - Assemble short reads illumina data into a genomic assembly using Spades Assembler
 - Assess the quality of genome assemblies with Quast.
-- Generate multiple sample report using a bunch of pre-assembled data as input and visualize the summary report.
+- Generate multiple sample report that integrates output of Quast, Kraken and FastQC to streamline quality control.
 
 ![roadmap](genome_assembly.png)
 
@@ -74,7 +74,7 @@ spades.py -h
 
 Since it takes a huge amount of memory and time to assemble genomes using spades, we will run a slurm script on great lakes cluster for this step.
 
-Now, open the spades.sbat file residing in the class_5 folder with nano and add the following spades command to the bottom of the file. Replace the EMAIL_ADDRESS in spades.sbat file with your actual email-address. This will make sure that whenever the job starts, aborts or ends, you will get an email notification.
+Now, open the spades.sbat file residing in the class_5 folder with nano. Replace the EMAIL_ADDRESS in spades.sbat file with your actual email-address. This will make sure that whenever the job starts, aborts or ends, you will get an email notification.
 
 ```
 > Open the spades.sbat file using nano:
@@ -83,7 +83,7 @@ nano spades.sbat
 
 > Now replace the EMAIL_ADDRESS in spades.sbat file with your actual email-address. This will make sure that whenever the job starts, aborts or ends, you will get an email notification.
 
-> Copy and paste the below command to the bottom of spades.sbat file.
+> Examine the spades command to perform the assembly
 
 spades.py -1 forward_paired.fq.gz -2 reverse_paired.fq.gz -o MSSA_SRR5244781_assembly_result/ --careful
 
@@ -150,6 +150,56 @@ Let's imagine a real-life scenario where you are working on a project which requ
 In the previous class, we learned how to assess and control the quality of samples as well as screen for contaminants. But the problem with such tools or any other tools is, they work on per-sample basis and produce only single report/logs per sample. Therefore, it becomes cumbersome to dig through each sample's reports and make appropriate quality control calls.  
 
 Thankfully, there is a tool called multiqc which parses the results directory containing output from various tools, reads the log report created by those tools (ex: FastQC, FastqScreen, Quast), aggregates them and creates a single report summarizing all of these results so that you have everything in one place. This helps greatly in identifying the outliers and removing or reanalysizing it individually.
+
+### Assess Sequencing Quality of IMPALA Samples
+
+- Move into impala_qc directory placed under class5 and run FastQC on the four IMPALA samples.
+
+```
+
+cd impala_qc
+
+```
+
+- Activate conda environment and create a new directory called fastqc to save FastQC results.
+
+```
+conda activate MICRO582_class4_QC
+
+mkdir fastqc
+
+```
+
+- Use a for loop to run FastQC on all the four samples.
+
+```
+for i in data/fastq/IMPALA_*_R1.fastq.gz; do fastqc -o fastqc/ $i --extract; done
+
+```
+
+- Generate Kraken Report from Kraken results (Since Kraken is a time consuming step, We already ran Kraken in advanced and placed the results in kraken directory.)
+
+```
+
+for i in kraken/*_kraken; do kraken-report --db /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class4/kraken/minikraken_20171013_4GB/ $i > $i\_report.txt; done
+
+```
+
+- Run Quast to generate assembly statitics 
+
+```
+mkdir quast
+
+quast.py -o quast data/assembly/IMPALA_207.fasta data/assembly/IMPALA_94.fasta data/assembly/IMPALA_487.fasta data/assembly/IMPALA_582.fasta
+```
+
+- Run MultiQC on FastQC, Kraken and Quast results
+
+```
+multiqc ./ --force --filename impala_qc_multiqc
+```
+
+<!--
 
 ### Applying multiQC to explore the sequence quality of sequenced *C. difficile* genomes
 First, let's start by applying multiQC to a set of FastQC runs that we performed for a set of ~50 *C. difficile* samples. In particular, here are the steps that were taken to generate our multiQC report:
@@ -248,51 +298,4 @@ Under General Stats if you sort by sample name you can group together assembly a
 
 Looking at G001, sequencing depth doesn't seem to be the issue, as there are not an epecially small number of reads relative to other samples and the total assembly length looks OK. So, what might be causing the fragementation of this assembly? One possibility is that while we generated enough data, it is of poor quality. To evaluate this lets go to the FastQC report and examine the sequence quality histograms. You can see that one sample stands apart from the others, in having sequence quality deteriorate earlier in the sequencing reads that typical, and hovering over it we can see that it is indeed G001. So, we conclude that poor sequencing quality is the issue with this sample, and again, we will likely want to re-sequence it.
 
-
-### Assess Sequencing Quality of IMPALA Samples
-
-- Move into impala_qc directory placed under class5 and run FastQC on the four IMPALA samples.
-
-```
-
-cd impala_qc
-
-```
-
-- Activate conda environment and create a new directory called fastqc to save FastQC results.
-
-```
-conda activate MICRO582_class4_QC
-
-mkdir fastqc
-
-```
-
-- Use a for loop to run FastQC on all the four samples.
-
-```
-for i in data/fastq/IMPALA_*_R1.fastq.gz; do fastqc -o fastqc/ $i --extract; done
-
-```
-
-- Generate Kraken Report from Kraken results (Since Kraken is a time consuming step, We already ran Kraken in advanced and placed the results in kraken directory.)
-
-```
-
-for i in kraken/*_kraken; do kraken-report --db /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class4/kraken/minikraken_20171013_4GB/ $i > $i\_report.txt; done
-
-```
-
-- Run Quast to generate assembly statitics 
-
-```
-mkdir quast
-
-quast.py -o quast data/assembly/IMPALA_207.fasta data/assembly/IMPALA_94.fasta data/assembly/IMPALA_487.fasta data/assembly/IMPALA_582.fasta
-```
-
-- Run MultiQC on FastQC, Kraken and Quast results
-
-```
-multiqc ./ --force --filename impala_qc_multiqc
-```
+-->
