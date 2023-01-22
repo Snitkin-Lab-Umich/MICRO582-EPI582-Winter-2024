@@ -317,13 +317,33 @@ This sample has been undersequenced. Given the potential evidence for contaminat
 
 > ***iv. The bad part 2 - IMPALA_582.***
 
+For the last two samples, you take a stab at reading and interpretting the reports :). We will provide solutions, but they will be initially hidden to  make it easier to resist taking a peak.
+
 ****Assembly report in quast****
+
+<details>
+<summary><b>How does the assembly look?</b>
+ 
+ 
+ </summary>
+
+Any folded content here. It requires an empty line just above it.
+
+</details>
+
 
 ****Sequence quality in FastQC****
 
+How does the quality of the sequence look?
+
 ****Sample composition with Kraken****
 
+How does the Kraken report look?
+
 ****Conclusion****
+
+What is the issue with this sample, and how should we proceed?
+
 
 
 > ***v. The bad part 3 - IMPALA_94.***
