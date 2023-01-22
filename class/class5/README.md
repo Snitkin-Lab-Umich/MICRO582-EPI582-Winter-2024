@@ -271,10 +271,12 @@ In the quast section we see a table of assembly statistics, and then a barplot s
 
 THe first sample we will look at is one of the ones that didn't show any issues. For the purposes of examining these samples, we will start with the assembly, to see if that shows any red flags, and then proceed through the other QC reports.
 
--Assembly report in quast
+****Assembly report in quast****
+
 The assembly quality looks very good overall, with an N50 >130 Kb and a largest contig of 364 Kb, indicating that the assembly is in large fragments. In addition, the length of the assembly is 5.2Mb, which is in the expected range for E. coli (4.5 Mb - 5.5Mb is typical).
 
--Sequence quality in FastQC
+****Sequence quality in FastQC****
+
 Looking at sequence counts, we can see that there is plenty of data, with an approximate coverage of 200X (7M reads * 150 bp / 5.2Mb genome). There is a high duplication rate, but this is attributable to the high depth of sequencing (i.e. there are only so many possible 150 bp sequences in a 5Mb genome, which is further reduced by the AT target site of teh Nextera transposase).
 
 Next, we can see that the sequence is of high quality, both when looking across the length of reads, and averaging over the entire reads.
@@ -283,17 +285,46 @@ We also see a unimodal GC content distribution, which is around where centered a
 
 Lastly, we do see some overrepresented sequences, and evidence of adaptor content, which is not surprising as we ran FastQC before applying trimmomatic. We expect these issue would be clearned up post-trimmomatic.
 
--Sample composition with Kraken
+****Sample composition with Kraken****
+
 Looking at Kraken results we can see that the only species detected to any appreciable level is E. coli. We can further see that the vast majority of sequence can be assigned to the Enterobacteraciae family (that E. coli is a part of), which further supports the sample only containing E. coli.
 
--Conclusion
+****Conclusion****
+
 All QC metrics check out, with the sequence being of high quality, showing no evidence of contamination and yielding a good quality assembly.
 
 > ***iii. The bad part 1 - IMPALA_487.***
 
+****Assembly report in quast****
+
+****Sequence quality in FastQC****
+
+****Sample composition with Kraken****
+
+****Conclusion****
+
+
 > ***iv. The bad part 2 - IMPALA_582.***
 
+****Assembly report in quast****
+
+****Sequence quality in FastQC****
+
+****Sample composition with Kraken****
+
+****Conclusion****
+
+
 > ***v. The bad part 3 - IMPALA_94.***
+
+****Assembly report in quast****
+
+****Sequence quality in FastQC****
+
+****Sample composition with Kraken****
+
+****Conclusion****
+
 
 
 
