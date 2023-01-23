@@ -147,21 +147,26 @@ Let's imagine a real-life scenario where you are working on a project which requ
 
 - Question: How will you find those bad apples?  
 
-In the previous class, we learned how to assess and control the quality of samples as well as screen for contaminants. But the problem with such tools or any other tools is, they work on per-sample basis and produce only single report/logs per sample. Therefore, it becomes cumbersome to dig through each sample's reports and make appropriate quality control calls.  
+In the previous class, we learned how to assess and control the quality of samples as well as screen for contaminants. But the problem with such tools or any other tool is, they work on per-sample basis and produce only single report/logs per sample. Therefore, it becomes cumbersome to dig through each sample's reports and make appropriate quality control calls.  
 
-Thankfully, there is a tool called multiqc which parses the results directory containing output from various tools, reads the log report created by those tools (ex: FastQC, kraken, Quast), aggregates them and creates a single report summarizing all of these results so that you have everything in one place. This helps greatly in identifying the outliers and removing or reanalysizing it individually. Today, we will look at the results of a multiqc aggregate report to see if we can pick out the bad samples, and understand the basis for their problems.
+Thankfully, there is a tool called multiqc which parses the results directory containing output from various tools, reads the log report created by those tools (ex: FastQC, kraken, Quast), aggregates them and creates a single report summarizing all of these results so that you have everything in one place. This helps greatly in identifying the outliers and removing or reanalysing it individually. Today, we will look at the results of a multiqc aggregate report to see if we can pick out the bad samples, and understand the basis for their problems.
 
 
 ### Assess Sequencing Quality of IMPALA Samples
-The data we will look at comes from an actual project that we worked on that had some significant quality control issues. In addition to standard issues that arise with projects processing hundreds or thousands of samples, there was evidence of more widespread issues based examination of quast and kraken reports. We have selected four representative samples, one good and three bad, and aggregated fastQC, kraken and quast results in multiqc. We will first learn how to explore the output of multiqc, and then try and deduce what the problem is with each of our bad samples.
 
-In the interest of time we have run kraken, fastqc, spades/quast and multiqc. Don't worry - you will get experience running these tools in the next assignment :). Before looking at the output, let's go through the steps we performed to generate the multiqc report.
+The data we will look at comes from an actual project that we worked on that had some significant quality control issues. In addition to standard issues that arise with projects processing hundreds or thousands of samples, there was evidence of more widespread issues based examination of quast and kraken reports. We have selected four representative samples, one good and three bad, and aggregated fastQC, kraken and quast results in multiqc. 
+
+We will first learn how to explore the output of multiqc, and then try and deduce what the problem is with each of our bad samples.
+
+In the interest of time we have run kraken, fastqc, spades/quast and multiqc. Don't worry - you will get experience running these tools in the next assignment :). 
+
+Before looking at the output, let's go through the steps we performed to generate the multiqc report.
 
 ### Running QC tools and aggregating output with multiqc
 
 > ***i. Run FastQC on the four IMPALA samples.***
 
-- Move into impala_qc directory placed under class5 and r
+- Move into impala_qc directory placed under class5 
 
 ```
 
@@ -180,9 +185,10 @@ mkdir fastqc
 
 - Use a for loop to run FastQC on all the four samples.
 - Note the use of the wildcard to create a loop list that has all the forward (_R1) fastq files in the directory
-- Also note we are using raw reads (i.e. before running trimmomatic), for illustrative purposes, normaly we would run trimmomatic as a first step
+- Also note we are using raw reads (i.e. before running trimmomatic), for illustrative purposes, normally we would run trimmomatic as a first step
 
 ```
+
 for i in data/fastq/IMPALA_*_R1.fastq.gz; do fastqc -o fastqc/ $i --extract; done
 
 ```
@@ -229,6 +235,8 @@ trimmomatic PE -phred33 data/fastq/IMPALA_207_R1.fastq.gz data/fastq/IMPALA_207_
 
 trimmomatic PE -phred33 data/fastq/IMPALA_94_R1.fastq.gz data/fastq/IMPALA_94_R2.fastq.gz data/fastq/IMPALA_94_clean_R1.fq.gz data/fastq/IMPALA_94_clean_unpaired_R1.fq.gz data/fastq/IMPALA_94_clean_R2.fq.gz data/fastq/IMPALA_94_clean_unpaired_R2.fq.gz ILLUMINACLIP:/scratch/epid94w23_class_root/epid94w23_class/shared_data/database/trimmomatic-0.39-1/adapters/TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:20 MINLEN:40 HEADCROP:0
 
+module load Bioinformatics
+module load spades
 
 spades.py -1 data/fastq/IMPALA_487_clean_R1.fq.gz -2 data/fastq/IMPALA_487_clean_R2.fq.gz -o data/assembly/IMPALA_487 --careful
 spades.py -1 data/fastq/IMPALA_582_clean_R1.fq.gz -2 data/fastq/IMPALA_582_clean_R2.fq.gz -o data/assembly/IMPALA_582 --careful
@@ -262,9 +270,10 @@ Because of all the steps involved, and their respective run times, we have pre-r
 cp ../../shared_data/Results/class5/impala_qc/impala_qc_multiqc.html .
 ```
 
-Now let's bring down the report to our home computers for viewing using [Cyberduck[(https://cyberduck.io/download/), or your preferred FTP client.
+Now let's bring down the report to our home computers for viewing using [Cyberduck](https://cyberduck.io/download/), or your preferred FTP client.
 
 > ***i. Get an overview of the report.***
+
 The multiqc report is broken into several sections. Let's get a sense for what's in each section and how to go through the report.
 
 ****General stats****
@@ -294,7 +303,7 @@ In the Kraken section you see a bar plot showing how reads are distributed acros
 In the quast section we see a table of assembly statistics, and then a barplot showing the sizes of different contigs in the assembly. We are primarily interested in:
 
 - Number of contigs  - Is our assembly in relatively few pieces (i.e. < 200 contigs)
-- Length of the assembly - Does the size of the assembly match our expectation for the genome size of teh sequenced organism?
+- Length of the assembly - Does the size of the assembly match our expectation for the genome size of the sequenced organism?
 - N50 - Is our assembly in relatively large pieces (i.e. half the assembly on fragments > 50Kb in size).
 
 
@@ -308,7 +317,7 @@ The assembly quality looks very good overall, with an N50 >130 Kb and a largest 
 
 ****Sequence quality in FastQC****
 
-Looking at sequence counts, we can see that there is plenty of data, with an approximate coverage of 200X (7M reads * 150 bp / 5.2Mb genome). There is a high duplication rate, but this is attributable to the high depth of sequencing (i.e. there are only so many possible 150 bp sequences in a 5Mb genome, which is further reduced by the AT target site of teh Nextera transposase).
+Looking at sequence counts, we can see that there is plenty of data, with an approximate coverage of 400X (7M reads * 150 bp * 2 Forward & Reverse / 5.2Mb genome). There is a high duplication rate, but this is attributable to the high depth of sequencing (i.e. there are only so many possible 150 bp sequences in a 5Mb genome, which is further reduced by the AT target site of teh Nextera transposase).
 
 Next, we can see that the sequence is of high quality, both when looking across the length of reads, and averaging over the entire reads.
 
@@ -335,7 +344,7 @@ The assembly for IMPALA_487 shows many issues, with an N50 of 600bp and a larges
 
 ****Sequence quality in FastQC****
 
-Looking at sequence counts we can quickly see what the issue is, as there are only 40K unique reads, which would equate to a depth of 1.2X (0.04 M reads * 150bp / 5Mb). 
+Looking at sequence counts we can quickly see what the issue is, as there are only 40K unique reads, which would equate to a depth of 2.4X (0.04 M reads * 150bp * 2 / 5Mb). 
 
 On the brighter side, we can see that the sequence is of good quality :). Also notice that there is not evidence of much duplication, because we are far from saturating our coverage of the genome.
 
@@ -369,7 +378,7 @@ As with the previous sample, this assembly looks poor. The N50 is 12.6 Kpb, alth
 <details>
 <summary>How does the quality of the sequence look?</summary>
 
-Overall, sequence quality metrics look similar to our good sample. There is plenty of sequence (~115X of E. coli), and there is an expected amount of duplication given the depth of sequencing. In addition the quality of the sequence looks good. 
+Overall, sequence quality metrics look similar to our good sample. There is plenty of sequence (~230X of E. coli), and there is an expected amount of duplication given the depth of sequencing. In addition the quality of the sequence looks good. 
  
  The GC content distribtuion looks a bit skewed to the right compared to our good sample, but enough to be concerned?
  
