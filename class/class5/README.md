@@ -188,8 +188,21 @@ for i in data/fastq/IMPALA_*_R1.fastq.gz; do fastqc -o fastqc/ $i --extract; don
 ```
 
 > ***ii. Run Kraken and generate Kraken reports for the four IMPALA samples.***
--Run Kraken on the four samples
+
+- Run Kraken on the four samples
+
 ```
+# Note: Dont run these commands in class5 lab. Due to time constraint, We already ran it and placed the kraken results in kraken folder.
+
+mkdir kraken
+
+kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class4/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_207_kraken --threads 8 data/IMPALA_207_R1.fastq.gz
+
+kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class4/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_487_kraken --threads 8 data/IMPALA_487_R1.fastq.gz
+
+kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class4/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_582_kraken --threads 8 data/IMPALA_582_R1.fastq.gz
+
+kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class4/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_94_kraken --threads 8 data/IMPALA_94_R1.fastq.gz
 
 ```
 
@@ -202,8 +215,25 @@ for i in kraken/*_kraken; do kraken-report --db /scratch/epid582w23_class_root/e
 ```
 
 > ***iii. Run spades to generate assemblies***
-- Note we are using reads that have been cleaned with trimmomatic for the assemmbly. 
+
+
+- Note we are using reads that have been cleaned with trimmomatic for the assembly.
+
 ```
+
+trimmomatic PE -phred33 data/fastq/IMPALA_487_R1.fastq.gz data/fastq/IMPALA_487_R2.fastq.gz data/fastq/IMPALA_487_clean_R1.fq.gz data/fastq/IMPALA_487_clean_unpaired_R1.fq.gz data/fastq/IMPALA_487_clean_R2.fq.gz data/fastq/IMPALA_487_clean_unpaired_R2.fq.gz ILLUMINACLIP:/scratch/epid582w23_class_root/epid582w23_class/shared_data/database/trimmomatic-0.39-1/adapters/TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:20 MINLEN:40 HEADCROP:0
+
+trimmomatic PE -phred33 data/fastq/IMPALA_582_R1.fastq.gz data/fastq/IMPALA_582_R2.fastq.gz data/fastq/IMPALA_582_clean_R1.fq.gz data/fastq/IMPALA_582_clean_unpaired_R1.fq.gz data/fastq/IMPALA_582_clean_R2.fq.gz data/fastq/IMPALA_582_clean_unpaired_R2.fq.gz ILLUMINACLIP:/scratch/epid582w23_class_root/epid582w23_class/shared_data/database/trimmomatic-0.39-1/adapters/TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:20 MINLEN:40 HEADCROP:0
+
+trimmomatic PE -phred33 data/fastq/IMPALA_207_R1.fastq.gz data/fastq/IMPALA_207_R2.fastq.gz data/fastq/IMPALA_207_clean_R1.fq.gz data/fastq/IMPALA_207_clean_unpaired_R1.fq.gz data/fastq/IMPALA_207_clean_R2.fq.gz data/fastq/IMPALA_207_clean_unpaired_R2.fq.gz ILLUMINACLIP:/scratch/epid207w23_class_root/epid207w23_class/shared_data/database/trimmomatic-0.39-1/adapters/TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:20 MINLEN:40 HEADCROP:0
+
+trimmomatic PE -phred33 data/fastq/IMPALA_94_R1.fastq.gz data/fastq/IMPALA_94_R2.fastq.gz data/fastq/IMPALA_94_clean_R1.fq.gz data/fastq/IMPALA_94_clean_unpaired_R1.fq.gz data/fastq/IMPALA_94_clean_R2.fq.gz data/fastq/IMPALA_94_clean_unpaired_R2.fq.gz ILLUMINACLIP:/scratch/epid94w23_class_root/epid94w23_class/shared_data/database/trimmomatic-0.39-1/adapters/TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:20 MINLEN:40 HEADCROP:0
+
+
+spades.py -1 data/fastq/IMPALA_487_clean_R1.fq.gz -2 data/fastq/IMPALA_487_clean_R2.fq.gz -o data/assembly/IMPALA_487 --careful
+spades.py -1 data/fastq/IMPALA_582_clean_R1.fq.gz -2 data/fastq/IMPALA_582_clean_R2.fq.gz -o data/assembly/IMPALA_582 --careful
+spades.py -1 data/fastq/IMPALA_207_clean_R1.fq.gz -2 data/fastq/IMPALA_207_clean_R2.fq.gz -o data/assembly/IMPALA_207 --careful
+spades.py -1 data/fastq/IMPALA_94_clean_R1.fq.gz -2 data/fastq/IMPALA_94_clean_R2.fq.gz -o data/assembly/IMPALA_94 --careful
 
 ```
 
