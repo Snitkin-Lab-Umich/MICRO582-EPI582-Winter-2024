@@ -141,7 +141,7 @@ ktImportTaxonomy Rush_KPC_266_krona.input -o Rush_KPC_266_krona.out.html
 In case you get an error saying - Taxonomy not found, run updateTaxonomy.sh command.
 
 ```
-updateTaxonomy.sh
+ktUpdateTaxonomy.sh
 ```
 
 Use scp command as shown below to copy over the Kraken/krona html report to your local system.
