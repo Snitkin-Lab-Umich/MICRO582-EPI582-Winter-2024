@@ -41,8 +41,8 @@ Let load some perl-modules that prokka requires and invoke prokka's help menu.
 
 ```
 module load Bioinformatics
-module load perl-modules
-
+module load perl-modules/1.0
+module load bioperl/1.7.2
 prokka -h
 ```
 
