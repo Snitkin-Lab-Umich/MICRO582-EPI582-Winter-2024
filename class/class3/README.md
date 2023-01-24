@@ -426,11 +426,6 @@ Load great lakes anaconda package and set up a conda environment in the followin
 
 module load python3.9-anaconda/2021.11
 
-# Install Bash kernel for Jupyter Notebook.
-pip install bash_kernel
-
-python -m bash_kernel.install
-
 # Set channel_priority to false so that it can install packages as per the YML file and not from loaded channels.
 
 conda config --set channel_priority false
