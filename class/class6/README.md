@@ -3,9 +3,10 @@ Class 6 – Genome annotation
 
 Goal
 ----
-- We will annotate the assembled genome from Class 5 using PROKKA
-- We will also add functional annotations using eggnog to generate some rich annotatons for our genome.
-- Then we will explore the annotated files to learn more about the assembled genome.
+- We will annotate an assembled multidrug resistant Klebsiella pneumoniae genome with PROKKA and learn about different annotation formats
+- We will generate richer annotations for our multidrug resistant Klebsiella and an environmental strain using eggnog
+- We will use COG ontology to compare the functional categories encoded by our two Klebsiella strains
+- We will briefly examine the output of panaroo, which tells us which genes are shared by sets of genomes
 
 Genome annotation using PROKKA
 ------------------------------
@@ -57,29 +58,22 @@ cp -r /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class6 ./
 cd class6
 ```
 
-Now add these line at the end of the slurm script - annotate.sbat and submit the job with sbatch.
-
-```
-echo "Prokka results will be saved in $SLURM_WORKING_DIR/SRR5244781_prokka"
-mkdir SRR5244781_prokka 
-prokka -kingdom Bacteria -outdir SRR5244781_prokka -force -prefix SRR5244781_contigs SRR5244781_contigs.fasta --cpus 0
-
-```
+Now edit your email in the slurm script - annotate.sbat and submit the job with sbatch.
 
 It should take around 3 minutes to finish the prokka run.
 
 Next, let's explore some of the output files using our ever growing bag of Unix tricks :). First, lets take a look at the overall summary file that Prokka creates which indicates how many of each type of genomic feature was identified:
 
 ```
-cd SRR5244781_prokka
+cd PCMP_H183
 
-less SRR5244781_contigs.txt
+less PCMP_H183.txt
 ```
 
 You'll notice that this file is actually short, so instead of viewing in less it might be easier to dump the contents to the screen. You can do this with the 'cat' command:
 
 ```
-cat SRR5244781_contigs.txt
+cat PCMP_H183.txt
 ```
 
 Next, as an exercise, see if you can write a for loop that goes through the gff file created by Prokka and counts the number of occurences of each type of feature.
@@ -94,7 +88,7 @@ do
   echo $feat;
   
   #COUNT THE NUMBER OF OCCURENCES OF THE FEATURE IN THE THIRD COLUMN OF THE gff
-  cut -f 3 SRR5244781_contigs.gff| grep $feat | wc -l; 
+  cut -f 3 PCMP_H183.gff| grep $feat | wc -l; 
 
 done
 
@@ -108,7 +102,7 @@ One more quick exercise - apply a Unix command to the appropriate fasta file to 
 
 ```
   
-grep ">" SRR5244781_contigs.faa | wc -l
+grep ">" PCMP_H183.faa | wc -l
   
 ```
 </details>
