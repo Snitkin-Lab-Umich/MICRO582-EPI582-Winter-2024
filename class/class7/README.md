@@ -121,6 +121,18 @@ blastx -query VRE_VSE_genomes.fasta -db ardb_van.pfasta -out van_blastp_results.
 
 --->
 
+
+Identify antibiotic resistance genes with AMRFINDER
+---------------------------------------------------
+
+```
+#AMRFINDER plus commands here
+
+
+```
+
+
+
 Identify antibiotic resistance genes with [ARIBA](https://github.com/sanger-pathogens/ariba) directly from paired end reads
 ----------------------------------------------------------
 
