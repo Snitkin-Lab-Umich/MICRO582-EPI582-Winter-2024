@@ -372,3 +372,14 @@ sum(grepl("hypothetical" , core_annots)) / sum(rowSums(pg_matrix > 0) == 4)
 Why does this make sense?
 
 -->
+
+Installing Eggnog with Conda
+----------------------------
+
+```
+conda create -n eggnog-mapper -c bioconda eggnog-mapper python=3.9
+
+conda activate eggnog-mapper
+
+emapper.py -h
+```
