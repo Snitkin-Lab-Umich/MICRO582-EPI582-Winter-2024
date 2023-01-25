@@ -53,8 +53,7 @@ makeblastdb takes as input:
 2) a flag indicating whether to construct a protein or nucleotide database (in this case protein: `-dbtype prot`).
 
 ```
-makeblastdb -in data/blast_kleb/ardb_KPC_genes.pfasta -dbtype prot
-
+makeblastdb -in blast/data/blast_kleb/ardb_KPC_genes.pfasta -dbtype prot
 ```
 
 > ***ii. BLAST K. pneumoniae protein sequences against our custom KPC database.***
