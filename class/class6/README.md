@@ -27,7 +27,7 @@ Finally, the results of all of these annotations are stored in a series of stand
 4. .gbk - A genbank formatted file of genome annotations and sequences
 5. .tsv - A tab-separated value formatted file of genome annotations
 
-With that background, let's try it on for ourselves! We are going to run Prokka on the *Staphylococcus aureus* genome that we assembled last class. Since Prokka annotation is a time intensive run, we will submit an annotation job and go over the results later at the end of this session. 
+With that background, let's try it on for ourselves! We are going to run Prokka on a multidrug resistant strain of *Klebsiella pneumoniae* that we assembled with spades. Since Prokka annotation is a time intensive run, we will submit an annotation job and go over the results later at the end of this session. 
 
 Lets add Prokka to our environment and check if we can invoke it.
 
