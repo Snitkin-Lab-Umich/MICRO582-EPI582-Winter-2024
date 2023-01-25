@@ -131,7 +131,9 @@ amrfinder -h
 #Download/Update AMRFINDER database
 amrfinder -u
 
+cd amrfinder/
 
+sbatch amrfinder.sbat
 ```
 
 
