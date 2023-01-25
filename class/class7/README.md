@@ -78,7 +78,7 @@ The input parameters are:
 ```
 # Takes around 0m43.271s
 
-blastp -query data/blast_kleb/kpneumo_all.pfasta -db data/blast_kleb/ardb_KPC_genes.pfasta -out KPC_blastp_results.tsv -outfmt 6 -evalue 1e-100 -max_target_seqs 1
+blastp -query blast/data/blast_kleb/kpneumo_all.pfasta -db blast/data/blast_kleb/ardb_KPC_genes.pfasta -out KPC_blastp_results.tsv -outfmt 6 -evalue 1e-100 -max_target_seqs 1
 ```
 
 Use `less` to look at `KPC_blastp_results.tsv`. Which genomes have a KPC gene?
