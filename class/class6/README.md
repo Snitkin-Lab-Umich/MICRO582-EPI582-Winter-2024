@@ -118,7 +118,7 @@ Prokka provides you with some basic annotations (e.g. putative function of prote
 2. You can compare genomes holistically to get a sense of how they are functionally different (e.g. nutrient sources they can utilize/environments they can grow in)
 3. When evaluating the differences between pairs of genomes or sets of genomes (e.g. differences in gene content, gene expression, etc.), you can get a quick sense of the overall functional differences, which can lead to more focused and data-driven hypotheses
 
-To get richer annotation of our genome we will apply a tool called Eggnog mapper. Eggnog mapper leverages a database of curated sequences (the Eggnog database), and applies an algorithm to map inputted genes to the most likely evolutionary counterpart (i.e. it's [ortholog](https://www.nature.com/articles/nrg3456)). There is a wide array of annotations that are provided, but three of special importance are [Gene Ontology](https://www.nature.com/articles/nrg3456) (GO), [KEGG](https://www.genome.jp/kegg/) and [Clusters of Orthologous Genes](https://www.ncbi.nlm.nih.gov/research/cog-project/)(COG)annotation. GO is an ontology scheme that assigned each gene to a biological process, molecular function and cellular component. One powerful aspect of GO is that it is hierarchical, such that you can categorize the role of genes at different levels (e.g. metabolism -> central carbon metabolism -> glycolysis). KEGG has a multitude of useful databases, but the most commonly used are it's pathway maps, which group genes into biochemical pathways and signalling cascades. 
+To get richer annotation of our genomes we will apply a tool called Eggnog mapper. Eggnog mapper leverages a database of curated sequences (the Eggnog database), and applies an algorithm to map inputted genes to the most likely evolutionary counterpart (i.e. it's [ortholog](https://www.nature.com/articles/nrg3456)). There is a wide array of annotations that are provided, but three of special importance are [Gene Ontology](https://www.nature.com/articles/nrg3456) (GO), [KEGG](https://www.genome.jp/kegg/) and [Clusters of Orthologous Genes](https://www.ncbi.nlm.nih.gov/research/cog-project/)(COG)annotation. GO is an ontology scheme that assigned each gene to a biological process, molecular function and cellular component. One powerful aspect of GO is that it is hierarchical, such that you can categorize the role of genes at different levels (e.g. metabolism -> central carbon metabolism -> glycolysis). KEGG has a multitude of useful databases, but the most commonly used are it's pathway maps, which group genes into biochemical pathways and signalling cascades. 
 
 The primary output file created by Eggnog mapper is a tab-delimited file with an extension `.emapper.annotations` providing different annotations for each gene. If you examine the file using less you will notice that the first three lines are comments, and the fourth line is a set of column headers. In order to explore specific annotations with Unix commands it would be super useful to know which annotations are on which columns. 
 
@@ -177,6 +177,22 @@ done
 </details>
 
 
+Now that we have our shell script, let's apply it to examine the functional distribution of genes present in our multidrug resistant Klebsiella genome (PCMP_H183) and an environmental Klebsiella genome (ERR025151).
+
+```
+#Run shell script on PCMP_H183 and redirect output to file
+./COG_code_counter.sh PCMP_H183_eggnog.emapper.annotations COG_functional_categories.txt > PCMP_COG_counts
+
+#Run shell script on ERR025151 and redirect output to file
+./COG_code_counter.sh ERR025151_eggnog.emapper.annotations COG_functional_categories.txt > ERR_COG_counts
+
+#To see them side by side, let's use the paste command
+paste PCMP_COG_counts ERR_COG_counts
+```
+
+Do you see any big differences in how genes are allocated to functional groups between these two genomes?
+
+
 Perform pan-genome analysis with [Panaroo](https://github.com/gtonkinhill/panaroo)
 ----------------------------------------
 
@@ -189,7 +205,7 @@ The way Panaroo works is:
 2) Then, it performs various refinements to reduce annotation errors such as misannotations and finds paralogs.
 3) Finally, it will take every isolate and order them by presence/absence of genes.
 
-For our analysis today, We will be looking at 8 *Klebsiella pneumoniae* genomes from human and environmental sources. Six of these genomes are from [this paper](https://www.pnas.org/content/112/27/E3574), and the other two are sequences from our lab. We are interested in learning more about potential differences in the resistomes of human and environmental isolates. 
+For our analysis today, we will expand from the two genomes above, to a larger set of 8 *Klebsiella pneumoniae* genomes from human and environmental sources. Six of these genomes are from [this paper](https://www.pnas.org/content/112/27/E3574), and the other two are sequences from our lab. Above we saw that despite having very different lifestyles, the overall attribution of genes to different functional categories didn't look especially different. Using panaroo, we will see how different these genomes are in the genes they actually encode. 
 
 > ***i. Generate pan-genome matrix using Panaroo and GFF files***
 
