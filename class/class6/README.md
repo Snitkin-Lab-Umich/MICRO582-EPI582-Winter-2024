@@ -167,10 +167,10 @@ for COG_code in `cut -f 1 $2`
 do
 
         #GET THE NAME OF THE COG CATEGORY FROM COG_functional_categories.txt
-        grep ^$COG_code $2;
+        grep ^$COG_code $2 | cut -f 2;
 
         #COUNT THE NUMBER OF OCCURENCES IN COLUMN 7 OF THE E-MAPPER DATA
-        cut -f 7 $1 | grep $COG_code | wc -l
+        grep -v "^#" $1 | cut -f 7 | grep $COG_code | wc -l
 
 done
 ```
