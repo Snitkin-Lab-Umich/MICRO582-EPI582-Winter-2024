@@ -125,7 +125,11 @@ Identify antibiotic resistance genes with AMRFINDER
 ---------------------------------------------------
 
 ```
-#AMRFINDER plus commands here
+#Test if you can can call amrfinder
+amrfinder -h
+
+#Download/Update AMRFINDER database
+amrfinder -u
 
 
 ```
