@@ -39,7 +39,7 @@ cd class7/blast
 Now activate the class7 conda environment.
 
 ```
-# If you haven't installed class7 then install it with: conda create -n class7 -c bioconda blast ariba tbb=2020.2
+# If you haven't installed class7 then install it with: conda create -n class7 -c bioconda blast ariba tbb=2020.2 ncbi-amrfinderplus
 
 conda activate class7
 ```
