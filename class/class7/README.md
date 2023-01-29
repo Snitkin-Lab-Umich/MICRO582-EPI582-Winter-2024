@@ -198,7 +198,81 @@ echo
 
 </details>
   
+  
+Next, let's add in Unix commands to extract two columns from our file - Subclass and Gene Symbol.
+
+```
+# Create Unix command to print out the subclass and gene symbol from amrfinder report
+# To do this: 1) Select lines that have AMR (all caps)
+#             2) Print out the columns Subclass and Gene symbol
+#             3) Sort the output by Subclass (hint - using the -k flag you can select number of column to sort by)
+#       
+
+echo
+```
+
+<details>
+  <summary>Solution</summary>
+
+# Create a Unix command to print out the number of unique subclasses resistance elements are detected for
+amr_count=$(grep AMR $1 | cut -f 12 | sort | uniq | wc -l)
+echo "Number of resistance elements detected: $amr_count"
+echo
+
+</details>
+
 <!---
+
+
+Now that we've finished our shell script, let's apply it to one of our genomes!
+
+```
+bash amr_finder_res_summary.sh amr_finder_results_all/ERR025152.txt
+```
+
+OK, this is a pretty sweet shell script, but now we want to run it on each of our genomes. We could do this by typing out four commands, but instead, let's write a second shell script that runs our first shell script on all AMRFinderPlus output files in a given directory. This shell script will take a single command line argument (the directory path), and run your shell script on each .txt file in the directory. Here is the usage statement:
+
+```
+# Run your amr_finder_res_summary.sh script on all files in an input directory
+
+# Usage
+# amr_finder_res_summary_batch.sh amr_finder_results_dir
+```
+
+So, fill in the code below the following comment, which provides some hints/instructions:
+
+```
+# Write a for loop to run your shell script on each .txt file in the 
+# output directory input as the first command line argument (i.e. $1)
+# Remember to use echo to print the name of the file so you know which
+# output belongs to which file
+
+```
+
+<details>
+  <summary>Solution</summary>
+
+for file in $1/*.txt
+do
+        echo $file      
+
+        echo $prefix
+        bash amr_finder_res_summary.sh $file
+
+done
+
+</details>
+
+
+Finally, let's put it all together and run this shell script to parse AMRFinderPlus results and report on the resistome of each of our four genomes.
+
+```
+bash amr_finder_res_summary_batch.sh amr_finder_results_all/
+```
+
+What differences do you notice between the antibiotic resistance potential for our two environmental isolates (ERR*) versus our hospital isolates (PCMP*)?
+
+
 
 Identify antibiotic resistance genes with [ARIBA](https://github.com/sanger-pathogens/ariba) directly from paired end reads
 ----------------------------------------------------------
