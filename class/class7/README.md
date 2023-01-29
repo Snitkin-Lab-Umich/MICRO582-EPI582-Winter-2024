@@ -27,13 +27,11 @@ We will see if any of our samples have a KPC gene, by comparing the genes in our
 First, change directories to the working directory and copy class7 directory:
 
 ```
-
 wd
 
 cp -r /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class7 ./ 
 
 cd class7/blast
-
 ```
 
 Now activate the class7 conda environment.
@@ -90,36 +88,6 @@ less KPC_blastp_results.tsv
 
 [Here](http://www.metagenomics.wiki/tools/blast/blastn-output-format-6) is more information about the content for each of the output file columns.
 
-<!---
-- **Exercise:** In this exercise you will try a different type of blasting – blastx. Blastx compares a nucleotide sequence to a protein database by translating the nucleotide sequence in all six frames and running blastp. Your task is to determine which Enterococcus genomes are vancomycin resistant (VRE, vs. VSE) by blasting against a database of van genes. The required files are located in `blast/data/blast_ent` folder in the `day2pm` directory.
-
-Your steps should be:
-
-1) Concatenate the `data/blast_ent/*.fasta` files (VRE/VSE genomes) into a single file (your blast query file) using the `cat` command.
-2) Create a blastp database from `data/blast_ent/ardb_van.pfasta`
-3) Run blastx
-4) Verify that only the VRE genomes hit the database
-5) For extra credit, determine which van genes were hit by using grep to search for the hit gene ID in `data/blast_ent/ardb_van.pfasta`
-
-<details>
-  <summary>Solution</summary>
-  
-```
-cd blast/data/blast_ent
-
-# Make sure you are in blast_ent folder
-cat *.fasta > VRE_VSE_genomes.fasta
-
-makeblastdb -in ardb_van.pfasta -dbtype prot
-
-blastx -query VRE_VSE_genomes.fasta -db ardb_van.pfasta -out van_blastp_results.tsv -outfmt 6 -evalue 1e-100 -max_target_seqs 1
-
-```
-</details>
-
-- **Exercise:** Experiment with the `–outfmt` parameter, which controls different output formats that BLAST can produce. You can use `blastp -help | less` to get more information about the different output formats. You can search for the `-outfmt` flag by typing `/outfmt` and then typing `n` to get to the next one.
-
---->
 
 
 Identify antibiotic resistance genes with AMRFinderPlus
@@ -174,8 +142,8 @@ To do this we are going to edit the shell script amr_finder_res_summary.sh, whic
 So, open it up with nano, and let's start by trying to edit the following part of the code to report the number of unique resistance classes.
 
 ```
-# Create a Unix command to print out the number of unique subclasses resistance elements are detected for.
-# To do this: 1) Select lines that have AMR (all caps)
+#Create a Unix command to print out the number of unique subclasses resistance elements are detected for.
+#To do this: 1) Select lines that have AMR (all caps)
 #             2) Use cut, sort, uniq and wc to get the number unique subclasses
 amr_count=$()
 echo "Number of resistance elements detected: $amr_count"
@@ -191,14 +159,9 @@ Hints:
 
 <details>
   <summary>Solution</summary>
-
-# Create a Unix command to print out the number of unique subclasses resistance elements are detected for.
-# To do this: 1) Select lines that have AMR (all caps)
-#             2) Use cut, sort, uniq and wc to get the number unique subclasses
 amr_count=$(grep AMR $1 | cut -f 12 | sort | uniq | wc -l)
 echo "Number of resistance elements detected: $amr_count"
 echo
-
 </details>
   
   
@@ -216,15 +179,12 @@ echo
 
 <details>
   <summary>Solution</summary>
-
-# Create a Unix command to print out the number of unique subclasses resistance elements are detected for
+  
 amr_count=$(grep AMR $1 | cut -f 12 | sort | uniq | wc -l)
 echo "Number of resistance elements detected: $amr_count"
 echo
 
 </details>
-
-<!---
 
 
 Now that we've finished our shell script, let's apply it to one of our genomes!
@@ -252,6 +212,7 @@ So, fill in the code below the following comment, which provides some hints/inst
 
 ```
 
+
 <details>
   <summary>Solution</summary>
 
@@ -263,8 +224,8 @@ do
         bash amr_finder_res_summary.sh $file
 
 done
-
 </details>
+
 
 
 Finally, let's put it all together and run this shell script to parse AMRFinderPlus results and report on the resistome of each of our four genomes.
@@ -273,9 +234,11 @@ Finally, let's put it all together and run this shell script to parse AMRFinderP
 bash amr_finder_res_summary_batch.sh amr_finder_results_all/
 ```
 
-What differences do you notice between the antibiotic resistance potential for our two environmental isolates (ERR*) versus our hospital isolates (PCMP*)?
+What differences do you notice between the antibiotic resistance potential for our two environmental isolates (ERR) versus our hospital isolates (PCMP)?
 
 
+<!---
+####Old ARIBA exercise 
 
 Identify antibiotic resistance genes with [ARIBA](https://github.com/sanger-pathogens/ariba) directly from paired end reads
 ----------------------------------------------------------
@@ -305,6 +268,7 @@ cd class7/ariba
 less ariba.sbat
 ```
 
+
 Explore ARIBA summary reports
 -----------------------------
 
@@ -328,10 +292,9 @@ The ARIBA summary generates three output:
 1. `kpneumo_card*.csv` file that can be viewed in your favorite spreadsheet program (e.x. Microsoft Excel).
 
 2. `kpneumo_card*.phandango.{csv,tre}` that allow you to view the results in [Phandango](http://jameshadfield.github.io/phandango/#/). You can drag-and-drop these files straight into Phandango.
---->
 
 
-<!---
+
 Lets copy these  files, along with a metadata file, to the local system using cyberduck or scp.
 
 ```
@@ -454,6 +417,40 @@ bash scripts/summarize_mlst.sh results/mlst
 
 ```
 </details>
+
+--->
+
+
+<!---
+#####Extra VRE BLAST exercise
+
+- **Exercise:** In this exercise you will try a different type of blasting – blastx. Blastx compares a nucleotide sequence to a protein database by translating the nucleotide sequence in all six frames and running blastp. Your task is to determine which Enterococcus genomes are vancomycin resistant (VRE, vs. VSE) by blasting against a database of van genes. The required files are located in `blast/data/blast_ent` folder in the `day2pm` directory.
+
+Your steps should be:
+
+1) Concatenate the `data/blast_ent/*.fasta` files (VRE/VSE genomes) into a single file (your blast query file) using the `cat` command.
+2) Create a blastp database from `data/blast_ent/ardb_van.pfasta`
+3) Run blastx
+4) Verify that only the VRE genomes hit the database
+5) For extra credit, determine which van genes were hit by using grep to search for the hit gene ID in `data/blast_ent/ardb_van.pfasta`
+
+<details>
+  <summary>Solution</summary>
+  
+```
+cd blast/data/blast_ent
+
+# Make sure you are in blast_ent folder
+cat *.fasta > VRE_VSE_genomes.fasta
+
+makeblastdb -in ardb_van.pfasta -dbtype prot
+
+blastx -query VRE_VSE_genomes.fasta -db ardb_van.pfasta -out van_blastp_results.tsv -outfmt 6 -evalue 1e-100 -max_target_seqs 1
+
+```
+</details>
+
+- **Exercise:** Experiment with the `–outfmt` parameter, which controls different output formats that BLAST can produce. You can use `blastp -help | less` to get more information about the different output formats. You can search for the `-outfmt` flag by typing `/outfmt` and then typing `n` to get to the next one.
 
 --->
 
