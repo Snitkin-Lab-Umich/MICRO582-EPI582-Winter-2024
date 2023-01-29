@@ -174,10 +174,10 @@ To do this we are going to edit the shell script amr_finder_res_summary.sh, whic
 So, open it up with nano, and let's start by trying to edit the following part of the code to report the number of unique resistance classes.
 
 ```
-# Create a Unix command to print out the number of unique subclasses resistance elements are detected for
+# Create a Unix command to print out the number of unique subclasses resistance elements are detected for.
+# To do this: 1) Select lines that have AMR (all caps)
+#             2) Use cut, sort, uniq and wc to get the number unique subclasses
 amr_count=$()
-
-#Report the number of resistance elements
 echo "Number of resistance elements detected: $amr_count"
 echo
 ```
@@ -192,7 +192,9 @@ Hints:
 <details>
   <summary>Solution</summary>
 
-# Create a Unix command to print out the number of unique subclasses resistance elements are detected for
+# Create a Unix command to print out the number of unique subclasses resistance elements are detected for.
+# To do this: 1) Select lines that have AMR (all caps)
+#             2) Use cut, sort, uniq and wc to get the number unique subclasses
 amr_count=$(grep AMR $1 | cut -f 12 | sort | uniq | wc -l)
 echo "Number of resistance elements detected: $amr_count"
 echo
