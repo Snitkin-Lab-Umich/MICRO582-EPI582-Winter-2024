@@ -44,16 +44,17 @@ Now activate the class7 conda environment.
 conda activate class7
 ```
 
+
 > ***i. Run makeblastdb on the file of KPC genes to create a BLAST database.***
 
 makeblastdb takes as input: 
 
-1) an input fasta file of protein or nucleotide sequences (`data/blast_kleb/ardb_KPC_genes.pfasta`) and 
+1) an input fasta file of protein or nucleotide sequences (`blast_db/ardb_KPC_genes.pfasta`) and 
 
 2) a flag indicating whether to construct a protein or nucleotide database (in this case protein: `-dbtype prot`).
 
 ```
-makeblastdb -in blast/data/blast_kleb/ardb_KPC_genes.pfasta -dbtype prot
+makeblastdb -in blast_db/ardb_KPC_genes.pfasta -dbtype prot
 ```
 
 > ***ii. BLAST K. pneumoniae protein sequences against our custom KPC database.***
@@ -62,9 +63,9 @@ Run BLAST!
 
 The input parameters are: 
 
-1) query sequences - These are protein sequences from all the 4 genomes created by concatenating each Prokka \*.faa output files (`-query data/blast_kleb/kpneumo_all.pfasta`), 
+1) query sequences - These are protein sequences from all the 4 genomes created by concatenating each Prokka \*.faa output files (`-query kpneumo_four_genomes.faa`), 
 
-2) the database to search against (`-db data/blast_kleb/ardb_KPC_genes.pfasta`), 
+2) the database to search against (`-db blast_db/ardb_KPC_genes.pfasta`), 
 
 3) the name of a file to store your results (`-out KPC_blastp_results.tsv`), 
 
@@ -78,7 +79,7 @@ The input parameters are:
 ```
 # Takes around 0m43.271s
 
-blastp -query blast/data/blast_kleb/kpneumo_all.pfasta -db blast/data/blast_kleb/ardb_KPC_genes.pfasta -out KPC_blastp_results.tsv -outfmt 6 -evalue 1e-100 -max_target_seqs 1
+blastp -query kpneumo_four_genomes.faa -db blast_db/ardb_KPC_genes.pfasta -out KPC_blastp_results.tsv -outfmt 6 -evalue 1e-100 -max_target_seqs 1
 ```
 
 Use `less` to look at `KPC_blastp_results.tsv`. Which genomes have a KPC gene?
