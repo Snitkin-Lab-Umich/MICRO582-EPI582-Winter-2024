@@ -159,9 +159,13 @@ Hints:
 
 <details>
   <summary>Solution</summary>
-amr_count=$(grep AMR $1 | cut -f 12 | sort | uniq | wc -l)
-echo "Number of resistance elements detected: $amr_count"
-echo
+
+   ```
+   amr_count=$(grep AMR $1 | cut -f 12 | sort | uniq | wc -l)
+   echo "Number of resistance elements detected: $amr_count"
+   echo
+   ```
+  
 </details>
   
   
@@ -180,10 +184,11 @@ echo
 <details>
   <summary>Solution</summary>
   
-amr_count=$(grep AMR $1 | cut -f 12 | sort | uniq | wc -l)
-echo "Number of resistance elements detected: $amr_count"
-echo
-
+  ```
+  grep AMR $1 | cut -f 6,12| sort -k 2
+  echo
+  ```
+  
 </details>
 
 
@@ -216,14 +221,16 @@ So, fill in the code below the following comment, which provides some hints/inst
 <details>
   <summary>Solution</summary>
 
-for file in $1/*.txt
-do
+  ```
+  for file in $1/*.txt
+  do
         echo $file      
 
         echo $prefix
         bash amr_finder_res_summary.sh $file
 
-done
+  done
+  ```
 </details>
 
 
@@ -235,6 +242,8 @@ bash amr_finder_res_summary_batch.sh amr_finder_results_all/
 ```
 
 What differences do you notice between the antibiotic resistance potential for our two environmental isolates (ERR) versus our hospital isolates (PCMP)?
+
+
 
 
 <!---
