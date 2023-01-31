@@ -169,72 +169,56 @@ sbatch mashtree.sbat
 ```
 
 
-Determine antibiotic resistance gene content with ARIBA
--------------------------------------------------------
-Last class we ran ARIBA on a subset of the genomes in this dataset to visualized the output in Phandango. Here we will run on the larger genomic dataset that we downloaded, and then summarize the results to count the number of antibiotic resistance genes in each genome.
+Determine antibiotic resistance gene content with AMRFinderPlus
+---------------------------------------------------------------
+Last class we ran AMRFinderPlus on a subset of the genomes in this dataset and parsed the output to determine the number of antibiotic subclasses each genome encodes resistance to. Here we will run on the larger genomic dataset that we downloaded, and then run our handy shell script from last class!
 
-*We have run ARIBA, but here is how we did it*
+*We have run AMRFinderPlus, but here is how we did it*
 
-To save time we have run ARIBA for you, but want to take some time to look at how this was done. The commands are in ariba.sbat, but let's look at the code that is actually running ARIBA insight the script:
+To save time we have run AMRFinderPlus for you, but want to take some time to look at how this was done. The commands are in amrfinder.sbat, but let's look at the code that is actually running AMRFinderPlus inside the script:
 
 ```
-# List forward end fastq files in the directory and save the filenames into the variable samples. 
-samples=$(ls fastq_download/*1.fastq) #forward reads
+# List fasta files in the directory and save the filenames into the variable samples. 
+fasta_files=$(ls genome_assembly/*.fasta)
 
-# Set ARIBA dabase directory to the CARD database that we downloaded in the below folder
-db_dir=data/CARD/CARD_db #reference database
+# Make directory for amrfinder results
+mkdir amr_finder_results
 
-# Make directory for ariba CARD and MLST results
-mkdir ariba_results
-
-# Run for loop, where it generates ARIBA CARD and MLSt commands for each of the forward end files.
-for samp in $samples;
+# Run for loop, where it generates amrfinder command for each of the forward end files.
+for fasta in $fasta_files;
 do
+        # Print out name of current fasta file
+        echo $fasta
 
-        echo $samp
+        # Create output directory by trimming off .fasta from the sample fasta file
+        outdir=amr_finder_results_sep/$(echo ${fasta//.fasta/} | cut -d/ -f2)
 
-        #Get the name of the reverse reads by swapping 1.fastq for 2.fastq
-        samp2=${samp//1.fastq/2.fastq} #reverse reads   
+        # Make output directory
+        mkdir $outdir
 
-        #Create output directory for the name of each sample
-        outdir=ariba_results/$(echo ${samp//_1.fastq/} | cut -d/ -f3)
+        # Create a prefix for the amrfinder results by trimming off .fasta from the sample fasta file
+        prefix=$(echo ${fasta//.fasta/} | cut -d/ -f2)
 
-        #Run ARIBA
-        echo "ariba run --threads 4 --force $db_dir $samp $samp2 $outdir"
-        ariba run --threads 4 --force $db_dir $samp $samp2 $outdir
+        # Run amrfinder command
+        amrfinder --plus --output $outdir/$prefix\.txt -n $fasta --mutation_all $outdir/$prefix\_mutation_report.tsv --organism Klebsiella_pneumoniae
 
 done
 ```
 
 Most of what's going on here we have seen before. However, there are a couple of new concepts that are important to highlight:
 
-1. () - We again are using the parentheses to put the results of a Unix command in a variable. In this case, we are getting the forward reads from our sequenced genomes.
-2. Getting the reverse reads - Our for loop is going through our list of forward reads. However, ARIBA wants the forward and reverse reads - so what are we to do? Well, we are taking advantage of the fact that forward and reverse reads share the same prefix, and just differ in whether they end in '_1.fastq' or '_2.fastq'. Therefore, what we do is apply a Unix command to search for '_1.fastq' and replace it with '_2.fastq'.
-3. Creating output directories for each genome - Since ARIBA creates the same output files for each run, we need to put the results in different directories. So, what we do here is name the ouptut directories by the name of the genome. To accomplish this we use this search and replace feature, but this time replace "_1.fastq" with "" (i.e. nothing).
+1. () - We again are using the parentheses to put the results of a Unix command in a variable. In this case, we are getting the fasta files for our genome assemblies.
+2. Getting genome name - When running AMRFinderPlus we need to provide output files. To do this for each genome, we want to use the name of the genome, but chop off ".fasta" from the end and the path to the fasta file from the beginning. To do this we first use a search and replace function to replace ".fasta" with "" (i.e. nothing). Next, we pipe that output to a cut command, where we split by "/" and take the second item, which gets rid of the directory name.
+3. Creating output directories for each genome -  To organize our results we each genome's output in different directories. So, what we do here is name the ouptut directories by the name of the genome. To accomplish this we use the same search and replace as above, but prepend with amr_finder_results_sep. We then run mkdir, to create the output directory. 
 
-One more trick if you are interested - to enable ARIBA jobs to be run on multiple processors we used the parallel command that we used for data download above. Check out ariba_parallel.sbat to see how we did it.
-
-After running ARIBA, we need to run the summarize function to assemble the results into a single spreadsheet. We did that with the following command:
+Lastly, we ran a modified version of our shell script from last week to determine the number of antibiotic classes each genome encodes resistance to, and output in a format that works for iTOL.
 
 ```
-ariba summary --preset minimal ariba_analysis/kpneumo_card_minimal_results ariba_analysis/*/report.tsv
-```
+#Copy all the .txt files from the individual output directories
+cp amr_finder_results_sep/*/*.txt amr_finder_results
 
-Lastly, we took the file kpneumo_card_minimal_results.csv into R and counted the number of antibiotic resistance genes for each genome. This is super easy, and we will see how we did this once we start using R, but here are the commands if you want a sneak peak
-
-```
-#READ IN THE ARIBA DATA
-ariba_data = read.csv('kpneumo_card_minimal_results.csv')
-
-#MAKE THE NAMES OF THE GENOMES CONSITENT WITH THE MASHTREE
-ariba_data$name = gsub("$", "_1", ariba_data$name)
-
-#COUNT THE NUMBER OF ANTIBIOTIC RESISTANCE GENES
-ariba_data$count = rowSums(ariba_data == 'yes')
-
-#WRITE THE COUNTS TO A FILE
-write.csv(ariba_data[,c('name', 'count')], 'ariba_amr_count.csv',
-          quote = FALSE, row.names = FALSE)
+#Run our shell script and use >> to append the output to the end of our itol barplot file
+bash amr_finder_res_count.sh amr_finder_results >> itol_files/dataset_simplebar_ariba_amr_count.txt
 ```
 
 Visualize our tree and metadata using iTOL
