@@ -60,8 +60,9 @@ For today's lab we will download and analyze genomes from a previously published
 2. Subset to the samples to a smaller subset of interest
 3. Download fastq files for the samples of interest from the sra
 4. Run mashtree to construct a phylogeny based on kmer distances among the sequenced genomes
-5. Run ARIBA to determine the antibiotic resistance gene content of each genome
-6. Visualize the mashtree phylogeny and meta-data using iTOL
+5. Perform assemblies on our downloaded genomes
+6. Run AMRFinderPlus to determine the antibiotic resistance gene content of each genome
+7. Visualize the mashtree phylogeny and meta-data using iTOL
 
 To start, let's get the sample IDs associated with the Bioproject. It is common for the set of genomes associated with a study or manuscript to all fall under a single bioproject, and that is the case here ([PRJEB2111](https://www.ncbi.nlm.nih.gov/bioproject/PRJEB2111)). 
 
