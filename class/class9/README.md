@@ -99,7 +99,7 @@ For today's class, we will run a variant calling pipeline called [Snippy](https:
 Lets install Snippy with conda and create a new environment.
 
 ```
-module load python3.8-anaconda/2021.05
+module load python3.9-anaconda/2021.11
 
 conda create -n class9snippy -c conda-forge -c bioconda -c defaults snippy
 
