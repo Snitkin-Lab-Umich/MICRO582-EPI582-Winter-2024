@@ -95,19 +95,7 @@ A typical Bioinformatics variant calling pipeline stitches the steps described a
 
 For today's class, we will run a variant calling pipeline called [Snippy](https://github.com/tseemann/snippy) that will run all of these intermediate steps taking clean reads as input and outputting a filtered annotated variants in various file formats that we will then explore in IGV. Note that while today we are running Snippy to identify variants in a single genome, it can be run on a set of sequenced genomes, which we will do in future sessions for phylogenetic and transmission analysis.
 
-Lets install Snippy with conda and create a new environment. (Note: bcftools that comes packaged with conda doesn;t work so dont bother to follow these instructions. )
-
-```
-module load python3.9-anaconda/2021.11
-
-conda create -n class9snippy -c conda-forge -c bioconda -c defaults snippy
-
-conda activate class9snippy
-
-snippy --check
-```
-
-Use these instruction steps instead to install Snippy:
+Use these instruction to load Snippy into your environment:
 
 ```
 # Load these modules
