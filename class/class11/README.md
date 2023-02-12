@@ -224,35 +224,23 @@ panaroo_genes$Annotation[genomes_per_gene == 1]
 
 </details>
 
-Plotting a heatmap of AMR genes from ARIBA
+Plotting a heatmap of AMR genes from AMRFinderPlus
 ------------------------------------------
-In class 7 we used the Phandango website to make a heatmap of antibiotic resistance genes present in our genomes. Here, we are going to see how to make a prettier one in R!
+In class 7 we wrote shell scripts to parse the results of AMRFinderPlus. Here, we will read the results into R and make a pretty heatmap :)
   
 ```
-ariba_mat <- read.table('class11/kpneumo_card_minimal_results.csv',
-                        sep = ",",
-                        header = T,
-                        row.names = 1)
+amr_mat <- read.table('amr_finder_gene_mat.txt',
+                      sep = "\t",
+                      quote = "",
+                      check.names = F)
 
-#Clean up row names using gsub
-row.names(ariba_mat) <- gsub("results/card/", "", row.names(ariba_mat))
-row.names(ariba_mat) <- gsub("/report.tsv", "", row.names(ariba_mat))
-row.names(ariba_mat) <- gsub("_1|_R1", "", row.names(ariba_mat))
-
-#Clean up the column names
-colnames(ariba_mat) = gsub("match", "", colnames(ariba_mat))
-colnames(ariba_mat) = gsub("_", "", colnames(ariba_mat))
-colnames(ariba_mat) = gsub("Klebsiellapneumoniae", "", colnames(ariba_mat))
-
-#Make binary for plotting purposes
-ariba_mat[,] = as.numeric(ariba_mat == 'yes')
 
 #Install and load pheatmap package
 install.packages('pheatmap')
 library(pheatmap)
   
 #Plot heatmap
-pheatmap(ariba_mat,
+pheatmap(amr_mat,
          color = c('white', 'black'),
          legend = F)
   
@@ -261,7 +249,7 @@ annots = read.table('kpneumo_source.tsv',row.names=1)
 colnames(annots) = 'Source'
 
 #Plot heatmap with annotations
-pheatmap(ariba_mat,
+pheatmap(amr_mat,
          annotation_row = annots,
          color = c('white', 'black'),
          legend = F)
