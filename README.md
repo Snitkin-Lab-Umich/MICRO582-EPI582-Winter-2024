@@ -66,7 +66,7 @@
 ***
 
 - [Determine which genomes contain KPC genes using BLAST](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class7/README.md#determine-which-genomes-contain-KPC-genes-using-blast)
-- [Identify antibiotic resistance genes with ARIBA directly from paired end reads](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class7/README.md#identify-antibiotic-resistance-genes-with-ariba-directly-from-paired-end-reads)
+- [Identify antibiotic resistance genes with AMRFinderPlus](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class7/README.md#identify-antibiotic-resistance-genes-with-AMRFinderPlus)
 
 #### [Class 8 – Data download and genome comparison](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/blob/main/class/class8/README.md)
 ***
