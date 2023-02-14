@@ -185,7 +185,7 @@ fasta_files=$(ls genome_assembly/*.fasta)
 # Make directory for amrfinder results
 mkdir amr_finder_results
 
-# Run for loop, where it generates amrfinder command for each of the forward end files.
+# Run for loop, where it generates amrfinder command for each assembly.
 for fasta in $fasta_files;
 do
         # Print out name of current fasta file
