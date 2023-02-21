@@ -90,7 +90,7 @@ cd parsnp_results
 harvesttools -i parsnp.ggr -M parsnpLCB.aln
 ```
 
-> ***iii. View multiple genome alignment in gingr***
+> ***iii. View multiple genome alignment in [gingr](https://harvest.readthedocs.io/en/latest/content/gingr.html)***
 
 Gingr is a visualization tool that accompanies parsnp. So, let's download the files we created using parsnp and load them into gingr.
 
