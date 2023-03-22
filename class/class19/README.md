@@ -111,9 +111,15 @@ facil_pair_count = matrix(0,
 #Add each inter-facility pair to appropriate facility pair
 for(p in 1:nrow(pair_type_subset))
 {
+
+  #Assign the first facility to be the earlier in the alphabet (will make it so
+  #we are just filling in the upper triangle of the matrix)
+  facil1 <- min(pair_type_subset$loc1[p], pair_type_subset$loc2[p]);
   
-  facil_pair_count[pair_type_subset$loc1[p], pair_type_subset$loc2[p]] <- facil_pair_count[pair_type_subset$loc1[p], pair_type_subset$loc2[p]] + 1;
-  facil_pair_count[pair_type_subset$loc2[p], pair_type_subset$loc1[p]] <- facil_pair_count[pair_type_subset$loc2[p], pair_type_subset$loc1[p]] + 1;
+  #Assign the second facility to be the later in the alphabet
+  facil2 <- max(pair_type_subset$loc1[p], pair_type_subset$loc2[p])
+  
+  facil_pair_count[facil1, facil2] <- facil_pair_count[facil1, facil2] + 1;
   
 }
 
