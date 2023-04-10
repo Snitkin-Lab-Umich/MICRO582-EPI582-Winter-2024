@@ -14684,26 +14684,28 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span><span class="k">for</span> i <span class="k">in</span> /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/*_1.fastq<span class="p">;</span> 
-<span class="k">do</span> <span class="nv">isolate</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$i</span> <span class="p">|</span> cut -d<span class="s1">&#39;/&#39;</span> -f9 <span class="p">|</span> sed <span class="s1">&#39;s/_1.fastq//g&#39;</span><span class="sb">`</span><span class="p">;</span> 
-<span class="nv">r2</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$i</span> <span class="p">|</span> sed <span class="s1">&#39;s/_1.fastq/_2.fastq/g&#39;</span><span class="sb">`</span><span class="p">;</span> 
-<span class="nb">printf</span> <span class="s2">&quot;</span><span class="nv">$isolate</span><span class="s2">\t</span><span class="nv">$i</span><span class="s2">\t</span><span class="nv">$r2</span><span class="s2">\n&quot;</span><span class="p">;</span> 
-<span class="k">done</span> &gt; input.tab
-</pre></div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<pre><code>#Loop through each file of forward reads, and print genome name and F/R read files for snippy batch
+for r1 in /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/*_1.fastq;
+do 
+    #Get name of genome from forward reads
+    isolate=`echo $r1 | cut -d'/' -f9 | sed 's/_1.fastq//g'`;
+    #Get reverse reads corresponding to current forward reads
+    r2=`echo $r1 | sed 's/_1.fastq/_2.fastq/g'`;
+    #Print out genome, forward reads and reverse reads, separated by tabs
+    printf &quot;$isolate\t$r1\t$r2\n&quot;;
+done &gt; input.tab
+</code></pre>
 
-     </div>
 </div>
 </div>
 </div>
-
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -14979,6 +14981,22 @@ Done.
 
 </div>
 
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Note:</p>
+<pre><code>- snippy-multi generates individual snippy commands for each sample as well as snippy-core command which aggregates results from individual sample snippy results and generates a consensus alignment file. This consensus alignment file can then be used as an input for Gubbins which masks recombinant region in this alignment file and generates a phylogenetic tree.
+
+- If snippy-multi throws an error that it can't file a read file or a path, its propbably due to the format of your input.tab Check your for loop and regenerate the input.tab file. THis file shoul contain three columns each seperated by a tab. 
+</code></pre>
+
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
