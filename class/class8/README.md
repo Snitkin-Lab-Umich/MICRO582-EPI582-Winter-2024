@@ -19,7 +19,7 @@ Lets create two environments using the YML files MICRO582_class8_sratools.yml an
 conda create -n class8_sratools -c bioconda sra-tools=2.10.0 entrez-direct
 
 # class8_mashtree environment
-conda env create -f /scratch/epid582w23_class_root/epid582w23_class/shared_data/conda_envs/MICRO582_class8_mashtree.yml
+conda env create -f /scratch/epid582w24_class_root/epid582w24_class/shared_data/conda_envs/MICRO582_class8_mashtree.yml
 
 conda activate class8_sratools
 
@@ -105,7 +105,7 @@ grep -f genome_IDs_to_download PRJEB2111-info.tsv > PRJEB2111-info_subset.tsv
 
 We will now use fasterq-dump tool available from SRA toolkit to download sequencing data for each of the SRA runs that we just saved to PRJEB2111-info_subset.tsv file. 
 
-*This is how the data was downloaded. We have already downloaded the data in /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class8/fastq_download*
+*This is how the data was downloaded. We have already downloaded the data in /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class8/fastq_download*
 
 We have put the commands to download the genomes of interest in the sbat script download.sbat. Let's look at the code that is doing the work for us:
 

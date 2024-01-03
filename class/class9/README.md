@@ -104,7 +104,7 @@ module load Bioinformatics
 module load perl-modules
 
 # Add this line to your bashrc (open it with nano -> add the line -> save it) and source it
-export PATH=$PATH:/scratch/epid582w23_class_root/epid582w23_class/shared_data/bin/snippy/bin
+export PATH=$PATH:/scratch/epid582w24_class_root/epid582w24_class/shared_data/bin/snippy/bin
 
 source ~/.bashrc
 

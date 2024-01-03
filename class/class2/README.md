@@ -15,7 +15,7 @@ In the first class we learned that when you log in to Great Lakes you are placed
 
 ```
 #Change directory
-cd /scratch/epid582w23_class_root/epid582w23_class/
+cd /scratch/epid582w24_class_root/epid582w24_class/
 
 #Make sure it worked
 pwd

@@ -35,7 +35,7 @@ Lets set the interactive notebook session.
 
     ![alt tag](https://raw.githubusercontent.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/main/class/class3/img/Jupyter-Notebook-Interactive-App-highlight.png)
 
-    This will land you to the Job composer page. Make sure you use "epid582w23_class" as the slurm account name under which you will start this job. If all the parameters looks okay, hit the launch button.
+    This will land you to the Job composer page. Make sure you use "epid582w24_class" as the slurm account name under which you will start this job. If all the parameters looks okay, hit the launch button.
 
     ![alt tag](https://raw.githubusercontent.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/main/class/class3/img/Jupyter-Notebook-Job-Start-highlights-job.png)
 
@@ -57,7 +57,7 @@ Lets set the interactive notebook session.
 
     ![alt tag](https://raw.githubusercontent.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2023/main/class/class3/img/link-to-root_final.png)
 
-    Click on scratch -> epid582w23_class -> "your username" -> class3 -> Setup_Jupyter.ipynb
+    Click on scratch -> epid582w24_class -> "your username" -> class3 -> Setup_Jupyter.ipynb
 
     This will open up jupyter notebook that we will run to set up the notebook environment.
 
