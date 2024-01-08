@@ -33,7 +33,7 @@ Now, let's all go into our course home directory, and copy over some files that 
 cd esnitkin 
 
 #Copy over files for today using the relative path
-cp -r ../../shared_data/data/class2/ .
+cp -r ../shared_data/data/class2/ .
 
 #Make sure the copy worked
 ls

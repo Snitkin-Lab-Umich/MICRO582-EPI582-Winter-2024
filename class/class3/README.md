@@ -87,7 +87,7 @@ For this, We will save the full path to these tools in an our PATH variable.
     
 ```
 
-cp ~/.bashrc ~/bashrc_backup_2023_01_11
+cp ~/.bashrc ~/bashrc_backup_2024_01_17
 
 #Note: "~/" represents your home directory. On great lakes, this means /home/username
 
