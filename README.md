@@ -26,61 +26,65 @@
 ***
 
 - [Using GREP for pattern matching](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class2/README.md#using-grep-for-pattern-matching)
-- [Using for loops to perform same actions on different files](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class2/README.md#using-for-loops-to-perform-same-actions-on-different-files)
 
-#### [Class 3 – Introduction to Great Lakes and HPC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class3/README.md)
+#### [Class 3 – For loops and computing on multiple files](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class3/README.md)
 ***
 
-- [Working with Files and Directories](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class3/README.md#working-with-files-and-directories)
-- [Setting up your compute environment](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class3/README.md#setting-up-your-compute-environment)
-- [Loading modules](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class3/README.md#loading-modules)
-- [Submit a job to cluster](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class3/README.md#submit-a-job-to-cluster)
-- [Setting up Jupyter Notebook with Great Lakes Open OnDemand](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class3/README.md#setting-up-jupyter-notebook-with-great-lakes-open-ondemand)
+- [Using for loops to perform same actions on different files](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class3/README.md#using-for-loops-to-perform-same-actions-on-different-files)
 
-#### [Class 4 – Illumina sequencing data and QC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class4/README.md)
+#### [Class 4 – Introduction to Great Lakes and HPC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class4/README.md)
 ***
 
-- [Quality Control using FastQC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class4/README.md#quality-control-using-fastqc)
-- [Quality Trimming using Trimmomatic](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class4/README.md#quality-trimming-using-trimmomatic)
+- [Working with Files and Directories](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class4/README.md#working-with-files-and-directories)
+- [Setting up your compute environment](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class4/README.md#setting-up-your-compute-environment)
+- [Loading modules](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class4/README.md#loading-modules)
+- [Submit a job to cluster](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class4/README.md#submit-a-job-to-cluster)
+- [Setting up Jupyter Notebook with Great Lakes Open OnDemand](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class4/README.md#setting-up-jupyter-notebook-with-great-lakes-open-ondemand)
+
+#### [Class 5 – Illumina sequencing data and QC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class5/README.md)
+***
+
+- [Quality Control using FastQC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class5/README.md#quality-control-using-fastqc)
+- [Quality Trimming using Trimmomatic](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class5/README.md#quality-trimming-using-trimmomatic)
 
 
 ### Section - Generating sequence data and performing annotation
 ------------------------------------------------------------
 
-#### [Class 5 – Genome assembly](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class5/README.md)
+#### [Class 6 – Genome assembly](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class6/README.md)
 ***
 
-- [Performing assembly on the cluster](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class5/README.md#performing-assembly-on-the-cluster)
-- [Assess assembly quality with Quast](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class5/README.md#assess-assembly-quality-with-quast)
-- [Aggregate and Assess dataset quality using multiQC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class5/README.md#aggregate-and-assess-dataset-quality-using-multiqc)
+- [Performing assembly on the cluster](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class6/README.md#performing-assembly-on-the-cluster)
+- [Assess assembly quality with Quast](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class6/README.md#assess-assembly-quality-with-quast)
+- [Aggregate and Assess dataset quality using multiQC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class6/README.md#aggregate-and-assess-dataset-quality-using-multiqc)
 
-#### [Class 6 – Genome annotation](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class6/README.md)
+#### [Class 7 – Genome annotation](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class7/README.md)
 ***
 
-- [Genome annotation using PROKKA](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class6/README.md#genome-annotation-using-prokka)
-- [Functional annotation using eggnog](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class6/README.md#functional-annotation-using-eggnog)
-- [Perform pan-genome analysis with Panaroo](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class6/README.md#perform-pan-genome-analysis-with-panaroo)
+- [Genome annotation using PROKKA](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class7/README.md#genome-annotation-using-prokka)
+- [Functional annotation using eggnog](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class7/README.md#functional-annotation-using-eggnog)
+- [Perform pan-genome analysis with Panaroo](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class7/README.md#perform-pan-genome-analysis-with-panaroo)
 
 
-#### [Class 7 – Resistome analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class7/README.md)
+#### [Class 8 – Resistome analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class8/README.md)
 ***
 
-- [Determine which genomes contain KPC genes using BLAST](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class7/README.md#determine-which-genomes-contain-KPC-genes-using-blast)
-- [Identify antibiotic resistance genes with AMRFinderPlus](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class7/README.md#identify-antibiotic-resistance-genes-with-AMRFinderPlus)
+- [Determine which genomes contain KPC genes using BLAST](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class8/README.md#determine-which-genomes-contain-KPC-genes-using-blast)
+- [Identify antibiotic resistance genes with AMRFinderPlus](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class8/README.md#identify-antibiotic-resistance-genes-with-AMRFinderPlus)
 
-#### [Class 8 – Data download and genome comparison](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class8/README.md)
+#### [Class 9 – Data download and genome comparison](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class9/README.md)
 ***
 
-- [Download datasets from NCBI using SRA toolkit](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class8/README.md#download-datasets-from-ncbi-using-sra-toolkit)
-- [Compare genomes using Mashtree](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class8/README.md#compare-genomes-using-mashtree)
-- [Visualize data and overlay metadata using iTol](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class8/README.md#visualize-our-tree-and-metadata-using-itol)
+- [Download datasets from NCBI using SRA toolkit](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class9/README.md#download-datasets-from-ncbi-using-sra-toolkit)
+- [Compare genomes using Mashtree](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class9/README.md#compare-genomes-using-mashtree)
+- [Visualize data and overlay metadata using iTol](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class9/README.md#visualize-our-tree-and-metadata-using-itol)
 
-#### [Class 9 – Reference based variant calling](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class9/README.md)
+#### [Class 10 – Reference based variant calling](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class10/README.md)
 ***
 
-- [Variant calling Pipeline](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class9/README.md#variant-calling-pipeline)
-- [Variant calling using SNIPPY](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class9/README.md#variant-calling-using-snippy)
-- [Visualize BAM and VCF files in IGV(http://software.broadinstitute.org/software/igv/)](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class9/README.md#visualize-bam-and-vcf-files-in-IGV)
+- [Variant calling Pipeline](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class10/README.md#variant-calling-pipeline)
+- [Variant calling using SNIPPY](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class10/README.md#variant-calling-using-snippy)
+- [Visualize BAM and VCF files in IGV(http://software.broadinstitute.org/software/igv/)](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class10/README.md#visualize-bam-and-vcf-files-in-IGV)
 
 
 ### Section - Basic phylogenetic analysis

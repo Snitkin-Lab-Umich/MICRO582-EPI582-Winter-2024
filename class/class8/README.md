@@ -1,249 +1,465 @@
-Class 8 – Data download and genome comparison
-=============================================
+Class 7 – Resistome analysis
+===========================
 
 Goal
 ----
 
-- In this class, we will learn about NCBI public database and how to download entire datasets pertianing to a research study using SRAtoolkit.
-- We will then do a quick genomic comparison of the downloaded dataset using Mashtree. 
-- Finally, we will visualize our rough phylogeny and associated meta-data in iTOL
+In class6, we learned how to perform basic and functional genome annotation using Prokka and Eggnog. Now we will perform some more targeted genome annotation and attempt to identify specific antibiotic resistance genes and mutations in a set of genomes.
 
-#### Set up conda environment
+- First, we will create custom BLAST databases to identify specific antibiotic resistance genes of interest in a set of genomes. 
+- Second, We will use the tool [AMRFinderPlus](https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/) to identify the complete set of antibiotic resistance genes in our genomes (i.e. the resistome) by comparing to a reference database of curated resistance genes and mutations.
+- Then, we will write some shell scripts to explore amrfinderplus results 
 
-We will be setting up two environments for the class today. class8_sratools will install SRA toolkit that we will use to extract metadata information from NCBI database and download the samples.  We will then perform a quick genome comparison with Mashtree using class8_mashtree environment.
+![roadmap](comp_genomics.png)
 
-Lets create two environments using the YML files MICRO582_class8_sratools.yml and MICRO582_class8_mashtree.yml.
+For BLAST and AMRFinderPlus, we will be looking at 8 *Klebsiella pneumoniae* genomes from human and environmental sources. Two of the genomes are from [this paper](https://www.pnas.org/content/112/27/E3574), and the other two are sequences from our lab. We are interested in learning more about potential differences in the resistomes of human and environmental isolates. 
 
-```
-# class8_sratools environment
-conda create -n class8_sratools -c bioconda sra-tools=2.10.0 entrez-direct
+Determine which genomes contain KPC genes using [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi)
+----------------------------------------------------
+<!---
+![blast](comp_genomics_details_blast.png)
+--->
 
-# class8_mashtree environment
-conda env create -f /scratch/epid582w24_class_root/epid582w24_class/shared_data/conda_envs/MICRO582_class8_mashtree.yml
+Before comparing full resistance gene/mutation content, lets start by looking for the presence of particular genes of interest. Some *K. pneumoniae* harbor a KPC gene that confers resistance to carbapenems, a class of antibiotics of last resort (more information [here](https://www.sciencedirect.com/science/article/pii/S1473309913701907?via%3Dihub) and [here](https://academic.oup.com/jid/article/215/suppl_1/S28/3092084)). 
 
-conda activate class8_sratools
+We will see if any of our samples have a KPC gene, by comparing the genes in our genomes to KPC genes extracted from the antibiotic resistance database ([ARDB](http://ardb.cbcb.umd.edu/)). These extracted genes can be found in the file `blast/data/blast_kleb/ardb_KPC_genes.pfasta`, which we will use to generate a BLAST database.
 
-esearch -h
-
-fasterq-dump -h
-
-conda deactivate
-
-conda activate class8_mashtree
-
-mashtree -h
-```
-If you can see the help menu for each of these tools then you are all set for today's analysis.
-
-### Databases hosted by NCBI
-
-![SRA](anatomy_of_SRA_submission.png)
-
-The National Center for Biotechnology Information (NCBI) provides bioinformatics tools and hosts approximately 40 online literature and molecular biology databases. Some of the most used and popular databases are PubMed, Genbank, SRA etc. MOst of the NCBI databases are linked together through unique accession numbers and therfore provide a comprehensive resource for biomedical research. For this class, we will be focusing on SRA - Sequence read archive database which is the largest publicly available repository of high throughput raw sequencing and alignment data. 
-
-SRA can be searched independently, or SRA records associated with a specific BioProject or BioSample accessions are linked from their respective records.
-
-Each SRA record is given a unique accession number based on the source database (SRA, European Bioinformatics Institute (EBI), or DNA Data Bank of Japan (DDBJ)), and the type of record (Study, Sample, Experiment, Run):
-
-- Study (e.g., the SRA record associated with a specific BioProject): SRP#, ERP#, or DRP#
-- Sample (e.g.,the SRA record associated with a specific BioSample): SRS#, ERS#, or DRS#
-- Experiment (e.g., the SRA record for a specific experiment or run(s)): SRX#, ERX#, or DRX#
-- Run (e.g., the SRA record for a specific run): SRR#, ERR#, or DRR#
-
-A BioProject is a collection of biological data related to a large-scale research effort such as genome sequencing, epigenomic analyses, genome-wide association studies (GWAS) and variation analyses. it provides a single place to find links to the diverse data types generated for that research project. Whereas, the BioSample database contains descriptions of biological source materials used in experimental assays. Each Biosample under a Bioproject can be accessed through a SRA Run accession number that lets you download the sequencing data as well as the metadata associated with it.
-
-### Get the sample IDs associated with the Bioproject of interest
-
-For today's lab we will download and analyze genomes from a previously published study examining the genetic diversity of *Klebsiella pnuemoniae* isolated from different sources ([Holt et al., PNAS, 2015](https://www.pnas.org/content/112/27/E3574.full)). In particular, we will perform the following tasks.
-
-1. Retrieve sample IDs from NCBI using the Bioproject as our query
-2. Subset to the samples to a smaller subset of interest
-3. Download fastq files for the samples of interest from the sra
-4. Run mashtree to construct a phylogeny based on kmer distances among the sequenced genomes
-5. Perform assemblies on our downloaded genomes
-6. Run AMRFinderPlus to determine the antibiotic resistance gene content of each genome
-7. Visualize the mashtree phylogeny and meta-data using iTOL
-
-To start, let's get the sample IDs associated with the Bioproject. It is common for the set of genomes associated with a study or manuscript to all fall under a single bioproject, and that is the case here ([PRJEB2111](https://www.ncbi.nlm.nih.gov/bioproject/PRJEB2111)). 
-
-To get a list of sample IDs associated with this bioproject we will use tools provided by NCBI. In particular, NCBI provides a suite of command line tools called Entrez Direct also known as E-utilities to access the metadata stored in its various databases. The three main tools of E-utilities are - esearch, esummary and xtract that lets you query any of the NCBI databases and extract the metadata associated with the query. The query can be anything(Bioproject, Biosample, SRA accession, Genbank assembly accession). 
-
-Here is the command that we used to extract metadata information for the above mentioned research study.
+First, change directories to the working directory and copy class7 directory:
 
 ```
-#Go to class working directory
 wd
 
-#Copy over files
-cp -r ../shared_data/data/class8/ .
+cp -r /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class7 ./ 
 
-#Enter class 8 directory
-cd class8
-
-#Activate conda environment
-conda activate class8_sratools
-
-#Run esearch command to pull sample meta-data for bioproject
-esearch -h
-
-esearch -db sra -query PRJEB2111 | esummary | xtract -pattern DocumentSummary -element Experiment@acc,Run@acc,Platform@instrument_model,Sample@acc > PRJEB2111-info.tsv
+cd class7/blast
 ```
 
-The Bioproject associated with the study is PRJEB2111. Esearch will return a Edirect object for your query that is then summarized by esummary in XML format. Xtract is then used to extract the metadata elements from this XML format.
-
-
-Download datasets from NCBI using SRA toolkit
-------------------------------------------------
-
-In principle we could download the entire dataset (i.e. all of the IDs associated with the bioproject), but to make things a little more manageable I have selected a subset of interest by going through the [supplementary materials](https://www.pnas.org/highwire/filestream/619654/field_highwire_adjunct_files/1/pnas.1501049112.sd01.xlsx) in the manuscript and selecting ~30 genomes that are a mix of human infection, human carraige, bovine infection and bovine colonization.
-
-Next, we will use a new trick to subset the file we downloaded to contain entries only for the genomes of interest. In particular, we will apply grep to pull lines from PRJEB2111-info.tsv that match any of the genome IDs in the file genome_IDs_to_download.
+Now activate the class7 conda environment.
 
 ```
-grep -f genome_IDs_to_download PRJEB2111-info.tsv > PRJEB2111-info_subset.tsv
+# If you haven't installed class7 then install it with: conda create -n class7 -c bioconda blast tbb=2020.2 ncbi-amrfinderplus
+
+conda activate class7
 ```
 
-We will now use fasterq-dump tool available from SRA toolkit to download sequencing data for each of the SRA runs that we just saved to PRJEB2111-info_subset.tsv file. 
 
-*This is how the data was downloaded. We have already downloaded the data in /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class8/fastq_download*
+> ***i. Run makeblastdb on the file of KPC genes to create a BLAST database.***
 
-We have put the commands to download the genomes of interest in the sbat script download.sbat. Let's look at the code that is doing the work for us:
+makeblastdb takes as input: 
+
+1) an input fasta file of protein or nucleotide sequences (`blast_db/ardb_KPC_genes.pfasta`) and 
+
+2) a flag indicating whether to construct a protein or nucleotide database (in this case protein: `-dbtype prot`).
 
 ```
-cd $SLURM_SUBMIT_DIR
+makeblastdb -in blast_db/ardb_KPC_genes.pfasta -dbtype prot
+```
 
-#Make output directory
-mkdir fastq_download
+> ***ii. BLAST K. pneumoniae protein sequences against our custom KPC database.***
 
-for accession in $(cut -f2 PRJEB2111-info_subset.tsv);
-do
+Run BLAST! 
 
-        printf "\n  Working on: ${accession}\n\n";
-        fasterq-dump -O fastq_download/ ${accession};
-        
+The input parameters are: 
+
+1) query sequences - These are protein sequences from all the 4 genomes created by concatenating each Prokka \*.faa output files (`-query kpneumo_four_genomes.faa`), 
+
+2) the database to search against (`-db blast_db/ardb_KPC_genes.pfasta`), 
+
+3) the name of a file to store your results (`-out KPC_blastp_results.tsv`), 
+
+4) output format (`-outfmt 6`), 
+
+5) e-value cutoff (`-evalue 1e-100`), 
+
+6) number of database sequences to return (`-max_target_seqs 1`) (Note that when using large databases, this might not give you the best hit. See [here](https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/bty833/5106166) for more details.)
+
+
+```
+# Takes around 0m43.271s
+
+blastp -query kpneumo_four_genomes.faa -db blast_db/ardb_KPC_genes.pfasta -out KPC_blastp_results.tsv -outfmt 6 -evalue 1e-100 -max_target_seqs 1
+```
+
+Use `less` to look at `KPC_blastp_results.tsv`. Which genomes have a KPC gene?
+
+```
+less KPC_blastp_results.tsv
+```
+
+[Here](http://www.metagenomics.wiki/tools/blast/blastn-output-format-6) is more information about the content for each of the output file columns.
+
+
+
+Identify antibiotic resistance genes with AMRFinderPlus
+---------------------------------------------------
+[AMRFinderPlus](https://github.com/ncbi/amr/wiki) is a tool made available by NCBI to identify resistance genes and mutations in assembled bacterial genomes. For a detailed description of the AMRFinderTool and how it was built/validated, check out these papers from [2019](https://journals.asm.org/doi/full/10.1128/AAC.00483-19) and [2021](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8208984/). The key to the AMRFinder tool is a highly currated set of antibiotic resistance gene families and resistance conferring mutations. THe initial curation involved  the careful identification of these genes from literature, existing databases and in conjunction with protein-specific experts. Then, a sequence curation was performed to cataolog all the genes/alleles for each resistance gene family, organize them in a hierarchical framework to enable more accurate/meaningful gene/allele assignments and created currated multiple sequence alignments of each gene family. 
+
+When running AMRFinderPlus protein and/or nucleotide sequences are compared to this curated database of antibiotic resistance genes and alleles. There are two methods employed to compare to these databases. The first is using BLAST, with stringent cutoffs to ensure that the hits are specific. The second is the use of a proababilistic model called hidden markov models ([HMMs](https://www.nature.com/articles/nbt1004-1315)). HMMs are commonly used tools in sequence analysis. The input to an HMM is a multiple alignment of the sequences of interest, which is this case are antibiotic resistance proteins in the same family, where families are based on shared ancestry (i.e. homology). Training algorithms are then applied to create a probabilistic model that captures the defining features of the sequences in the alignment (e.g. conserved alanine at position 130, basic amino acid at position 260, etc.). For each protein inputted to AMRFinder, these HMMs are used to scan the protein to detemrine whether its a good match for the protein family. Lastly, AMRFinder employs a decision tree to use BLAST and HMM results to determine which antibiotic resistance genes and alleles are present in an input genome.
+
+
+For the lab we ran AMRFinderPlus on our four Klebsiella genomes for you, but have provided the sbat scripts that we used. Note the presence of two different sbat scripts amrfinder_commands.sbat and amrfinder.sbat. The amrfinder_commands.sbat script just contains the four calls to AMRFinderPlus, once for each genome. The amrfinder.sbat takes a more robust approach, and examines the directory containing genome assemblies we want to analyze with AMRFinderPlus, creates the appropriate command, and runs it on the cluster! I am hoping to go through that script next class, after we learn some new shell script tricks today!
+
+To run the basic approach, run the following commands:
+
+```
+#Test if you can can call amrfinder
+amrfinder -h
+
+#Download/Update AMRFINDER database
+amrfinder -u
+
+cd amrfinder/
+
+sbatch amrfinder_commands.sbat
+```
+
+The results of AMRFinderPlus are in the directory amr_finder_results_all. For each of the four genomes there are two files: i) mutation_report.tsv and ii) .txt. The mutation report provides information on known resistance-conferring protein coding mutations identified in your input genome. The .txt provides a summary of known antibiotic resistance genes detected in your input genome. Today, we will focus our attention on the .txt file.
+
+
+Let's start by taking a look at the .txt file for one of our genomes using the less command.
+
+```
+#Use the -S flag to enable better display of tabular data
+less -S ERR025152.txt
+```
+
+Even with our -S trick, it's still messy to look at, and hard to see what the headers are. So, let's use our trick from last time to pull the header from our file, and break it apart to see the column numbers as well.
+
+```
+head -n 1 ERR025152.txt | tr "\t" "\n" | cat -n
+```
+
+To enable us to compare the resistance encoding potential of our environmental and healthcare Klebsiella genomes, we are going to write a handy-dandy shell script that extracts pertinent information from this .txt file. In particular, let's report: i) the number of unique antibiotic resistance classes for which resistance genes are found and ii) the subclass and gene symbol for each amr gene detected.
+
+To do this we are going to edit the shell script amr_finder_res_summary.sh, which takes as a command line argument the name of a .txt file created by AMRFinderPlus. 
+
+```
+# Usage
+# bash amr_finder_res_summary.sh amr_finder_report
+```
+
+
+So, open it up with nano, and let's start by trying to edit the following part of the code to report the number of unique resistance classes.
+
+```
+#Create a Unix command to print out the number of unique subclasses resistance elements are detected for.
+#To do this: 1) Select lines that have AMR (all caps)
+#             2) Use cut, sort, uniq and wc to get the number unique subclasses
+amr_count=$()
+echo "Number of resistance elements detected: $amr_count"
+echo
+```
+
+To accomplish this goal we are introducing you to a few new concepts. First, we are creating our own custom variable amr_count, which we have done in the context of our .bashrc (i.e. environment variables), but in shell scripts we have only used special variables (e.g. loop variables, command line arguments). To create a new variable you write the name of the variable, and then =. The second new concept we are introducing is using () to assign the output of a unix command to a variable. So, in this example, you will place in the parentheses a unix command to determine the number of unique antibiotic resistance subclasses present in a .txt file provided by AMRFinderPlus.
+
+Hints:
+1) You will first want to apply a grep command to select lines that have AMR, as this report also reports on virulence and stress response genes
+2) You will want to cut the column corresponding to resistance gene class
+3) To get the counts of unique resistance classes you will use sort, uniq and wc
+
+<details>
+  <summary>Solution</summary>
+
+   ```
+   amr_count=$(grep AMR $1 | cut -f 12 | sort | uniq | wc -l)
+   echo "Number of resistance elements detected: $amr_count"
+   echo
+   ```
+  
+</details>
+  
+  
+Next, let's add in Unix commands to extract two columns from our file - Subclass and Gene Symbol.
+
+```
+# Create Unix command to print out the subclass and gene symbol from amrfinder report
+# To do this: 1) Select lines that have AMR (all caps)
+#             2) Print out the columns Subclass and Gene symbol
+#             3) Sort the output by Subclass (hint - using the -k flag you can select number of column to sort by)
+#       
+
+echo
+```
+
+<details>
+  <summary>Solution</summary>
+  
+  ```
+  grep AMR $1 | cut -f 6,12| sort -k 2
+  echo
+  ```
+  
+</details>
+
+
+Now that we've finished our shell script, let's apply it to one of our genomes!
+
+```
+bash amr_finder_res_summary.sh amr_finder_results_all/ERR025152.txt
+```
+
+OK, this is a pretty sweet shell script, but now we want to run it on each of our genomes. We could do this by typing out four commands, but instead, let's write a second shell script that runs our first shell script on all AMRFinderPlus output files in a given directory. This shell script will take a single command line argument (the directory path), and run your shell script on each .txt file in the directory. Here is the usage statement:
+
+```
+# Run your amr_finder_res_summary.sh script on all files in an input directory
+
+# Usage
+# amr_finder_res_summary_batch.sh amr_finder_results_dir
+```
+
+So, fill in the code below the following comment, which provides some hints/instructions:
+
+```
+# Write a for loop to run your shell script on each .txt file in the 
+# output directory input as the first command line argument (i.e. $1)
+# Remember to use echo to print the name of the file so you know which
+# output belongs to which file
+
+```
+
+
+<details>
+  <summary>Solution</summary>
+
+  ```
+  for file in $1/*.txt
+  do
+        echo $file      
+
+        echo $prefix
+        bash amr_finder_res_summary.sh $file
+
+  done
+  ```
+</details>
+
+
+
+Finally, let's put it all together and run this shell script to parse AMRFinderPlus results and report on the resistome of each of our four genomes.
+
+```
+bash amr_finder_res_summary_batch.sh amr_finder_results_all/
+```
+
+What differences do you notice between the antibiotic resistance potential for our two environmental isolates (ERR) versus our hospital isolates (PCMP)?
+
+
+
+
+<!---
+####Old ARIBA exercise 
+
+Identify antibiotic resistance genes with [ARIBA](https://github.com/sanger-pathogens/ariba) directly from paired end reads
+----------------------------------------------------------
+
+[ARIBA](https://github.com/sanger-pathogens/ariba/wiki) (Antimicrobial Resistance Identification By Assembly) is a tool that identifies antibiotic resistance genes by running local assemblies. The way it works is - takes the input paired end reads and maps them to the reference sequences of antibiotic resistance genes contained in the provided database (e.g. [CARD](https://card.mcmaster.ca/)). If the reads map with sufficient coverage, it then assembles them into contigs and reports presence/absence of an antibiotic reference sequence.
+
+The input is a FASTA file of reference sequences (this can be a custome database of sequences or a public database containing all the preidentified anitibiotic resistance genes) and paired sequencing reads. 
+ARIBA reports which of the reference sequences were found, plus detailed information on the quality of the assemblies and any variants between the sequencing reads and the reference sequences.
+
+ARIBA is compatible with various databases and also contains a utility to download these databases - argannot, card, megares, plasmidfinder, resfinder, srst2_argannot, vfdb_core. 
+
+Today, we will be working with the [CARD](https://card.mcmaster.ca/) database (`ariba/data/CARD/` in your `class7` directory).
+
+Now let's look at the full spectrum of antibiotic resistance genes in our *Klebsiella* genomes!
+
+> ***i. Run ARIBA on input paired-end fastq reads for resistance gene identification.***
+
+The fastq reads are in the `ariba/data/kpneumo_fastq/` directory. 
+
+```
+# navigate to ariba directory
+wd
+
+cd class7/ariba
+
+# look at ariba commands
+less ariba.sbat
+```
+
+
+Explore ARIBA summary reports
+-----------------------------
+
+ARIBA has a summary function that summarises the results from one or more sample runs of ARIBA and generates an output report with various level of information determined by the `-preset` parameter. The parameter `-preset minimal` will generate a minimal report showing only the presence/absence of resistance genes whereas `-preset all` will output all the extra information related to each database hit such as reads and reference sequence coverage, variants and their associated annotations (if the variant confers resistance to an antibiotic) etc.
+
+```
+# look at ariba output
+ls results
+ls results/card
+ls results/card/*
+
+# make directory for ariba results
+
+ariba summary --preset minimal results/kpneumo_card_minimal_results results/card/*/report.tsv
+
+ariba summary --preset all results/kpneumo_card_all_results results/card/*/report.tsv
+```
+
+The ARIBA summary generates three output:
+
+1. `kpneumo_card*.csv` file that can be viewed in your favorite spreadsheet program (e.x. Microsoft Excel).
+
+2. `kpneumo_card*.phandango.{csv,tre}` that allow you to view the results in [Phandango](http://jameshadfield.github.io/phandango/#/). You can drag-and-drop these files straight into Phandango.
+
+
+
+Lets copy these  files, along with a metadata file, to the local system using cyberduck or scp.
+
+```
+mkdir ~/Desktop/epid582w24_class
+mkdir ~/Desktop/epid582w24_class/class7
+
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epid582w24_class/username/class7/ariba/results/kpneumo_card* ~/Desktop/epid582w24_class/class7
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epid582w24_class/username/class7/ariba/data/kpneumo_source.tsv ~/Desktop/epid582w24_class/class7
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epid582w24_class/username/class7/ariba/data/mlst_typing/kpneumo_mlst.tsv ~/Desktop/epid582w24_class/class7
+```
+
+Drag and drop these two files onto the [Phandango](http://jameshadfield.github.io/phandango/#/) website. What types of resistance genes do you see in these *Klebsiella* genomes? 
+
+Now, fire up RStudio and read in the ARIBA full report `kpneumo_ariba_all_results.csv` so we can take a look at the results.
+
+```
+# Read in data
+ariba_full  = read.csv(file = '~/Desktop/micro612/day2pm/kpneumo_card_all_results.csv', row.names = 1)
+rownames(ariba_full) = gsub('_1|_R1|/report.tsv|card/|results/','',rownames(ariba_full))
+
+# Subset to get description for each gene
+ariba_full_match = ariba_full[, grep('match',colnames(ariba_full))]
+
+# Make binary for plotting purposes
+ariba_full_match[,] = as.numeric(ariba_full_match != 'no')
+
+# Make a heatmap!
+
+# install pheatmap if you don't already have it installed 
+#install.packages('pheatmap')
+
+# load pheatmap
+library(pheatmap)
+
+# load metadata about sample source
+annots = read.table('~/Desktop/micro612/day2pm/kpneumo_source.tsv',row.names=1)
+colnames(annots) = 'Source'
+
+# plot heatmap
+pheatmap(ariba_full_match,annotation_row = annots)
+```
+
+Bacteria of the same species can be classified into different sequence types (STs) based on the sequence identity of certain housekeeping genes using a technique called [multilocus sequence typing (MLST)](https://en.wikipedia.org/wiki/Multilocus_sequence_typing). The different combination of these house keeping sequences present within a bacterial species are assigned as distinct alleles and, for each isolate, the alleles at each of the seven genes define the allelic profile or sequence type (ST). Sometimes, different sequence types are associated with different environments or different antibiotic resistance genes. We want to know what sequence type(s) our genomes come from, and if there are certain ones that are associated with certain sources or certain antibiotic resistance genes. 
+
+We already pre-ran Ariba MLST on all 8 of our *K. pneumonia* genomes. Use the MLST results kpneumo_mlst.tsv that we previously downloaded to add a second annotation column to the heatmap we created above to visualize the results. 
+
+Go to your R studio and overlay MLST metadata as an additional row annotation to your previous heatmap
+
+```
+#read in MLST data
+annots_mlst = read.table('~/Desktop/epid582w24_class/class7/kpneumo_mlst.tsv',row.names=1)
+
+#make sure order of genomes is the same as source annotation
+annots_mlst$ST = annots_mlst[row.names(annots),]
+
+#paste together annotations
+Row_annotations <- cbind(annots, annots_mlst) 
+
+#change from numeric to character, so that heatmap doesn't treat ST as continuous variable
+Row_annotations$ST = as.character(Row_annotations$ST)
+
+# Assign colors to Sequence Types
+annoCol <- list(ST=c("11"="blue", "221"="red", "230"="orange", "258"="grey"))
+
+#create new heatmap with source and mlst
+pheatmap(ariba_full_match,annotation_row = Row_annotations, annotation_colors = annoCol)
+```
+
+
+The commands and steps that were used for MLST typing are given below:
+
+<details>
+  <summary>Solution</summary>
+
+**Dont run this exercise**
+
+Steps:
+1. Check if you have an MLST database for your species of interest using `ariba pubmlstspecies`.
+2. Download your species MLST database. You can look at the manual or run the command `ariba pubmlstget -h` to help figure out how to download the correct MLST database. I would suggest downloading it to the `data` directory. 
+3. Copy the `ariba.sbatch` file to a new file called `mlst.sbatch`.
+4. Modify the `mlst.sbatch` script in the following ways:
+    1. Change the database directory to the _K. pneumoniae_ MLST database you just downloaded.
+    1. Change the `mkdir` line to make a `results/mlst` directory.
+    1. Modify the output directory `outdir` line: Change `card` to `mlst`.
+5. Submit the `mlst.sbatch` script. It should take about 7 minutes to run.
+6. Once the run completes, run `scripts/summarize_mlst.sh results/mlst` to look at the MLST results. If you want, you can save it to its own file. What sequence types are present? 
+
+
+```
+# Make sure you are in ariba directory under day2pm folder and running the below commands from ariba directory.
+d2a
+cd ariba
+
+# Check if you have an mlst database for your species of interest
+ariba pubmlstspecies
+
+# Download your species mlst database
+ariba pubmlstget "Klebsiella pneumoniae" data/MLST_db
+
+# Set ARIBA database directory to the get_mlst database that we just downloaded.
+db_dir=data/MLST_db/ref_db/
+
+# Run ariba mlst with this database
+samples=$(ls data/kpneumo_fastq/*1.fastq.gz) #forward reads
+
+# Generate mlst folder under results folder to save ariba MLST results
+mkdir results/mlst_typing
+
+# Run for loop, where it generates ARIBA command for each of the forward end files.
+for samp in $samples; do   
+samp2=${samp//1.fastq/2.fastq} #reverse reads   
+outdir=results/mlst_typing /$(echo $samp | cut -d/ -f3 | sed 's/_.*1.fastq.gz//g')
+echo "Results will be saved in $outdir"
+echo "Running: ariba run --force $db_dir $samp $samp2 $outdir  #ariba command "
+ariba run --force $db_dir $samp $samp2 $outdir  #ariba command 
 done
-```
 
-In essence, we have seen this before, but there are two new concepts that are worth highlighting - the use of () and {}.
-
-1. () - The commands inside parentheses will be execute. So in the example above the loop list gets the second column of the file PRJEB2111-info_subset.tsv, which contains the accession IDs we want to download
-2. {} - The curly braces are used to indicate where the name of a variable beging and end. They are not always neccesary, but can prevent problems from occuring when it is not obvious where a variable name ends
-
-
-The above command is a bit drawn out for illustrative purposes. However, in practice we want to take advantage of the computing power of Great Lakes and the existance of multi-processor nodes. To do this we can use the below shortcut which downloads the sample IDs of interest in parallel!
+# Once the run completes, run summarize_mlst.sh script to print out mlst reports that are generated in current directory
+bash scripts/summarize_mlst.sh results/mlst
 
 ```
-cut -f2 PRJEB2111-info_subset.tsv | parallel fasterq-dump {}
+</details>
+
+--->
+
+
+<!---
+#####Extra VRE BLAST exercise
+
+- **Exercise:** In this exercise you will try a different type of blasting – blastx. Blastx compares a nucleotide sequence to a protein database by translating the nucleotide sequence in all six frames and running blastp. Your task is to determine which Enterococcus genomes are vancomycin resistant (VRE, vs. VSE) by blasting against a database of van genes. The required files are located in `blast/data/blast_ent` folder in the `day2pm` directory.
+
+Your steps should be:
+
+1) Concatenate the `data/blast_ent/*.fasta` files (VRE/VSE genomes) into a single file (your blast query file) using the `cat` command.
+2) Create a blastp database from `data/blast_ent/ardb_van.pfasta`
+3) Run blastx
+4) Verify that only the VRE genomes hit the database
+5) For extra credit, determine which van genes were hit by using grep to search for the hit gene ID in `data/blast_ent/ardb_van.pfasta`
+
+<details>
+  <summary>Solution</summary>
+  
 ```
+cd blast/data/blast_ent
 
+# Make sure you are in blast_ent folder
+cat *.fasta > VRE_VSE_genomes.fasta
 
-Compare genomes using Mashtree
-------------------------------
+makeblastdb -in ardb_van.pfasta -dbtype prot
 
-Now that we have downloaded the genomes of interest, we would like to construct a phylogeny to quantify the evolutionary relationships among the sequenced genomes. In later sessions we will learn how to perform rigorous phylogenetic analysis for various genomic epidemiology applications. However, pipelines to detect genome-wide variants and use them to perform phylogenetic inference tend to be quite computationally expensive. Therefore, in cases where a rough estimation of the phylogeny is sufficient, we use a different suite of methods. Examples where a rough estimation of the phylogeny is appropriate are:
-
-1. You have sequenced a set of genomes and would like to get a sense of the genetic diversity before proceeding
-2. You know that you have a very diverse set of genomes, and would like to visualize their relative relationships
-
-Here, we have a diverse set of Klebsiella genomes and are primarily interested in the rough relationships among them, so we will use one of the quick and dirty methods! The tool that we are going to use is called mashtree. Mashtree performs the following steps:
-
-1. Compute pairwise distances among each pair of genomes based on kmer distances
-2. Constructs a Neighbor Joining tree, which is a tree building algorithm that takes as input a distance matrix
-
-The kmer distances that are being computed are called Mash distances. Mash stands for MinhASH which is the name of algorithm that this disctance estimation is based on. In the min-hash algorithm, all kmers are recorded and transformed into integers using hashing and a Bloom filter (Bloom, 1970). These hashed kmers are sorted and only the first several kmers are retained. The kmers that appear at the top of the sorted list are collectively called the sketch. Any two sketches can be compared by counting how many hashed kmers they have in common. Because min-hash creates distances between any two genomes, min-hash values can be used to rapidly cluster genomes into trees using the neighbor-joining algorithm. 
-
-
-![mash](Mash.png)
-
-
-*We have already run mashtree for you, but here is how we did it
-
-```
-#Activate the environment so we can run mashtree
-conda activate class8_mashtree
-
-#Edit the .sbat file to put in your email address
-nano mashtree.sbat
-
-#Submit the job to the cluster
-sbatch mashtree.sbat
-```
-
-
-Determine antibiotic resistance gene content with AMRFinderPlus
----------------------------------------------------------------
-Last class we ran AMRFinderPlus on a subset of the genomes in this dataset and parsed the output to determine the number of antibiotic subclasses each genome encodes resistance to. Here we will run on the larger genomic dataset that we downloaded, and then run our handy shell script from last class!
-
-*We have run AMRFinderPlus, but here is how we did it*
-
-To save time we have run AMRFinderPlus for you, but want to take some time to look at how this was done. The commands are in amrfinder.sbat, but let's look at the code that is actually running AMRFinderPlus inside the script:
+blastx -query VRE_VSE_genomes.fasta -db ardb_van.pfasta -out van_blastp_results.tsv -outfmt 6 -evalue 1e-100 -max_target_seqs 1
 
 ```
-# List fasta files in the directory and save the filenames into the variable samples. 
-fasta_files=$(ls genome_assembly/*.fasta)
+</details>
 
-# Make directory for amrfinder results
-mkdir amr_finder_results
+- **Exercise:** Experiment with the `–outfmt` parameter, which controls different output formats that BLAST can produce. You can use `blastp -help | less` to get more information about the different output formats. You can search for the `-outfmt` flag by typing `/outfmt` and then typing `n` to get to the next one.
 
-# Run for loop, where it generates amrfinder command for each assembly.
-for fasta in $fasta_files;
-do
-        # Print out name of current fasta file
-        echo $fasta
-
-        # Create output directory by trimming off .fasta from the sample fasta file
-        outdir=amr_finder_results_sep/$(echo ${fasta//.fasta/} | cut -d/ -f2)
-
-        # Make output directory
-        mkdir $outdir
-
-        # Create a prefix for the amrfinder results by trimming off .fasta from the sample fasta file
-        prefix=$(echo ${fasta//.fasta/} | cut -d/ -f2)
-
-        # Run amrfinder command
-        amrfinder --plus --output $outdir/$prefix\.txt -n $fasta --mutation_all $outdir/$prefix\_mutation_report.tsv --organism Klebsiella_pneumoniae
-
-done
-```
-
-Most of what's going on here we have seen before. However, there are a couple of new concepts that are important to highlight:
-
-1. () - We again are using the parentheses to put the results of a Unix command in a variable. In this case, we are getting the fasta files for our genome assemblies.
-2. Getting genome name - When running AMRFinderPlus we need to provide output files. To do this for each genome, we want to use the name of the genome, but chop off ".fasta" from the end and the path to the fasta file from the beginning. To do this we first use a search and replace function to replace ".fasta" with "" (i.e. nothing). Next, we pipe that output to a cut command, where we split by "/" and take the second item, which gets rid of the directory name.
-3. Creating output directories for each genome -  To organize our results we each genome's output in different directories. So, what we do here is name the ouptut directories by the name of the genome. To accomplish this we use the same search and replace as above, but prepend with amr_finder_results_sep. We then run mkdir, to create the output directory. 
-
-Lastly, we ran a modified version of our shell script from last week to determine the number of antibiotic classes each genome encodes resistance to, and output in a format that works for iTOL.
-
-```
-#Copy all the .txt files from the individual output directories
-cp amr_finder_results_sep/*/*.txt amr_finder_results
-
-#Run our shell script and use >> to append the output to the end of our itol barplot file
-bash amr_finder_res_count.sh amr_finder_results >> itol_files/dataset_simplebar_ariba_amr_count.txt
-```
-
-Visualize our tree and metadata using iTOL
-------------------------------------------
-Now we are ready to put it all together and visualize the tree we built from our downloaded genomes, and overlay some meta-data on resistance gene content and sample type. In subsequent sessions we will learn how to visualize phylogenies and meta-data in R. This is preferable for a few reasons:
-1. You can avoid manual steps and therefore perform reproducible analyses
-2. You often want to visualize similar types of data on a tree (e.g. location/facility of isoaltion), so it would be nice to automate this
-
-However, since we haven't gotten into R yet, we are going to use another commonly used tool for making pretty trees called [iTOL](https://itol.embl.de/). iTOL is actually quite nice, and allows you to easily customize your tree visualization in a drag and drop interface. In addition, it allows you to add annotations to your tree in a semi-automated way by creating these annotation files that can be drag and dropped onto your tree ([template files](https://itol.embl.de/help/templates.zip)). iTOL has lot's of functionality, but since I am a novice, I will just walk you through some basics :).
-
-To get ready for iTOL bring the following files to your computer using cyberduck:
-1. dataset_simplebar_ariba_amr_count.txt - Located in the itol_files directory, this contains the AMR gene counts for each genome to be plotted as a barplot
-2. dataset_symbols_inf_status.txt - Located in the itol_files directory, this contains information on the origin of each isolate, that I got from the supplementary material in the manuscript
-3. mashtree_accurate.dnd - The newick formatted phylogenetic tree created by Mashtree
-
-Now, do the following to view our tree:
-1. Go to the [iTOL](https://itol.embl.de/) website and click on Upload on the top menu
-2. Drag your tree file
-3. Drag your annotation files
-4. Enjoy!
-
-A couple of things we notice by viewing our data this way:
-1. Human and bovine isolates are generally in genetically distinct groups, suggesting niche adaptation
-2. Human infections form different clusters on the tree, indicating multiple lineages of Klebsiella capable of causing human infections
-3. Human carrier and infection isolates can be seen clustered together, suggesting that a given strain can either colonize or cause infection
-4. The number of antibiotic resistance genes appears on average larger in human associated isolates, which is consistent with the results in the manuscript.
+--->
 

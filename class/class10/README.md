@@ -1,269 +1,260 @@
-Class 10 – Intro to RStudio
+Class 9 – Reference based variant calling
 =============================================
 
-Goals
+Goal
 ----
-- Review RStudio interface
-- Review important variable types
-- Learn how to read in genomic analysis files and make plots
+
+- In this class, we will run Snippy which is a microbial variant calling pipeline on a sample to identify an antibiotic resistance mutation in our sequenced genome
+- Look at various outputs of Snippy to explore these variants and learn what they mean.
+- Visualize these variants in IGV which is a great visualization tool to put the variant calling steps in perspective.
 
 
-The RStudio Interface and setting up an RProject
-------------------------------------------------
-Check out this Data Carpentry overview of the [RStudio interface](https://datacarpentry.org/R-genomics/00-before-we-start.html)
+Applications of variant identification:
+--------------------------------------
+One of the most common goals of in sequencing a microbial genome is to identify small genetic variants like nucleotide substitutions or small insertions/deletions (i.e. indels). Identifying these genetic variants in one or multiple genomes has several important downstream applications:
 
-In order for us to all work in the same environment we are going to create an RProject. RProjects are a nice way to organize all of your scripts and data for a project in a self-contained work area. To create an RProject for the class:
+1. Phylogenetic analysis - The first step in a phylogenetic analysis is identification of single nucleotide variants (SNVs) across the set of genomes of interest. Essentially, the input to any phylogenetic tree building software is a variant alignment that indicates what nucleotide each genome has at a position that is variable in at least one of the input genomes. The resulting phylogenetic tree then groups genomes together based on shared evolution, which is inferred from shared variants.
 
-1. Under the File menu, click on New project, choose New directory, then Empty project
-2. Enter a name for this new folder, and choose a convenient location for it. This will be your working directory for the rest of the course (e.g., ~/epid5)
-3. Confirm that the folder named in the Create project as a sub-directory of box is where you want the working directory created. Use the Browse button to navigate folders if changes are needed.
-4. Click on “Create project”
-5. Under the Files tab on the right of the screen, click on New Folder and create a folder named data within your newly created working directory. (e.g., ~/data-carpentry/data)
-6. Create a new R script (File > New File > R script) and save it in your working directory (e.g. class_11_introR.R)
+2. Transmission analysis - One of the most common approaches to assess the confidence in a putative transmission linkage between two individuals is to count the number of variants between two individuals pathogen genomes. Thus, having accurate variants is essential to making correct transmission inferences.
+
+3. Functional analysis - In previous sessions we identified different types of genetic variation including differences in gene content and antibiotic resistance variation. Small changes in the genome like those identified through variant calling pipelines can also have significant functional impacts on genome function.
+
+Overview of variant calling pipelines:
+-------------------------------------
+A typical variant calling analysis involves:
+- ***Read Mapping:*** Mapping sequenced reads to the reference genome using a read mapper
+- ***Variant calling:*** Calling variants(differences) between the reference genome and our sample.
+- ***Variant filtering:*** Filtering out variant calls that are deemed low confidence based on user defined criteria.
+- ***Variant annotation:*** Annnotating these variants to learn about their their effect on proteins and other biological processes.
+
+Here is a visual representation of these steps:
+
+![var_call_steps](simplified_var_call.png.png)
+
+Variant calling Pipeline:
+-------------------------
+
+***Read Mapping:***
+
+Read Mapping is a time-consuming step that involves searching the reference and finding the optimal location for the alignment for millions of reads. Creating an index file of a reference sequence for quick lookup/search operations significantly decreases the time required for read alignment. Imagine indexing a genome sequence like the index at the end of a book. If you want to know on which page a word appears or a chapter begins, it is much more efficient to look it up in a pre-built index than going through every page of the book. Similarly, an index of a large DNA sequence allows aligners to rapidly find shorter sequences embedded within it. 
+
+Note: each read mapper has its own unique way of indexing a reference genome and therefore the reference index created by BWA cannot be used for Bowtie. (Most Bioinformatics tools nowadays require some kind of indexing or reference database creation)
+
+Once we have prepared the reference genome for alignment, clean reads (typically an output from Trimmomatic) are mapped against the reference genome using [BWA](http://bio-bwa.sourceforge.net/bwa.shtml "BWA manual"), bowtie or any other short read mapper of choice. Choosing the right read mapper is crucial and should be based on the type of analysis and data you are working with. Each aligners are meant to be better used with specific types of data, for example:
+
+For whole genome or whole exome sequencing data: Use BWA for long reads (> 50/100 bp), use Bowtie2 for short reads (< 50/100bp)
+For transcriptomic data (RNA-Seq): use Splice-aware Mapper such as Tophat. (Not applicable for microbial data)
+
+The output of BWA and most of the short-reads aligners is a SAM file. SAM format is considered as the standard output for most read aligners and stands for Sequence Alignment/Map format. It is a TAB-delimited format that describes how each reads were aligned to the reference sequence. Detailed information about the SAM specs can be obtained from this [pdf](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwizkvfAk9rLAhXrm4MKHVXxC9kQFggdMAA&url=https%3A%2F%2Fsamtools.github.io%2Fhts-specs%2FSAMv1.pdf&usg=AFQjCNHFmjxTXKnxYqN0WpIFjZNylwPm0Q) document.
+
+***BAM Post-processing and duplicate removal:***
+
+The output of any read mapping step is a file called SAM file which stands for Sequence Alignment/Map format. The next step involves converting this SAM files generated by the aligner using [Samtools](http://www.htslib.org/doc/samtools.html "Samtools Manual") into a binary format. BAM is a compressed binary equivalent of SAM but are usually quite smaller in size than SAM format. Since, parsing through a SAM format is slow, Most of the downstream tools require SAM file to be converted to BAM so that it can be easily sorted and indexed.
+
+SamtoBAM is followed by PCR optical duplicate removal step. This step will mark duplicates(PCR optical duplicates) and remove them using [PICARD](http://broadinstitute.github.io/picard/command-line-overview.html#MarkDuplicates "Picard MarkDuplicates")
+
+Illumina sequencing involves PCR amplification of adapter ligated DNA fragments so that we have enough starting material for sequencing. Therefore, some amount of duplicates are inevitable. Ideally, you amplify upto ~65 fold(4% reads) but higher rates of PCR duplicates e.g. 30% arise when people have too little starting material such that greater amplification of the library is needed or some smaller fragments which are easier to PCR amplify, end up over-represented.
+
+For an in-depth explanation about how PCR duplicates arise in sequencing, please refer to this interesting [blog](http://www.cureffi.org/2012/12/11/how-pcr-duplicates-arise-in-next-generation-sequencing/)
+
+Picard identifies duplicates by searching reads that have same start position on reference or in PE reads same start for both ends. It will choose a representative from each group of duplicate reads based on best base quality scores and other criteria and retain it while removing other duplicates. This step plays a significant role in removing false positive variant calls (such as sequencing error) during variant calling that are represented by PCR duplicate reads.
+
+![alt tag](picard.png)
+
+***Variant calling***
+
+One of the downstream uses of read mapping is finding differences between our sequence data against a reference. This step is achieved by carrying out variant calling using any of the variant callers (samtools, gatk, freebayes etc). Each variant caller uses a different statistical framework to discover SNPs and other types of mutations. For those of you who are interested in finding out more about the statistics involved, please refer to [this]() samtools paper, one of most commonly used variant callers.
+
+The [GATK best practices guide](https://www.broadinstitute.org/gatk/guide/best-practices.php) will provide more details about various steps that you can incorporate in your analysis.
+
+There are many published articles that compare different variant callers but this is a very interesting [blog post](https://bcbio.wordpress.com/2013/10/21/updated-comparison-of-variant-detection-methods-ensemble-freebayes-and-minimal-bam-preparation-pipelines/) that compares the performance and accuracy of different variant callers.
+
+***Variant Filtration***
+
+This step will filter variants and process file generation using [GATK](https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_filters_VariantFiltration.php "GATK Variant Filteration"):
+
+There are various tools that can you can try for variant filteration such as vcftools, GATK, vcfutils etc. Common criteria used to filter variants include:
+1. The number of mapped reads supporting a variant
+2. The quality of mapping of the reads underlying the variant
+3. The consistency of the variant across all reads mapping to a given position
+
+***Caveat: This filter criteria should be applied carefully after giving some thought to the type of library, coverage, average mapping quality, type of analysis and other such requirements.***
 
 
-Creating variables, performing operations and applying functions
-----------------------------------------------------------------
-Check out this Data Carpentry overview of the [basic R syntax](https://datacarpentry.org/R-genomics/01-intro-to-R.html)
+***Variant Annotation***
 
-Let's start out by briefly reviewing the basics of working in R. 
+![variant annotation using snpeff](variant_annot.png)
 
-```
-#Let's create some variables using the <- operator
-a <- 2
-b <- 7
+Variant annotation is critical for applications where one hopes to identify variants having a potential functional impact on the genome. Most of the variant annotation tools create their own database or use an external one to assign function and predict the effect of variants on genes.
 
-#Now let's perform an operation on our two variables
-c <- a+b
 
-#Finally, let's apply a function to a variable
-sqrt_c <- sqrt(c)
+Variant calling using SNIPPY
+----------------------------
 
-#If you ever want to learn how to use a function, use the ?
-?sqrt
-```
+A typical Bioinformatics variant calling pipeline stitches the steps described above together so that we dont have to run each of the individual commands seperately on hundreds of samples. 
 
-Next, let's look at working with vectors.
+For today's class, we will run a variant calling pipeline called [Snippy](https://github.com/tseemann/snippy) that will run all of these intermediate steps taking clean reads as input and outputting a filtered annotated variants in various file formats that we will then explore in IGV. Note that while today we are running Snippy to identify variants in a single genome, it can be run on a set of sequenced genomes, which we will do in future sessions for phylogenetic and transmission analysis.
 
-```
-#Let's create a vector of genome lengths
-glengths <- c(4.6, 3000, 50000)
-
-#Next let's ask R what type of variable this is
-class(glengths)
-
-#Now, let's see how to get elements from this vector by indexing
-glengths[1] #1st element
-glengths[2] #2nd element
-glengths[3] #3rd element
-
-#OK - let's create another vector with the names of genomes
-species <- c("ecoli", "human", "corn")
-class(species)
-
-#Finally, let's make the association between these two vectors explicit by naming our genome lengths
-names(glengths) <- species
-species
-
-#Now that we've named our vector, we can index by position or name
-glengths['human']
-```
-
-Finally, let's learn about how to get subsets of data by indexing with vectors or logicals.
-
-```
-#Let's start by using a special variable in R containing letters
-LETTERS
-ten_letters <- LETTERS[1:10];
-
-#We saw before how to pull out one element, now let's pull out
-ten_letters[c(1,2,3)]
-ten_letters[c(1,9)]
-
-#A quicker way to pull sequential elements is by using a colon
-ten_letters[1:3]
-
-#Next, let's create a vector of numbers to play with
-nums <- 1:10
-
-#Now we are going to use logical operators to subset, but first, let's learn about logicals
-nums == 1
-nums > 5
-nums < 5
-nums != 10
-nums >= 5
-nums <= 5
-
-#We can use logicals to index vectors, as long as the logical is the same length
-ten_letters[nums == 1]
-
-ten_letters[nums < 5]
-
-ten_letters[nums >= 5]
-```
-
-Reading in and parsing a gff file
----------------------------------
-In previous sessions we used Unix commands to explore gff files. Now let's work with a gff file in R!
+Use these instruction to load Snippy into your environment:
 
 ```
-# Read in gff file
-gff = read.table('class11/SRR5244781_contigs.gff',
-                 sep = "\t", #tab delimited file
-                  comment.char = "#", #define comment character and ignore those lines
-                  quote = "", #tells R no quotes, so the file is parsed correctly
-                  header = F)#tells R no header
- 
-# Examine the structure of the gff variable
-str(gff)
+# Load these modules
+module load python3.9-anaconda/2021.11
+module load Bioinformatics
+module load perl-modules
 
-# Rename columns
-colnames(gff) = c('seqname','source','feature','start','end','score','strand','frame','attribute')
+# Add this line to your bashrc (open it with nano -> add the line -> save it) and source it
+export PATH=$PATH:/scratch/epid582w24_class_root/epid582w24_class/shared_data/bin/snippy/bin
 
-# Examine the structure of the gff variable
-str(gff)
+source ~/.bashrc
 
-# Look at the head of the gff file
-head(gff)
+snippy --check
+```
 
-#Count the number of each type of feature (it's a bit easier than in unix :))
-table(gff$feature)
+If the snippy check works fine, you are all set to run your first sequence analysis pipeline.
 
-# Get the gene lengths
-gene_lengths = gff$end - gff$start
+Now, copy over class9 data which contains clean fastq reads for sample PCMP_H326 and run Snippy pipeline on it
 
-# Plot a histogram of the gene lengths
-hist(gene_lengths,
-     breaks = 100, # 100 cells
-     xlab = 'Gene Length (bp)', # change x label
-     main = '') # no title
-     
-# Plot a histogram of the gene lengths less than 5Kb
-hist(gene_lengths[gene_lengths < 5000],
-     breaks = 100, # 100 cells
-     xlab = 'Gene Length (bp)', # change x label
-     main = '') # no title
+```
+wd
 
-# Look at the feature types with length greater than 2 Kb
-table(gff$feature[gene_lengths > 2000])
+cp -r ../shared_data/data/class9/ ./
+
+cd class9
+
+ls
+```
+
+You should see a genbank file for the reference genome KPNIH1, clean forward and reverse reads for PCMP_H326 and a slurm script with snippy commands in it.
+
+Lets edit the snippy.sbat file and submit it as a job.
+
+```
+sbatch snippy.sbat
 
 ```
 
-Exercise: Count how many genes are on the +/- strands? 
+It should take around 4 minutes to finish the job.
 
-<details>
-  <summary>Solution</summary>  
+Lets go through some of the important output files that Snippy generates. The output file description can be found at [Snippy's github website](https://github.com/tseemann/snippy/blob/master/README.md#output-files)
+
+Lets go through some of these files.
+
+```
+cd PCMP_H326/
+```
+
+***snps.txt*** will contain the overall statistics of number of different types of SNP's that were called by Snippy.
+
+```
+less snps.txt
+```
+
+
+***snps.vcf*** contains the final filtered annotated variants in VCF format.
+
+```
+less snps.vcf
+```
+
+VCF is a text file format that contains meta-information lines, a header line starting with a pound sign. 
+
+For example - line "##INFO=<ID=DP,Number=1,Type=Integer,Description="Total read depth at the locus">" in the file describes that DP stands for number of reads supporting a variant. 
+
+The column data lines contains information about the variant position in the genome. 
+
+The annotation step add an extra field named 'ANN' at the end of INFO field. Lets go through the ANN field added after annotation step. THis ANN field will provide information such as the impact of variants (HIGH/LOW/MODERATE/MODIFIER) on genes and transcripts along with other useful annotations.
+
+Detailed information of the ANN field and sequence ontology terms that it uses can be found [here](https://pcingola.github.io/SnpEff/).
+
+Let's now use some Unix commands to explore our file and extract some useful information. First, it would be nice to see how many MODIFIER (non-coding), LOW (synonymous), MODERATE (non-synonymous) AND HIGH IMPACT (frameshift/stop) variants there are. First, let's see which column has the annotation info:
+
+
+***snps.tab*** contains key information from the vcf in a easier format for viewing and computing
+
+Snippy parses the output from the vcf into many different formats. One useful one is the snps.tab file, which contains key information (e.g. position, reference allele, variant allele, read support and variant annotation), in a much cleaner format than the vcf.
+
+```
+less snps.tab
+```
+
+Let's now perform a quick grep command to search for variants in our genome that may confer colistin resistance.
+
+First a couple of notes about this grep command:
+1. The -i stands for case insensitive, and allows us to avoid issues with capitalizing in gene names
+2. The \| indicates "or", and allows us to search for any of a list of things. 
+
+```
+grep -i "phop\|mgrB\|phoq" snps.tab
+```
+
+When we run this we see two relevent variants, an amino acid substituion in phoQ and a premature stop in mgrB. While both are plausibly associated with resistance, these loss of function mutations in mgrB are commonly observed, and this is our strongest lead!
+
+
+Visualize BAM and VCF files in [IGV](http://software.broadinstitute.org/software/igv/) (Integrative Genome Viewer)
+------------------------------------------------------------------------------------------------------------------
+
+Visualization of all of these various output files can help in making some significant decisions and inferences about your entire analysis. There are a wide variety of visualization tools out there that you can choose from for this purpose.
+
+We will be using [IGV](http://software.broadinstitute.org/software/igv/) (Integrative Genome Viewer) here, developed by the Broad Institute for viewing BAM and VCF files for manual inspection of some of the variants.
+
+Copy these files over to your desktop and start IGV to load them.
+
+- ***Required Input files:***
+
+> - KPNIH1.gbk
+> - snps.bam
+> - snps.bam.bai
+> - snps.vcf.gz
+> - snps.vcf.gz.csi
+
+
+Start IGV.
+
+Load the following files (each is a separate panel or 'track'):
+- `Genomes` &rarr; `Load Genome from File` &rarr; navigate to `IGV_files` &rarr; `KPNIH1.gbk`
+  - Shows what genes are present (looks like a blue bar when zoomed out)
+- `File` &rarr; `Load from File` &rarr; navigate to `IGV_files` &rarr; `snps.vcf.gz`
+  - Shows variants found in the sample (when you zoom in)
+- `File` &rarr; `Load from File` &rarr; navigate to `IGV_files` &rarr; `snps.bam`
+  - Shows coverage and reads aligned to the reference (when you zoom in)
   
-```
-table(gff$strand)
-```
+By default, the whole genome is shown:
 
-</details>
-
-Exercise: Plot a histogram of the length of genes on the + strand
-
-<details>
-  <summary>Solution</summary>  
-
-```
-hist(gene_lengths[gff$strand == "+"],
-     breaks = 100, # 100 cells
-     xlab = 'Gene Length (bp)', # change x label
-     main = '') # no title
-```
-
-</details>
-
-Exploring the pan-genome matrix created by panaroo
---------------------------------------------------
-In class 6 we performed a pan-genome analysis to determine the genes that were present or absent across a set of genomes. Here we will load the pan-genome matrix into R and explore it.
-
-```
-#Read in the pan-genome matrix
-panaroo_mat <- read.table('class11/gene_presence_absence.Rtab', 
-                          sep = "\t",
-                          header = T,
-                          row.names = 1)
-                          
-#Determine the structure of the pan-genome matrix
-str(panaroo_mat)
-
-#Look at the first few entries in the matrix
-head(panaroo_mat)
-
-#Determine the number of genes present in each genome
-colSums(panaroo_mat)
-
-#Get the number of genomes each gene is present in
-genomes_per_gene = rowSums(panaroo_mat)
-
-#Determine the number of genes present in each number of genomes
-table(genomes_per_gene)
-
-#Plot the distribution of the number of genomes each gene is present in
-hist(genomes_per_gene,
-     xlab = 'Number of genomes gene is present in', # change x label
-     main = '') # no title
-```
-
-Exercise: Read in the file 'gene_presence_absence.csv', which holds information on each of the pan-genome genes and print out the annotation for genes present in only a single genome (hint - the rows in the two files are in the same order)
-
-<details>
-  <summary>Solution</summary>  
-
-```
-#Read in the matrix
-panaroo_genes <- read.table('class11/gene_presence_absence.csv', 
-                            sep = ",",
-                            header = T,
-                            quote = "")
-                 
-#Print out gene annotation for genes present in 1 genome
-panaroo_genes$Annotation[genomes_per_gene == 1]       
-```
-
-</details>
-
-Plotting a heatmap of AMR genes from ARIBA
-------------------------------------------
-In class 7 we used the Phandango website to make a heatmap of antibiotic resistance genes present in our genomes. Here, we are going to see how to make a prettier one in R!
+![alt tag](igv_zoomed_out.png)
   
-```
-ariba_mat <- read.table('class11/kpneumo_card_minimal_results.csv',
-                        sep = ",",
-                        header = T,
-                        row.names = 1)
+Using the plus sign in the top right corner of the window, zoom in by clicking 5 times
+- You should see blue bars in the vcf track and red bars in the fastq track, both showing positions with a variant.
+- You can hover over the bars to get more information about the variant.
 
-#Clean up row names using gsub
-row.names(ariba_mat) <- gsub("results/card/", "", row.names(ariba_mat))
-row.names(ariba_mat) <- gsub("/report.tsv", "", row.names(ariba_mat))
-row.names(ariba_mat) <- gsub("_1|_R1", "", row.names(ariba_mat))
-
-#Clean up the column names
-colnames(ariba_mat) = gsub("match", "", colnames(ariba_mat))
-colnames(ariba_mat) = gsub("_", "", colnames(ariba_mat))
-colnames(ariba_mat) = gsub("Klebsiellapneumoniae", "", colnames(ariba_mat))
-
-#Make binary for plotting purposes
-ariba_mat[,] = as.numeric(ariba_mat == 'yes')
-
-#Install and load pheatmap package
-install.packages('pheatmap')
-library(pheatmap)
+- You should also see coverage and reads mapped in bottom half of the window
+  - Different colors indicate different variants
+  - In the Coverage track, the y-axis indicates read coverage
+  - You can now also see distinct genes in the genbank annotation track
+  - You can hover over a read to get more information about it
   
-#Plot heatmap
-pheatmap(ariba_mat,
-         color = c('white', 'black'),
-         legend = F)
+![alt tag](igv_zoomed_in2.png)
   
-#Read in annotations
-annots = read.table('kpneumo_source.tsv',row.names=1)
-colnames(annots) = 'Source'
+To see all of the reads, you can click the square with the arrows pointing to each corner, found in the top-middle-right of the window:
 
-#Plot heatmap with annotations
-pheatmap(ariba_mat,
-         annotation_row = annots,
-         color = c('white', 'black'),
-         legend = F)
-  
-```
+
+Now that you know the basics of how to use IGV, let's navigate to the mgrB gene to look at mutations that might make this sample resistant to colistin. 
+- In the top middle bar of the window, type in gi|661922017|gb|CP008827.1|:3,359,811-3,360,323 OR just type in mgrB
+- Look at the gene annotation by hovering over the blue bar to see what gene it is
+- What is the nucleotide of the SNP in the sample? The amino acid change? 
+- Do you think this variant might be the cause of colistin resistance? Why or why not?
+
+![alt tag](igv_mgrb.png)
+
+Now let's look an example of a heterozygous variant - variant positions where more than one allele (variant) with sufficiently high read depth are observed. 
+- Navigate to gi|661922017|gb|CP008827.1|:2,261,155-2,273,924 OR type in sul1, which is a gene near this region
+- You can see that there are a lot of heterozygous variants in one region. 
+  - Snippy removes these types of variants during the Variant Filteration step using the mapqual and basequal values. If you zoomed in on the alignments at these positions, you will find that the mapper greedily tried to map these reads and therfore contains high number of variants. This in turn lowers down the alignment and base quality values of the variant positions.
+- In the region with lots of heterozygous variants, the read coverage is much higher than in the flanking regions (the regions on either side), and much higher than the rest of the genome coverage. 
+- Why do you think this region contains many heterozygous variants and a higher read coverage than the rest of the genome?
+- You can also see that there are some places with no reads and no coverage. What does this mean?
+
+![alt tag](igv_het.png)
+
+You can refer to the [IGV User Guide](http://software.broadinstitute.org/software/igv/userguide) for more information about how to use IGV. 
+

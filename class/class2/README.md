@@ -6,7 +6,6 @@ Goal
 
 - In this module, we will explore different sequence file formats using Unix commands
 - We will learn how to perform pattern matching using grep to find files and texts in files
-- We will apply for loops to perform same repetitive tasks on different files
 
 
 Navigating to your course directory
@@ -118,65 +117,6 @@ What happens when you do the following in an attempt to use wildcards to get the
 #Number of sequences in each file?
 grep ">" *.fna | wc -l
 ```
-
-Using for loops to perform same actions on different files
-----------------------------------------------------------
-
-So, using the wildcard in the command above did not have the desired action, as it told us the total number of lines in all files combined, instead of in each individual one. What we need is a way to execute our wc command on each file, but using a single command. You might say to yourself that it isn't a big deal to just run the command three times (once for each file), but what if you had 10 sequences? Or 100 sequences? It becomes inefficient and error prone, so we want to avoid that. What we are going to do instead is use a for loop, to loop over each file and run our command. For loops are not something unique to Unix, and are a fundamental tool for most programming languages for executing repetitive tasks in a streamlined way.
-
-
-To get a sense for how for loops look in Unix and how they work, try the below example of for loop, that loops over a bunch of numbers and prints out each value until the list is exhausted.
-
-```
-for i in 1 2 3 4 5; do echo "Looping ... number $i"; done
-```
-
-The above for loop has the following key pieces:
-
-1. for - All for loops start with the word 'for', to indicate the loop command is starting
-2. Loop variable - In our case the loop variable is 'i'. We call it i here, but it could be called anything. The loop variable is what is going to change each time through the loop, and allow us to perform a single command in slightly different ways (e.g. run our grep/wc pipe on different files). 
-3. Loop list - In our case the loop list is '1 2 3 4 5'. The loop list is the set of things you want to apply your command to. 
-4. do - All for loops have the word 'do', which indicates that you are about to enter the command that will be repeated each time through the loop
-5. Loop command(s) - After do comes the command that you want to run. A few things to note: i) this command should always include the loop variable, as that is what is going to change each time the loop statement is executed and ii) when you use the loop variable you need to preface it with a $ (e.g. $i)
-6. done - All for loops have the word 'done', which indicates that the loop is ending. The commands between 'do' and 'done' get executed each time through the loop
-
-So, what actually happens when we run the above for loop? Well, the following occurs:
-
-1. The loop variable i is assigned 1 (the first value in our loop list)
-2. echo "Looping ... number 1" is executed
-3. The loop variable i is assigned 2 (the second value in our loop list)
-4. echo "Looping ... number 2" is executed
-5. The loop variable i is assigned 3 (the third value in our loop list)
-6. echo "Looping ... number 3" is executed
-7. The loop variable i is assigned 4 (the fourth value in our loop list)
-8. echo "Looping ... number 4" is executed
-9. The loop variable i is assigned 5 (the fifth value in our loop list)
-10. echo "Looping ... number 5" is executed
-
-OK - now let's create a for loop to count the number of sequences in each of our files!
-
-```
-for filename in E_coli.fna Kleb_pneu.fna Acinetobacter_baumannii.fna;
-do
-grep ">" $filename | wc -l
-done
-```
-It works! One thing that would make it better is if the name of the file was printed out along with the number of sequences. Can you add a line to the for loop to accomplish this ?
-
-Hint - look at how we printed something to the screen in our counting loop.
-
-<details>
-  <summary>Solution</summary>
-
-```
-for filename in E_coli.fna Kleb_pneu.fna Acinetobacter_baumannii.fna;
-do
-echo $filename
-grep ">" $filename | wc -l
-done
-```
-</details>
-
 
 Exploring GFF files
 -------------------
