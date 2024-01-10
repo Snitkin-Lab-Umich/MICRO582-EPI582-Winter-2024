@@ -1,4 +1,4 @@
-Class 9 – Reference based variant calling
+Class 10 – Reference based variant calling
 =============================================
 
 Goal

@@ -1,4 +1,4 @@
-Class 3 – Introduction to Great Lakes and HPC
+Class 4 – Introduction to Great Lakes and HPC
 =============================================
 
 Goal
@@ -313,83 +313,6 @@ Now if you type ls, you'll notice that 'fasta_counter_2.sbat' is no longer there
 
 Lastly, edit fasta_counter_assembly_2.sbat to work on the more_fasta directory, and submit it to the cluster!
 
-Turning our fasta counter code into a shell script
---------------------------------------------------
-
-Above we applied our for loop to count the number of sequences in a fasta file to two different directories by copying over the code and putting it in a new file. This worked, but is actually bad practice for a few reasons:
-1) If you come up with a way to improve your loop (e.g. provide some more informative print outs), you'd have to change it in all the copies you made
-2) Even worse, if you find a bug in your code, you have to fix the bug in all copies, which can be tedious and error prone
-
-To avoid copying over our code, we can instead store the code in a file called a shell script, that we can then call everytime we want to run the code! 
-
-Shell scripts are just the Unix version of a computer program, and are comprised of sets of Unix commands. 
-
-So, first let's put our for loop into a file called 'fasta_counter.sh'. 
-
-Use nano to open the file.
-
-```
-nano fasta_counter.sh
-```
-
-Add the below for loop in fasta_counter.sh shell script.
-
-```
-for fasta_file in *.fna
-do
-
-    #PRINT THE NAME OF THE FILE
-    echo $fasta_file;
-    #Count the number of sequences in fasta_file
-        grep '>' $fasta_file | wc -l;
-
-done
-```
-
-Now, this is nice, but as it stands the shell script will only count the number of sequences in the directory in which it is stored. What would be even better is if we could apply it to count the number of sequences in any directory! To do this, we can give our script a command line argument. Command line arguments are additional information that you provide a shell script, which the shell script can then use to run in a slightly different manner. In bash, command line arguments go into special variables with numeric names (e.g. $1 for the first command line arugment, $2 for the second, etc.) 
-
-
-Lets take an example to understand what those parameters stands for:
-
-
-```
-./some_program.sh Argument1 Argument2 Argument3
-```
-
-In the above command, we provide three command line Arguments that acts like an input to some_program.sh 
-These command line argument inputs can then be used to inside the scripts in the form of $0, $1, $2 and so on in different ways to run a command or a tool.
-
-For this script $1 would contain "Argument1" , $2 would contain "Argument2" and so on...
-
-Lets try to incorporate a for loop inside the fasta_counter.sh script that uses the first command line argument - i.e directory name and search for \*.fna files in that directory and run fasta sequence counting command on each of them.
-
-- Open “fasta_counter.sh” in nano.
-
-- Input the for loop to count the number of sequences in a fasta file
-
-- Add $1 in the appropriate place where the directory placeholder is needed.
-
-- Run this script on the more_fasta directory and verify that you get the correct results. 
-
-- Basic usage of the script will be:
-
-```
-./fasta_counter.sh more_fasta
-```
-
-You might get an error saying Permission denied. What's the reason? How do we check the permission and set appropriate permission for this file?
-
-<details>
-  <summary>Solution</summary>
-
-```
- 
-ls -l fasta_counter.sh
-    
-chmod u=rwx fasta_counter.sh 
-
-```
-</details>
 
 
 Loading modules
