@@ -87,7 +87,7 @@ For this, We will save the full path to these tools in an our PATH variable.
     
 ```
 
-cp ~/.bashrc ~/bashrc_backup_2024_01_17
+cp ~/.bashrc ~/bashrc_backup_2024_01_12
 
 #Note: "~/" represents your home directory. On great lakes, this means /home/username
 
@@ -127,14 +127,14 @@ fi
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/sw/pkgs/arc/python3.9-anaconda/2021.11/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+__conda_setup="$('/sw/pkgs/arc/python3.10-anaconda/2023.03/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/sw/pkgs/arc/python3.9-anaconda/2021.11/etc/profile.d/conda.sh" ]; then
-        . "/sw/pkgs/arc/python3.9-anaconda/2021.11/etc/profile.d/conda.sh"
+    if [ -f "/sw/pkgs/arc/python3.10-anaconda/2023.03/etc/profile.d/conda.sh" ]; then
+        . "/sw/pkgs/arc/python3.10-anaconda/2023.03/etc/profile.d/conda.sh"
     else
-        export PATH="/sw/pkgs/arc/python3.9-anaconda/2021.11/bin:$PATH"
+        export PATH="/sw/pkgs/arc/python3.10-anaconda/2023.03/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -203,9 +203,9 @@ Copy over files for today's lesson
 
 We will again use [this](https://datacarpentry.org/shell-genomics/03-working-with-files/index.html) data carpentry material to learn how to work with files and directories. 
 
-Data for this lesson is located here - `/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class3`
+Data for this lesson is located here - `/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class4`
 
-Change your current location to your working directory and copy class3 folder to your working directory.
+Change your current location to your working directory and copy class4 folder to your working directory.
 
 ```
 cd /scratch/epid582w24_class_root/epid582w24_class/username
@@ -214,14 +214,14 @@ cd /scratch/epid582w24_class_root/epid582w24_class/username
 
 wd
 
-cp -r /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class3 ./
+cp -r /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class4 ./
 
 ```
 
-Change directory to class3
+Change directory to class4
 
 ```
-cd class3
+cd class4
 ```
 
 
@@ -336,7 +336,7 @@ Set up a conda environment using a YML file
 
 ***You will do this on your own for HW, as it takes a few minutes***
 
-The YML file - `MICRO582_class4_QC.yml` required for generating a conda environment for our next class is located here:
+The YML file - `MICRO582_class5_QC.yml` required for generating a conda environment for our next class is located here:
 
 ```
 /scratch/epid582w24_class_root/epid582w24_class/shared_data/conda_envs
@@ -347,7 +347,7 @@ Load great lakes anaconda package and set up a conda environment in the followin
 ```
 # Load anaconda package from great lakes
 
-module load python3.9-anaconda/2021.11
+module load python3.10-anaconda/2023.03
 
 # Set channel_priority to false so that it can install packages as per the YML file and not from loaded channels.
 
@@ -355,11 +355,11 @@ conda config --set channel_priority false
 
 # Create a new conda environment - micro612 from a YML file
 
-conda env create -f /scratch/epid582w24_class_root/epid582w24_class/shared_data/conda_envs/MICRO582_class4_QC.yml -n MICRO582_class4_QC
+conda env create -f /scratch/epid582w24_class_root/epid582w24_class/shared_data/conda_envs/MICRO582_class5_QC.yml -n MICRO582_class5_QC
 
 # Lets check the list of conda environments. 
 # You should see the conda environment name on left 
-# and the path to the directories where conda installed all the tools that were described in MICRO582_class4_QC.yml file.
+# and the path to the directories where conda installed all the tools that were described in MICRO582_class5_QC.yml file.
 
 conda env list
 ```
