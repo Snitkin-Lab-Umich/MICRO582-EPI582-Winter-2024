@@ -311,7 +311,14 @@ Lastly, edit fasta_counter_assembly_2.sbat to work on the MN_CRE_fasta directory
 
 Practice with for loops, shell scripts and SLURM
 ------------------------------------------------
+In the past two classes we've introduced a lot of tricky concepts that might be blurring together. So, let's do some practice! Last class we wrote a for loop to count the number of sequences in all fasta files in a given directory, and put it in a shell script so we could run it on any directory. Today we are going to do something slightly different - write a shell script to determine the total length of sequences in all fasta files in a directory. It turns out that you can use the exact same set of commands to achieve this, but in a slightly different way. So, your challenge is as follows:
 
+1) Open up the shell script fasta_seq_length.sh using nano
+2) Place the Unix command where prompted to count the number of characters in the sequences in a fasta file
+3) Test your shell script by running it on the class2_fasta directory, and edit until it seems to work
+4) Create a new sbat file (i.e. copy an existing one to a new one with an appropriate name)
+5) Edit the sbat to run fasta_seq_length.sh on MN_CRE_fasta
+6) Submit sbat to cluster
 
 Loading modules
 ---------------
