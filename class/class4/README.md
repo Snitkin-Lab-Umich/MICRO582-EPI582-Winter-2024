@@ -8,11 +8,12 @@ Goal
 - We will set up our compute environment for upcoming lab modules so that we have all the tools installed and ready for use.
 - We will learn how to load Great lakes modules i.e pre-installed softwares provided by ARC-TS team.
 - We will learn how to generate a SLURM script and submit our first job to the HPC cluster.
+- We will get some more practice with for loops and shel scripts
 
 
 Directory organization for the course
 -------------------------------------
-In the first class on Great Lakes we worked in our home directory and copied files over there. For the remainder of the course we will be working in our course home directories. The reason for this is that your home directory is only accessible to you. However, we want to be able to share files, work in teams and have instructors review your work. To accomplish this we have worked with the administrators to setup this course directory with the neccesary permissions to do all of this! To go to this directory use the following cd command (and don't forget about your tab completes!):
+For class labs and assignments we have been and will continue to work on the shared disk space in the /scratch directory. In the course home directory each student and instructor has their own home directory, and there is also a shared_data directory where course files are located. You'll notice that while you can go to your own home directory or the shared_data directory, you are not able to go to other student's directories. Moreover, unlike students, instructors are able to access any directory. To create this setup we  worked with the Great Lakes administrators to set appropriate directory permissions to do all of this! Let's go to the course home directory to see how the permissions are set:
 
 ```
 #Go to the class directory
@@ -22,9 +23,7 @@ cd /scratch/epid582w24_class_root/epid582w24_class/
 ls
 ```
 
-You will notice that each of you should have your own home directory where you will do work for the class, and also complete your assignments. ***You will also notice that there is a shared_data directory, where bioinformatics programs and data for the course live.***
-
-One final thing which you might ask yourself is how is it that certain users can access certain directories/files, while others can't? For instance, you can access your own course home directory, but not that of your classmates. Similarly, you can all access the shared_data directory, but users not in the class can't. Well, an important thing to be aware of when working in a Unix environment is that users who create files and directories have very tight control over who can read, write or execute the files or within the directories. If you try to go somewhere you don't have permission or perform an operation on a file that you don't have permissions for, then you will be a permission denied error. 
+So, how is it that certain users can access certain directories/files, while others can't? For instance, you can access your own course home directory, but not that of your classmates. Similarly, you can all access the shared_data directory, but users not in the class can't. Well, an important thing to be aware of when working in a Unix environment is that users who create files and directories have very tight control over who can read, write or execute the files or within the directories. If you try to go somewhere you don't have permission or perform an operation on a file that you don't have permissions for, then you will be a permission denied error. 
 
 So, how do you know what the permissions are and how do you alter them? To examine the permissions we can provide the '-l' flag to ls, which stands for list. 
 
@@ -148,10 +147,6 @@ conda config --set auto_activate_base false
 #Aliases
 alias islurm='srun --account=epid582w24_class --nodes=1 --ntasks-per-node=1 --mem-per-cpu=5GB --cpus-per-task=1 --time=12:00:00 --pty /bin/bash'
 alias wd='cd /scratch/epid582w24_class_root/epid582w24_class/username/'
-
-#Great Lakes Modules. They should remain commented until ready for use.
-#module load Bioinformatics
-#module load perl-modules
 
 #Bioinformatics Tools installed outside the conda environment due to dependency conflicts.
 export PATH=$PATH:/scratch/epid582w24_class_root/epid582w24_class/shared_data/bin/quast-5.0.2
@@ -306,13 +301,16 @@ cp fasta_counter.sbat fasta_counter_2.sbat
 You can type 'ls' to verify that the original and new file exist. Now, let's say that you don't like the name of the file, and want to rename it. To do that you can use the 'mv' command, which stands for move.
 
 ```
-mv fasta_counter_2.sbat fasta_counter_assembly_2.sbat
+mv fasta_counter_2.sbat fasta_counter_MN_CRE_fasta.sbat
 ```
 
 Now if you type ls, you'll notice that 'fasta_counter_2.sbat' is no longer there! Note that the 'mv' command can be used to rename, but also move files to different directories.
 
-Lastly, edit fasta_counter_assembly_2.sbat to work on the more_fasta directory, and submit it to the cluster!
+Lastly, edit fasta_counter_assembly_2.sbat to work on the MN_CRE_fasta directory, and submit it to the cluster!
 
+
+Practice with for loops, shell scripts and SLURM
+------------------------------------------------
 
 
 Loading modules
