@@ -4,9 +4,7 @@ Class 4 – Introduction to Great Lakes and HPC
 Goal
 ----
 
-- In this module, we will learn how to work with files and directories using Data Carpentry lesson - [Working with Files and Directories](https://datacarpentry.org/shell-genomics/03-working-with-files/index.html)
 - We will set up our compute environment for upcoming lab modules so that we have all the tools installed and ready for use.
-- We will learn how to load Great lakes modules i.e pre-installed softwares provided by ARC-TS team.
 - We will learn how to generate a SLURM script and submit our first job to the HPC cluster.
 - We will get some more practice with for loops and shel scripts
 
@@ -74,11 +72,11 @@ You will see that PATH contains a colon separated list of paths. So, when you ex
 
 One way to set your environment variables would be to manually set up these variables everytime you log in, but this would be extremely tedious and inefficient. So, Unix has setup a way around this, which is to put your environment variable assignments in special files called .bashrc or .bash_profile. Every user has one or both of these files in their home directory, and what's special about them is that the commands in them are executed every time you login. So, if you simply set your environmental variable assignments in one of these files, your environment will be setup just the way you want it each time you login!
 
-All the softwares/tools that we need in this workshop are installed in a directory 
+Most of the softwares/tools that we need in this workshop we will install with the conda environment manager (to be discussed in future session). However, a few programs cause issues when installed by conda, so we placed them in the following directory: 
 
 `/scratch/epid582w24_class_root/epid582w24_class/shared_data/bin` 
 
-and we want the shell to look for these installed tools in this directory. 
+and we want the shell to look for these installed tools in this directory so we can use them. 
 
 For this, We will save the full path to these tools in an our PATH variable.
 
@@ -157,13 +155,7 @@ export PATH=$PATH:/scratch/epid582w24_class_root/epid582w24_class/shared_data/bi
 
 
 Note: Replace the word "username" under alias shortcuts with your own umich "uniqname". 
-
-In the text editor, nano, you can do this by 
-
-- Press Ctrl key and "\\" key. Nano will then prompt you to type in your search string (here, username). 
-- Press "return/Enter" key. Then you will be prompted to enter what you want to replace "username" with (here, your uniqname). 
-- Press "return/Enter" key. Then press "a" key to replace all incidences of username or "y" key to accept each incidence one by one. 
-
+ 
 You can also customize the alias name such as wd and islurm catering to your own need and convenience.
 
 The above environment settings will set various shortcuts such as "islurm" for entering interactive great lakes session, "wd" to navigate to your workshop directory, call necessary great lakes modules and perl libraries required by certain tools and finally sets the path for bioinformatics programs that we will run during the class.
@@ -195,8 +187,6 @@ You should be in your class working directory that is /scratch/epid582w24_class_
 
 Copy over files for today's lesson
 ----------------------------------
-
-We will again use [this](https://datacarpentry.org/shell-genomics/03-working-with-files/index.html) data carpentry material to learn how to work with files and directories. 
 
 Data for this lesson is located here - `/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class4`
 
