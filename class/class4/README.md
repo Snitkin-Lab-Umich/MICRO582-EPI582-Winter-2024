@@ -4,6 +4,7 @@ Class 4 – Introduction to Great Lakes and HPC
 Goal
 ----
 
+- We will learn about file permissions to control user access in a Unix environment 
 - We will set up our compute environment for upcoming lab modules so that we have all the tools installed and ready for use.
 - We will learn how to generate a SLURM script and submit our first job to the HPC cluster.
 - We will get some more practice with for loops and shel scripts
