@@ -39,12 +39,12 @@ source ~/.bashrc
 
 -->
 
-All the tools that you would need for class4 QC are installed in your Conda environment MICRO582_class4_QC. If you have not created the conda environment, please run the commands described in class3 section -  [Set up a conda environment using a YML file](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class4/README.md#set-up-a-conda-environment-using-a-yml-file)
+All the tools that you would need for class5 QC are installed in your Conda environment MICRO582_class5_QC. If you have not created the conda environment, please run the commands described in class3 section -  [Set up a conda environment using a YML file](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class4/README.md#set-up-a-conda-environment-using-a-yml-file)
 
 Lets load the conda environment and check if we can call kraken help menu.
 
 ```
-conda activate MICRO582_class4_QC
+conda activate MICRO582_class5_QC
 
 
 kraken -h
@@ -70,23 +70,23 @@ srun --account=epid582w24_class --nodes=1 --ntasks-per-node=1 --mem-per-cpu=5GB 
 
 You should see "username@glXXXX" in your command prompt where XXXX refers to the cluster node number.
 
-> ***ii. Copy class4 directory to your home directory***
+> ***ii. Copy class5 directory to your home directory***
 
 ```
 #Go to your class working directory
 wd
 
 #Copy over today's materials
-cp -r /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class4 ./
+cp -r /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5 ./
 
 #Go into the directory
-cd class4/
+cd class5/
 
 ```
 
 > **iii. Lets run kraken on Rush_KPC_266_1_combine.fastq.gz file before we assess it quality***
 
-Since Kraken takes time to run, we have already placed the output of Kraken command in class4 directory.
+Since Kraken takes time to run, we have already placed the output of Kraken command in class5 directory.
 
 ```
 
@@ -150,7 +150,7 @@ Use scp command as shown below to copy over the Kraken/krona html report to your
 
 ```
 
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epid582w24_class/apirani/class4/*.html /path-to-local-directory/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epid582w24_class/apirani/class5/*.html /path-to-local-directory/
 
 #You can use ~/Desktop/ as your local directory path
 
@@ -164,13 +164,13 @@ We will be performing QC analysis on Illumina sequencing data (see [here](https:
 
 
 
-> ***i. Go to class4 directory and create a new directory for saving FastQC results.***
+> ***i. Go to class5 directory and create a new directory for saving FastQC results.***
 
 ```
-#Go back to your class4 working directory
+#Go back to your class5 working directory
 wd
 
-cd class4/
+cd class5/
 
 #Create directory for FastQC results
 mkdir Rush_KPC_266_FastQC_results
@@ -183,7 +183,7 @@ mkdir Rush_KPC_266_FastQC_results/before_trimmomatic
 
 ```
 #Active conda environment giving us access to fastqc
-conda activate MICRO582_class4_QC
+conda activate MICRO582_class5_QC
 
 #Verify that you can run fastqc
 fastqc -h
@@ -206,7 +206,7 @@ You can visualize and assess the quality of data by opening html report in a loc
 > ***iv. Download the FastQC html report to your home computer to examine using scp***
 
 ```
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epid582w24_class/username/class4/Rush_KPC_266_FastQC_results/before_trimmomatic/*.html /path-to-local-directory/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epid582w24_class/username/class5/Rush_KPC_266_FastQC_results/before_trimmomatic/*.html /path-to-local-directory/
 
 ```
 
@@ -235,16 +235,16 @@ For more information on how Trimmomatic tries to achieve this, Please refer [thi
 
 Now we will run Trimmomatic on these raw data to remove low quality reads as well as adapters. 
 
-> ***i. If the interactive session timed out, get an interactive cluster node again (using alias `islurm`) to start running programs and navigate to class4 directory. Also, load the Conda environment - MICRO582_class4_QC.***
+> ***i. If the interactive session timed out, get an interactive cluster node again (using alias `islurm`) to start running programs and navigate to class4 directory. Also, load the Conda environment - MICRO582_class5_QC.***
 
 Run this only if you are were logged out of interactive mode.
 
 ```
-conda activate MICRO582_class4_QC
+conda activate MICRO582_class5_QC
 
 wd
 
-cd class4
+cd class5
 ```
 
 > ***ii. Create these output directories in your day1pm folder to save trimmomatic results***
@@ -292,7 +292,7 @@ Get these html reports to your local system.
 
 ```
 
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epid582w24_class/username/class4/Rush_KPC_266_FastQC_results/after_trimmomatic/*.html /path-to-local-directory/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epid582w24_class/username/class5/Rush_KPC_266_FastQC_results/after_trimmomatic/*.html /path-to-local-directory/
 
 ```
 
@@ -329,7 +329,7 @@ fastqc -o Rush_KPC_266_FastQC_results/after_trimmomatic_headcrop/ --extract -f f
 Download the reports again and see the difference.
 ```
 
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epid582w24_class/username/class4/Rush_KPC_266_FastQC_results/after_trimmomatic_headcrop/*.html /path-to-local-directory/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epid582w24_class/username/class5/Rush_KPC_266_FastQC_results/after_trimmomatic_headcrop/*.html /path-to-local-directory/
 
 ```
 
