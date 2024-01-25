@@ -1,4 +1,4 @@
-Class 4 – Illumina sequencing data and QC
+Class 5 – Illumina sequencing data and QC
 =========================================
 
 Goal
