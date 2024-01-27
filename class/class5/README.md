@@ -4,8 +4,10 @@ Class 5 – Illumina sequencing data and QC
 Goal
 ----
 
-- We will perform quality control on raw illumina fastq reads to detect contamination and assess the quality of reads using Kraken and FastQC.
-- We will clean reads by removing low quality reads and adapters using Trimmomatic, and check its performance using FastQC.
+- We discuss the fastq sequence format, that contains information on sequence and it's associated quality scores
+- We will explore the output from kraken, which is used to detect contamination of in our sequencing data
+- We will explore the output of FastQC, which is used to evaluate the quality of our sequencing data
+- We will clean reads by removing low quality reads and adapters using Trimmomatic, and check its performance using FastQC
 
 Overview of Genomics Pipeline
 -----------------------------
@@ -18,26 +20,6 @@ Now that we're getting into genomic analysis, let's come back to the overview of
 Contamination Screening using [Kraken](https://ccb.jhu.edu/software/kraken/)
 --------------------------------------------
 One important QC to perform when getting your sequencing data is to make sure you sequenced what you think you did. For this purpose, we will employ Kraken which is a taxonomic sequence classifier that assigns taxonomic labels to short DNA reads. We will screen our samples against a MiniKraken database (a pre-built database constructed from complete bacterial, archaeal, and viral genomes in NCBI RefSeq database) and confirm if the majority of reads in our sample belong to the target species.
-
-<!---
-In our previous class, we learned how to set up our environment using PATH variable. we will repeat the same thing to add path to the Kraken and Krona executables.
-
-> Open ~/.bashrc file using any text editor and add the following lines at the end of your .bashrc file. 
-
-```
-
-export PATH=$PATH:/scratch/epid582w24_class_root/epid582w24_class/shared_data/bin/kraken
-export PATH=$PATH:/scratch/epid582w24_class_root/epid582w24_class/shared_data/bin/KronaTools-2.8.1/bin/
-
-```
-
-> Now source your bashrc file to make these changes effective.
-
-```
-source ~/.bashrc
-```
-
--->
 
 All the tools that you would need for class5 QC are installed in your Conda environment MICRO582_class5_QC. If you have not created the conda environment, please run the commands described in class3 section -  [Set up a conda environment using a YML file](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class4/README.md#set-up-a-conda-environment-using-a-yml-file)
 
@@ -86,7 +68,7 @@ cd class5/
 
 > **iii. Lets run kraken on Rush_KPC_266_1_combine.fastq.gz file before we assess it quality***
 
-Since Kraken takes time to run, we have already placed the output of Kraken command in class5 directory.
+Since Kraken takes time to run, we have already placed the output of Kraken command in class5 directory. Here is the command that we ran:
 
 ```
 
@@ -94,10 +76,8 @@ kraken --quick --fastq-input --gzip-compressed --unclassified-out Rush_KPC_266_u
 
 ```
 
-It should take around 2 minutes.
-
 > **iv. Run Kraken report to generate a concise summary report of the species found in reads file.***
-
+After running kraken, we ran the kraken-report command to create a human readable text file containing the output.
 
 ```
 
@@ -127,9 +107,8 @@ grep "        S       " Rush_KPC_266_kraken_report.txt | head
 ```
 
 
-Lets visualize the same information in an interactive form.
-
 > v. Generate a HTML report to visualize Kraken report using Krona
+To enable easier interaction with the results, kraken comes with a companion tool called krona. To translate the kraken report into a nice html, we ran the following two commands.
 
 ```
 cut -f2,3 Rush_KPC_266_kraken > Rush_KPC_266_krona.input
@@ -144,7 +123,7 @@ In case you get an error saying - Taxonomy not found, run updateTaxonomy.sh comm
 ktUpdateTaxonomy.sh
 ```
 
-Use scp command as shown below to copy over the Kraken/krona html report to your local system.
+Use cyberduck or the scp command as shown below to copy over the Kraken/krona html report to your local system.
 
 ***Note: Run this scp command on your local system and not on great lakes.***
 
@@ -163,8 +142,9 @@ OK, you've verified that you sequenced the correct thing using Kraken and are ea
 We will be performing QC analysis on Illumina sequencing data (see [here](https://youtu.be/fCd6B5HRaZ8)). The tool that we will be using to examine the quality of our sequencing data is FastQC. FastQC is a quality control tool that reads in sequence data in a variety of formats(fastq, bam, sam) and can either provide an interactive application to review the results or create an HTML based report which can be integrated into any pipeline. Running FastQC can give you quick sense of the data quality and whether it exhibits any unusual properties (e.g. contamination or unexpected biological features), and can point you towards next steps in terms of ways to cleanup your data.
 
 
-
 > ***i. Go to class5 directory and create a new directory for saving FastQC results.***
+
+As with kraken, we have pre-run fastqc for you, but here are the steps that we took.
 
 ```
 #Go back to your class5 working directory
@@ -237,7 +217,7 @@ Now we will run Trimmomatic on these raw data to remove low quality reads as wel
 
 > ***i. If the interactive session timed out, get an interactive cluster node again (using alias `islurm`) to start running programs and navigate to class4 directory. Also, load the Conda environment - MICRO582_class5_QC.***
 
-Run this only if you are were logged out of interactive mode.
+Run this only if you were logged out of interactive mode.
 
 ```
 conda activate MICRO582_class5_QC
