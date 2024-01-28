@@ -113,8 +113,7 @@ To enable easier interaction with the results, kraken comes with a companion too
 ```
 cut -f2,3 Rush_KPC_266_kraken > Rush_KPC_266_krona.input
 
-ktImportTaxonomy Rush_KPC_266_krona.input -o Rush_KPC_266_krona.out.html
-
+ktImportTaxonomy -tax /scratch/epid582w24_class_root/epid582w24_class/shared_data/bin/KronaTools-2.8.1/taxonomy/ Rush_KPC_266_krona.input -o Rush_KPC_266_krona.out.html
 ```
 
 In case you get an error saying - Taxonomy not found, run updateTaxonomy.sh command.
