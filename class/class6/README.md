@@ -103,7 +103,7 @@ squeue -u username
 
 ### SPAdes output
 
-SPAdes stores all output files in `<output_dir> `, which is set by the user. It generate various intermediate files that can be further used to explore the assembled genome in graphical format. For this class, we will be focusing on the final genome fasta file that was assembled by Spades. After the SPAdes job is done, it will save the assembled genome in `<output_dir>/contigs.fasta` file which we have already placed in the class5 folder and renamed it to `SRR5244781_contigs.fasta`.  
+SPAdes stores all output files in `<output_dir> `, which is set by the user. It generate various intermediate files that can be further used to explore the assembled genome in graphical format. For this class, we will be focusing on the final genome fasta file that was assembled by Spades. After the SPAdes job is done, it will save the assembled genome in `<output_dir>/contigs.fasta` file which we have already placed in the class6 folder and renamed it to `SRR5244781_contigs.fasta`.  
 
 
 We will now evaluate SRR5244781_contigs.fasta and SRR5244821_contigs.fasta assemblies using Quast.
@@ -119,7 +119,7 @@ To evaluate some example assemblies we will use the tool quast. Quast produces a
 
 > ***i. Run quast on a set of previously generated assemblies***
 
-Now to check the example assemblies residing in your class5 folder, run the below quast command. Make sure you are in class5 folder in your home directory using 'pwd'
+Now to check the example assemblies residing in your class6 folder, run the below quast command. Make sure you are in class6 folder in your home directory using 'pwd'
 
 
 ```
@@ -264,7 +264,7 @@ multiqc ./ --force --filename impala_qc_multiqc
 
 ### Going through multiqc report to identify bad samples and deduce the problem
 
-Because of all the steps involved, and their respective run times, we have pre-run them so we can look at the results together. So, let's copy over the multiqc report to our class5 directory.
+Because of all the steps involved, and their respective run times, we have pre-run them so we can look at the results together. So, let's copy over the multiqc report to our class6 directory.
 
 ```
 cp ../../shared_data/Results/class6/impala_qc/impala_qc_multiqc.html .
@@ -507,7 +507,7 @@ If you are not in class_5 folder, navigate to it and change directory to multiqc
 ```
 
 #Change directory
-cd /scratch/epid582w24_class_root/epid582w24_class/username/class5/
+cd /scratch/epid582w24_class_root/epid582w24_class/username/class6/
 
 cd multiqc_analysis
 
@@ -516,13 +516,13 @@ multiqc -h
 
 
 #Run multiqc on sample reports
-multiqc ./ --force --filename class5_multiqc
+multiqc ./ --force --filename class6_multiqc
 
 
-#Check if class5_multiqc.html report was generated
-ls -la class5_multiqc.html 
+#Check if class6_multiqc.html report was generated
+ls -la class6_multiqc.html 
 
-#Use cyberduck to bring the class5_multiqc.html to your home computer and open up in a web browser
+#Use cyberduck to bring the class6_multiqc.html to your home computer and open up in a web browser
 
 ```
 
