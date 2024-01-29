@@ -1,4 +1,4 @@
-Class 5 – Genome assembly
+Class 6 – Genome assembly
 =========================
 
 Goal
@@ -25,7 +25,7 @@ cd /scratch/epid582w24_class_root/epid582w24_class/username
 
 > Note: Copy files for today's exercise in your home directory.
 
-cp -r /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5 ./
+cp -r /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class6 ./
 ```
 
 Genome Assembly using [Spades](http://bioinf.spbau.ru/spades) Pipeline
@@ -41,14 +41,14 @@ Here we will use the Spades assembler with default parameters. Because genome as
 
 > ***i. Create directory to hold your assembly output.***
 
-Create a new directory for the spades output in your class_5 folder
+Create a new directory for the spades output in your class_6 folder
 
 ```
 > Note: Make sure you change 'username' in the below command with your 'uniqname'. 
 
-cd /scratch/epid582w24_class_root/epid582w24_class/username/class5
+cd /scratch/epid582w24_class_root/epid582w24_class/username/class6
 
-> We will create a new directory in class_5 to save genome assembly results:
+> We will create a new directory in class_6 to save genome assembly results:
 
 mkdir MSSA_SRR5244781_assembly_result 
 
@@ -126,7 +126,7 @@ Now to check the example assemblies residing in your class5 folder, run the belo
 quast.py -o quast SRR5244781_contigs.fasta SRR5244821_contigs.fasta
 ```
 
-The command above will generate a report file in /scratch/epid582w24_class_root/epid582w24_class/username/class5/quast
+The command above will generate a report file in /scratch/epid582w24_class_root/epid582w24_class/username/class6/quast
 
 > ***ii. Explore quast output***
 
@@ -166,7 +166,7 @@ Before looking at the output, let's go through the steps we performed to generat
 
 > ***i. Run FastQC on the four IMPALA samples.***
 
-- Move into impala_qc directory placed under class5 
+- Move into impala_qc directory placed under class6 
 
 ```
 
@@ -177,7 +177,7 @@ cd impala_qc
 - Activate conda environment and create a new directory called fastqc to save FastQC results.
 
 ```
-conda activate MICRO582_class4_QC
+conda activate MICRO582_class5_QC
 
 mkdir fastqc
 
@@ -198,17 +198,17 @@ for i in data/fastq/IMPALA_*_R1.fastq.gz; do fastqc -o fastqc/ $i --extract; don
 - Run Kraken on the four samples
 
 ```
-# Note: Dont run these commands in class5 lab. Due to time constraint, We already ran it and placed the kraken results in kraken folder.
+# Note: Dont run these commands in class6 lab. Due to time constraint, We already ran it and placed the kraken results in kraken folder.
 
 mkdir kraken
 
-kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class4/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_207_kraken --threads 8 data/IMPALA_207_R1.fastq.gz
+kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_207_kraken --threads 8 data/IMPALA_207_R1.fastq.gz
 
-kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class4/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_487_kraken --threads 8 data/IMPALA_487_R1.fastq.gz
+kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_487_kraken --threads 8 data/IMPALA_487_R1.fastq.gz
 
-kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class4/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_582_kraken --threads 8 data/IMPALA_582_R1.fastq.gz
+kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_582_kraken --threads 8 data/IMPALA_582_R1.fastq.gz
 
-kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class4/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_94_kraken --threads 8 data/IMPALA_94_R1.fastq.gz
+kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_94_kraken --threads 8 data/IMPALA_94_R1.fastq.gz
 
 ```
 
@@ -216,7 +216,7 @@ kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_ro
 
 ```
 
-for i in kraken/*_kraken; do kraken-report --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class4/kraken/minikraken_20171013_4GB/ $i > $i\_report.txt; done
+for i in kraken/*_kraken; do kraken-report --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5/kraken/minikraken_20171013_4GB/ $i > $i\_report.txt; done
 
 ```
 
@@ -267,7 +267,7 @@ multiqc ./ --force --filename impala_qc_multiqc
 Because of all the steps involved, and their respective run times, we have pre-run them so we can look at the results together. So, let's copy over the multiqc report to our class5 directory.
 
 ```
-cp ../../shared_data/Results/class5/impala_qc/impala_qc_multiqc.html .
+cp ../../shared_data/Results/class6/impala_qc/impala_qc_multiqc.html .
 ```
 
 Now let's bring down the report to our home computers for viewing using [Cyberduck](https://cyberduck.io/download/), or your preferred FTP client.
@@ -461,7 +461,7 @@ Now, let's take a look and see how our data quality looks. Download the html rep
 ```
 #Note: Make sure you change 'username' in the below command to your 'uniqname'.
 
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epid582w24_class/username/class5/Cdiff_multiqc_report.html ~/Desktop/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epid582w24_class/username/class6/Cdiff_multiqc_report.html ~/Desktop/
 
 ```
 
