@@ -41,7 +41,7 @@ When we previously used the cluster we created an sbat file and included specifi
 To submit an interactive job we will use an alias that we placed in our .bashrc called 'islurm'. When you type islurm, the following command will be executed:
 
 ```
-srun --account=epid582w24_class --nodes=1 --ntasks-per-node=1 --mem-per-cpu=5GB --cpus-per-task=1 --time=12:00:00 --pty /bin/bash
+srun --account=epid582w24_class --nodes=1 --ntasks-per-node=1 --mem-per-cpu=5GB --cpus-per-task=1 --time=05:00:00 --pty /bin/bash
 ```
 
 ***When you run islurm what happens?***
