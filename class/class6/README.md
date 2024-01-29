@@ -231,9 +231,9 @@ trimmomatic PE -phred33 data/fastq/IMPALA_487_R1.fastq.gz data/fastq/IMPALA_487_
 
 trimmomatic PE -phred33 data/fastq/IMPALA_582_R1.fastq.gz data/fastq/IMPALA_582_R2.fastq.gz data/fastq/IMPALA_582_clean_R1.fq.gz data/fastq/IMPALA_582_clean_unpaired_R1.fq.gz data/fastq/IMPALA_582_clean_R2.fq.gz data/fastq/IMPALA_582_clean_unpaired_R2.fq.gz ILLUMINACLIP:/scratch/epid582w24_class_root/epid582w24_class/shared_data//data/database/trimmomatic-0.39-2/adapters/TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:20 MINLEN:40 HEADCROP:0
 
-trimmomatic PE -phred33 data/fastq/IMPALA_207_R1.fastq.gz data/fastq/IMPALA_207_R2.fastq.gz data/fastq/IMPALA_207_clean_R1.fq.gz data/fastq/IMPALA_207_clean_unpaired_R1.fq.gz data/fastq/IMPALA_207_clean_R2.fq.gz data/fastq/IMPALA_207_clean_unpaired_R2.fq.gz ILLUMINACLIP:/scratch/epid207w23_class_root/epid207w23_class/shared_data//data/database/trimmomatic-0.39-2/adapters/TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:20 MINLEN:40 HEADCROP:0
+trimmomatic PE -phred33 data/fastq/IMPALA_207_R1.fastq.gz data/fastq/IMPALA_207_R2.fastq.gz data/fastq/IMPALA_207_clean_R1.fq.gz data/fastq/IMPALA_207_clean_unpaired_R1.fq.gz data/fastq/IMPALA_207_clean_R2.fq.gz data/fastq/IMPALA_207_clean_unpaired_R2.fq.gz ILLUMINACLIP:/scratch/epid582w24_class_root/epid582w24_class/shared_data//data/database/trimmomatic-0.39-2/adapters/TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:20 MINLEN:40 HEADCROP:0
 
-trimmomatic PE -phred33 data/fastq/IMPALA_94_R1.fastq.gz data/fastq/IMPALA_94_R2.fastq.gz data/fastq/IMPALA_94_clean_R1.fq.gz data/fastq/IMPALA_94_clean_unpaired_R1.fq.gz data/fastq/IMPALA_94_clean_R2.fq.gz data/fastq/IMPALA_94_clean_unpaired_R2.fq.gz ILLUMINACLIP:/scratch/epid94w23_class_root/epid94w23_class/shared_data//data/database/trimmomatic-0.39-2/adapters/TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:20 MINLEN:40 HEADCROP:0
+trimmomatic PE -phred33 data/fastq/IMPALA_94_R1.fastq.gz data/fastq/IMPALA_94_R2.fastq.gz data/fastq/IMPALA_94_clean_R1.fq.gz data/fastq/IMPALA_94_clean_unpaired_R1.fq.gz data/fastq/IMPALA_94_clean_R2.fq.gz data/fastq/IMPALA_94_clean_unpaired_R2.fq.gz ILLUMINACLIP:/scratch/epid582w24_class_root/epid582w24_class/shared_data//data/database/trimmomatic-0.39-2/adapters/TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:20 MINLEN:40 HEADCROP:0
 
 module load Bioinformatics
 module load spades
