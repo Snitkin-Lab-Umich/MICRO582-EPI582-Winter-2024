@@ -216,7 +216,7 @@ kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_ro
 
 ```
 
-for i in kraken/*_kraken; do kraken-report --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5/kraken/minikraken_20171013_4GB/ $i > $i\_report.txt; done
+for i in kraken/*_kraken_out; do kraken-report --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5/kraken/minikraken_20171013_4GB/ $i > $i\_report.txt; done
 
 ```
 
