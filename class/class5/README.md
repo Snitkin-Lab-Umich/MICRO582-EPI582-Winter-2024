@@ -103,7 +103,7 @@ less Rush_KPC_266_kraken_report.txt
 Lets extract columns by Species and check the major species indentified in our sample. To do this we searched for lines that have a column with only an S (will only happen for lines that have species level classification in column 4). Note that the search is for tab + S + tab, because it's a tab delimited file. To type tab at the command line, you need to first type ctl-v, and then tab.
 
 ```
-grep "        S       " Rush_KPC_266_kraken_report.txt | head
+grep -w "S" Rush_KPC_266_kraken_report.txt | head
 
 ```
 
