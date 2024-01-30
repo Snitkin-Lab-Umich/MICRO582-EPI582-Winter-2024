@@ -257,13 +257,7 @@ multiqc ./ --force --filename impala_qc_multiqc
 
 ### Going through multiqc report to identify bad samples and deduce the problem
 
-Because of all the steps involved, and their respective run times, we have pre-run them so we can look at the results together. So, let's copy over the multiqc report to our class6 directory.
-
-```
-cp ../../shared_data/Results/class6/impala_qc/impala_qc_multiqc.html .
-```
-
-Now let's bring down the report to our home computers for viewing using [Cyberduck](https://cyberduck.io/download/), or your preferred FTP client.
+Because of all the steps involved, and their respective run times, we have pre-run them so we can look at the results together. So, let's bring down the final multiqc report to our home computers for viewing using [Cyberduck](https://cyberduck.io/download/), or your preferred FTP client.
 
 > ***i. Get an overview of the report.***
 
