@@ -73,7 +73,7 @@ Since Kraken takes time to run, we have already placed the output of Kraken comm
 ```
 cd kraken_results
 
-kraken --quick --fastq-input --gzip-compressed --unclassified-out Rush_KPC_266_unclassified.txt --db kraken/minikraken_20171013_4GB/ --output Rush_KPC_266_kraken Rush_KPC_266_1_combine.fastq.gz 
+kraken --quick --fastq-input --gzip-compressed --unclassified-out Rush_KPC_266_unclassified.txt --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/database/kraken/minikraken_20171013_4GB/ --output Rush_KPC_266_kraken Rush_KPC_266_1_combine.fastq.gz 
 
 ```
 
@@ -82,7 +82,7 @@ After running kraken, we ran the kraken-report command to create a human readabl
 
 ```
 
-kraken-report --db kraken/minikraken_20171013_4GB/ Rush_KPC_266_kraken > Rush_KPC_266_kraken_report.txt
+kraken-report --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/database/kraken/minikraken_20171013_4GB/ Rush_KPC_266_kraken > Rush_KPC_266_kraken_report.txt
 
 ```
 
