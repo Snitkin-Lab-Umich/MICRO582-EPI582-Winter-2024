@@ -39,24 +39,7 @@ Here we will use the Spades assembler with default parameters. Because genome as
 
 ![spades](assembly_details_spades.png)
 
-> ***i. Create directory to hold your assembly output.***
-
-Create a new directory for the spades output in your class_6 folder
-
-```
-> Note: Make sure you change 'username' in the below command with your 'uniqname'. 
-
-cd /scratch/epid582w24_class_root/epid582w24_class/username/class6
-
-> We will create a new directory in class_6 to save genome assembly results:
-
-mkdir MSSA_SRR5244781_assembly_result 
-
-```
-
-Now, we will use a genome assembly tool called Spades for assembling the reads.
-
-> ***ii. Test out Spades to make sure it's in your path***
+> ***i. Test out Spades to make sure it's in your path***
 
 Lets load spades module from the Great lakes provided Bioinformatics Modules.
 
@@ -70,11 +53,11 @@ spades.py -h
 
 ```
 
-> ***iii. Submit a cluster job to assemble***
+> ***ii. Submit a cluster job to assemble***
 
 Since it takes a huge amount of memory and time to assemble genomes using spades, we will run a slurm script on great lakes cluster for this step.
 
-Now, open the spades.sbat file residing in the class_5 folder with nano. Replace the EMAIL_ADDRESS in spades.sbat file with your actual email-address. This will make sure that whenever the job starts, aborts or ends, you will get an email notification.
+Now, open the spades.sbat file residing in the class_6 folder with nano. Replace the EMAIL_ADDRESS in spades.sbat file with your actual email-address. This will make sure that whenever the job starts, aborts or ends, you will get an email notification.
 
 ```
 > Open the spades.sbat file using nano:
@@ -119,8 +102,7 @@ To evaluate some example assemblies we will use the tool quast. Quast produces a
 
 > ***i. Run quast on a set of previously generated assemblies***
 
-Now to check the example assemblies residing in your class6 folder, run the below quast command. Make sure you are in class6 folder in your home directory using 'pwd'
-
+To check the quality of the two example assemblies residing in your class6 folder, we ran the following command. 
 
 ```
 quast.py -o quast SRR5244781_contigs.fasta SRR5244821_contigs.fasta
