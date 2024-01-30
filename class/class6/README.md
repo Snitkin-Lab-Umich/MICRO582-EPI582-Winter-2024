@@ -171,7 +171,13 @@ mkdir fastqc
 
 ```
 
-for i in data/fastq/IMPALA_*_R1.fastq.gz; do fastqc -o fastqc/ $i --extract; done
+for fastq_file in data/fastq/IMPALA_*_R1.fastq.gz;
+
+do
+
+fastqc -o fastqc/ $fastq_file --extract;
+
+done
 
 ```
 
