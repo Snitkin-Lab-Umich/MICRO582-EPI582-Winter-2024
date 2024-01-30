@@ -203,8 +203,13 @@ kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_ro
 - Generate Kraken Report from Kraken results 
 
 ```
+for kraken_file in data/kraken/*_kraken;
 
-for i in data/kraken/*_kraken; do kraken-report --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/database/kraken/minikraken_20171013_4GB/ $i > $i\_report.txt; done
+do
+
+kraken-report --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/database/kraken/minikraken_20171013_4GB/ $kraken_file > $kraken_file\_report.txt;
+
+done
 
 ```
 
