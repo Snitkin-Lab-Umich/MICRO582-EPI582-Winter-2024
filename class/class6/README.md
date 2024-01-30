@@ -184,13 +184,13 @@ for i in data/fastq/IMPALA_*_R1.fastq.gz; do fastqc -o fastqc/ $i --extract; don
 
 mkdir kraken
 
-kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_207_kraken_out --threads 8 data/fastq/IMPALA_207_R1.fastq.gz
+kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_207_kraken --threads 8 data/fastq/IMPALA_207_R1.fastq.gz
 
-kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_487_kraken_out --threads 8 data/fastq/IMPALA_487_R1.fastq.gz
+kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_487_kraken --threads 8 data/fastq/IMPALA_487_R1.fastq.gz
 
-kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_582_kraken_out --threads 8 data/fastq/IMPALA_582_R1.fastq.gz
+kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_582_kraken --threads 8 data/fastq/IMPALA_582_R1.fastq.gz
 
-kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_94_kraken_out --threads 8 data/fastq/IMPALA_94_R1.fastq.gz
+kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5/kraken/minikraken_20171013_4GB/ --output kraken/IMPALA_94_kraken --threads 8 data/fastq/IMPALA_94_R1.fastq.gz
 
 ```
 
@@ -198,7 +198,7 @@ kraken --quick --fastq-input --gzip-compressed --db /scratch/epid582w24_class_ro
 
 ```
 
-for i in kraken/*_kraken_out; do kraken-report --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5/kraken/minikraken_20171013_4GB/ $i > $i\_report.txt; done
+for i in kraken/*_kraken; do kraken-report --db /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5/kraken/minikraken_20171013_4GB/ $i > $i\_report.txt; done
 
 ```
 
