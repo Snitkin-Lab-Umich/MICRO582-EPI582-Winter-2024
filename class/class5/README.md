@@ -128,7 +128,7 @@ Use cyberduck or the scp command as shown below to copy over the Kraken/krona ht
 
 ```
 
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epid582w24_class/apirani/class5/*.html /path-to-local-directory/
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class5/kraken_results/Rush_KPC_266_krona.out.html /path-to-local-directory/
 
 #You can use ~/Desktop/ as your local directory path
 
