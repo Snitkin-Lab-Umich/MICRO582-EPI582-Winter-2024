@@ -68,9 +68,10 @@ cd class5/
 
 > **iii. Lets run kraken on Rush_KPC_266_1_combine.fastq.gz file before we assess it quality***
 
-Since Kraken takes time to run, we have already placed the output of Kraken command in class5 directory. Here is the command that we ran:
+Since Kraken takes time to run, we have already placed the output of Kraken command in class5/kraken_results directory. Here is the command that we ran:
 
 ```
+cd kraken_results
 
 kraken --quick --fastq-input --gzip-compressed --unclassified-out Rush_KPC_266_unclassified.txt --db kraken/minikraken_20171013_4GB/ --output Rush_KPC_266_kraken Rush_KPC_266_1_combine.fastq.gz 
 
