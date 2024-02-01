@@ -430,6 +430,8 @@ The results of AMRFinderPlus are in the directory amr_finder_results_all. For ea
 Let's start by taking a look at the .txt file for one of our genomes using the less command.
 
 ```
+cd amr_finder_results_all
+
 #Use the -S flag to enable better display of tabular data
 less -S ERR025152.txt
 ```
