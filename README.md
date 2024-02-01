@@ -65,12 +65,13 @@
 - [Functional annotation using eggnog](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class7/README.md#functional-annotation-using-eggnog)
 - [Perform pan-genome analysis with Panaroo](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class7/README.md#perform-pan-genome-analysis-with-panaroo)
 
-<--!
+<!---
 #### [Class 8 – Resistome analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class8/README.md)
 ***
 
 - [Determine which genomes contain KPC genes using BLAST](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class8/README.md#determine-which-genomes-contain-KPC-genes-using-blast)
 - [Identify antibiotic resistance genes with AMRFinderPlus](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class8/README.md#identify-antibiotic-resistance-genes-with-AMRFinderPlus)
+
 -->
   
 #### [Class 9 – Data download and genome comparison](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class9/README.md)
