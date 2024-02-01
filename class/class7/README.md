@@ -372,7 +372,7 @@ conda create -n eggnog-mapper -c bioconda eggnog-mapper python=3.9
 
 conda activate eggnog-mapper
 
-export EGGNOG_DATA_DIR=/scratch/epid582w24_class_root/epid582w24_class/shared_data/database/eggnog
+export EGGNOG_DATA_DIR=/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/database/eggnog
 
 emapper.py -h
 ```
