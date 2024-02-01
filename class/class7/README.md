@@ -29,22 +29,13 @@ Finally, the results of all of these annotations are stored in a series of stand
 
 With that background, let's try it on for ourselves! We are going to run Prokka on a multidrug resistant strain of *Klebsiella pneumoniae* that we assembled with spades. Since Prokka annotation is a time intensive run, we will submit an annotation job and go over the results later at the end of this session. 
 
-Lets add Prokka to our environment and check if we can invoke it.
-
-Add this line at the end of your .bashrc file and source it.
+Lets add Prokka module from great lakes and check if we can invoke it.
 
 ```
-export PATH=$PATH:/scratch/epid582w24_class_root/epid582w24_class/shared_data/bin/prokka/bin/
-export EGGNOG_DATA_DIR=/scratch/epid582w24_class_root/epid582w24_class/shared_data/database/eggnog
-```
+module load Bioinformatics prokka
 
-Let load some perl-modules that prokka requires and invoke prokka's help menu.
-
-```
-module load Bioinformatics
-module load perl-modules/1.0
-module load bioperl/1.7.2
 prokka -h
+
 ```
 
 
@@ -373,8 +364,6 @@ Why does this make sense?
 
 -->
 
--->
-
 Installing Eggnog with Conda
 ----------------------------
 
@@ -382,6 +371,8 @@ Installing Eggnog with Conda
 conda create -n eggnog-mapper -c bioconda eggnog-mapper python=3.9
 
 conda activate eggnog-mapper
+
+export EGGNOG_DATA_DIR=/scratch/epid582w24_class_root/epid582w24_class/shared_data/database/eggnog
 
 emapper.py -h
 ```
