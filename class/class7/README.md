@@ -1,4 +1,4 @@
-Class 6 – Genome annotation
+Class 7 – Genome annotation
 ===========================
 
 Goal
@@ -48,14 +48,14 @@ prokka -h
 ```
 
 
-Lets copy over class6 data to your class working directory.
+Lets copy over class7 data to your class working directory.
 
 ```
 wd
 
-cp -r /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class6 ./
+cp -r /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class7 ./
 
-cd class6
+cd class7
 ```
 
 Now edit your email in the slurm script - annotate.sbat and submit the job with sbatch.
@@ -262,14 +262,14 @@ Despite having similar distributions of COG categories, we see that the genome c
 Make a directory onto your local system
 
 ```
-mkdir ~/Desktop/class6
+mkdir ~/Desktop/class7
 ```
 
 Use scp or cyberduck to get `gene_presence_absence.csv` and `gene_presence_absence.Rtab` onto your laptop desktop folder.
 
 ```
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epid582w24_class/username/class6/panaroo/gene_presence_absence.csv ~/Desktop/class6
-scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epid582w24_class/username/class6/panaroo/gene_presence_absence.Rtab ~/Desktop/class6
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epid582w24_class/username/class7/panaroo/gene_presence_absence.csv ~/Desktop/class7
+scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epid582w24_class/username/class7/panaroo/gene_presence_absence.Rtab ~/Desktop/class7
 ```
 
 > ***i. Prepare and clean data***
@@ -278,9 +278,9 @@ scp username@greatlakes-xfer.arc-ts.umich.edu:/scratch/epid582w24_class_root/epi
 
 ```
 # read in annotations (only need 3rd column)
-annots = read.csv('~/Desktop/class6/gene_presence_absence.csv')[,3]
+annots = read.csv('~/Desktop/class7/gene_presence_absence.csv')[,3]
 # read in presence-absence heatmap
-pg_matrix = read.delim('~/Desktop/class6/gene_presence_absence.Rtab', row.names = 1, header=TRUE)
+pg_matrix = read.delim('~/Desktop/class7/gene_presence_absence.Rtab', row.names = 1, header=TRUE)
 ```
 
 - Use head, str, dim, etc. to explore the matrix.
