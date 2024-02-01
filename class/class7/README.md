@@ -192,7 +192,7 @@ paste PCMP_COG_counts ERR_COG_counts
 
 Do you see any big differences in how genes are allocated to functional groups between these two genomes?
 
-
+<!---
 Perform pan-genome analysis with [Panaroo](https://github.com/gtonkinhill/panaroo)
 ----------------------------------------
 
@@ -370,6 +370,8 @@ sum(grepl("hypothetical" , core_annots)) / sum(rowSums(pg_matrix > 0) == 4)
 ```
 
 Why does this make sense?
+
+-->
 
 -->
 
