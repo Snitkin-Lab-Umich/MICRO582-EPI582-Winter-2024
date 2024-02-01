@@ -376,3 +376,184 @@ export EGGNOG_DATA_DIR=/scratch/epid582w24_class_root/epid582w24_class/shared_da
 
 emapper.py -h
 ```
+
+
+Resistome analysis
+==================
+
+Goal
+----
+
+Earlier, we learned how to perform basic and functional genome annotation using Prokka and Eggnog. Now we will perform some more targeted genome annotation and attempt to identify specific antibiotic resistance genes and mutations in a set of genomes.
+ 
+- We will use a tool [AMRFinderPlus](https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/) to identify the complete set of antibiotic resistance genes in our genomes (i.e. the resistome) by comparing to a reference database of curated resistance genes and mutations.
+- Then, we will write some shell scripts to explore amrfinderplus results 
+
+![roadmap](comp_genomics.png)
+
+We will be looking at 8 *Klebsiella pneumoniae* genomes from human and environmental sources. Two of the genomes are from [this paper](https://www.pnas.org/content/112/27/E3574), and the other two are sequences from our lab. We are interested in learning more about potential differences in the resistomes of human and environmental isolates. 
+
+Now activate the class7 conda environment.
+
+```
+# If you haven't installed class7 then install it with: conda create -n class7 -c bioconda blast tbb=2020.2 ncbi-amrfinderplus
+
+conda activate class7
+```
+
+Identify antibiotic resistance genes with AMRFinderPlus
+---------------------------------------------------
+[AMRFinderPlus](https://github.com/ncbi/amr/wiki) is a tool made available by NCBI to identify resistance genes and mutations in assembled bacterial genomes. For a detailed description of the AMRFinderTool and how it was built/validated, check out these papers from [2019](https://journals.asm.org/doi/full/10.1128/AAC.00483-19) and [2021](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8208984/). The key to the AMRFinder tool is a highly currated set of antibiotic resistance gene families and resistance conferring mutations. THe initial curation involved  the careful identification of these genes from literature, existing databases and in conjunction with protein-specific experts. Then, a sequence curation was performed to cataolog all the genes/alleles for each resistance gene family, organize them in a hierarchical framework to enable more accurate/meaningful gene/allele assignments and created currated multiple sequence alignments of each gene family. 
+
+When running AMRFinderPlus protein and/or nucleotide sequences are compared to this curated database of antibiotic resistance genes and alleles. There are two methods employed to compare to these databases. The first is using BLAST, with stringent cutoffs to ensure that the hits are specific. The second is the use of a proababilistic model called hidden markov models ([HMMs](https://www.nature.com/articles/nbt1004-1315)). HMMs are commonly used tools in sequence analysis. The input to an HMM is a multiple alignment of the sequences of interest, which is this case are antibiotic resistance proteins in the same family, where families are based on shared ancestry (i.e. homology). Training algorithms are then applied to create a probabilistic model that captures the defining features of the sequences in the alignment (e.g. conserved alanine at position 130, basic amino acid at position 260, etc.). For each protein inputted to AMRFinder, these HMMs are used to scan the protein to detemrine whether its a good match for the protein family. Lastly, AMRFinder employs a decision tree to use BLAST and HMM results to determine which antibiotic resistance genes and alleles are present in an input genome.
+
+
+For the lab we ran AMRFinderPlus on our four Klebsiella genomes for you, but have provided the sbat scripts that we used. Note the presence of two different sbat scripts amrfinder_commands.sbat and amrfinder.sbat. The amrfinder_commands.sbat script just contains the four calls to AMRFinderPlus, once for each genome. The amrfinder.sbat takes a more robust approach, and examines the directory containing genome assemblies we want to analyze with AMRFinderPlus, creates the appropriate command, and runs it on the cluster! I am hoping to go through that script next class, after we learn some new shell script tricks today!
+
+To run the basic approach, run the following commands:
+
+```
+#Test if you can can call amrfinder
+amrfinder -h
+
+#Download/Update AMRFINDER database
+amrfinder -u
+
+cd amrfinder/
+
+sbatch amrfinder_commands.sbat
+```
+
+The results of AMRFinderPlus are in the directory amr_finder_results_all. For each of the four genomes there are two files: i) mutation_report.tsv and ii) .txt. The mutation report provides information on known resistance-conferring protein coding mutations identified in your input genome. The .txt provides a summary of known antibiotic resistance genes detected in your input genome. Today, we will focus our attention on the .txt file.
+
+
+Let's start by taking a look at the .txt file for one of our genomes using the less command.
+
+```
+#Use the -S flag to enable better display of tabular data
+less -S ERR025152.txt
+```
+
+Even with our -S trick, it's still messy to look at, and hard to see what the headers are. So, let's use our trick from last time to pull the header from our file, and break it apart to see the column numbers as well.
+
+```
+head -n 1 ERR025152.txt | tr "\t" "\n" | cat -n
+```
+
+To enable us to compare the resistance encoding potential of our environmental and healthcare Klebsiella genomes, we are going to write a handy-dandy shell script that extracts pertinent information from this .txt file. In particular, let's report: i) the number of unique antibiotic resistance classes for which resistance genes are found and ii) the subclass and gene symbol for each amr gene detected.
+
+To do this we are going to edit the shell script amr_finder_res_summary.sh, which takes as a command line argument the name of a .txt file created by AMRFinderPlus. 
+
+```
+# Usage
+# bash amr_finder_res_summary.sh amr_finder_report
+```
+
+
+So, open it up with nano, and let's start by trying to edit the following part of the code to report the number of unique resistance classes.
+
+```
+#Create a Unix command to print out the number of unique subclasses resistance elements are detected for.
+#To do this: 1) Select lines that have AMR (all caps)
+#             2) Use cut, sort, uniq and wc to get the number unique subclasses
+amr_count=$()
+echo "Number of resistance elements detected: $amr_count"
+echo
+```
+
+To accomplish this goal we are introducing you to a few new concepts. First, we are creating our own custom variable amr_count, which we have done in the context of our .bashrc (i.e. environment variables), but in shell scripts we have only used special variables (e.g. loop variables, command line arguments). To create a new variable you write the name of the variable, and then =. The second new concept we are introducing is using () to assign the output of a unix command to a variable. So, in this example, you will place in the parentheses a unix command to determine the number of unique antibiotic resistance subclasses present in a .txt file provided by AMRFinderPlus.
+
+Hints:
+1) You will first want to apply a grep command to select lines that have AMR, as this report also reports on virulence and stress response genes
+2) You will want to cut the column corresponding to resistance gene class
+3) To get the counts of unique resistance classes you will use sort, uniq and wc
+
+<details>
+  <summary>Solution</summary>
+
+   ```
+   amr_count=$(grep AMR $1 | cut -f 12 | sort | uniq | wc -l)
+   echo "Number of resistance elements detected: $amr_count"
+   echo
+   ```
+  
+</details>
+  
+  
+Next, let's add in Unix commands to extract two columns from our file - Subclass and Gene Symbol.
+
+```
+# Create Unix command to print out the subclass and gene symbol from amrfinder report
+# To do this: 1) Select lines that have AMR (all caps)
+#             2) Print out the columns Subclass and Gene symbol
+#             3) Sort the output by Subclass (hint - using the -k flag you can select number of column to sort by)
+#       
+
+echo
+```
+
+<details>
+  <summary>Solution</summary>
+  
+  ```
+  grep AMR $1 | cut -f 6,12| sort -k 2
+  echo
+  ```
+  
+</details>
+
+
+Now that we've finished our shell script, let's apply it to one of our genomes!
+
+```
+bash amr_finder_res_summary.sh amr_finder_results_all/ERR025152.txt
+```
+
+OK, this is a pretty sweet shell script, but now we want to run it on each of our genomes. We could do this by typing out four commands, but instead, let's write a second shell script that runs our first shell script on all AMRFinderPlus output files in a given directory. This shell script will take a single command line argument (the directory path), and run your shell script on each .txt file in the directory. Here is the usage statement:
+
+```
+# Run your amr_finder_res_summary.sh script on all files in an input directory
+
+# Usage
+# amr_finder_res_summary_batch.sh amr_finder_results_dir
+```
+
+So, fill in the code below the following comment, which provides some hints/instructions:
+
+```
+# Write a for loop to run your shell script on each .txt file in the 
+# output directory input as the first command line argument (i.e. $1)
+# Remember to use echo to print the name of the file so you know which
+# output belongs to which file
+
+```
+
+
+<details>
+  <summary>Solution</summary>
+
+  ```
+  for file in $1/*.txt
+  do
+        echo $file      
+
+        echo $prefix
+        bash amr_finder_res_summary.sh $file
+
+  done
+  ```
+</details>
+
+
+
+Finally, let's put it all together and run this shell script to parse AMRFinderPlus results and report on the resistome of each of our four genomes.
+
+```
+bash amr_finder_res_summary_batch.sh amr_finder_results_all/
+```
+
+What differences do you notice between the antibiotic resistance potential for our two environmental isolates (ERR) versus our hospital isolates (PCMP)?
+
+
+
+
