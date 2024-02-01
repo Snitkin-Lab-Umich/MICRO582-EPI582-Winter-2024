@@ -58,20 +58,21 @@
 - [Assess assembly quality with Quast](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class6/README.md#assess-assembly-quality-with-quast)
 - [Aggregate and Assess dataset quality using multiQC](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class6/README.md#aggregate-and-assess-dataset-quality-using-multiqc)
 
-#### [Class 7 – Genome annotation](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class7/README.md)
+#### [Class 7 – Genome annotation and Resistome analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class7/README.md)
 ***
 
 - [Genome annotation using PROKKA](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class7/README.md#genome-annotation-using-prokka)
 - [Functional annotation using eggnog](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class7/README.md#functional-annotation-using-eggnog)
 - [Perform pan-genome analysis with Panaroo](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class7/README.md#perform-pan-genome-analysis-with-panaroo)
 
-
+<--!
 #### [Class 8 – Resistome analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class8/README.md)
 ***
 
 - [Determine which genomes contain KPC genes using BLAST](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class8/README.md#determine-which-genomes-contain-KPC-genes-using-blast)
 - [Identify antibiotic resistance genes with AMRFinderPlus](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class8/README.md#identify-antibiotic-resistance-genes-with-AMRFinderPlus)
-
+-->
+  
 #### [Class 9 – Data download and genome comparison](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class9/README.md)
 ***
 
