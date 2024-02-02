@@ -508,7 +508,7 @@ echo
 Now that we've finished our shell script, let's apply it to one of our genomes!
 
 ```
-bash amr_finder_res_summary.sh amr_finder_results_all/ERR025152.txt
+bash amr_finder_res_summary.sh ./ERR025152.txt
 ```
 
 OK, this is a pretty sweet shell script, but now we want to run it on each of our genomes. We could do this by typing out four commands, but instead, let's write a second shell script that runs our first shell script on all AMRFinderPlus output files in a given directory. This shell script will take a single command line argument (the directory path), and run your shell script on each .txt file in the directory. Here is the usage statement:
@@ -551,7 +551,7 @@ So, fill in the code below the following comment, which provides some hints/inst
 Finally, let's put it all together and run this shell script to parse AMRFinderPlus results and report on the resistome of each of our four genomes.
 
 ```
-bash amr_finder_res_summary_batch.sh amr_finder_results_all/
+bash amr_finder_res_summary_batch.sh ./
 ```
 
 What differences do you notice between the antibiotic resistance potential for our two environmental isolates (ERR) versus our hospital isolates (PCMP)?
