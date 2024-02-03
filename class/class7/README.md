@@ -1,5 +1,5 @@
-Class 7 – Genome annotation
-===========================
+Class 7 – Genome annotation and resistome analysis
+==================================================
 
 Goal
 ----
