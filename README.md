@@ -62,7 +62,6 @@
 ***
 
 - [Genome annotation using PROKKA](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class7/README.md#genome-annotation-using-prokka)
-- [Functional annotation using eggnog](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class7/README.md#functional-annotation-using-eggnog)
 - [Identify antibiotic resistance genes with AMRFinderPlus](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class7/README.md#identify-antibiotic-resistance-genes-with-AMRFinderPlus)
 
 
