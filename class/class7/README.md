@@ -4,9 +4,8 @@ Class 7 – Genome annotation
 Goal
 ----
 - We will annotate an assembled multidrug resistant Klebsiella pneumoniae genome with PROKKA and learn about different annotation formats
-- We will generate richer annotations for our multidrug resistant Klebsiella and an environmental strain using eggnog
-- We will use COG ontology to compare the functional categories encoded by our two Klebsiella strains
-- We will briefly examine the output of panaroo, which tells us which genes are shared by sets of genomes
+- We will perform antibiotic resistance annotation with AMRfinderPlus
+
 
 Genome annotation using PROKKA
 ------------------------------
@@ -37,7 +36,6 @@ module load Bioinformatics prokka
 prokka -h
 
 ```
-
 
 Lets copy over class7 data to your class working directory.
 
@@ -99,6 +97,7 @@ grep ">" PCMP_H183.faa | wc -l
 </details>
 
 
+<!---
 
 Functional annotation using eggnog
 ----------------------------------
@@ -183,7 +182,6 @@ paste PCMP_COG_counts ERR_COG_counts
 
 Do you see any big differences in how genes are allocated to functional groups between these two genomes?
 
-<!---
 Perform pan-genome analysis with [Panaroo](https://github.com/gtonkinhill/panaroo)
 ----------------------------------------
 
@@ -362,7 +360,6 @@ sum(grepl("hypothetical" , core_annots)) / sum(rowSums(pg_matrix > 0) == 4)
 
 Why does this make sense?
 
--->
 
 Installing Eggnog with Conda
 ----------------------------
@@ -376,6 +373,7 @@ export EGGNOG_DATA_DIR=/scratch/epid582w24_class_root/epid582w24_class/shared_da
 
 emapper.py -h
 ```
+-->
 
 
 Resistome analysis
@@ -391,7 +389,7 @@ Earlier, we learned how to perform basic and functional genome annotation using 
 
 ![roadmap](comp_genomics.png)
 
-We will be looking at 8 *Klebsiella pneumoniae* genomes from human and environmental sources. Two of the genomes are from [this paper](https://www.pnas.org/content/112/27/E3574), and the other two are sequences from our lab. We are interested in learning more about potential differences in the resistomes of human and environmental isolates. 
+We will be looking at 4 *Klebsiella pneumoniae* genomes from human and environmental sources. Two of the genomes are from [this paper](https://www.pnas.org/content/112/27/E3574), and the other two are sequences from our lab. We are interested in learning more about potential differences in the resistomes of human and environmental isolates. 
 
 Now activate the class7 conda environment.
 
@@ -408,7 +406,7 @@ Identify antibiotic resistance genes with AMRFinderPlus
 When running AMRFinderPlus protein and/or nucleotide sequences are compared to this curated database of antibiotic resistance genes and alleles. There are two methods employed to compare to these databases. The first is using BLAST, with stringent cutoffs to ensure that the hits are specific. The second is the use of a proababilistic model called hidden markov models ([HMMs](https://www.nature.com/articles/nbt1004-1315)). HMMs are commonly used tools in sequence analysis. The input to an HMM is a multiple alignment of the sequences of interest, which is this case are antibiotic resistance proteins in the same family, where families are based on shared ancestry (i.e. homology). Training algorithms are then applied to create a probabilistic model that captures the defining features of the sequences in the alignment (e.g. conserved alanine at position 130, basic amino acid at position 260, etc.). For each protein inputted to AMRFinder, these HMMs are used to scan the protein to detemrine whether its a good match for the protein family. Lastly, AMRFinder employs a decision tree to use BLAST and HMM results to determine which antibiotic resistance genes and alleles are present in an input genome.
 
 
-For the lab we ran AMRFinderPlus on our four Klebsiella genomes for you, but have provided the sbat scripts that we used. Note the presence of two different sbat scripts amrfinder_commands.sbat and amrfinder.sbat. The amrfinder_commands.sbat script just contains the four calls to AMRFinderPlus, once for each genome. The amrfinder.sbat takes a more robust approach, and examines the directory containing genome assemblies we want to analyze with AMRFinderPlus, creates the appropriate command, and runs it on the cluster! I am hoping to go through that script next class, after we learn some new shell script tricks today!
+For the lab we ran AMRFinderPlus on our four Klebsiella genomes for you, but have provided the sbat scripts that we used. Note the presence of two different sbat scripts amrfinder_commands.sbat and amrfinder_loop.sbat. The amrfinder_commands.sbat script just contains the four calls to AMRFinderPlus, once for each genome. The amrfinder_loop.sbat takes a more robust approach, and examines the directory containing genome assemblies we want to analyze with AMRFinderPlus, creates the appropriate command, and runs it on the cluster! I am hoping to go through that script next class, after we learn some new shell script tricks today!
 
 To run the basic approach, run the following commands:
 
@@ -436,11 +434,16 @@ cd amr_finder_results_all
 less -S ERR025152.txt
 ```
 
-Even with our -S trick, it's still messy to look at, and hard to see what the headers are. So, let's use our trick from last time to pull the header from our file, and break it apart to see the column numbers as well.
+Even with our -S trick, it's still messy to look at, and hard to see what the headers are. So, let's use a trick  to pull the header from our file, and break it apart to see the column numbers as well.
 
 ```
 head -n 1 ERR025152.txt | tr "\t" "\n" | cat -n
 ```
+
+There are three new concepts here. 
+- The first is the use of the 'head" command to pull the first line from the file
+- The second is the use of the 'tr' command, which we will use to "traslate" the tabs in the file to carriage returns. 
+- The third is the use of 'cat' with the -n flag, which provides line numbers to the output. 
 
 To enable us to compare the resistance encoding potential of our environmental and healthcare Klebsiella genomes, we are going to write a handy-dandy shell script that extracts pertinent information from this .txt file. In particular, let's report: i) the number of unique antibiotic resistance classes for which resistance genes are found and ii) the subclass and gene symbol for each amr gene detected.
 
