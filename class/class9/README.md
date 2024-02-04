@@ -182,7 +182,7 @@ To save time we have run AMRFinderPlus for you, but want to take some time to lo
 fasta_files=$(ls genome_assembly/*.fasta)
 
 # Make directory for amrfinder results
-mkdir amr_finder_results
+mkdir amr_finder_results_sep
 
 # Run for loop, where it generates amrfinder command for each assembly.
 for fasta in $fasta_files;
