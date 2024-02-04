@@ -110,7 +110,6 @@ We will now use fasterq-dump tool available from SRA toolkit to download sequenc
 We have put the commands to download the genomes of interest in the sbat script download.sbat. Let's look at the code that is doing the work for us:
 
 ```
-cd $SLURM_SUBMIT_DIR
 
 #Make output directory
 mkdir fastq_download
