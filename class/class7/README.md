@@ -54,6 +54,8 @@ It should take around 3 minutes to finish the prokka run.
 Next, let's explore some of the output files using our ever growing bag of Unix tricks :). First, lets take a look at the overall summary file that Prokka creates which indicates how many of each type of genomic feature was identified:
 
 ```
+cd prokka
+
 cd PCMP_H183
 
 less PCMP_H183.txt
