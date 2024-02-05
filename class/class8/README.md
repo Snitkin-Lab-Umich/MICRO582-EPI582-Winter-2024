@@ -204,7 +204,6 @@ Most of what's going on here we have seen before. However, there are a couple of
 
 1. () - We again are using the parentheses to put the results of a Unix command in a variable. In this case, we are getting the fasta files for our genome assemblies.
 2. Getting genome name - When running AMRFinderPlus we need to provide output files. To do this for each genome, we want to use the name of the genome, but chop off ".fasta" from the end and the path to the fasta file from the beginning. To do this we first use a search and replace function to replace ".fasta" with "" (i.e. nothing). Next, we pipe that output to a cut command, where we split by "/" and take the second item, which gets rid of the directory name.
-3. Creating output directories for each genome -  To organize our results we each genome's output in different directories. So, what we do here is name the ouptut directories by the name of the genome. To accomplish this we use the same search and replace as above, but prepend with amr_finder_results_sep. We then run mkdir, to create the output directory. 
 
 Lastly, we ran a modified version of our shell script from last week to determine the number of antibiotic classes each genome encodes resistance to, and output in a format that works for iTOL.
 
