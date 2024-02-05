@@ -210,7 +210,7 @@ Lastly, we ran a modified version of our shell script from last week to determin
 ```
 
 #Run our shell script and use >> to append the output to the end of our itol barplot file
-bash amr_finder_res_count.sh amr_finder_results >> itol_files/dataset_simplebar_ariba_amr_count.txt
+bash amr_finder_res_summary_batch.sh amr_finder_results >> itol_files/dataset_simplebar_ariba_amr_count.txt
 ```
 
 Visualize our tree and metadata using iTOL
