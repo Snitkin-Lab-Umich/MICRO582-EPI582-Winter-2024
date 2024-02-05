@@ -12,7 +12,7 @@ Goal
 
 We will be setting up two environments for the class today. class8_sratools will install SRA toolkit that we will use to extract metadata information from NCBI database and download the samples.  We will then perform a quick genome comparison with Mashtree using class8_mashtree environment.
 
-Lets create two environments using the YML files MICRO582_class8_sratools.yml and MICRO582_class8_mashtree.yml.
+Lets create two seperate environments class8_sratools and class8_mashtree
 
 ```
 # class8_sratools environment
