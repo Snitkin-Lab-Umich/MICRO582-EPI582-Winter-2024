@@ -19,7 +19,7 @@ Lets create two environments using the YML files MICRO582_class8_sratools.yml an
 conda create -n class8_sratools -c bioconda sra-tools=2.10.0 entrez-direct
 
 # class8_mashtree environment
-conda env create -f /scratch/epid582w24_class_root/epid582w24_class/shared_data/conda_envs/MICRO582_class8_mashtree.yml
+conda create -n class8_mashtree -c bioconda mashtree
 
 conda activate class8_sratools
 
