@@ -208,8 +208,6 @@ Most of what's going on here we have seen before. However, there are a couple of
 Lastly, we ran a modified version of our shell script from last week to determine the number of antibiotic classes each genome encodes resistance to, and output in a format that works for iTOL.
 
 ```
-#Copy all the .txt files from the individual output directories
-cp amr_finder_results_sep/*/*.txt amr_finder_results
 
 #Run our shell script and use >> to append the output to the end of our itol barplot file
 bash amr_finder_res_count.sh amr_finder_results >> itol_files/dataset_simplebar_ariba_amr_count.txt
