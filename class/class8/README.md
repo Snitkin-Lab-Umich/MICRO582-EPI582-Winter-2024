@@ -210,7 +210,7 @@ Lastly, we ran a modified version of our shell script from last week to determin
 ```
 
 #Run our shell script and use >> to append the output to the end of our itol barplot file
-bash amr_finder_res_summary_batch.sh amr_finder_results >> itol_files/dataset_simplebar_ariba_amr_count.txt
+bash amr_finder_res_summary_batch.sh amr_finder_results >> itol_files/dataset_simplebar_amr_count.txt
 ```
 
 Visualize our tree and metadata using iTOL
@@ -222,7 +222,7 @@ Now we are ready to put it all together and visualize the tree we built from our
 However, since we haven't gotten into R yet, we are going to use another commonly used tool for making pretty trees called [iTOL](https://itol.embl.de/). iTOL is actually quite nice, and allows you to easily customize your tree visualization in a drag and drop interface. In addition, it allows you to add annotations to your tree in a semi-automated way by creating these annotation files that can be drag and dropped onto your tree ([template files](https://itol.embl.de/help/templates.zip)). iTOL has lot's of functionality, but since I am a novice, I will just walk you through some basics :).
 
 To get ready for iTOL bring the following files to your computer using cyberduck:
-1. dataset_simplebar_ariba_amr_count.txt - Located in the itol_files directory, this contains the AMR gene counts for each genome to be plotted as a barplot
+1. dataset_simplebar_amr_count.txt - Located in the itol_files directory, this contains the AMR gene counts for each genome to be plotted as a barplot
 2. dataset_symbols_inf_status.txt - Located in the itol_files directory, this contains information on the origin of each isolate, that I got from the supplementary material in the manuscript
 3. mashtree_accurate.dnd - The newick formatted phylogenetic tree created by Mashtree
 
