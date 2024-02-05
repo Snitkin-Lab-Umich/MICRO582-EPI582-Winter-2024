@@ -214,6 +214,8 @@ Most of what's going on here we have seen before. However, there are a couple of
 Lastly, we ran a modified version of our shell script from last week to determine the number of antibiotic classes each genome encodes resistance to, and output in a format that works for iTOL.
 
 ```
+# Create amr_finder_results directory
+mkdir amr_finder_results
 #Copy all the .txt files from the individual output directories
 cp amr_finder_results_sep/*/*.txt amr_finder_results
 
