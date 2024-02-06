@@ -89,9 +89,11 @@ esearch -h
 esearch -db sra -query PRJEB2111 | esummary | xtract -pattern DocumentSummary -element Experiment@acc,Run@acc,Platform@instrument_model,Sample@acc > PRJEB2111-info.tsv
 ```
 
-esearch searches your query against specific NCBI databases (here we are querying against SRA - short for Sequence Read Archive) and return an Edirect object. esummary extracts all the metadata associated with Edirect oject in XML file format. xtract is an XML parser program that extracts specific attributes from the XML blocks and converts them into a table. Here, DocumentSummary denotes that we are passing a esummary file and asking xtract to return Experiment@acc,Run@acc,Platform@instrument_model,Sample@acc.
+- esearch searches your query against specific NCBI databases (here we are querying against SRA - short for Sequence Read Archive) which returns an Edirect object.
+- esummary extracts all the metadata associated with Edirect oject in XML file format.
+- xtract is an XML parser program that extracts specific attributes from the XML blocks and converts them into a table. Here, DocumentSummary denotes that we are passing a esummary file and asking xtract to return Experiment@acc,Run@acc,Platform@instrument_model,Sample@acc attributes.
 
-Here is an example documentsummary XMl format and associated XML attributes:
+Here is an example documentsummary XML format and associated XML attributes that esummary returns.
 
 ```
   <DocumentSummary>
