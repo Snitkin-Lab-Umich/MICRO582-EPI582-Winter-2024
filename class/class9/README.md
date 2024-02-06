@@ -89,7 +89,50 @@ esearch -h
 esearch -db sra -query PRJEB2111 | esummary | xtract -pattern DocumentSummary -element Experiment@acc,Run@acc,Platform@instrument_model,Sample@acc > PRJEB2111-info.tsv
 ```
 
-The Bioproject associated with the study is PRJEB2111. Esearch will return a Edirect object for your query that is then summarized by esummary in XML format. Xtract is then used to extract the metadata elements from this XML format.
+esearch searches your query against specific NCBI databases (here we are querying against SRA - short for Sequence Read Archive) and return an Edirect object. esummary extracts all the metadata associated with Edirect oject in XML file format. xtract is an XML parser program that extracts specific attributes from the XML blocks and converts them into a table. Here, DocumentSummary denotes that we are passing a esummary file and asking xtract to return Experiment@acc,Run@acc,Platform@instrument_model,Sample@acc.
+
+Here is an example documentsummary XMl format and associated XML attributes:
+
+```
+  <DocumentSummary>
+    <Id>56571</Id>
+    <ExpXml>
+      <Summary>
+        <Title>Klebsiella pneumoniae diversity</Title>
+        <Platform instrument_model="Illumina Genome Analyzer II">ILLUMINA</Platform>
+        <Statistics total_runs="1" total_spots="110138" total_bases="24670912" total_size="17509770" load_done="true" cluster_name="public"/>
+      </Summary>
+      <Submitter acc="ERA015855" center_name="SC" contact_name="" lab_name=""/>
+      <Experiment acc="ERX009709" ver="7" status="public" name=""/>
+      <Study acc="ERP000165" name="Klebsiella pneumoniae diversity"/>
+      <Organism taxid="32644" ScientificName="unidentified"/>
+      <Sample acc="SRS024887" name=""/>
+      <Instrument ILLUMINA="Illumina Genome Analyzer II"/>
+      <Library_descriptor>
+        <LIBRARY_NAME>Klebsielle SKP000061</LIBRARY_NAME>
+        <LIBRARY_STRATEGY>WGS</LIBRARY_STRATEGY>
+        <LIBRARY_SOURCE>GENOMIC</LIBRARY_SOURCE>
+        <LIBRARY_SELECTION>RANDOM</LIBRARY_SELECTION>
+        <LIBRARY_LAYOUT>
+          <PAIRED NOMINAL_LENGTH="350"/>
+        </LIBRARY_LAYOUT>
+        <LIBRARY_CONSTRUCTION_PROTOCOL>Standard</LIBRARY_CONSTRUCTION_PROTOCOL>
+      </Library_descriptor>
+      <Bioproject>PRJEB2111</Bioproject>
+      <Biosample>SAMN00009845</Biosample>
+    </ExpXml>
+    <Runs>
+      <Run acc="ERR024842" total_spots="110138" total_bases="24670912" load_done="true" is_public="true" cluster_name="public" static_data_available="true"/>
+    </Runs>
+    <ExtLinks/>
+    <CreateDate>2011/03/18</CreateDate>
+    <UpdateDate>2014/08/12</UpdateDate>
+  </DocumentSummary>
+
+```
+
+Note that @ in "Experiment@acc,Run@acc,Platform@instrument_model,Sample@acc" denotes space in XML blocks.
+
 
 
 Download datasets from NCBI using SRA toolkit
