@@ -74,7 +74,7 @@
 
 -->
   
-#### [Class 8 – Data download and genome comparison](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class9/README.md)
+#### [Class 8 – Data download and genome comparison](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class8/README.md)
 ***
 
 - [Download datasets from NCBI using SRA toolkit](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class9/README.md#download-datasets-from-ncbi-using-sra-toolkit)
