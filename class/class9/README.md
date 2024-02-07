@@ -1,295 +1,260 @@
-Class 8 – Data download and genome comparison
+Class 10 – Reference based variant calling
 =============================================
 
 Goal
 ----
 
-- In this class, we will learn about NCBI public database and how to download entire datasets pertianing to a research study using SRAtoolkit.
-- We will then do a quick genomic comparison of the downloaded dataset using Mashtree. 
-- Finally, we will visualize our rough phylogeny and associated meta-data in iTOL
+- In this class, we will run Snippy which is a microbial variant calling pipeline on a sample to identify an antibiotic resistance mutation in our sequenced genome
+- Look at various outputs of Snippy to explore these variants and learn what they mean.
+- Visualize these variants in IGV which is a great visualization tool to put the variant calling steps in perspective.
 
-#### Set up conda environment
 
-We will be setting up two environments for the class today. class8_sratools will install SRA toolkit that we will use to extract metadata information from NCBI database and download the samples.  We will then perform a quick genome comparison with Mashtree using class8_mashtree environment.
+Applications of variant identification:
+--------------------------------------
+One of the most common goals of in sequencing a microbial genome is to identify small genetic variants like nucleotide substitutions or small insertions/deletions (i.e. indels). Identifying these genetic variants in one or multiple genomes has several important downstream applications:
 
-Lets create two environments using the YML files MICRO582_class8_sratools.yml and MICRO582_class8_mashtree.yml.
+1. Phylogenetic analysis - The first step in a phylogenetic analysis is identification of single nucleotide variants (SNVs) across the set of genomes of interest. Essentially, the input to any phylogenetic tree building software is a variant alignment that indicates what nucleotide each genome has at a position that is variable in at least one of the input genomes. The resulting phylogenetic tree then groups genomes together based on shared evolution, which is inferred from shared variants.
+
+2. Transmission analysis - One of the most common approaches to assess the confidence in a putative transmission linkage between two individuals is to count the number of variants between two individuals pathogen genomes. Thus, having accurate variants is essential to making correct transmission inferences.
+
+3. Functional analysis - In previous sessions we identified different types of genetic variation including differences in gene content and antibiotic resistance variation. Small changes in the genome like those identified through variant calling pipelines can also have significant functional impacts on genome function.
+
+Overview of variant calling pipelines:
+-------------------------------------
+A typical variant calling analysis involves:
+- ***Read Mapping:*** Mapping sequenced reads to the reference genome using a read mapper
+- ***Variant calling:*** Calling variants(differences) between the reference genome and our sample.
+- ***Variant filtering:*** Filtering out variant calls that are deemed low confidence based on user defined criteria.
+- ***Variant annotation:*** Annnotating these variants to learn about their their effect on proteins and other biological processes.
+
+Here is a visual representation of these steps:
+
+![var_call_steps](simplified_var_call.png.png)
+
+Variant calling Pipeline:
+-------------------------
+
+***Read Mapping:***
+
+Read Mapping is a time-consuming step that involves searching the reference and finding the optimal location for the alignment for millions of reads. Creating an index file of a reference sequence for quick lookup/search operations significantly decreases the time required for read alignment. Imagine indexing a genome sequence like the index at the end of a book. If you want to know on which page a word appears or a chapter begins, it is much more efficient to look it up in a pre-built index than going through every page of the book. Similarly, an index of a large DNA sequence allows aligners to rapidly find shorter sequences embedded within it. 
+
+Note: each read mapper has its own unique way of indexing a reference genome and therefore the reference index created by BWA cannot be used for Bowtie. (Most Bioinformatics tools nowadays require some kind of indexing or reference database creation)
+
+Once we have prepared the reference genome for alignment, clean reads (typically an output from Trimmomatic) are mapped against the reference genome using [BWA](http://bio-bwa.sourceforge.net/bwa.shtml "BWA manual"), bowtie or any other short read mapper of choice. Choosing the right read mapper is crucial and should be based on the type of analysis and data you are working with. Each aligners are meant to be better used with specific types of data, for example:
+
+For whole genome or whole exome sequencing data: Use BWA for long reads (> 50/100 bp), use Bowtie2 for short reads (< 50/100bp)
+For transcriptomic data (RNA-Seq): use Splice-aware Mapper such as Tophat. (Not applicable for microbial data)
+
+The output of BWA and most of the short-reads aligners is a SAM file. SAM format is considered as the standard output for most read aligners and stands for Sequence Alignment/Map format. It is a TAB-delimited format that describes how each reads were aligned to the reference sequence. Detailed information about the SAM specs can be obtained from this [pdf](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwizkvfAk9rLAhXrm4MKHVXxC9kQFggdMAA&url=https%3A%2F%2Fsamtools.github.io%2Fhts-specs%2FSAMv1.pdf&usg=AFQjCNHFmjxTXKnxYqN0WpIFjZNylwPm0Q) document.
+
+***BAM Post-processing and duplicate removal:***
+
+The output of any read mapping step is a file called SAM file which stands for Sequence Alignment/Map format. The next step involves converting this SAM files generated by the aligner using [Samtools](http://www.htslib.org/doc/samtools.html "Samtools Manual") into a binary format. BAM is a compressed binary equivalent of SAM but are usually quite smaller in size than SAM format. Since, parsing through a SAM format is slow, Most of the downstream tools require SAM file to be converted to BAM so that it can be easily sorted and indexed.
+
+SamtoBAM is followed by PCR optical duplicate removal step. This step will mark duplicates(PCR optical duplicates) and remove them using [PICARD](http://broadinstitute.github.io/picard/command-line-overview.html#MarkDuplicates "Picard MarkDuplicates")
+
+Illumina sequencing involves PCR amplification of adapter ligated DNA fragments so that we have enough starting material for sequencing. Therefore, some amount of duplicates are inevitable. Ideally, you amplify upto ~65 fold(4% reads) but higher rates of PCR duplicates e.g. 30% arise when people have too little starting material such that greater amplification of the library is needed or some smaller fragments which are easier to PCR amplify, end up over-represented.
+
+For an in-depth explanation about how PCR duplicates arise in sequencing, please refer to this interesting [blog](http://www.cureffi.org/2012/12/11/how-pcr-duplicates-arise-in-next-generation-sequencing/)
+
+Picard identifies duplicates by searching reads that have same start position on reference or in PE reads same start for both ends. It will choose a representative from each group of duplicate reads based on best base quality scores and other criteria and retain it while removing other duplicates. This step plays a significant role in removing false positive variant calls (such as sequencing error) during variant calling that are represented by PCR duplicate reads.
+
+![alt tag](picard.png)
+
+***Variant calling***
+
+One of the downstream uses of read mapping is finding differences between our sequence data against a reference. This step is achieved by carrying out variant calling using any of the variant callers (samtools, gatk, freebayes etc). Each variant caller uses a different statistical framework to discover SNPs and other types of mutations. For those of you who are interested in finding out more about the statistics involved, please refer to [this]() samtools paper, one of most commonly used variant callers.
+
+The [GATK best practices guide](https://www.broadinstitute.org/gatk/guide/best-practices.php) will provide more details about various steps that you can incorporate in your analysis.
+
+There are many published articles that compare different variant callers but this is a very interesting [blog post](https://bcbio.wordpress.com/2013/10/21/updated-comparison-of-variant-detection-methods-ensemble-freebayes-and-minimal-bam-preparation-pipelines/) that compares the performance and accuracy of different variant callers.
+
+***Variant Filtration***
+
+This step will filter variants and process file generation using [GATK](https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_filters_VariantFiltration.php "GATK Variant Filteration"):
+
+There are various tools that can you can try for variant filteration such as vcftools, GATK, vcfutils etc. Common criteria used to filter variants include:
+1. The number of mapped reads supporting a variant
+2. The quality of mapping of the reads underlying the variant
+3. The consistency of the variant across all reads mapping to a given position
+
+***Caveat: This filter criteria should be applied carefully after giving some thought to the type of library, coverage, average mapping quality, type of analysis and other such requirements.***
+
+
+***Variant Annotation***
+
+![variant annotation using snpeff](variant_annot.png)
+
+Variant annotation is critical for applications where one hopes to identify variants having a potential functional impact on the genome. Most of the variant annotation tools create their own database or use an external one to assign function and predict the effect of variants on genes.
+
+
+Variant calling using SNIPPY
+----------------------------
+
+A typical Bioinformatics variant calling pipeline stitches the steps described above together so that we dont have to run each of the individual commands seperately on hundreds of samples. 
+
+For today's class, we will run a variant calling pipeline called [Snippy](https://github.com/tseemann/snippy) that will run all of these intermediate steps taking clean reads as input and outputting a filtered annotated variants in various file formats that we will then explore in IGV. Note that while today we are running Snippy to identify variants in a single genome, it can be run on a set of sequenced genomes, which we will do in future sessions for phylogenetic and transmission analysis.
+
+Use these instruction to load Snippy into your environment:
 
 ```
-# class8_sratools environment
-conda create -n class8_sratools -c bioconda sra-tools=2.10.0 entrez-direct
+# Load these modules
+module load python3.9-anaconda/2021.11
+module load Bioinformatics
+module load perl-modules
 
-# class8_mashtree environment
-conda env create -f /scratch/epid582w24_class_root/epid582w24_class/shared_data/conda_envs/MICRO582_class8_mashtree.yml
+# Add this line to your bashrc (open it with nano -> add the line -> save it) and source it
+export PATH=$PATH:/scratch/epid582w24_class_root/epid582w24_class/shared_data/bin/snippy/bin
 
-conda activate class8_sratools
+source ~/.bashrc
 
-esearch -h
-
-fasterq-dump -h
-
-conda deactivate
-
-conda activate class8_mashtree
-
-mashtree -h
+snippy --check
 ```
-If you can see the help menu for each of these tools then you are all set for today's analysis.
 
-### Databases hosted by NCBI
+If the snippy check works fine, you are all set to run your first sequence analysis pipeline.
 
-![SRA](anatomy_of_SRA_submission.png)
-
-The National Center for Biotechnology Information (NCBI) provides bioinformatics tools and hosts approximately 40 online literature and molecular biology databases. Some of the most used and popular databases are PubMed, Genbank, SRA etc. MOst of the NCBI databases are linked together through unique accession numbers and therfore provide a comprehensive resource for biomedical research. For this class, we will be focusing on SRA - Sequence read archive database which is the largest publicly available repository of high throughput raw sequencing and alignment data. 
-
-SRA can be searched independently, or SRA records associated with a specific BioProject or BioSample accessions are linked from their respective records.
-
-Each SRA record is given a unique accession number based on the source database (SRA, European Bioinformatics Institute (EBI), or DNA Data Bank of Japan (DDBJ)), and the type of record (Study, Sample, Experiment, Run):
-
-- Study (e.g., the SRA record associated with a specific BioProject): SRP#, ERP#, or DRP#
-- Sample (e.g.,the SRA record associated with a specific BioSample): SRS#, ERS#, or DRS#
-- Experiment (e.g., the SRA record for a specific experiment or run(s)): SRX#, ERX#, or DRX#
-- Run (e.g., the SRA record for a specific run): SRR#, ERR#, or DRR#
-
-A BioProject is a collection of biological data related to a large-scale research effort such as genome sequencing, epigenomic analyses, genome-wide association studies (GWAS) and variation analyses. it provides a single place to find links to the diverse data types generated for that research project. Whereas, the BioSample database contains descriptions of biological source materials used in experimental assays. Each Biosample under a Bioproject can be accessed through a SRA Run accession number that lets you download the sequencing data as well as the metadata associated with it.
-
-### Get the sample IDs associated with the Bioproject of interest
-
-For today's lab we will download and analyze genomes from a previously published study examining the genetic diversity of *Klebsiella pnuemoniae* isolated from different sources ([Holt et al., PNAS, 2015](https://www.pnas.org/content/112/27/E3574.full)). In particular, we will perform the following tasks.
-
-1. Retrieve sample IDs from NCBI using the Bioproject as our query
-2. Subset to the samples to a smaller subset of interest
-3. Download fastq files for the samples of interest from the sra
-4. Run mashtree to construct a phylogeny based on kmer distances among the sequenced genomes
-5. Perform assemblies on our downloaded genomes
-6. Run AMRFinderPlus to determine the antibiotic resistance gene content of each genome
-7. Visualize the mashtree phylogeny and meta-data using iTOL
-
-To start, let's get the sample IDs associated with the Bioproject. It is common for the set of genomes associated with a study or manuscript to all fall under a single bioproject, and that is the case here ([PRJEB2111](https://www.ncbi.nlm.nih.gov/bioproject/PRJEB2111)). 
-
-To get a list of sample IDs associated with this bioproject we will use tools provided by NCBI. In particular, NCBI provides a suite of command line tools called Entrez Direct also known as E-utilities to access the metadata stored in its various databases. The three main tools of E-utilities are - esearch, esummary and xtract that lets you query any of the NCBI databases and extract the metadata associated with the query. The query can be anything(Bioproject, Biosample, SRA accession, Genbank assembly accession). 
-
-Here is the command that we used to extract metadata information for the above mentioned research study.
+Now, copy over class9 data which contains clean fastq reads for sample PCMP_H326 and run Snippy pipeline on it
 
 ```
-#Go to class working directory
 wd
 
-#Copy over files
-cp -r ../shared_data/data/class8/ .
+cp -r ../shared_data/data/class9/ ./
 
-#Enter class 8 directory
-cd class8
+cd class9
 
-#Activate conda environment
-conda activate class8_sratools
-
-#Run esearch command to pull sample meta-data for bioproject
-esearch -h
-
-esearch -db sra -query PRJEB2111 | esummary | xtract -pattern DocumentSummary -element Experiment@acc,Run@acc,Platform@instrument_model,Sample@acc > PRJEB2111-info.tsv
+ls
 ```
 
-- esearch searches your query against specific NCBI databases (here we are querying against SRA - short for Sequence Read Archive) which returns an Edirect object.
-- esummary extracts all the metadata associated with Edirect oject in XML file format.
-- xtract is an XML parser program that extracts specific attributes from the XML blocks and converts them into a table. Here, DocumentSummary denotes that we are passing a esummary file and asking xtract to return Experiment@acc,Run@acc,Platform@instrument_model,Sample@acc attributes.
+You should see a genbank file for the reference genome KPNIH1, clean forward and reverse reads for PCMP_H326 and a slurm script with snippy commands in it.
 
-Here is an example documentsummary XML format and associated XML attributes that esummary returns.
+Lets edit the snippy.sbat file and submit it as a job.
 
 ```
-  <DocumentSummary>
-    <Id>56571</Id>
-    <ExpXml>
-      <Summary>
-        <Title>Klebsiella pneumoniae diversity</Title>
-        <Platform instrument_model="Illumina Genome Analyzer II">ILLUMINA</Platform>
-        <Statistics total_runs="1" total_spots="110138" total_bases="24670912" total_size="17509770" load_done="true" cluster_name="public"/>
-      </Summary>
-      <Submitter acc="ERA015855" center_name="SC" contact_name="" lab_name=""/>
-      <Experiment acc="ERX009709" ver="7" status="public" name=""/>
-      <Study acc="ERP000165" name="Klebsiella pneumoniae diversity"/>
-      <Organism taxid="32644" ScientificName="unidentified"/>
-      <Sample acc="SRS024887" name=""/>
-      <Instrument ILLUMINA="Illumina Genome Analyzer II"/>
-      <Library_descriptor>
-        <LIBRARY_NAME>Klebsielle SKP000061</LIBRARY_NAME>
-        <LIBRARY_STRATEGY>WGS</LIBRARY_STRATEGY>
-        <LIBRARY_SOURCE>GENOMIC</LIBRARY_SOURCE>
-        <LIBRARY_SELECTION>RANDOM</LIBRARY_SELECTION>
-        <LIBRARY_LAYOUT>
-          <PAIRED NOMINAL_LENGTH="350"/>
-        </LIBRARY_LAYOUT>
-        <LIBRARY_CONSTRUCTION_PROTOCOL>Standard</LIBRARY_CONSTRUCTION_PROTOCOL>
-      </Library_descriptor>
-      <Bioproject>PRJEB2111</Bioproject>
-      <Biosample>SAMN00009845</Biosample>
-    </ExpXml>
-    <Runs>
-      <Run acc="ERR024842" total_spots="110138" total_bases="24670912" load_done="true" is_public="true" cluster_name="public" static_data_available="true"/>
-    </Runs>
-    <ExtLinks/>
-    <CreateDate>2011/03/18</CreateDate>
-    <UpdateDate>2014/08/12</UpdateDate>
-  </DocumentSummary>
+sbatch snippy.sbat
 
 ```
 
-Note that @ in "Experiment@acc,Run@acc,Platform@instrument_model,Sample@acc" denotes space in XML blocks.
+It should take around 4 minutes to finish the job.
 
+Lets go through some of the important output files that Snippy generates. The output file description can be found at [Snippy's github website](https://github.com/tseemann/snippy/blob/master/README.md#output-files)
 
-
-Download datasets from NCBI using SRA toolkit
-------------------------------------------------
-
-In principle we could download the entire dataset (i.e. all of the IDs associated with the bioproject), but to make things a little more manageable I have selected a subset of interest by going through the [supplementary materials](https://www.pnas.org/highwire/filestream/619654/field_highwire_adjunct_files/1/pnas.1501049112.sd01.xlsx) in the manuscript and selecting ~30 genomes that are a mix of human infection, human carraige, bovine infection and bovine colonization.
-
-Next, we will use a new trick to subset the file we downloaded to contain entries only for the genomes of interest. In particular, we will apply grep to pull lines from PRJEB2111-info.tsv that match any of the genome IDs in the file genome_IDs_to_download.
+Lets go through some of these files.
 
 ```
-grep -f genome_IDs_to_download PRJEB2111-info.tsv > PRJEB2111-info_subset.tsv
+cd PCMP_H326/
 ```
 
-We will now use fasterq-dump tool available from SRA toolkit to download sequencing data for each of the SRA runs that we just saved to PRJEB2111-info_subset.tsv file. 
-
-*This is how the data was downloaded. We have already downloaded the data in /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class8/fastq_download*
-
-We have put the commands to download the genomes of interest in the sbat script download.sbat. Let's look at the code that is doing the work for us:
+***snps.txt*** will contain the overall statistics of number of different types of SNP's that were called by Snippy.
 
 ```
-
-#Make output directory
-mkdir fastq_download
-
-for accession in $(cut -f2 PRJEB2111-info_subset.tsv);
-do
-
-        printf "\n  Working on: ${accession}\n\n";
-        fasterq-dump -O fastq_download/ ${accession};
-        
-done
-```
-
-In essence, we have seen this before, but there are two new concepts that are worth highlighting - the use of () and {}.
-
-1. () - The commands inside parentheses will be execute. So in the example above the loop list gets the second column of the file PRJEB2111-info_subset.tsv, which contains the accession IDs we want to download
-2. {} - The curly braces are used to indicate where the name of a variable beging and end. They are not always neccesary, but can prevent problems from occuring when it is not obvious where a variable name ends
-
-
-The above command is a bit drawn out for illustrative purposes. However, in practice we want to take advantage of the computing power of Great Lakes and the existance of multi-processor nodes. To do this we can use the below shortcut which downloads the sample IDs of interest in parallel!
-
-```
-cut -f2 PRJEB2111-info_subset.tsv | parallel fasterq-dump {}
+less snps.txt
 ```
 
 
-Compare genomes using Mashtree
-------------------------------
-
-Now that we have downloaded the genomes of interest, we would like to construct a phylogeny to quantify the evolutionary relationships among the sequenced genomes. In later sessions we will learn how to perform rigorous phylogenetic analysis for various genomic epidemiology applications. However, pipelines to detect genome-wide variants and use them to perform phylogenetic inference tend to be quite computationally expensive. Therefore, in cases where a rough estimation of the phylogeny is sufficient, we use a different suite of methods. Examples where a rough estimation of the phylogeny is appropriate are:
-
-1. You have sequenced a set of genomes and would like to get a sense of the genetic diversity before proceeding
-2. You know that you have a very diverse set of genomes, and would like to visualize their relative relationships
-
-Here, we have a diverse set of Klebsiella genomes and are primarily interested in the rough relationships among them, so we will use one of the quick and dirty methods! The tool that we are going to use is called mashtree. Mashtree performs the following steps:
-
-1. Compute pairwise distances among each pair of genomes based on kmer distances
-2. Constructs a Neighbor Joining tree, which is a tree building algorithm that takes as input a distance matrix
-
-The kmer distances that are being computed are called Mash distances. Mash stands for MinhASH which is the name of algorithm that this disctance estimation is based on. In the min-hash algorithm, all kmers are recorded and transformed into integers using hashing and a Bloom filter (Bloom, 1970). These hashed kmers are sorted and only the first several kmers are retained. The kmers that appear at the top of the sorted list are collectively called the sketch. Any two sketches can be compared by counting how many hashed kmers they have in common. Because min-hash creates distances between any two genomes, min-hash values can be used to rapidly cluster genomes into trees using the neighbor-joining algorithm. 
-
-
-![mash](Mash.png)
-
-
-*We have already run mashtree for you, but here is how we did it
+***snps.vcf*** contains the final filtered annotated variants in VCF format.
 
 ```
-#Activate the environment so we can run mashtree
-conda activate class8_mashtree
-
-#Edit the .sbat file to put in your email address
-nano mashtree.sbat
-
-#Submit the job to the cluster
-sbatch mashtree.sbat
+less snps.vcf
 ```
 
+VCF is a text file format that contains meta-information lines, a header line starting with a pound sign. 
 
-Determine antibiotic resistance gene content with AMRFinderPlus
----------------------------------------------------------------
-Last class we ran AMRFinderPlus on a subset of the genomes in this dataset and parsed the output to determine the number of antibiotic subclasses each genome encodes resistance to. Here we will run on the larger genomic dataset that we downloaded, and then run our handy shell script from last class!
+For example - line "##INFO=<ID=DP,Number=1,Type=Integer,Description="Total read depth at the locus">" in the file describes that DP stands for number of reads supporting a variant. 
 
-*We have run AMRFinderPlus, but here is how we did it*
+The column data lines contains information about the variant position in the genome. 
 
-To save time we have run AMRFinderPlus for you, but want to take some time to look at how this was done. The commands are in amrfinder.sbat, but let's look at the code that is actually running AMRFinderPlus inside the script:
+The annotation step add an extra field named 'ANN' at the end of INFO field. Lets go through the ANN field added after annotation step. THis ANN field will provide information such as the impact of variants (HIGH/LOW/MODERATE/MODIFIER) on genes and transcripts along with other useful annotations.
 
-```
-# List fasta files in the directory and save the filenames into the variable samples. 
-fasta_files=$(ls genome_assembly/*.fasta)
+Detailed information of the ANN field and sequence ontology terms that it uses can be found [here](https://pcingola.github.io/SnpEff/).
 
-# Make directory for amrfinder results
-mkdir amr_finder_results_sep
+Let's now use some Unix commands to explore our file and extract some useful information. First, it would be nice to see how many MODIFIER (non-coding), LOW (synonymous), MODERATE (non-synonymous) AND HIGH IMPACT (frameshift/stop) variants there are. First, let's see which column has the annotation info:
 
-# Run for loop, where it generates amrfinder command for each assembly.
-for fasta in $fasta_files;
-do
-        # Print out name of current fasta file
-        echo $fasta
 
-        # Create output directory by trimming off .fasta from the sample fasta file
-        outdir=amr_finder_results_sep/$(echo ${fasta//.fasta/} | cut -d/ -f2)
+***snps.tab*** contains key information from the vcf in a easier format for viewing and computing
 
-        # Make output directory
-        mkdir $outdir
-
-        # Create a prefix for the amrfinder results by trimming off .fasta from the sample fasta file
-        prefix=$(echo ${fasta//.fasta/} | cut -d/ -f2)
-
-        # Run amrfinder command
-        amrfinder --plus --output $outdir/$prefix\.txt -n $fasta --mutation_all $outdir/$prefix\_mutation_report.tsv --organism Klebsiella_pneumoniae
-
-done
-```
-
-Most of what's going on here we have seen before. However, there are a couple of new concepts that are important to highlight:
-
-1. () - We again are using the parentheses to put the results of a Unix command in a variable. In this case, we are getting the fasta files for our genome assemblies.
-2. Getting genome name - When running AMRFinderPlus we need to provide output files. To do this for each genome, we want to use the name of the genome, but chop off ".fasta" from the end and the path to the fasta file from the beginning. To do this we first use a search and replace function to replace ".fasta" with "" (i.e. nothing). Next, we pipe that output to a cut command, where we split by "/" and take the second item, which gets rid of the directory name.
-3. Creating output directories for each genome -  To organize our results we each genome's output in different directories. So, what we do here is name the ouptut directories by the name of the genome. To accomplish this we use the same search and replace as above, but prepend with amr_finder_results_sep. We then run mkdir, to create the output directory. 
-
-Lastly, we ran a modified version of our shell script from last week to determine the number of antibiotic classes each genome encodes resistance to, and output in a format that works for iTOL.
+Snippy parses the output from the vcf into many different formats. One useful one is the snps.tab file, which contains key information (e.g. position, reference allele, variant allele, read support and variant annotation), in a much cleaner format than the vcf.
 
 ```
-# Create amr_finder_results directory
-mkdir amr_finder_results
-#Copy all the .txt files from the individual output directories
-cp amr_finder_results_sep/*/*.txt amr_finder_results
-
-#Run our shell script and use >> to append the output to the end of our itol barplot file
-bash amr_finder_res_count.sh amr_finder_results >> itol_files/dataset_simplebar_amr_count.txt
+less snps.tab
 ```
 
-Visualize our tree and metadata using iTOL
-------------------------------------------
-Now we are ready to put it all together and visualize the tree we built from our downloaded genomes, and overlay some meta-data on resistance gene content and sample type. In subsequent sessions we will learn how to visualize phylogenies and meta-data in R. This is preferable for a few reasons:
-1. You can avoid manual steps and therefore perform reproducible analyses
-2. You often want to visualize similar types of data on a tree (e.g. location/facility of isoaltion), so it would be nice to automate this
+Let's now perform a quick grep command to search for variants in our genome that may confer colistin resistance.
 
-However, since we haven't gotten into R yet, we are going to use another commonly used tool for making pretty trees called [iTOL](https://itol.embl.de/). iTOL is actually quite nice, and allows you to easily customize your tree visualization in a drag and drop interface. In addition, it allows you to add annotations to your tree in a semi-automated way by creating these annotation files that can be drag and dropped onto your tree ([template files](https://itol.embl.de/help/templates.zip)). iTOL has lot's of functionality, but since I am a novice, I will just walk you through some basics :).
+First a couple of notes about this grep command:
+1. The -i stands for case insensitive, and allows us to avoid issues with capitalizing in gene names
+2. The \| indicates "or", and allows us to search for any of a list of things. 
 
-To get ready for iTOL bring the following files to your computer using cyberduck:
-1. dataset_simplebar_amr_count.txt - Located in the itol_files directory, this contains the AMR gene counts for each genome to be plotted as a barplot
-2. dataset_symbols_inf_status.txt - Located in the itol_files directory, this contains information on the origin of each isolate, that I got from the supplementary material in the manuscript
-3. mashtree_accurate.dnd - The newick formatted phylogenetic tree created by Mashtree
+```
+grep -i "phop\|mgrB\|phoq" snps.tab
+```
 
-Now, do the following to view our tree:
-1. Go to the [iTOL](https://itol.embl.de/) website and click on Upload on the top menu
-2. Drag your tree file
-3. Drag your annotation files
-4. Enjoy!
+When we run this we see two relevent variants, an amino acid substituion in phoQ and a premature stop in mgrB. While both are plausibly associated with resistance, these loss of function mutations in mgrB are commonly observed, and this is our strongest lead!
 
-A couple of things we notice by viewing our data this way:
-1. Human and bovine isolates are generally in genetically distinct groups, suggesting niche adaptation
-2. Human infections form different clusters on the tree, indicating multiple lineages of Klebsiella capable of causing human infections
-3. Human carrier and infection isolates can be seen clustered together, suggesting that a given strain can either colonize or cause infection
-4. The number of antibiotic resistance genes appears on average larger in human associated isolates, which is consistent with the results in the manuscript.
+
+Visualize BAM and VCF files in [IGV](http://software.broadinstitute.org/software/igv/) (Integrative Genome Viewer)
+------------------------------------------------------------------------------------------------------------------
+
+Visualization of all of these various output files can help in making some significant decisions and inferences about your entire analysis. There are a wide variety of visualization tools out there that you can choose from for this purpose.
+
+We will be using [IGV](http://software.broadinstitute.org/software/igv/) (Integrative Genome Viewer) here, developed by the Broad Institute for viewing BAM and VCF files for manual inspection of some of the variants.
+
+Copy these files over to your desktop and start IGV to load them.
+
+- ***Required Input files:***
+
+> - KPNIH1.gbk
+> - snps.bam
+> - snps.bam.bai
+> - snps.vcf.gz
+> - snps.vcf.gz.csi
+
+
+Start IGV.
+
+Load the following files (each is a separate panel or 'track'):
+- `Genomes` &rarr; `Load Genome from File` &rarr; navigate to `IGV_files` &rarr; `KPNIH1.gbk`
+  - Shows what genes are present (looks like a blue bar when zoomed out)
+- `File` &rarr; `Load from File` &rarr; navigate to `IGV_files` &rarr; `snps.vcf.gz`
+  - Shows variants found in the sample (when you zoom in)
+- `File` &rarr; `Load from File` &rarr; navigate to `IGV_files` &rarr; `snps.bam`
+  - Shows coverage and reads aligned to the reference (when you zoom in)
+  
+By default, the whole genome is shown:
+
+![alt tag](igv_zoomed_out.png)
+  
+Using the plus sign in the top right corner of the window, zoom in by clicking 5 times
+- You should see blue bars in the vcf track and red bars in the fastq track, both showing positions with a variant.
+- You can hover over the bars to get more information about the variant.
+
+- You should also see coverage and reads mapped in bottom half of the window
+  - Different colors indicate different variants
+  - In the Coverage track, the y-axis indicates read coverage
+  - You can now also see distinct genes in the genbank annotation track
+  - You can hover over a read to get more information about it
+  
+![alt tag](igv_zoomed_in2.png)
+  
+To see all of the reads, you can click the square with the arrows pointing to each corner, found in the top-middle-right of the window:
+
+
+Now that you know the basics of how to use IGV, let's navigate to the mgrB gene to look at mutations that might make this sample resistant to colistin. 
+- In the top middle bar of the window, type in gi|661922017|gb|CP008827.1|:3,359,811-3,360,323 OR just type in mgrB
+- Look at the gene annotation by hovering over the blue bar to see what gene it is
+- What is the nucleotide of the SNP in the sample? The amino acid change? 
+- Do you think this variant might be the cause of colistin resistance? Why or why not?
+
+![alt tag](igv_mgrb.png)
+
+Now let's look an example of a heterozygous variant - variant positions where more than one allele (variant) with sufficiently high read depth are observed. 
+- Navigate to gi|661922017|gb|CP008827.1|:2,261,155-2,273,924 OR type in sul1, which is a gene near this region
+- You can see that there are a lot of heterozygous variants in one region. 
+  - Snippy removes these types of variants during the Variant Filteration step using the mapqual and basequal values. If you zoomed in on the alignments at these positions, you will find that the mapper greedily tried to map these reads and therfore contains high number of variants. This in turn lowers down the alignment and base quality values of the variant positions.
+- In the region with lots of heterozygous variants, the read coverage is much higher than in the flanking regions (the regions on either side), and much higher than the rest of the genome coverage. 
+- Why do you think this region contains many heterozygous variants and a higher read coverage than the rest of the genome?
+- You can also see that there are some places with no reads and no coverage. What does this mean?
+
+![alt tag](igv_het.png)
+
+You can refer to the [IGV User Guide](http://software.broadinstitute.org/software/igv/userguide) for more information about how to use IGV. 
 
