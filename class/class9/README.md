@@ -99,7 +99,7 @@ Use these instruction to load Snippy into your environment:
 
 ```
 # Load these modules
-module load python3.9-anaconda/2021.11
+module load python3.10-anaconda/2023.03
 module load Bioinformatics
 module load perl-modules
 
