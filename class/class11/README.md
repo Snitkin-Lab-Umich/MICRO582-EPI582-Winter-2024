@@ -1,4 +1,4 @@
-Class 12 – Plotting and interpretted phylogenetic trees
+Class 11 – Plotting and interpretted phylogenetic trees
 =======================================================
 
 Goals

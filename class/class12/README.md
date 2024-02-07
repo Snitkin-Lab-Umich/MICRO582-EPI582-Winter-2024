@@ -1,4 +1,4 @@
-Class 13 – Bacterial genome-wide association studies
+Class 12 – Bacterial genome-wide association studies
 ====================================================
 
 Goals
@@ -24,9 +24,9 @@ Setup
 -----
 We are going to be working in RStudio again today. Take the following steps to get ready for the lab:
 
-1. Start up your epid582 Rproject and create a new directory in it called class13 to hold data we will be analyzing today. 
+1. Start up your epid582 Rproject and create a new directory in it called class12 to hold data we will be analyzing today. 
 2. Go on to Great Lakes and copy over the class 13 files to your working directory
-3. Use cyberduck to bring the files down to the class13 directory you created on your own computer
+3. Use cyberduck to bring the files down to the class12 directory you created on your own computer
 
 Identifying genes associated with clindamycin resistance in USA300 MRSA
 -----------------------------------------------------------------------
@@ -57,16 +57,16 @@ library(treeWAS)
 
 
 ### Read in Pangenome gene presence/absence matrix from Panaroo
-geno_df <- read.table(file="class13/geno.tsv", 
+geno_df <- read.table(file="class12/geno.tsv", 
                       header = TRUE)
 
 ### Read in Phyogenetic tree.
-tree <- read.tree(file = "class13/cdc_tree_rooted.tree")
+tree <- read.tree(file = "class12/cdc_tree_rooted.tree")
 
 
 ###  Read in binary Phenotype data - whether a MRSA sample 
 ###  is clindamycin resistant(1) or not(0)
-phen_df <- read.table(file="class13/pheno.tsv", 
+phen_df <- read.table(file="class12/pheno.tsv", 
                       header = TRUE)
 
 #Create phen vector inputted according to treeWAS format

@@ -1,4 +1,4 @@
-Class 14 - Whole genome alignment and Recombination Detection
+Class 13 - Whole genome alignment and Recombination Detection
 ============================================================
 
 Goal
@@ -31,9 +31,9 @@ Setup
 -----
 We are going to be working in RStudio again today. Take the following steps to get ready for the lab:
 
-1. Start up your epid582 Rproject and create a new directory in it called class14 to hold data we will be analyzing today. 
+1. Start up your epid582 Rproject and create a new directory in it called class13 to hold data we will be analyzing today. 
 2. Go on to Great Lakes and copy over the class 14 files to your working directory
-3. Use cyberduck to bring the files down to the following files from the parnsnp_results directory to the class14 firectory you created on your own computer
+3. Use cyberduck to bring the files down to the following files from the parnsnp_results directory to the class13 firectory you created on your own computer
  - parsnpLCB.aln (whole-genome alignment created by parsnp)
  - parsnp.tree (tree created by parsnp based on the unfiltered alignment)
  - parsnpLCB.final_tree.tre (recombination filtered tree created by gubbins)
@@ -49,12 +49,12 @@ An alternative approach for identification of variants among genomes is to perfo
 
 > ***i. Perform genome alignment with Parsnp***
 
-Create a conda environment class14 that will install Parsnp/Harvesttools/Gubbins for you. 
+Create a conda environment class13 that will install Parsnp/Harvesttools/Gubbins for you. 
 
 ```
-conda create -n class14 -c bioconda parsnp harvesttools gubbins
+conda create -n class13 -c bioconda parsnp harvesttools gubbins
 
-conda activate class14
+conda activate class13
 
 # invoke parsnp and harvesttool's help menu to check if it was installed properly
 parsnp -h
@@ -63,7 +63,7 @@ harvesttools -h
 
 run_gubbins.py -h
 
-cd class14
+cd class13
 ```
 
 Now we will ask parsnp to align all the genomes in Abau_genomes directory and also ask parsnp to use Reference_genome/ACICU_genome.fasta as a reference genome.
@@ -132,7 +132,7 @@ setwd("~/Desktop/Abau_parsnp/")
 library(ape)
 
 #READ IN THE MULTIPLE GENOME ALIGNMENT AND CHANGE THE NAMES TO REMOVE FILE EXTENSIONS
-abau_msa = read.dna('class14/parsnpLCB.aln', format = "fasta") 
+abau_msa = read.dna('class13/parsnpLCB.aln', format = "fasta") 
 row.names(abau_msa) = gsub(".fa|.fasta", "", row.names(abau_msa))
 ```
 
@@ -224,10 +224,10 @@ Now that we know there is recombination, we know that we need to filter out the 
 
 > ***i. Run gubbins on your fasta alignment***
 
-Go back on great lakes and activate class14 environment
+Go back on great lakes and activate class13 environment
 
 ```
-conda activate class14
+conda activate class13
 ```
 
 Run gubbins on your fasta formatted alignment
@@ -235,7 +235,7 @@ Run gubbins on your fasta formatted alignment
 ```
 wd
 
-cd class14
+cd class13
 
 cd parsnp_results
 
@@ -259,7 +259,7 @@ To view the tree we will use the ape package in R:
 
 ```
 # Read in tree
-gubbins_tree <- read.tree('class14/parsnpLCB.final_tree.tre')
+gubbins_tree <- read.tree('class13/parsnpLCB.final_tree.tre')
 
 # Drop the outgroup for visualization purposes
 gubbins_tree_noOG = drop.tip(gubbins_tree, c('Abau_AB0057_genome.fa'))
