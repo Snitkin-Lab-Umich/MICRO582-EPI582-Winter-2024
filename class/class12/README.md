@@ -1,161 +1,139 @@
-Class 12 – Plotting and interpretted phylogenetic trees
-=======================================================
+Class 13 – Bacterial genome-wide association studies
+====================================================
 
 Goals
 ----
-- Learn how to work with DNA sequence data in R
-- Learn how to create Neighbor Joining trees in R
-- Learn how to visualize phylogenetic trees with associated meta-data in R
-- Learn how to interpret phylogenetic trees in the context of an epidemiologic question
+- Learn how to load in your genotype, phenotype and tree data into R
+- Learn how to visualize and interpret your phenotype data overlaid on the tree
+- Learn how to run the treeWAS bGWAS tool in R
+- Learn how to work with and interpret the results of treeWAS
 
-R packages for phylogenetic analysis
--------------------------------------
-During this session we will exclusively be working with the ape package, which has a multitude of functionality for working with sequence data, trees and making corresponding visualizations. However, there are many other useful packages in R that are worth a look!
+Background on bGWAS
+-------------------
+The goal of bacterial genome-wide association studies (bGWAS) is to identify genetic variation associated with some phenotype of interest. In the context of infectious diseases, phenotypes of interest include things like antibiotic resistance, virulence and transmissability. With an understanding of the genetic basis for these phenotypes, we would be able to more effectively survey for high-risk strains, and also devise therapeutics interfering with organisms ability to evade treatment, cause serious infections and spread.
 
-A few noteworthy R packages:
-1. [ape](https://cran.r-project.org/web/packages/ape/ape.pdf)
-2. [phytools](https://cran.r-project.org/web/packages/phytools/index.html) (phylogenetic functions and tree visualization)
-3. [ggtree](https://guangchuangyu.github.io/software/ggtree/) (package for advanced tree visualization)
-4. [phangorn](https://cran.r-project.org/web/packages/phangorn/index.html) (phylogenetic functions and tree visualization)
+The field of GWAS was pioneered in the context of identifying genetic associations for human disease and phenotypic variation. However, there are significant differences in bacterial and human genome evolution that prevent us from just directly applying tools from human GWAS. Of greatest consequence is the lack of assortment of alleles through sexual reproduction, resulting in strong linkage among genetic variants. The challenge this creates is that it can be difficult to distinguish genetic variation causing phenotypic change, from passenger mutations that arose around the same time and whose linkage is maintained throughout evolution of the descendents.
 
+However, while the nature of bacterial evolution creates challenges for GWAS, it also presents opportunities. Some unique features of bacteria relative to humans are extremely large population sizes and short generation times. Combined with often strong selective pressure for the emergence of traits of interest (e.g. antibiotic resistance, transmissability), it is often observed that traits emerge multiple times in the evolution of a given lineage. This convergence of phenotypic evolution essentially breaks the linkage problem inherent to bacteria, because causal genetic variation is arising independently in different genetic backgrounds. By and large, it is this covergence that is leveraged by bGWAS methods to identify genetic variation that co-occurs with the repeated emergence of phenotypes. 
+
+The treeWAS R package
+---------------------
+[TreeWAS](https://github.com/caitiecollins/treeWAS) is an R package that is commonly applied for bGWAS analysis. Included in treeWAS are three different association tests that attempt to quantify different ways that a genotype and phenotype can be associated. Today we will focus on the synchonous test, which explicitly evaluates whether the emergence of a genetic variant on a phylogeny co-occurs with the emergence of a phenotype more than would be expected by chance. Put differently,the synchronous tests recreates the evolution of the phenotype and each genetic variant on a phylogeny, and tests whether a variant and phenotype show a strong correlation in when they arise. If a given genetic variant always arises at the same time as a phenotype, that supports a potential causal association.
 
 Setup
 -----
 We are going to be working in RStudio again today. Take the following steps to get ready for the lab:
 
-1. Start up your epid582 Rproject and create a new directory in it called class12 to hold data we will be analyzing today. 
-2. Go on to Great Lakes and copy over the class 12 files to your working directory
-3. Use cyberduck to bring the files down to the class12 directory you created on your own computer
+1. Start up your epid582 Rproject and create a new directory in it called class13 to hold data we will be analyzing today. 
+2. Go on to Great Lakes and copy over the class 13 files to your working directory
+3. Use cyberduck to bring the files down to the class13 directory you created on your own computer
 
+Identifying genes associated with clindamycin resistance in USA300 MRSA
+-----------------------------------------------------------------------
+To test out treeWAS we are going to perform a bGWAS analysis to search among all the genes in the MRSA pan-genome to see if we can identify the gene(s) confering resistance to the antibiotic clindamycin. The input to our bGWAS analysis include:
 
-Exploring the relationship between community- and healthcare-acquired MRSA using phylogenetic analysis
-------------------------------------------------------------------------------------------------------
-For our first phylogenetics exercise, we are going to test the epidemiologic hypothesis that there are different strains of MRSA that are causing hospital-associated (HA) versus community-associated (CA) infections. As a little background, up until the early 2000's methicillin-resistant Staphylococcus aureus (MRSA) infections were almost exclusively restricted to healthcare settings. Then, in the early 2000's a new strain of MRSA burst on the sceen called USA300, which was capable of causing infections in otherwise healthy individuals in the community, outside of healthcare settings. While initially only seeming to occur in the community, over the next several years USA300 was observered to cause infections in hospitals. Some hypothesized that this might be because of an evolutionary event in USA300 that created a new sublineage that was better adapted for spread in hospitals. 
+1) Panaroo matrix - recall that panaroo takes as input a set of genomes and determines the pangenome (i.e. which genes are present/absent in each input genome). 
+2) Clindamycine resistance - our phenotype is a binary vector indicating resistance or susceptability to clindamycin
+3) Phylogenetic tree - a phylogenetic tree of input MRSA genomes was constructed using IQTREE, a maximum likelihood algorithm
 
-Here, we are going to test this hypothesis by creating a whole-genome phylogeny for a panel of MRSA genomes from a single healthcare center. Half of our genomes are community-associated (i.e. infections on admission to the hospital) and the other half are hosiptal-associated (i.e. infection after 3 days of admission. Below is R code we will go through to do the following:
+So, when we run treeWAS, we will be evaluating each gene in the input panaroo matrix to assess whether it's gain is associated with the gain of clindamycin resistance more than we would expect by chance.
 
-1) Read in a DNA alignment of MRSA genomes created by a read mapping pipeline
-2) Compute a pairwise distance matrix using the dist.dna function
-3) Build a neighbor joining tree from the distance matrix using the nj function
-4) Visualize our phylogenetic tree, along with CA/HA labels to see if we detect evidence of an HA USA300 strain responsible for healthcare infections
+When running treeWAS several R variables and plots are created. The plots include:
+1. A Manhattan plot, which shows the significance of hits (y-axis) across the genome (x-axis). Note that since the Panaroo matrix is in no particular order, the ordering on the x-axis won't have meaning for us, but we can still visually see how many hits there are and their relative strength
+2. A histogram of scores for significant hits, along with a line indicating the significance threshold. 
 
-```
-#Read in needed R packages
-library(ape)
-library(phytools)
+In addition to plots, treeWAS creates rich output variables that are described in detail in the manual. By parsing these output variables you can identify the significantly associated genes, along with their scores and p-values.
 
-#Read in DNA alignment and annotations
-mrsa_aln <- read.dna('class12/MRSA_USA300_var_aln.fa',
-                     format = "fasta")
-
-annot <- read.table('class12/MRSA_USA300_annot.txt',
-                    row.names = 1,
-                    header = T)
-
-
-#Check out the format of our variables
-class(mrsa_aln)
-str(mrsa_aln)
-mrsa_aln
-
-class(annot)
-str(annot)
-
-
-#Build NJ tree
-#Create a distance matrix from 
-dist_mat <- dist.dna(mrsa_aln)
-
-#Create a neighbor joining tree from distance matrix
-nj_tree = nj(dist_mat)
-
-#Midpoint root tree
-nj_tree_rooted <- midpoint.root(nj_tree)
-
-
-#Plot tree with colored tips
-#Create vector linking colors to HA/CA
-cols = structure(c('blue', 'red'), names = unique(annot$SOURCE))
-
-#Plot tree
-#plot(nj_tree_rooted, label.offset = 0.001, cex = 0.5)
-plot(nj_tree_rooted, type = "fan", label.offset = 0.001, cex = 0.5)
-
-#Add colors to tips
-tiplabels(col = cols[annot[nj_tree_rooted$tip.label,]], pch = 16, frame = "none")
-
-#Add legend
-legend('bottomleft', legend = names(cols), 
-       col = "black", pt.bg = cols, pch = 21, cex = 1)
-```
-
-Based on the tree - do you think there is evidence of an HA-lineage of USA300?
-
-<details>
-  <summary>Solution</summary>  
-  
-  If there were an HA-lineage of USA300 we would expect that all the HA isolates would group together on the tree and share a common ancestor dating back to the
-  emergence of this HA-linage. However, the intermixing of CA and HA isolates on the tree, indicates that there is a single lineage of USA300 capable of causing
-  infections in both settings. [Based on some work our group has done with a collaborator](https://pubmed.ncbi.nlm.nih.gov/28486667/), we hypothesize that the
-  uptick in HA infections is not neccesarily due to increased transmission in healthcare settings, but rather due to an increased prevalence in the community and
-  patients transitioning from colonization to infection in the hospital (i.e. asymptomatically colonized on admission, but only show symptoms of infection later
-  in their stay).
-
-</details>
-
-
-Tracking the origin of an blaNDM ST147 Klebsiella pneumoniae outbreak using phylogenetic analysis
--------------------------------------------------------------------------------------------------
-For our second phylogenetic exercise we are going to try and understand the origin of an outbreak of NDM-containing /Klebsiella pneumoniae/ in Chicago-area hospitals. Point-prevalence studies for carbapenem-resistant organisms are routinely performed in the Chicago-region due to high prevelence of KPC-containing organisms. However, a few years ago NDM began being observed and then showed a big spike in a handful of skilled-nursing facilities. We undertook a genomic epidemiology investigation to understand the basis for this uptick. Initial sequence analysis revealed that most isolates were from a single sequence type - ST147 of /Klebsiella pneumoniae/. To understand whether this NDM containing organism was imported into the region (once or multiple times) or if perhaps a circulating ST147 strain picked up the NDM gene locally, we performed a phylogenetic analysis including the outbreak isoaltes along with all publically available ST147 genomes. Based on the clustering of our outbreak genomes, as well as the pattern of NDM on the phylgoeny, we hoped to improve our understanding of the outbreak. Below is R code to do the following:
-
-1) Read in a maximum likelihood phylogeny of outbreak and public isolates that we created using reference based variant calling and the too IQTREE
-2) Read in meta-data describing the location of origin and whether an isolate harbored NDM
-3) Plot the phylogenetic tree
-4) Plot next to the tree a heatmap showing location and NDM status of each isolate
+Below is the R commands we will employ to run treeWAS and explore the results.
 
 ```
-#Read in libraries
-library(RColorBrewer)
-library(ape)
+### Install and load libraries
+install.packages("devtools", dep=TRUE)
+library(devtools)
 
-#Read in tree
-tree <- read.tree('class12/st147_outbreak_tree.tree')
+### Install and load libraries
+install_github("caitiecollins/treeWAS", build_vignettes = TRUE)
+library(treeWAS)
 
-#Read in meta-data
-meta_data <- read.table('class12/st147_genome_metadata.txt', 
-                        sep = "\t",
-                        header = T)
 
-#Set color pallette
-cols = brewer.pal(8, 'Set1');
-f <- function(n) c(cols)
+### Read in Pangenome gene presence/absence matrix from Panaroo
+geno_df <- read.table(file="class13/geno.tsv", 
+                      header = TRUE)
 
-#Plot tree
-plot(tree, use.edge.length = T, show.tip.label = F, cex = 0.25,  x.lim = 0.0001)
+### Read in Phyogenetic tree.
+tree <- read.tree(file = "class13/cdc_tree_rooted.tree")
 
-#Plot heatmap with NDM status and location next to tree
-phydataplot(as.matrix(meta_data),  
-            tree, 
-            style = "m", 
-            width = 0.00001, 
-            offset = 0.000001, 
-            legend = 'side', 
-            lwd = 0.1,
-            funcol = f)
+
+###  Read in binary Phenotype data - whether a MRSA sample 
+###  is clindamycin resistant(1) or not(0)
+phen_df <- read.table(file="class13/pheno.tsv", 
+                      header = TRUE)
+
+#Create phen vector inputted according to treeWAS format
+phen <- as.vector(unlist(phen_df$clinda))
+names(phen) <- phen_df$samples
+
+
+###Plot antibiotic resistance on the tree
+#Make histogram of resistance and then plot on tree
+hist(phen, col = c("red", "blue"))
+
+#Plot tree with antibiotic resistance next to it
+plot(tree,
+     show.tip.label = F,
+     cex = 0.25,
+     x.lim = 0.0005)
+
+phydataplot(phen,
+            tree,
+            style = "m",
+            width = 0.00001,
+            offset = 0.00001,
+            legend = "side",
+            lwd = 0)
+
+
+### Run treeWAS with default parameters - takes 4.5 minutes to finish on local system
+out <- treeWAS(snps = t(geno_df), 
+               phen = phen, 
+               tree = tree, 
+               test = 'simultaneous',
+               seed = 1)
+
+
+### Print significant loci associated with the clindamycin resistance
+print(out, sort.by.p=FALSE) 
+
+
+### Plot tree with antibiotic resistance and hits
+#Add clindamycin resistance to heatmap dataframe
+out_heatmap <- subset(phen_df,select = c('clinda'))
+
+#Add row names
+row.names(out_heatmap) <- phen_df$samples 
+
+#Change from binary to Clinda S/R
+out_heatmap[out_heatmap == 1] <- 'Clinda R'
+out_heatmap[out_heatmap == 0] <- 'Clinda S'
+
+#Add significantly associated genes
+sig.hits <- row.names(out$simultaneous[['sig.snps']])
+out_heatmap[,sig.hits] <- t(geno_df[sig.hits,row.names(out_heatmap)])
+
+#Plot tree and heatmap!
+plot(tree,
+     show.tip.label = F,
+     cex = 0.25,
+     x.lim = 0.0005)
+
+phydataplot(as.matrix(out_heatmap),
+            tree,
+            style = "m",
+            width = 0.000025,
+            offset = 0.00001,
+            legend = "side",
+            lwd = 0)
 ```
 
-Based on the tree - what can we infer about the origins of ST147-NDM containing isoaltes in Chicago?
 
-<details>
-  <summary>Solution</summary>  
-Placing our outbreak genomes in the context of public genomes revealed several interesting things:
-  
-1) First, the Chicago isolates for a close cluster on the tree, supporting a single introduction followed by regional spread. We followed up on this observation by performing more fine-grained genetic distance and phylogenetic analyses, supporting this hypothesis.
- 
-2) Second, we observe on the phylogeny that NDM appears to have been acquired multiple times independently in ST147, as evidenced by the discrete clusters observed across the globe.
-  
-3) Third, we observe that within our outbreak there exists close genetic neighbors of the outbreak strain that do not carry NDM (they actually carry KPC). This supports an NDM-containing plasmid potentially having been acquired by circulating ST147 in the region, and going on to cause a regional outbreak. We performed some detailed analysis of plasmid carraige to confirm this hypothesis.
-  
-For more details on the analysis check out [our manuscript](https://academic.oup.com/cid/article/73/8/1431/6277037?login=true).
-  
-</details>
+Ultimtely, our association picked up three genes, of which two are the most strongly associated. These two genes are [ermC](https://www.uniprot.org/uniprot/P13978), which is an enzyme that modifies the 23S rRNA that is the target of clindamycin, and has shown to confer [resistance in Staph aureus](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4411429/). The second gene is carried on the small plasmid that harbors the ermC gene, which explains it's strong association.

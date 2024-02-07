@@ -1,35 +1,21 @@
-Class 18 – Regional outbreak analysis
-====================================================
+Class 19 – Regional endemic spread
+====================================
 
 Goals
 ----
-- Learn how to generate descriptive figures to characterize a regional outbreak across multiple healthcare facilities
+- Learn how to generate descriptive figures to characterize endemic spread across multiple healthcare facilities
 - Learn how to interpret descriptive figures to understand where transmission is occuring
-- Get exposed to generating figures using ggplot and ggtree
 
 Setup
 -----
 We are going to be working in RStudio again today. Take the following steps to get ready for the lab:
 
-1. Start up your epid582 Rproject and create a new directory in it called class18 to hold data we will be analyzing today. 
-2. Go on to Great Lakes and copy over the class 18 files to your working directory
-3. Use cyberduck to bring the files down to the class18 directory you created on your own computer
+1. No need to download any files today - we will be using the data that comes with regentrans.
 
-Package installation and library loading
-----------------------------------------
-For performing descriptive analyses of a regional outbreak we will use several new R packages. The core package we will use for processing genomic data is called regentrans, and was developed primarily by two trainees in my lab (Zena Lapp and Sophie Hoffman). Regentrans uses a DNA alignment, phylogenetic tree and different types of meta-data to create R variables that can easily feed into R plotting packages (e.g. ggplot, ggtree) to create useful figures for describing regional outbreaks.
-
-A few other notes on packages that we wil be using:
-1. In prior sessions we have made plots using base R. Today we will be using ggplot, which is extremely powerful for creating informative figures for observational data. I will not be discussing ggplot in detail, but there are lots of great online resources to learn more!
-2. In prior sessions we used ape to plot our trees with meta-data. Today we will ue ggtree, which in my opinion allows for creation of much more aestetically pleasing figures, with options for overlaying different types of meta-data. Again, we will not discuss in detail, but there is great [documentation](https://yulab-smu.top/treedata-book/)
+Once in R, load the following libraries
 
 ```
-#Setup regentrans
-devtools::install_github('Snitkin-Lab-Umich/regentrans')
-
 library(regentrans)
-
-#Load other required libraries (install if needed)
 library(ape)
 library(ggplot2)
 library(tibble)
@@ -38,167 +24,81 @@ library(ggtree)
 library(pheatmap)
 ```
 
-Background on regional outbreak
--------------------------------
-The data we will analyze comes from a regional outbreak of NDM containing ST147 Klebsiella pneumoniae in Chicago-area healthcare facilities that we previously [published on](https://academic.oup.com/cid/article/73/8/1431/6277037). A little bit of background. Carbapenem resisistant Klebsiella pneumoniae (CRKP) has been prevelant in Chicago since it's initial [introduction ~2008](https://www.science.org/doi/pdf/10.1126/scitranslmed.aan0093?download=true). However, CRKP isolates up until this outbreak exclusively harbored the KPC carbapenemase, with NDM only having been observed sporadically. A significant difference between KPC and NDM is that KPC harboring strains are susceptible to new line combination therapies that combine carbapenems/carbapenemase inhibitors, while NDM harboring strains are not. Thus, a shift from NDM to KPC would be cause for concern.
+Background on the data
+----------------------
+For today's lab we will be working on a sample and data collection comprising carbapenem-resistant Klebsiella pneumoniae (CRKP) collected from 21 long-term acute care hospitals (LTACHs) in the United States. The majority of isolates came from 11 LTACHs in LA County, where CRKP is highly prevalent due to the circulation of epidemic lineage ST258. In today's lab we are going to use regentrans to replicate some of the analyses from our [publication](https://pubmed.ncbi.nlm.nih.gov/31451495/) on this data, where we showed how genomic analysis could inform where regional transmission is occurring, and the pathways of transmission between regional LTACHs. 
 
-Our collaborators in Chicago have done a great deal of work attempting to impliment regional approaches to infection prevention. To monitor the impact of a regional intervention they performed regional point-prevalence surveys to track the prevalence of CRKP across regional healthcare facilities. For these regional point prevalence surveys, investigator teams would go to a facility during a week and perform rectal surveillance screening for CRE on every patient in the facility. During one of these surveys in 2016/2017 investigators observed that while most CRKP isolates harbored KPC, some harbored NDM. Of note, most of the NDM isolates were observed in a specific type of post-acute care facility, called ventilator skilled nursing facilities (vSNFs). The other types of surveyed facilities (ICUs - intensive care units and LTACHs - long-term acute care hospitals), showed few cases. In three subsequent surveys in 2018/2019, NDM showed a drastic increase in prevalence, particularlly in three vSNFs, while KPC remained relatively steady.
+The data from this manuscript comes as the default dataset in regentrans, so just loading the library gives you access to the variables below!
 
-To understand how this outbreak started and progressed we performed whole-genome sequencing on all KPC and NDM isolates from the first survey, and then all NDM containing isolates from the subsequent three surveys. To start, let's read in sample meta-data of isolates sequenced from the outbreak and plot isolate distribution across facilities over time.
-
+Also, check out the great [vignette](https://snitkin-lab-umich.github.io/regentrans/articles/Introduction.html) that Sophie and Zena created showing you different types of analayses/visualizations that regentrans can enable. We will just look at a couple today.
 
 ```
-#Read in meta-data
-st147_meta_data <- read.table('class18/study_isolate_metadata_all.csv',
-                              sep = ",",
-                              header = T)
+#Preloaded dataset that comes with regentrans
 
-#Plot isolate count over time
-ggplot(data=st147_meta_data, aes(x=f_id, fill = bla), ylim = 20) +
-  geom_bar(stat="count") + 
-  facet_grid(factor(st147_meta_data$survey)) +
-  theme(axis.text.x = element_text(angle = 90))
+head(metadata) #meta-data of study isolates
+class(aln) #variant alignment of ST258 genomes
+dists[1:5, 1:5] #distance matrix constructed from variant alignment
+class(tr) #maximum likelihood tree constructed from variant alignment
+head(pt_trans_df) #counts of patient transfers between pairs of healthcare facilities
 ```
 
+To start, let's plot a tree of the isolates with facility overlaid. With a dataset this large, it's hard to see much just from this type of visualization :)
+```
+#Get facility and patient named vectors
+facils <- structure(metadata$facility, names = metadata$isolate_id)
+pts <- structure(metadata$patient_id, names = metadata$isolate_id)
+
+#Plot tree with facilities overlaid
+facils_tip <- c(facils[tr$tip.label],
+                rep(NA, Nnode(tr)))
+
+ggtree(tr) +
+  geom_tippoint(aes(col = facils_tip)) +
+  scale_color_discrete() +
+  labs(col = "Facility")
+```
 
 Calculate pairwise genetic distances and look for evidence of transmission within facilities
 --------------------------------------------------------------------------------------------
-To start our analysis of the outbreak we will examine pairwise distances among isolates. We have a few goals in this analysis:
-1. To further assess whether all isolates are part of a clonal outbreak. If they are, then we expect a unimodal distribution, where the maximum genetic distance is consistent with the amount of evolution that could occur during the time span of the outbreak. If the data supports a clonal outbreak, then a time-scaled phylogenetic analysis can be performed to gain more nuanced insight into the evolutionary rate of the outbreak strain and when key events occured (e.g. introduction into the region).
-2. To get a sense of whether we are sampling recent direct or indirect transmission events. Given that we rarely have a comprehensive sampling of all cases, it is helpful to first get a sense of how much recent transmission is being detected, before moving on to interpretation. One line of support for sampling recent transmission is the existance of closely related isolates (i.e. small SNV distances), although this in itself is not sufficient, as early in outbreaks there is often low overall genetic diversity. Therefore, we also consider epidemiologic data in the form of the facility of isolation. If we are sampling recent transmission, we expect an enrichment of epidemiologic linkages (i.e. being from the same facility) at small SNV distances.
-3. By examining where the enrichment for epidemiologic overlap declines, we can identify a reasonable threshold for detecting transmission moving forward based on the observed evolutionary rate of the organism and how rapidly it moves within and between facilities.
+As we did in the previous class for our regional outbreak, we are going to look at pairwise SNV distances among isolates from the same and different facilities to:
+1. Assess whether we are detecting recent transmission in our data set as evidenced by closely related pairs
+2. If we see evidence of a appropraite SNV threshold for recent transmission, as evidenced by degradation for the enrichment in epidemiologic association with increasing SNV thresholds
 
 
-First, lets get pairwise distances, process them in regentrans and then use ggplot to plot histograms of pairwise distances from pairs from the same or different facilities.
-
+To start, let's plot our histograms colored by inta- and inter-facility pairs.
 ```
-##Make plots of pairwise distances within and between facilities
-#Read in alignment
-st147_aln <- read.dna('class18/st147_variant_aln.fasta',
-                      format = "fasta")
+#Get pair types data frame from regentrans
+pair_types <- get_pair_types(dists = dists, locs = facils, pt = pts)
 
-#Get distance matrix
-dists <- ape::dist.dna(x = st147_aln, # DNAbin object as read in above
-                       as.matrix = TRUE, # return as matrix
-                       model = "N", # count pairwise distances
-                       pairwise.deletion = TRUE # delete sites with missing data in a pairwise way
-)
-
-#Get pairwise distance object from regentrans
-st147_meta_data_subset <- subset(st147_meta_data, gID %in% row.names(dists)) #subset to match distance matrix
-
-facils <- structure(st147_meta_data_subset$f_id, names = st147_meta_data_subset$gID) #get isolates named by facility
-pts <- structure(st147_meta_data_subset$pt_id, names = st147_meta_data_subset$gID) #get isolates named by patient
-
-pair_types <- get_pair_types(dists = dists, 
-                             locs = facils, 
-                             pt = pts)
-     
-#Plot pairwise distances for intra- and inter-facility pairs
-ggplot(data = pair_types, aes(x = pairwise_dist, fill = pair_type)) + 
-  geom_histogram(position = 'identity', alpha = 0.4, bins = 50) +
-  labs(x = "Pairwise SNV distance", y = "Count", fill = "") 
-                             
-  
-#Zoom in on small values to see enrichment for intra-facility at small distances
-ggplot(data = pair_types, aes(x = pairwise_dist, fill = pair_type)) + 
-  geom_histogram(position = 'identity', alpha = 0.4, bins = 50) +
-  labs(x = "Pairwise SNV distance", y = "Count", fill = "") +
-  xlim(-1,51)
-  
-#Plot intra versus inter facility dists over time and notice:
-#1) How the maximum of the distribution gets larger as time goes on (i.e. evolution is occuring)
-#2) The amount of transmission we are observing increases over time as evidenced by the larger spikes in small SNVS
-#3) In the last survey we detect more evidence of inter-facility transmission as evidenced by small inter-facility pairs, indicating increasing regional spread
-surveys <- structure(st147_meta_data_subset$survey, names = st147_meta_data_subset$gID) #get surveys named by isolates
-
-pair_types %>% 
-  mutate(surv1 = surveys[isolate1], surv2 = surveys[isolate2]) %>% 
-  filter(surv1 == surv2) %>% 
-  ggplot(aes(x = pairwise_dist, fill = pair_type)) + 
-  geom_histogram(position = 'identity', alpha = 0.4, bins = 50) +
-  labs(x = "Pairwise SNV distance", y = "Count", fill = "")+
-  facet_grid(~surv1) 
+#Plot histogram of intra- versus inter-facility pairwise distances
+ggplot(data = pair_types, aes(x= pairwise_dist, fill = pair_type)) +
+  geom_histogram(position = "identity", alpha = 0.4, bins = 50) + 
+  labs(x = "Pairwise SNV distance", y = "Count", fill = "") + 
+  xlim(-1,50)
 ```
 
-Finally, let's make it a bit easier to identify a threshold where enrichment for facility overlap falls off by plotting the fraction of intra-facility pairs at increasing SNV thresholds.
+As with last time, it does appear that there is an enrichment among isolates from the same facility at the smallest SNV distances. So, let's look at how this enrichment tails off, and whether there is a reasonable SNV threshold for recent transmission. 
 
 ```
-##Look for evidence of SNV threshold enriched in intra-facility transmission
-#Use regentrans to get fraction of intra- versus inter- facility pairs at different
-#SNV bins
+#Get fraction of intra-facility pairs at different SNV cutoffs
 frac_intra <- get_frac_intra(pair_types = pair_types)
 
-#Plot intra-facility fraction versus SNV distance
-ggplot(data =frac_intra, aes(x = pairwise_dist, y = frac_intra)) + 
-  geom_bar(stat = "identity", alpha = 0.5) + 
-  scale_fill_grey() + 
-  labs(x = "Pairwise SNV distance", y = "Fraction of intra-facility pairs") + 
-  ylim(0, 1) + xlim(-1,51) 
+#Plot barplot
+ggplot(data = frac_intra, aes(x= pairwise_dist, y = frac_intra)) +
+  geom_bar(stat = "identity", alpha = 0.5) +
+  labs(x = "Pairwise SNV distance", y = "Fraction of intra-facility pairs") +
+  ylim(0,1) + 
+  xlim(0,50)
 ```
-
-Examine whole-genome phylogeny and extract putative transmission clusters
--------------------------------------------------------------------------
-Next, we are going to explore our outbreak by plotting the whole-genome phylogeny and overlaying facility of isolation on the tips. Things we will be looking for are:
-1. The existance of clustering by individual facility, which we interpret as transmission clusters within a facility
-2. Patterns of intermixing of isolates between facilities, which we interpret as putative transmission between facilities. While we will ultimately quantify this, it is helpful to look for larger patterns (e.g. certain facilities seeding many other facilities, frequent intermixing of isolates from certain facility pairs, etc.).
-
-Let's go ahead and plot our tree using ggtree! A few things to notice:
-1. There are large clusters on the tree for the three vSNFs with highest prevalence (vSNFs J/K/L), suggesting that transmission within each facility is driving prevalence
-2. vSNFs L and J appear particularly important in regional dissemination, with isolates from many other facilities linking off clusters of isolates from those facilities.
-3. Some vSNFs show evidence of repeated importation, with smaller clusters of isolates
-
-```
-##Plot tree with tips colored by facility
-#Read in tree
-st147_tree <- read.tree('class18/st147.tree')
-
-#Get vector of facilities for tips and nodes of tree
-facils_tip <- c(facils[st147_tree$tip.label], 
-              rep(NA, Nnode(st147_tree)))
-
-#Plot tree with ggtree
-ggtree(st147_tree) + 
-  geom_tippoint(aes(col = facils_tip)) + 
-  scale_color_discrete() +
-  labs(col = 'Facility') 
-```
-
-Next, let's try quantifying some of our observations with respect to the size of transmission clusters within facilities. To do this we will use regentrans to identify sub-clusters with a desired level of pureness (i.e. proportion of isolates from facility of interest) and then plot the size of these sub-clusters. Note that this is not perfect, as importation and exportation can results in a transmission cluster within a facility being broken up by isolates from other facilities, but this is an informative first pass that can be complimented with other simple approaches (e.g. SNV thresholds) or more sophisticated ones (e.g. phylogeographic analyses).
-
-Notice a few things:
-1. It appears that likely transmission within vSNF L isn't captured well. Why do you think this is?
-2. Otherwise, do the clusters match your intuition from the phylogeny?
-
-```
-##Extract phylogenetic clusters containing isolates from each facility
-##and plot size distribution
-#Get clusters with regentrans
-clusters <- get_clusters(st147_tree,facils[st147_tree$tip.label], pureness = 1, pt = pts[st147_tree$tip.label])
-
-#Get pure subtree info for plotting
-pure_subtree_info <- clusters$pure_subtree_info
-
-#Plot size distribution of clusters
-ggplot(data = pure_subtree_info, aes(x = loc, y = subtr_size, color = loc)) + 
-  geom_jitter(position = position_jitter(width = 0.2, height = 0.1), alpha = 0.5) + 
-  scale_color_discrete() +
-  labs(y = "Number of isolates in \nphylogenetic cluster", x = "", color = 'Facility') +
-  coord_flip()
-```
+From this it looks like 8 or 10 SNVs could be a good threshold. This is actually somewhat reassuring as the evolutionary rate of ST258 is 4 SNVs per genome per year. So, since our study was a year long, it is reasonable to expect that isolates linked by recent transmission could be within this range of genetic distance, which could accumulate over the course of a year.
 
 Look for inter-facility transmission as evidenced by closely related isolates shared between facilities
 -------------------------------------------------------------------------------------------------------
-There are numerous approaches to examine transmission between facilities, and we will explore some more of those next class. For now, we willuse our SNV threshold of 10 SNVs and examine connectivity to get a rough sense for isolate sharing between facilities.
 
-Notice the following:
-1. We now see that vSNF L has large numbers of intra-facility pairs (despite what phylogenetic clusters showed).
-2. We are see that vSNF L is highly connected to other facilities, as we expected by examining the tree
-3. In contrast we see that despite having large numbers of intra-facility pairs, vSNF K is relatively isolated from other facilities.
+Next, we are going to use our SNV threshold of 10 SNVs to look at the number of putative transmission linkages identified within and between each pair of facilities, and plot a heatmap of the results.
 
 ```
-##Get number of closely related pairs between facilities and
-##plot heatmap
+#Calculate pairwise linkages among facilities
 #Subset to closely related pairs
 pair_type_subset <- subset(pair_types, pairwise_dist < 10)
 
@@ -211,9 +111,15 @@ facil_pair_count = matrix(0,
 #Add each inter-facility pair to appropriate facility pair
 for(p in 1:nrow(pair_type_subset))
 {
+
+  #Assign the first facility to be the earlier in the alphabet (will make it so
+  #we are just filling in the upper triangle of the matrix)
+  facil1 <- min(pair_type_subset$loc1[p], pair_type_subset$loc2[p]);
   
-  facil_pair_count[pair_type_subset$loc1[p], pair_type_subset$loc2[p]] <- facil_pair_count[pair_type_subset$loc1[p], pair_type_subset$loc2[p]] + 1;
-  facil_pair_count[pair_type_subset$loc2[p], pair_type_subset$loc1[p]] <- facil_pair_count[pair_type_subset$loc2[p], pair_type_subset$loc1[p]] + 1;
+  #Assign the second facility to be the later in the alphabet
+  facil2 <- max(pair_type_subset$loc1[p], pair_type_subset$loc2[p])
+  
+  facil_pair_count[facil1, facil2] <- facil_pair_count[facil1, facil2] + 1;
   
 }
 
@@ -223,5 +129,32 @@ pheatmap(log2(facil_pair_count+1),
          cluster_cols = F)
 ```
 
+You can see that there is variation in the amount of intra-facility transmission, as well as the amount of connection between different pairs of facilities.
 
+Compare genetic linkages between facilities to patient transfer network
+-----------------------------------------------------------------------
+Finally, we are going to evaluate how the amount of putative transmission between facilities as inferred from genomic ananlysis relates to connectivity between facilities as determined by patient transfer data. 
+
+For patient transfer data we are going to use a function in regentrans to calculate the patient flow between each pair of facilities. Essentially, this takes into account all the direct and indirect pathways between each pair of facilities, and sums them up to estimate overall connectivity between pairs of facilities.
+
+For genomic data we will use two metrics to quantify density of transmission. The first is the previously calculated number of isolate pairs below our SNV threshold. The second is a metric called fsp (which is computed by regentrans). Fsp is a population genetic metric that quantifies the amount of intermixing between two populations, or in our case between two facilities. In essence, this metric quantifies the amount of shared genetic variation among isolates from pairs of facilities, and in this way gets at inter-facility transmission without having to impose an SNV threshold.
+
+
+```
+#Compare pairwise linkages to patient transfer network
+pt_trans <- get_patient_flow(pt_trans_df = pt_trans_df)
+head(pt_trans)
+
+pt_trans$num_pairs_lt10 <- facil_pair_count[cbind(pt_trans$loc1, pt_trans$loc2)]
+pt_trans$fsp <- fsp[cbind(pt_trans$loc1, pt_trans$loc2)]
+
+ggplot(data = pt_trans, aes(x=sum_pt_trans_metric,y=num_pairs_lt10)) +
+  geom_point() + geom_smooth(method='lm') + scale_x_log10() +
+  labs(x = 'Patient flow', y = '# closely related\npairs (≤ 10 SNVs)') 
+
+
+ggplot(data = pt_trans, aes(x=sum_pt_trans_metric,y=fsp)) +
+  geom_point() + geom_smooth(method='lm') + scale_x_log10() +
+  labs(x = 'Patient flow', y = 'fsp') 
+```
 
