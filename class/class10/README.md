@@ -108,7 +108,7 @@ In previous sessions we used Unix commands to explore gff files. Now let's work 
 
 ```
 # Read in gff file
-gff = read.table('class11/SRR5244781_contigs.gff',
+gff = read.table('class10/SRR5244781_contigs.gff',
                  sep = "\t", #tab delimited file
                   comment.char = "#", #define comment character and ignore those lines
                   quote = "", #tells R no quotes, so the file is parsed correctly
@@ -174,95 +174,44 @@ hist(gene_lengths[gff$strand == "+"],
 
 </details>
 
-Exploring the pan-genome matrix created by panaroo
---------------------------------------------------
-In class 6 we performed a pan-genome analysis to determine the genes that were present or absent across a set of genomes. Here we will load the pan-genome matrix into R and explore it.
 
-```
-#Read in the pan-genome matrix
-panaroo_mat <- read.table('class11/gene_presence_absence.Rtab', 
-                          sep = "\t",
-                          header = T,
-                          row.names = 1)
-                          
-#Determine the structure of the pan-genome matrix
-str(panaroo_mat)
-
-#Look at the first few entries in the matrix
-head(panaroo_mat)
-
-#Determine the number of genes present in each genome
-colSums(panaroo_mat)
-
-#Get the number of genomes each gene is present in
-genomes_per_gene = rowSums(panaroo_mat)
-
-#Determine the number of genes present in each number of genomes
-table(genomes_per_gene)
-
-#Plot the distribution of the number of genomes each gene is present in
-hist(genomes_per_gene,
-     xlab = 'Number of genomes gene is present in', # change x label
-     main = '') # no title
-```
-
-Exercise: Read in the file 'gene_presence_absence.csv', which holds information on each of the pan-genome genes and print out the annotation for genes present in only a single genome (hint - the rows in the two files are in the same order)
-
-<details>
-  <summary>Solution</summary>  
-
-```
-#Read in the matrix
-panaroo_genes <- read.table('class11/gene_presence_absence.csv', 
-                            sep = ",",
-                            header = T,
-                            quote = "")
-                 
-#Print out gene annotation for genes present in 1 genome
-panaroo_genes$Annotation[genomes_per_gene == 1]       
-```
-
-</details>
-
-Plotting a heatmap of AMR genes from ARIBA
+Plotting a heatmap of AMR genes from AMRfinderPlus
 ------------------------------------------
-In class 7 we used the Phandango website to make a heatmap of antibiotic resistance genes present in our genomes. Here, we are going to see how to make a prettier one in R!
-  
+In class 8 we examined the results of AMRfinderPlus by writing a shell script to write a summary to the command line. Here we will instead visualize the results in R to examine the differences in AMR gene presence in environmental isolates versus human clinical isolates.
+
+To get the data ready for plotting in R were wrote the R script 'make_amr_finder_mat.R' which goes through the results from AMRfinderPlus. Below are commands to read in our summary data and plot a heatmap.
+
 ```
-ariba_mat <- read.table('class11/kpneumo_card_minimal_results.csv',
-                        sep = ",",
-                        header = T,
-                        row.names = 1)
-
-#Clean up row names using gsub
-row.names(ariba_mat) <- gsub("results/card/", "", row.names(ariba_mat))
-row.names(ariba_mat) <- gsub("/report.tsv", "", row.names(ariba_mat))
-row.names(ariba_mat) <- gsub("_1|_R1", "", row.names(ariba_mat))
-
-#Clean up the column names
-colnames(ariba_mat) = gsub("match", "", colnames(ariba_mat))
-colnames(ariba_mat) = gsub("_", "", colnames(ariba_mat))
-colnames(ariba_mat) = gsub("Klebsiellapneumoniae", "", colnames(ariba_mat))
-
-#Make binary for plotting purposes
-ariba_mat[,] = as.numeric(ariba_mat == 'yes')
-
-#Install and load pheatmap package
+#Read in data and make plots
+#Load pheatmap
 install.packages('pheatmap')
 library(pheatmap)
-  
-#Plot heatmap
-pheatmap(ariba_mat,
+
+#Read in gene matrix
+amr_mat <- read.table('class10/amr_finder_gene_mat.txt',
+                      sep = "\t",
+                      quote = "",
+                      check.names = F)
+
+#Make heatmap without annotation
+pheatmap(amr_mat,
          color = c('white', 'black'),
          legend = F)
-  
-#Read in annotations
-annots = read.table('kpneumo_source.tsv',row.names=1)
-colnames(annots) = 'Source'
 
-#Plot heatmap with annotations
-pheatmap(ariba_mat,
-         annotation_row = annots,
+
+#Load in annotation on isolate source and antibiotic class
+source_annots = read.table('class10/kpneumo_source.tsv',row.names=1)
+colnames(source_annots) = 'Source'
+
+
+class_annots <- read.table('class10/amr_gene_subclass.txt', row.names = 1);
+colnames(class_annots) = 'Abx subclass'
+
+
+#Make heatmap with annotations
+pheatmap(amr_mat,
+         annotation_row = source_annots,
+         annotation_col = class_annots,
          color = c('white', 'black'),
          legend = F)
   
