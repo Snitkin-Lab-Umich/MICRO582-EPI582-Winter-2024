@@ -30,6 +30,7 @@ fasterq-dump -h
 conda deactivate
 
 conda activate class8_mashtree
+module load Bioinformatics mash
 
 mashtree -h
 ```
@@ -157,8 +158,9 @@ The kmer distances that are being computed are called Mash distances. Mash stand
 *We have already run mashtree for you, but here is how we did it
 
 ```
-#Activate the environment so we can run mashtree
+#Activate the environment so we can run mashtree and also load mash from the Bioinformatics module.
 conda activate class8_mashtree
+module load Bioinformatics mash
 
 #Edit the .sbat file to put in your email address
 nano mashtree.sbat
