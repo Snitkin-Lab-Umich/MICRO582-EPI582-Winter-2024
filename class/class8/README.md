@@ -192,7 +192,7 @@ do
         echo $fasta
 
         # Create a prefix for the amrfinder results by trimming off .fasta from the sample fasta file
-        prefix=$(echo ${fasta//.fasta/} | cut -d/ -f2)
+        prefix=$(echo $fasta | sed s/.fasta// | cut -d/ -f 2)
 
         # Run amrfinder command
         amrfinder --plus --output $outdir/$prefix\.txt -n $fasta --mutation_all $outdir/$prefix\_mutation_report.tsv --organism Klebsiella_pneumoniae
