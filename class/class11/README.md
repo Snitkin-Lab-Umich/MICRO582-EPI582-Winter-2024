@@ -23,9 +23,9 @@ Setup
 -----
 We are going to be working in RStudio again today. Take the following steps to get ready for the lab:
 
-1. Start up your epid582 Rproject and create a new directory in it called class12 to hold data we will be analyzing today. 
-2. Go on to Great Lakes and copy over the class 12 files to your working directory
-3. Use cyberduck to bring the files down to the class12 directory you created on your own computer
+1. Start up your epid582 Rproject and create a new directory in it called class11 to hold data we will be analyzing today. 
+2. Go on to Great Lakes and copy over the class 11 files to your working directory
+3. Use cyberduck to bring the files down to the class11 directory you created on your own computer
 
 
 Exploring the relationship between community- and healthcare-acquired MRSA using phylogenetic analysis
@@ -40,53 +40,86 @@ Here, we are going to test this hypothesis by creating a whole-genome phylogeny 
 4) Visualize our phylogenetic tree, along with CA/HA labels to see if we detect evidence of an HA USA300 strain responsible for healthcare infections
 
 ```
-#Read in needed R packages
-library(ape)
+#Install packages if you don't have them already
+install.packages("phytools")
+install.packages("ggplot2")
+install.packages("ggnewscale")
+install.packages("tidyverse")
+install.packages("RColorBrewer")
+install.packages("BiocManager")
+BiocManager::install("YuLab-SMU/treedataverse")
+
+#Load R libraries
 library(phytools)
+library(ggtree)
+library(ggplot2)
+library(pheatmap)
+ 
+library(RColorBrewer) 
+library(ggtree)
+library(ggnewscale)
+library(tidyverse)
 
 #Read in DNA alignment and annotations
-mrsa_aln <- read.dna('class12/MRSA_USA300_var_aln.fa',
+mrsa_aln <- read.dna('class11/MRSA_USA300_var_aln.fa',
                      format = "fasta")
 
-annot <- read.table('class12/MRSA_USA300_annot.txt',
+annot <- read.table('class11/MRSA_USA300_annot.txt',
                     row.names = 1,
                     header = T)
 
 
-#Check out the format of our variables
+#Examine out the format of our variables
+##Alignment file
 class(mrsa_aln)
 str(mrsa_aln)
 mrsa_aln
 
+##Annotation file
 class(annot)
 str(annot)
+annot
 
 
 #Build NJ tree
-#Create a distance matrix from 
+##Create a distance matrix from alignment
 dist_mat <- dist.dna(mrsa_aln)
 
+##Look at distance matrix
+pheatmap(dist_mat)
+
 #Create a neighbor joining tree from distance matrix
-nj_tree = nj(dist_mat)
-
-#Midpoint root tree
-nj_tree_rooted <- midpoint.root(nj_tree)
+nj_tree <-  nj(dist_mat)
 
 
-#Plot tree with colored tips
-#Create vector linking colors to HA/CA
-cols = structure(c('blue', 'red'), names = unique(annot$SOURCE))
+#Plot tree 
+##Standard layout
+ggtree(nj_tree) 
 
-#Plot tree
-#plot(nj_tree_rooted, label.offset = 0.001, cex = 0.5)
-plot(nj_tree_rooted, type = "fan", label.offset = 0.001, cex = 0.5)
+##Circular
+ggtree(nj_tree, layout="circular") 
 
-#Add colors to tips
-tiplabels(col = cols[annot[nj_tree_rooted$tip.label,]], pch = 16, frame = "none")
+##Equal branch length
+ggtree(nj_tree, branch.length="none")
 
-#Add legend
-legend('bottomleft', legend = names(cols), 
-       col = "black", pt.bg = cols, pch = 21, cex = 1)
+
+#Add annotations to the tree
+##Sort annotation dataset
+annot_sorted <- annot[match(nj_tree$tip.label,rownames(annot)),] 
+
+##Create tip for source annotation (the NA's are being added because 
+##geom_tippoint requires values for tips and internal nodes)
+source_tip <- c(annot_sorted,rep(NA,nj_tree$Nnode))
+
+##Add tip to tree
+nj_tree_source <- ggtree(nj_tree)  +  geom_tippoint(aes(color=source_tip)) +labs(color="Source")
+
+##Plot tree
+nj_tree_source
+
+##Add tip labels to tree
+nj_tree_source + geom_tiplab()  
+
 ```
 
 Based on the tree - do you think there is evidence of an HA-lineage of USA300?
