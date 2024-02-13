@@ -40,6 +40,7 @@ Here, we are going to test this hypothesis by creating a whole-genome phylogeny 
 4) Visualize our phylogenetic tree, along with CA/HA labels to see if we detect evidence of an HA USA300 strain responsible for healthcare infections
 
 ```
+#Phylogenetic analyis of MRSA community and healthcare isolate genomes
 #Install packages if you don't have them already
 install.packages("phytools")
 install.packages("ggplot2")
@@ -61,9 +62,11 @@ library(ggnewscale)
 library(tidyverse)
 
 #Read in DNA alignment and annotations
+##Alignment of MRSA genomes
 mrsa_aln <- read.dna('class11/MRSA_USA300_var_aln.fa',
                      format = "fasta")
 
+##Annotation of genomes as community associated (CA) or healthcare associated (HA)
 annot <- read.table('class11/MRSA_USA300_annot.txt',
                     row.names = 1,
                     header = T)
@@ -88,7 +91,7 @@ dist_mat <- dist.dna(mrsa_aln)
 ##Look at distance matrix
 pheatmap(dist_mat)
 
-#Create a neighbor joining tree from distance matrix
+##Create a neighbor joining tree from distance matrix
 nj_tree <-  nj(dist_mat)
 
 
@@ -147,34 +150,51 @@ For our second phylogenetic exercise we are going to try and understand the orig
 4) Plot next to the tree a heatmap showing location and NDM status of each isolate
 
 ```
-#Read in libraries
-library(RColorBrewer)
-library(ape)
+#Phylogenetic analysis of ST147 CRKP outbreak
+#Read in and plot tree
+##Read in tree
+tree <- read.tree('./class11/st147_outbreak_tree.tree') 
 
-#Read in tree
-tree <- read.tree('class12/st147_outbreak_tree.tree')
+##Plot tree without annotations
+ggtree(tree)
 
-#Read in meta-data
-meta_data <- read.table('class12/st147_genome_metadata.txt', 
+
+#Read in and examine meta-data
+##Read in data on NDM status and location of collection
+meta_data <- read.table('./class11/st147_genome_metadata.txt', 
                         sep = "\t",
                         header = T)
 
-#Set color pallette
-cols = brewer.pal(8, 'Set1');
-f <- function(n) c(cols)
+##Check out the first few rows  
+head(meta_data)
 
-#Plot tree
-plot(tree, use.edge.length = T, show.tip.label = F, cex = 0.25,  x.lim = 0.0001)
+##Use table to summarize the presence of NDM in our isolates
+table(meta_data$NDM)
 
-#Plot heatmap with NDM status and location next to tree
-phydataplot(as.matrix(meta_data),  
-            tree, 
-            style = "m", 
-            width = 0.00001, 
-            offset = 0.000001, 
-            legend = 'side', 
-            lwd = 0.1,
-            funcol = f)
+##Use table to summarize the locations of our isolates
+table(meta_data$Location)
+
+
+#Annotate tree with NDM status and location using gheatmap
+##Presence of NDM
+p1 <- gheatmap(ggtree(tree),data = meta_data["NDM"],legend_title = "NDM",colnames_position = 'top') 
+p1
+
+#Location
+##Add new scale
+p1.1 <- p1 + new_scale_fill()
+
+##Add location heatmap
+p2 <- gheatmap(p1.1,
+               data = meta_data["Location"],
+               legend_title = "Location",
+               colnames_position = 'top',
+               offset = 0.00004) + 
+               ylim(NA,380)  + 
+               scale_fill_manual(values = c(brewer.pal(6, 'Set1')),
+               name = "Location")
+p2
+
 ```
 
 Based on the tree - what can we infer about the origins of ST147-NDM containing isoaltes in Chicago?
