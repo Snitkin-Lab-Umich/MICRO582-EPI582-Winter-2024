@@ -42,7 +42,7 @@ Here, we are going to test this hypothesis by creating a whole-genome phylogeny 
 ```
 #Phylogenetic analyis of MRSA community and healthcare isolate genomes
 #Install packages if you don't have them already
-install.packages("phytools")
+install.packages("ape")
 install.packages("ggplot2")
 install.packages("ggnewscale")
 install.packages("tidyverse")
