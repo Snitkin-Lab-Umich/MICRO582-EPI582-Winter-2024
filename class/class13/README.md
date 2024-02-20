@@ -49,19 +49,15 @@ An alternative approach for identification of variants among genomes is to perfo
 
 > ***i. Perform genome alignment with Parsnp***
 
-Create a conda environment class12 that will install Parsnp/Harvesttools/Gubbins for you. 
+Load Harvesttool module from Great lakes Bioinformatics modules
 
 ```
-conda create -n class12 -c bioconda parsnp harvesttools gubbins
+module load Bioinformatics harvest/1.1.2
 
-conda activate class12
-
-# invoke parsnp and harvesttool's help menu to check if it was installed properly
+# invoke parsnp and harvesttool's help menu to check if its installed properly
 parsnp -h
 
 harvesttools -h
-
-run_gubbins.py -h
 
 cd class12
 ```
@@ -213,7 +209,8 @@ Now that we know there is recombination, we know that we need to filter out the 
 We have pre-run gubbins for you, but here are the steps we took.
 
 ```
-conda activate class12
+module purge
+module load Bioinformatics gubbins/2.3.1
 ```
 
 Run gubbins on your fasta formatted alignment
@@ -226,7 +223,7 @@ cd class12
 cd parsnp_results
 
 #Runtime 120.24 s
-run_gubbins.py --filter_percentage 50 --outgroup Abau_AB0057_genome.fa parsnpLCB.aln
+run_gubbins --filter_percentage 50 --outgroup Abau_AB0057_genome.fa parsnpLCB.aln
 
 ```
 
