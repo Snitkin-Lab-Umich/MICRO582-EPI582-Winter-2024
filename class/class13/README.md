@@ -1,4 +1,4 @@
-Class 13 - Whole genome alignment and Recombination Detection
+Class 12 - Whole genome alignment and Recombination Detection
 ============================================================
 
 Goal
@@ -32,8 +32,8 @@ Setup
 We are going to be working in RStudio again today. Take the following steps to get ready for the lab:
 
 1. Start up your epid582 Rproject and create a new directory in it called class13 to hold data we will be analyzing today. 
-2. Go on to Great Lakes and copy over the class 14 files to your working directory
-3. Use cyberduck to bring the files down to the following files from the parnsnp_results directory to the class13 firectory you created on your own computer
+2. Go on to Great Lakes and copy over the class 12 files to your working directory
+3. Use cyberduck to bring the files down to the following files from the parnsnp_results directory to the class12 firectory you created on your own computer
  - parsnpLCB.aln (whole-genome alignment created by parsnp)
  - parsnp.tree (tree created by parsnp based on the unfiltered alignment)
  - parsnpLCB.final_tree.tre (recombination filtered tree created by gubbins)
@@ -132,7 +132,7 @@ setwd("~/Desktop/Abau_parsnp/")
 library(ape)
 
 #READ IN THE MULTIPLE GENOME ALIGNMENT AND CHANGE THE NAMES TO REMOVE FILE EXTENSIONS
-abau_msa = read.dna('class13/parsnpLCB.aln', format = "fasta") 
+abau_msa = read.dna('class12/parsnpLCB.aln', format = "fasta") 
 row.names(abau_msa) = gsub(".fa|.fasta", "", row.names(abau_msa))
 ```
 
@@ -227,7 +227,7 @@ Now that we know there is recombination, we know that we need to filter out the 
 Go back on great lakes and activate class13 environment
 
 ```
-conda activate class13
+conda activate class12
 ```
 
 Run gubbins on your fasta formatted alignment
@@ -235,7 +235,7 @@ Run gubbins on your fasta formatted alignment
 ```
 wd
 
-cd class13
+cd class12
 
 cd parsnp_results
 
