@@ -33,6 +33,7 @@ We are going to be working in RStudio again today. Take the following steps to g
 
 1. Start up your epid582 Rproject  
 2. Use cyberduck to copy over the files for class 12. Of particular interest are the following:
+
  - parsnpLCB.aln (whole-genome alignment created by parsnp)
  - parsnp.tree (tree created by parsnp based on the unfiltered alignment)
  - parsnpLCB.final_tree.tre (recombination filtered tree created by gubbins)
@@ -245,6 +246,7 @@ To view the tree we will use the ape package in R:
 ```
 # Read in tree
 gubbins_tree <- read.tree('class12/parsnp_results/parsnpLCB.final_tree.tre')
+
 
 # Drop the outgroup for visualization purposes
 gubbins_tree_noOG = drop.tip(gubbins_tree, c('Abau_AB0057_genome.fa'))
