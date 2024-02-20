@@ -108,13 +108,15 @@
 - [Exploring the relationship between community- and healthcare-acquired MRSA using phylogenetic analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class12/README.md#exploring-the-relationship-between-community-and-healthcare-acquired-mrsa-using-phylogenetic-analysis)
 - [Tracking the origin of an blaNDM ST147 Klebsiella pneumoniae outbreak using phylogenetic analysis](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class12/README.md#tracking-the-origin-of-an-blandm-st147-klebsiella-pneumoniae-outbreak-using-phylogenetic-analysis)
 
+<!---
 #### [Class 12 – Genome-wide association studies](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class12/README.md)
 ***
 
 - Perform bGWAS for antibiotic resistance
 
+-->
 
-#### [Class 13 – Recombination detection](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class13/README.md)
+#### [Class 12 – Recombination detection](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class13/README.md)
 ***
 
 - [Perform Whole genome alignment with Parsnp](https://github.com/Snitkin-Lab-Umich/MICRO582-EPI582-Winter-2024/blob/main/class/class14/README.md#perform-whole-genome-alignment-with-parsnp)
