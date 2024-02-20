@@ -31,9 +31,8 @@ Setup
 -----
 We are going to be working in RStudio again today. Take the following steps to get ready for the lab:
 
-1. Start up your epid582 Rproject and create a new directory in it called class13 to hold data we will be analyzing today. 
-2. Go on to Great Lakes and copy over the class 12 files to your working directory
-3. Use cyberduck to bring the files down to the following files from the parnsnp_results directory to the class12 firectory you created on your own computer
+1. Start up your epid582 Rproject  
+2. Use cyberduck to copy over the files for class 12. Of particular interest are the following:
  - parsnpLCB.aln (whole-genome alignment created by parsnp)
  - parsnp.tree (tree created by parsnp based on the unfiltered alignment)
  - parsnpLCB.final_tree.tre (recombination filtered tree created by gubbins)
@@ -43,18 +42,18 @@ We are going to be working in RStudio again today. Take the following steps to g
 Perform Whole genome alignment with [Parsnp](https://harvest.readthedocs.io/en/latest/content/parsnp.html)
 ----------------------------------------------------------------------------------------------------------
 
-An alternative approach for identification of variants among genomes is to perform whole genome alignments of assemblies. If the original short read data is unavailable, this might be the only approach available to you. Typically, these programs don’t scale well to large numbers of genomes (e.g. > 100), but they are worth being familiar with. We will use the tool mauve for constructing whole genome alignments of our five A. baumannii genomes.
+An alternative approach for identification of variants among genomes is to perform whole genome alignments of assemblies. If the original short read data is unavailable, this might be the only approach available to you. Typically, these programs don’t scale well to large numbers of genomes (e.g. > 100), but they are worth being familiar with. We will use the tool parsnp for constructing whole genome alignments of our five A. baumannii genomes.
 
 **Note that we have run Parsnp for you, so you can skip this step and the conversion of format using harvesttools**
 
 > ***i. Perform genome alignment with Parsnp***
 
-Create a conda environment class13 that will install Parsnp/Harvesttools/Gubbins for you. 
+Create a conda environment class12 that will install Parsnp/Harvesttools/Gubbins for you. 
 
 ```
-conda create -n class13 -c bioconda parsnp harvesttools gubbins
+conda create -n class12 -c bioconda parsnp harvesttools gubbins
 
-conda activate class13
+conda activate class12
 
 # invoke parsnp and harvesttool's help menu to check if it was installed properly
 parsnp -h
@@ -63,7 +62,7 @@ harvesttools -h
 
 run_gubbins.py -h
 
-cd class13
+cd class12
 ```
 
 Now we will ask parsnp to align all the genomes in Abau_genomes directory and also ask parsnp to use Reference_genome/ACICU_genome.fasta as a reference genome.
@@ -92,21 +91,7 @@ harvesttools -i parsnp.ggr -M parsnpLCB.aln
 
 > ***iii. View multiple genome alignment in [gingr](https://harvest.readthedocs.io/en/latest/content/gingr.html)***
 
-Gingr is a visualization tool that accompanies parsnp. So, let's download the files we created using parsnp and load them into gingr.
-
-Go to your local system terminal or open a new terminal tab and run these commands to create a new directory and copy files from great lakes to your local Desktop using Cyberduck.
-
-```
-mkdir ~/Desktop/Abau_parsnp
-
-cd ~/Desktop/Abau_parsnp
-
-```
-
-Drag and drop parsnp.ggr, parsnpLCB.aln, parsnp.tree to this folder.
-
-
-Now, fire up gingr and use File->open tab to read in parsnp.ggr
+Gingr is a visualization tool that accompanies parsnp. So, let's load the files from our class 12 directory into gingr by using File->open tab to read in parsnp.gg
 
 Notice the structure of the tree (i.e. which genomes are closely related to one another) and whether variants are or aren't evenly spaced across the genome.
 
@@ -132,7 +117,7 @@ setwd("~/Desktop/Abau_parsnp/")
 library(ape)
 
 #READ IN THE MULTIPLE GENOME ALIGNMENT AND CHANGE THE NAMES TO REMOVE FILE EXTENSIONS
-abau_msa = read.dna('class12/parsnpLCB.aln', format = "fasta") 
+abau_msa = read.dna('class12/parsnp_results/parsnpLCB.aln', format = "fasta") 
 row.names(abau_msa) = gsub(".fa|.fasta", "", row.names(abau_msa))
 ```
 
@@ -153,7 +138,7 @@ Examining the pairwise distances among our isolates, we see that our genomes hav
 Next, let's read in the tree produced by parsnp and plot it using ape.
 
 ```
-parsnp_tree = read.tree('parsnp.tree')
+parsnp_tree = read.tree('class12/parsnp_results/parsnp.tree')
 plot(parsnp_tree)
 ```
 
@@ -209,7 +194,7 @@ abau_msa_no_outgroup_var_pos = apply(abau_msa_no_outgroup, 2,
 Finally, create a histogram of SNP density across the genome. 
 
 ```
-hist(which(abau_no_outgroup_var_pos), 10000)
+hist(which(abau_msa_no_outgroup_var_pos), 10000)
 ```
 
 Does the density look even, or do you think there might be just a touch of recombination?
@@ -224,7 +209,7 @@ Now that we know there is recombination, we know that we need to filter out the 
 
 > ***i. Run gubbins on your fasta alignment***
 
-Go back on great lakes and activate class13 environment
+We have pre-run gubbins for you, but here are the steps we took.
 
 ```
 conda activate class12
@@ -259,7 +244,7 @@ To view the tree we will use the ape package in R:
 
 ```
 # Read in tree
-gubbins_tree <- read.tree('class13/parsnpLCB.final_tree.tre')
+gubbins_tree <- read.tree('class12/parsnp_results/parsnpLCB.final_tree.tre')
 
 # Drop the outgroup for visualization purposes
 gubbins_tree_noOG = drop.tip(gubbins_tree, c('Abau_AB0057_genome.fa'))
