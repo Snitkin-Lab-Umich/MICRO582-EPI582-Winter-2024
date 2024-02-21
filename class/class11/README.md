@@ -51,13 +51,12 @@ install.packages("BiocManager")
 BiocManager::install("YuLab-SMU/treedataverse")
 
 #Load R libraries
-library(phytools)
+library(ape)
 library(ggtree)
 library(ggplot2)
 library(pheatmap)
  
 library(RColorBrewer) 
-library(ggtree)
 library(ggnewscale)
 library(tidyverse)
 
