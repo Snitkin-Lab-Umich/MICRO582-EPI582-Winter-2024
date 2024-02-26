@@ -18,8 +18,13 @@ Lets create two seperate environments class8_sratools and class8_mashtree
 # class8_sratools environment
 conda create -n class8_sratools -c bioconda sra-tools=2.10.0 entrez-direct
 
-# class8_mashtree environment
+# class8_mashtree environment. 
 conda create -n class8_mashtree -c bioconda mashtree
+
+# FYI, GL also has mashtree installed as a module that you can load with:
+module load Bioinformatics mashtree
+
+mashtree -h
 
 conda activate class8_sratools
 
@@ -27,12 +32,7 @@ esearch -h
 
 fasterq-dump -h
 
-conda deactivate
 
-conda activate class8_mashtree
-module load Bioinformatics mash
-
-mashtree -h
 ```
 If you can see the help menu for each of these tools then you are all set for today's analysis.
 
