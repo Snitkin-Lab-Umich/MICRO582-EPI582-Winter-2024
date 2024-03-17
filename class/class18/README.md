@@ -1,4 +1,4 @@
-Class 19 – Regional endemic spread
+Class 18 – Regional endemic spread
 ====================================
 
 Goals
