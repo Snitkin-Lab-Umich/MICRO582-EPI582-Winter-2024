@@ -12,7 +12,7 @@ Setup
 We are going to be working in RStudio again today. Take the following steps to get ready for the lab:
 
 1. Start up your epid582 Rproject and create a new directory in it called class17 to hold data we will be analyzing today. 
-2. Go on to Great Lakes and copy over the class 18 files to your working directory
+2. Go on to Great Lakes and copy over the class 17 files to your working directory
 3. Use cyberduck to bring the files down to the class17 directory you created on your own computer
 
 Package installation and library loading
