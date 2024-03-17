@@ -1,4 +1,4 @@
-Class 18 – Regional outbreak analysis
+Class 17 – Regional outbreak analysis
 ====================================================
 
 Goals
@@ -11,9 +11,9 @@ Setup
 -----
 We are going to be working in RStudio again today. Take the following steps to get ready for the lab:
 
-1. Start up your epid582 Rproject and create a new directory in it called class18 to hold data we will be analyzing today. 
+1. Start up your epid582 Rproject and create a new directory in it called class17 to hold data we will be analyzing today. 
 2. Go on to Great Lakes and copy over the class 18 files to your working directory
-3. Use cyberduck to bring the files down to the class18 directory you created on your own computer
+3. Use cyberduck to bring the files down to the class17 directory you created on your own computer
 
 Package installation and library loading
 ----------------------------------------
@@ -49,7 +49,7 @@ To understand how this outbreak started and progressed we performed whole-genome
 
 ```
 #Read in meta-data
-st147_meta_data <- read.table('class18/study_isolate_metadata_all.csv',
+st147_meta_data <- read.table('class17/study_isolate_metadata_all.csv',
                               sep = ",",
                               header = T)
 
@@ -74,7 +74,7 @@ First, lets get pairwise distances, process them in regentrans and then use ggpl
 ```
 ##Make plots of pairwise distances within and between facilities
 #Read in alignment
-st147_aln <- read.dna('class18/st147_variant_aln.fasta',
+st147_aln <- read.dna('class17/st147_variant_aln.fasta',
                       format = "fasta")
 
 #Get distance matrix
@@ -151,7 +151,7 @@ Let's go ahead and plot our tree using ggtree! A few things to notice:
 ```
 ##Plot tree with tips colored by facility
 #Read in tree
-st147_tree <- read.tree('class18/st147.tree')
+st147_tree <- read.tree('class17/st147.tree')
 
 #Get vector of facilities for tips and nodes of tree
 facils_tip <- c(facils[st147_tree$tip.label], 
