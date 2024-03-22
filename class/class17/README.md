@@ -25,6 +25,8 @@ A few other notes on packages that we wil be using:
 
 ```
 #Setup regentrans
+install.packages('devtools')
+library(devtools)
 devtools::install_github('Snitkin-Lab-Umich/regentrans')
 
 library(regentrans)
@@ -49,7 +51,7 @@ To understand how this outbreak started and progressed we performed whole-genome
 
 ```
 #Read in meta-data
-st147_meta_data <- read.table('class17/study_isolate_metadata_all.csv',
+st147_meta_data <- read.table('class17/study_isolate_metadata_NDM.csv',
                               sep = ",",
                               header = T)
 
@@ -58,6 +60,7 @@ ggplot(data=st147_meta_data, aes(x=f_id, fill = bla), ylim = 20) +
   geom_bar(stat="count") + 
   facet_grid(factor(st147_meta_data$survey)) +
   theme(axis.text.x = element_text(angle = 90))
+
 ```
 
 
@@ -85,40 +88,24 @@ dists <- ape::dist.dna(x = st147_aln, # DNAbin object as read in above
 )
 
 #Get pairwise distance object from regentrans
-st147_meta_data_subset <- subset(st147_meta_data, gID %in% row.names(dists)) #subset to match distance matrix
-
-facils <- structure(st147_meta_data_subset$f_id, names = st147_meta_data_subset$gID) #get isolates named by facility
-pts <- structure(st147_meta_data_subset$pt_id, names = st147_meta_data_subset$gID) #get isolates named by patient
+facils <- structure(st147_meta_data$f_id, names = st147_meta_data$gID) #get isolates named by facility
+pts <- structure(st147_meta_data$pt_id, names = st147_meta_data$gID) #get isolates named by patient
 
 pair_types <- get_pair_types(dists = dists, 
                              locs = facils, 
                              pt = pts)
-     
+
 #Plot pairwise distances for intra- and inter-facility pairs
 ggplot(data = pair_types, aes(x = pairwise_dist, fill = pair_type)) + 
   geom_histogram(position = 'identity', alpha = 0.4, bins = 50) +
-  labs(x = "Pairwise SNV distance", y = "Count", fill = "") 
-                             
-  
+  labs(x = "Pairwise SNV distance", y = "Count", fill = "Pair type") 
+
+
 #Zoom in on small values to see enrichment for intra-facility at small distances
 ggplot(data = pair_types, aes(x = pairwise_dist, fill = pair_type)) + 
   geom_histogram(position = 'identity', alpha = 0.4, bins = 50) +
   labs(x = "Pairwise SNV distance", y = "Count", fill = "") +
   xlim(-1,51)
-  
-#Plot intra versus inter facility dists over time and notice:
-#1) How the maximum of the distribution gets larger as time goes on (i.e. evolution is occuring)
-#2) The amount of transmission we are observing increases over time as evidenced by the larger spikes in small SNVS
-#3) In the last survey we detect more evidence of inter-facility transmission as evidenced by small inter-facility pairs, indicating increasing regional spread
-surveys <- structure(st147_meta_data_subset$survey, names = st147_meta_data_subset$gID) #get surveys named by isolates
-
-pair_types %>% 
-  mutate(surv1 = surveys[isolate1], surv2 = surveys[isolate2]) %>% 
-  filter(surv1 == surv2) %>% 
-  ggplot(aes(x = pairwise_dist, fill = pair_type)) + 
-  geom_histogram(position = 'identity', alpha = 0.4, bins = 50) +
-  labs(x = "Pairwise SNV distance", y = "Count", fill = "")+
-  facet_grid(~surv1) 
 ```
 
 Finally, let's make it a bit easier to identify a threshold where enrichment for facility overlap falls off by plotting the fraction of intra-facility pairs at increasing SNV thresholds.
@@ -134,7 +121,8 @@ ggplot(data =frac_intra, aes(x = pairwise_dist, y = frac_intra)) +
   geom_bar(stat = "identity", alpha = 0.5) + 
   scale_fill_grey() + 
   labs(x = "Pairwise SNV distance", y = "Fraction of intra-facility pairs") + 
-  ylim(0, 1) + xlim(-1,51) 
+  ylim(0, 1) + 
+  xlim(-1,51) 
 ```
 
 Examine whole-genome phylogeny and extract putative transmission clusters
@@ -151,11 +139,11 @@ Let's go ahead and plot our tree using ggtree! A few things to notice:
 ```
 ##Plot tree with tips colored by facility
 #Read in tree
-st147_tree <- read.tree('class17/st147.tree')
+st147_tree <- read.tree('class18/st147.tree')
 
 #Get vector of facilities for tips and nodes of tree
 facils_tip <- c(facils[st147_tree$tip.label], 
-              rep(NA, Nnode(st147_tree)))
+                rep(NA, Nnode(st147_tree)))
 
 #Plot tree with ggtree
 ggtree(st147_tree) + 
@@ -174,7 +162,10 @@ Notice a few things:
 ##Extract phylogenetic clusters containing isolates from each facility
 ##and plot size distribution
 #Get clusters with regentrans
-clusters <- get_clusters(st147_tree,facils[st147_tree$tip.label], pureness = 1, pt = pts[st147_tree$tip.label])
+clusters <- get_clusters(st147_tree,
+                         facils[st147_tree$tip.label], 
+                         pureness = 1, 
+                         pt = pts[st147_tree$tip.label])
 
 #Get pure subtree info for plotting
 pure_subtree_info <- clusters$pure_subtree_info
@@ -183,7 +174,7 @@ pure_subtree_info <- clusters$pure_subtree_info
 ggplot(data = pure_subtree_info, aes(x = loc, y = subtr_size, color = loc)) + 
   geom_jitter(position = position_jitter(width = 0.2, height = 0.1), alpha = 0.5) + 
   scale_color_discrete() +
-  labs(y = "Number of isolates in \nphylogenetic cluster", x = "", color = 'Facility') +
+  labs(y = "Number of isolates in \nphylogenetic cluster", x = "Facility", color = 'Facility') +
   coord_flip()
 ```
 
@@ -197,30 +188,33 @@ Notice the following:
 3. In contrast we see that despite having large numbers of intra-facility pairs, vSNF K is relatively isolated from other facilities.
 
 ```
-##Get number of closely related pairs between facilities and
-##plot heatmap
+##Get number of closely related pairs between facilities and plot heatmap
 #Subset to closely related pairs
 pair_type_subset <- subset(pair_types, pairwise_dist < 10)
 
 #Initialize matrix to hold facility pair counts
 facil_pair_count = matrix(0, 
-                          ncol = length(unique(facils)), 
-                          nrow = length(unique(facils)),
-                          dimnames = list(unique(facils), unique(facils) ))
-
+                           ncol = length(unique(facils)), 
+                           nrow = length(unique(facils)),
+                           dimnames = list(unique(facils), unique(facils) ))
+ 
 #Add each inter-facility pair to appropriate facility pair
 for(p in 1:nrow(pair_type_subset))
 {
-  
-  facil_pair_count[pair_type_subset$loc1[p], pair_type_subset$loc2[p]] <- facil_pair_count[pair_type_subset$loc1[p], pair_type_subset$loc2[p]] + 1;
-  facil_pair_count[pair_type_subset$loc2[p], pair_type_subset$loc1[p]] <- facil_pair_count[pair_type_subset$loc2[p], pair_type_subset$loc1[p]] + 1;
-  
+   
+   facil_pair_count[pair_type_subset$loc1[p], pair_type_subset$loc2[p]] <- facil_pair_count[pair_type_subset$loc1[p], pair_type_subset$loc2[p]] + 1;
+   facil_pair_count[pair_type_subset$loc2[p], pair_type_subset$loc1[p]] <- facil_pair_count[pair_type_subset$loc2[p], pair_type_subset$loc1[p]] + 1;
+   
 }
 
+#Correct for double counting intra-facility pairs 
+diag(facil_pair_count) <- diag(facil_pair_count)/2
+
+
 #Plot heatmap
-pheatmap(log2(facil_pair_count+1), 
-         cluster_rows = F, 
-         cluster_cols = F)
+ pheatmap(log2(facil_pair_count + 1), 
+          cluster_rows = F, 
+          cluster_cols = F)
 ```
 
 
