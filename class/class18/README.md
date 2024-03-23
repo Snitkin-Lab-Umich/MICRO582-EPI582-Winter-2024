@@ -152,9 +152,5 @@ ggplot(data = pt_trans, aes(x=sum_pt_trans_metric,y=num_pairs_lt10)) +
   geom_point() + geom_smooth(method='lm') + scale_x_log10() +
   labs(x = 'Patient flow', y = '# closely related\npairs (≤ 10 SNVs)') 
 
-
-ggplot(data = pt_trans, aes(x=sum_pt_trans_metric,y=fsp)) +
-  geom_point() + geom_smooth(method='lm') + scale_x_log10() +
-  labs(x = 'Patient flow', y = 'fsp') 
 ```
 
