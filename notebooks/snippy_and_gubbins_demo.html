@@ -14596,13 +14596,15 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="How-to-run-Snippy,-Gubbins,-AMRFinderPlus-and-MLST.">How to run Snippy, Gubbins, AMRFinderPlus and MLST.<a class="anchor-link" href="#How-to-run-Snippy,-Gubbins,-AMRFinderPlus-and-MLST.">&#182;</a></h1><h4 id="1.-Snippy-and-Gubbins">1. Snippy and Gubbins<a class="anchor-link" href="#1.-Snippy-and-Gubbins">&#182;</a></h4><p>Link to Snippy Github: <a href="https://github.com/tseemann/snippy">https://github.com/tseemann/snippy</a></p>
+<h1 id="Tutorial-on-running-Snippy,-Gubbins,-AMRFinderPlus-and-MLST-tools-on-entire-dataset.">Tutorial on running Snippy, Gubbins, AMRFinderPlus and MLST tools on entire dataset.<a class="anchor-link" href="#Tutorial-on-running-Snippy,-Gubbins,-AMRFinderPlus-and-MLST-tools-on-entire-dataset.">&#182;</a></h1><p>This is a demo showing how you can apply various bioinformatics tools on multiple samples/entire dataset. You can closely follow these steps and adapt the below commands for your final project dataset.</p>
+<p>For the purpose of this demo, we will use dataset from Assignment 2 which is located here:</p>
+<p><code>/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/</code></p>
+<h4 id="1.-Snippy-and-Gubbins">1. Snippy and Gubbins<a class="anchor-link" href="#1.-Snippy-and-Gubbins">&#182;</a></h4><p>For more in-depth information about various parameters, please follow official Snippy and Gubbins documentation.</p>
+<p>Link to Snippy Github: <a href="https://github.com/tseemann/snippy">https://github.com/tseemann/snippy</a></p>
 <p>Link to Gubbins Github: <a href="https://github.com/nickjcroucher/gubbins">https://github.com/nickjcroucher/gubbins</a></p>
-<p>For the purpose of demo, we will use dataset from Assignment 2 which is located here:</p>
-<p><code>/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/</code></p>
-<p>Since, Gubbins is run on the final output of Snippy, we will run both the analysis in the same folder.</p>
+<p>Since, Gubbins is run on the final output of Snippy, we will run Snippy and Gubbins in the same folder.</p>
 <ul>
-<li>We will create a new directory to save Snippy and Gubbins results under the <code>shared_data/data/snippy_and_gubbins_demo</code></li>
+<li>We will create a new directory to save Snippy and Gubbins results under shared_data - <code>shared_data/data/snippy_and_gubbins_demo</code></li>
 </ul>
 
 </div>
@@ -14613,10 +14615,10 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span><span class="nb">cd</span> /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/
+<div class=" highlight hl-bash"><pre><span></span><span class="nb">cd</span> /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/
 </pre></div>
 
      </div>
@@ -14645,7 +14647,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="nb">cd</span> snippy_and_gubbins_demo
@@ -14677,35 +14679,39 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>In class9, we ran Snippy on a single isolate PCMP_H326 and running Snippy individually on an entire dataset could become cumbersome and would require applying a for loop.</p>
-<p>But, Snippy package comes with a helper script called <code>snippy-multi</code> that takes a tab seperated list of Sample names and path to its fastq sequences and generates a bash script that we can then submit as a job.</p>
-<p>To prepare an input list of samples, run this command:</p>
+<p>The goal of this demo is to show how you can ask Snippy to perform variant calling on multiple samples in one go rather than running it individually on each sample.</p>
+<p>Snippy package comes with a helper script called <code>snippy-multi</code> that takes a tab seperated list of Sample names and directory path to its fastq sequences, generates a bash script containing Snippy commands for each samples which can then be submitted as a slurm job.</p>
+<p>We will use unix for loop, cut and sed command to create a tab seperated file containing three columns seperated by a tab:</p>
+<p><code>SAMPLENAME1 PATH-TO-SAMPLENAME1_FORWARD_READ PATH-TO-SAMPLENAME1_REVERSE_READ)</code></p>
 
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<pre><code>#Loop through each file of forward reads, and print genome name and F/R read files for snippy batch
-for r1 in /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/*_1.fastq;
-do 
-    #Get name of genome from forward reads
-    isolate=`echo $r1 | cut -d'/' -f9 | sed 's/_1.fastq//g'`;
-    #Get reverse reads corresponding to current forward reads
-    r2=`echo $r1 | sed 's/_1.fastq/_2.fastq/g'`;
-    #Print out genome, forward reads and reverse reads, separated by tabs
-    printf &quot;$isolate\t$r1\t$r2\n&quot;;
-done &gt; input.tab
-</code></pre>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-bash"><pre><span></span><span class="c1">#Loop through each file of forward reads, and print genome name and F/R read files for snippy batch</span>
+<span class="k">for</span> r1 <span class="k">in</span> /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/*_1.fastq.gz<span class="p">;</span>
+<span class="k">do</span> 
+    <span class="c1">#Get name of genome from forward reads</span>
+    <span class="nv">isolate</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$r1</span> <span class="p">|</span> cut -d<span class="s1">&#39;/&#39;</span> -f9 <span class="p">|</span> sed <span class="s1">&#39;s/_1.fastq.gz//g&#39;</span><span class="sb">`</span><span class="p">;</span>
+    <span class="c1">#Get reverse reads corresponding to current forward reads</span>
+    <span class="nv">r2</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$r1</span> <span class="p">|</span> sed <span class="s1">&#39;s/_1.fastq/_2.fastq/g&#39;</span><span class="sb">`</span><span class="p">;</span>
+    <span class="c1">#Print out genome, forward reads and reverse reads, separated by tabs</span>
+    <span class="nb">printf</span> <span class="s2">&quot;</span><span class="nv">$isolate</span><span class="s2">\t</span><span class="nv">$r1</span><span class="s2">\t</span><span class="nv">$r2</span><span class="s2">\n&quot;</span><span class="p">;</span>
+<span class="k">done</span> &gt; input.tab
+</pre></div>
 
+     </div>
 </div>
 </div>
 </div>
+
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -14723,7 +14729,7 @@ done &gt; input.tab
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span>head input.tab
@@ -14746,16 +14752,16 @@ done &gt; input.tab
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>SRR6204326	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204326_1.fastq	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204326_2.fastq
-SRR6204327	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204327_1.fastq	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204327_2.fastq
-SRR6204328	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204328_1.fastq	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204328_2.fastq
-SRR6204329	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204329_1.fastq	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204329_2.fastq
-SRR6204330	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204330_1.fastq	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204330_2.fastq
-SRR6204331	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204331_1.fastq	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204331_2.fastq
-SRR6204332	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204332_1.fastq	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204332_2.fastq
-SRR6204333	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204333_1.fastq	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204333_2.fastq
-SRR6204334	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204334_1.fastq	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204334_2.fastq
-SRR6204335	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204335_1.fastq	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204335_2.fastq
+<pre>SRR6204326	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204326_1.fastq.gz	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204326_2.fastq.gz
+SRR6204327	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204327_1.fastq.gz	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204327_2.fastq.gz
+SRR6204328	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204328_1.fastq.gz	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204328_2.fastq.gz
+SRR6204329	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204329_1.fastq.gz	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204329_2.fastq.gz
+SRR6204330	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204330_1.fastq.gz	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204330_2.fastq.gz
+SRR6204332	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204332_1.fastq.gz	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204332_2.fastq.gz
+SRR6204334	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204334_1.fastq.gz	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204334_2.fastq.gz
+SRR6204335	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204335_1.fastq.gz	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204335_2.fastq.gz
+SRR6204336	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204336_1.fastq.gz	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204336_2.fastq.gz
+SRR6204337	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204337_1.fastq.gz	/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204337_2.fastq.gz
 </pre>
 </div>
 </div>
@@ -14771,7 +14777,7 @@ SRR6204335	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assi
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>*<strong>The first column contains the samplenames that Snippy will use to create output folders for each samples and the second and third column is the path to its paired end reads.</strong>*</p>
+<p>*<strong>The first column contains samplenames that Snippy will use as a prefix to create output foldername</strong>*</p>
 
 </div>
 </div>
@@ -14798,7 +14804,7 @@ SRR6204335	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assi
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <ul>
-<li>Lets load modules required to run Snippy and chek if all the dependencies looks good.</li>
+<li>Snippy is available as a module on Great Lakes. Lets load Snippy and check if all the dependencies looks good.</li>
 </ul>
 
 </div>
@@ -14809,13 +14815,11 @@ SRR6204335	/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assi
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># Load these modules</span>
-module load python3.9-anaconda/2021.11
-module load Bioinformatics
-module load perl-modules
+module load Bioinformatics snippy/4.6.0
 </pre></div>
 
      </div>
@@ -14855,7 +14859,7 @@ module load perl-modules
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span>snippy --check
@@ -14878,35 +14882,35 @@ module load perl-modules
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>[14:40:04] This is snippy 4.6.0
-[14:40:04] Written by Torsten Seemann
-[14:40:04] Obtained from https://github.com/tseemann/snippy
-[14:40:04] Detected operating system: linux
-[14:40:04] Enabling bundled linux tools.
-[14:40:04] Found bwa - /gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/bin/snippy/binaries/linux/bwa
-[14:40:04] Found bcftools - /gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/bin/snippy/binaries/linux/bcftools
-[14:40:04] Found samtools - /gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/bin/snippy/binaries/linux/samtools
-[14:40:04] Found java - /usr/bin/java
-[14:40:04] Found snpEff - /gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/bin/snippy/binaries/noarch/snpEff
-[14:40:04] Found samclip - /gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/bin/snippy/binaries/noarch/samclip
-[14:40:04] Found seqtk - /gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/bin/snippy/binaries/linux/seqtk
-[14:40:04] Found parallel - /usr/bin/parallel
-[14:40:04] Found freebayes - /gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/bin/snippy/binaries/linux/freebayes
-[14:40:04] Found freebayes-parallel - /gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/bin/snippy/binaries/noarch/freebayes-parallel
-[14:40:04] Found fasta_generate_regions.py - /gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/bin/snippy/binaries/noarch/fasta_generate_regions.py
-[14:40:04] Found vcfstreamsort - /gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/bin/snippy/binaries/linux/vcfstreamsort
-[14:40:04] Found vcfuniq - /gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/bin/snippy/binaries/linux/vcfuniq
-[14:40:04] Found vcffirstheader - /gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/bin/snippy/binaries/noarch/vcffirstheader
-[14:40:04] Found gzip - /usr/bin/gzip
-[14:40:04] Found vt - /gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/bin/snippy/binaries/linux/vt
-[14:40:04] Found snippy-vcf_to_tab - /gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/bin/snippy/bin/snippy-vcf_to_tab
-[14:40:04] Found snippy-vcf_report - /gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/bin/snippy/bin/snippy-vcf_report
-[14:40:04] Checking version: samtools --version is &gt;= 1.7 - ok, have 1.10
-[14:40:05] Checking version: bcftools --version is &gt;= 1.7 - ok, have 1.10
-[14:40:05] Checking version: freebayes --version is &gt;= 1.1 - ok, have 1.3.1
-[14:40:05] Checking version: snpEff -version is &gt;= 4.3 - ok, have 4.3
-[14:40:05] Checking version: bwa is &gt;= 0.7.12 - ok, have 0.7.17
-[14:40:05] Dependences look good!
+<pre>[16:41:13] This is snippy 4.5.1
+[16:41:13] Written by Torsten Seemann
+[16:41:13] Obtained from https://github.com/tseemann/snippy
+[16:41:13] Detected operating system: linux
+[16:41:13] Enabling bundled linux tools.
+[16:41:13] Found bwa - /opt/conda/bin/bwa
+[16:41:13] Found bcftools - /opt/conda/bin/bcftools
+[16:41:13] Found samtools - /opt/conda/bin/samtools
+[16:41:13] Found java - /opt/conda/bin/java
+[16:41:13] Found snpEff - /opt/conda/bin/snpEff
+[16:41:13] Found samclip - /opt/conda/bin/samclip
+[16:41:13] Found seqtk - /opt/conda/bin/seqtk
+[16:41:13] Found parallel - /opt/conda/bin/parallel
+[16:41:13] Found freebayes - /opt/conda/bin/freebayes
+[16:41:13] Found freebayes-parallel - /opt/conda/bin/freebayes-parallel
+[16:41:13] Found fasta_generate_regions.py - /opt/conda/bin/fasta_generate_regions.py
+[16:41:13] Found vcfstreamsort - /opt/conda/bin/vcfstreamsort
+[16:41:13] Found vcfuniq - /opt/conda/bin/vcfuniq
+[16:41:13] Found vcffirstheader - /opt/conda/bin/vcffirstheader
+[16:41:13] Found gzip - /bin/gzip
+[16:41:13] Found vt - /opt/conda/bin/vt
+[16:41:13] Found snippy-vcf_to_tab - /opt/conda/bin/snippy-vcf_to_tab
+[16:41:13] Found snippy-vcf_report - /opt/conda/bin/snippy-vcf_report
+[16:41:13] Checking version: samtools --version is &gt;= 1.7 - ok, have 1.10
+[16:41:14] Checking version: bcftools --version is &gt;= 1.7 - ok, have 1.10
+[16:41:14] Checking version: freebayes --version is &gt;= 1.1 - ok, have 1.3.2
+[16:41:17] Checking version: snpEff -version is &gt;= 4.3 - ok, have 4.3
+[16:41:17] Checking version: bwa is &gt;= 0.7.12 - ok, have 0.7.17
+[16:41:17] Dependences look good!
 </pre>
 </div>
 </div>
@@ -14936,8 +14940,8 @@ module load perl-modules
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>We will run snippy-multi on commandline with input.tab as yoour data input and path to a reference genome genbank file.</p>
-<p>Note: Make sure to use project specific reference genome.</p>
+<p>We will run snippy-multi on commandline with input.tab as your input and path to a reference genome genbank file.</p>
+<p>Note: Make sure to use project specific reference genome while adapting this command for your Final project.</p>
 
 </div>
 </div>
@@ -14947,10 +14951,10 @@ module load perl-modules
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span>snippy-multi input.tab --ref /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class9/KPNIH1.gbk --cpu <span class="m">4</span> --force --report &gt; runme.sh
+<div class=" highlight hl-bash"><pre><span></span>snippy-multi input.tab --ref /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class9/KPNIH1.gbk --cpu <span class="m">4</span> --force --report &gt; runme.sh
 </pre></div>
 
      </div>
@@ -14971,7 +14975,7 @@ module load perl-modules
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>Reading: input.tab
-Generating output commands for 69 isolates
+Generating output commands for 56 isolates
 Done.
 </pre>
 </div>
@@ -14989,9 +14993,9 @@ Done.
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Note:</p>
-<pre><code>- snippy-multi generates individual snippy commands for each sample as well as snippy-core command which aggregates results from individual sample snippy results and generates a consensus alignment file. This consensus alignment file can then be used as an input for Gubbins which masks recombinant region in this alignment file and generates a phylogenetic tree.
+<pre><code>- snippy-multi generates individual snippy commands for each sample as well as a single snippy-core command at the end. snippy-core basically aggregates results from individual samples and generates a core consensus alignment file. This consensus alignment file will then be used as an input for Gubbins.
 
-- If snippy-multi throws an error that it can't file a read file or a path, its propbably due to the format of your input.tab Check your for loop and regenerate the input.tab file. THis file shoul contain three columns each seperated by a tab. 
+- If snippy-multi throws an error that it can't read a read file or a path, its propbably due to the format of your input.tab Check your for loop and regenerate the input.tab file. This file should contain three columns each seperated by a tab. 
 </code></pre>
 
 </div>
@@ -15002,7 +15006,7 @@ Done.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span>head -n5 runme.sh
@@ -15025,11 +15029,11 @@ Done.
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>snippy --outdir &#39;SRR6204326&#39; --R1 &#39;/gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204326_1.fastq&#39; --R2 &#39;/gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204326_2.fastq&#39; --ref /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class9/KPNIH1.gbk --cpu 4 --force --report
-snippy --outdir &#39;SRR6204327&#39; --R1 &#39;/gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204327_1.fastq&#39; --R2 &#39;/gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204327_2.fastq&#39; --ref /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class9/KPNIH1.gbk --cpu 4 --force --report
-snippy --outdir &#39;SRR6204328&#39; --R1 &#39;/gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204328_1.fastq&#39; --R2 &#39;/gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204328_2.fastq&#39; --ref /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class9/KPNIH1.gbk --cpu 4 --force --report
-snippy --outdir &#39;SRR6204329&#39; --R1 &#39;/gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204329_1.fastq&#39; --R2 &#39;/gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204329_2.fastq&#39; --ref /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class9/KPNIH1.gbk --cpu 4 --force --report
-snippy --outdir &#39;SRR6204330&#39; --R1 &#39;/gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204330_1.fastq&#39; --R2 &#39;/gpfs/accounts/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_fastq/SRR6204330_2.fastq&#39; --ref /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/class9/KPNIH1.gbk --cpu 4 --force --report
+<pre>snippy --outdir &#39;SRR6204326&#39; --R1 &#39;/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204326_1.fastq.gz&#39; --R2 &#39;/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204326_2.fastq.gz&#39; --ref /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class9/KPNIH1.gbk --cpu 4 --force --report
+snippy --outdir &#39;SRR6204327&#39; --R1 &#39;/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204327_1.fastq.gz&#39; --R2 &#39;/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204327_2.fastq.gz&#39; --ref /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class9/KPNIH1.gbk --cpu 4 --force --report
+snippy --outdir &#39;SRR6204328&#39; --R1 &#39;/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204328_1.fastq.gz&#39; --R2 &#39;/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204328_2.fastq.gz&#39; --ref /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class9/KPNIH1.gbk --cpu 4 --force --report
+snippy --outdir &#39;SRR6204329&#39; --R1 &#39;/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204329_1.fastq.gz&#39; --R2 &#39;/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204329_2.fastq.gz&#39; --ref /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class9/KPNIH1.gbk --cpu 4 --force --report
+snippy --outdir &#39;SRR6204330&#39; --R1 &#39;/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204330_1.fastq.gz&#39; --R2 &#39;/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/SRR6204330_2.fastq.gz&#39; --ref /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class9/KPNIH1.gbk --cpu 4 --force --report
 </pre>
 </div>
 </div>
@@ -15045,7 +15049,7 @@ snippy --outdir &#39;SRR6204330&#39; --R1 &#39;/gpfs/accounts/epid582w23_class_r
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>*<strong>snippy-multi generated snippy commands for each of the samples and saved it in runme.sh script. If you look at the end of runme.sh, you would find a snippy-core command which will aggregate the variant call results and generate a core alignment which will be our input for Gubbins</strong>*</p>
+<p>*<strong>If you look at the last line of runme.sh, you would find a snippy-core command</strong>*</p>
 
 </div>
 </div>
@@ -15055,7 +15059,7 @@ snippy --outdir &#39;SRR6204330&#39; --R1 &#39;/gpfs/accounts/epid582w23_class_r
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span>tail -n1 runme.sh
@@ -15078,7 +15082,7 @@ snippy --outdir &#39;SRR6204330&#39; --R1 &#39;/gpfs/accounts/epid582w23_class_r
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>snippy-core --ref &#39;SRR6204326/ref.fa&#39; SRR6204326 SRR6204327 SRR6204328 SRR6204329 SRR6204330 SRR6204331 SRR6204332 SRR6204333 SRR6204334 SRR6204335 SRR6204336 SRR6204337 SRR6204338 SRR6204339 SRR6204340 SRR6204341 SRR6204342 SRR6204343 SRR6204344 SRR6204345 SRR6204346 SRR6204347 SRR6204348 SRR6204349 SRR6204350 SRR6204351 SRR6204352 SRR6204353 SRR6204354 SRR6204355 SRR6204356 SRR6204357 SRR6204358 SRR6204359 SRR6204360 SRR6204361 SRR6204362 SRR6204363 SRR6204364 SRR6204365 SRR6204366 SRR6204367 SRR6204368 SRR6204369 SRR6204370 SRR6204371 SRR6204372 SRR6204373 SRR6204374 SRR6204375 SRR6204376 SRR6204377 SRR6204378 SRR6204379 SRR6204380 SRR6204381 SRR6204382 SRR6204383 SRR6204384 SRR6204385 SRR6204386 SRR6204387 SRR6204388 SRR6204389 SRR6204390 SRR6204391 SRR6204392 SRR6204393 SRR6204394
+<pre>snippy-core --ref &#39;SRR6204326/ref.fa&#39; SRR6204326 SRR6204327 SRR6204328 SRR6204329 SRR6204330 SRR6204332 SRR6204334 SRR6204335 SRR6204336 SRR6204337 SRR6204339 SRR6204340 SRR6204341 SRR6204343 SRR6204345 SRR6204346 SRR6204347 SRR6204348 SRR6204349 SRR6204350 SRR6204351 SRR6204352 SRR6204354 SRR6204355 SRR6204358 SRR6204360 SRR6204361 SRR6204362 SRR6204363 SRR6204364 SRR6204365 SRR6204366 SRR6204367 SRR6204368 SRR6204369 SRR6204370 SRR6204373 SRR6204374 SRR6204375 SRR6204376 SRR6204377 SRR6204378 SRR6204381 SRR6204382 SRR6204383 SRR6204384 SRR6204385 SRR6204386 SRR6204387 SRR6204388 SRR6204389 SRR6204390 SRR6204391 SRR6204392 SRR6204393 SRR6204394
 </pre>
 </div>
 </div>
@@ -15095,7 +15099,7 @@ snippy --outdir &#39;SRR6204330&#39; --R1 &#39;/gpfs/accounts/epid582w23_class_r
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <ul>
-<li>Submit Snippy job</li>
+<li>Add this runme.sh bash script in a slurm sbat file.</li>
 </ul>
 
 </div>
@@ -15106,7 +15110,7 @@ snippy --outdir &#39;SRR6204330&#39; --R1 &#39;/gpfs/accounts/epid582w23_class_r
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span>touch snippy.sbat
@@ -15133,11 +15137,10 @@ snippy --outdir &#39;SRR6204330&#39; --R1 &#39;/gpfs/accounts/epid582w23_class_r
 #SBATCH --mail-type=BEGIN,END,FAIL,REQUEUE
 #SBATCH --export=ALL
 #SBATCH --partition=standard
-#SBATCH --account=epid582w23_class
+#SBATCH --account=epid582w24_class
 # Number of cores, amount of memory, and walltime
-#SBATCH --nodes=1 --ntasks=1 --cpus-per-task=4 --mem=20g --time=240:00:00
-#  Change to the directory you submitted from
-cd $SLURM_SUBMIT_DIR
+#SBATCH --nodes=1 --ntasks=1 --cpus-per-task=4 --mem=20g --time=12:00:00
+
 echo $SLURM_SUBMIT_DIR
 
 bash runme.sh
@@ -15163,7 +15166,7 @@ bash runme.sh
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span>sbatch snippy.sbat
@@ -15186,7 +15189,7 @@ bash runme.sh
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Submitted batch job 49825358
+<pre>Submitted batch job 5795798
 </pre>
 </div>
 </div>
@@ -15250,10 +15253,10 @@ bash runme.sh
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span>cat core.txt
+<div class=" highlight hl-bash"><pre><span></span>head core.txt
 </pre></div>
 
      </div>
@@ -15275,75 +15278,14 @@ bash runme.sh
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>ID	LENGTH	ALIGNED	UNALIGNED	VARIANT	HET	MASKED	LOWCOV
 SRR6204326	5766615	5461922	286542	208	2437	0	15714
-SRR6204327	5766615	5419140	292048	189	11778	0	43649
+SRR6204327	5766615	5419126	292048	189	11792	0	43649
 SRR6204328	5766615	5312074	292778	168	7127	0	154636
 SRR6204329	5766615	5460187	286745	176	3617	0	16066
 SRR6204330	5766615	5463038	284579	173	2810	0	16188
-SRR6204331	5766615	5443496	287518	174	9402	0	26199
-SRR6204332	5766615	5450708	286854	176	4746	0	24307
-SRR6204333	5766615	5445196	286778	175	8733	0	25908
+SRR6204332	5766615	5450687	286854	176	4767	0	24307
 SRR6204334	5766615	5397586	354903	164	1474	0	12652
 SRR6204335	5766615	5453872	287043	170	1345	0	24355
 SRR6204336	5766615	5441449	287387	170	10522	0	27257
-SRR6204337	5766615	5427392	289800	168	1085	0	48338
-SRR6204338	5766615	5363788	298058	165	1914	0	102855
-SRR6204339	5766615	5406545	348332	163	319	0	11419
-SRR6204340	5766615	5173207	311606	149	3873	0	277929
-SRR6204341	5766615	5453867	286001	146	493	0	26254
-SRR6204342	5766615	4299630	417158	107	6937	0	1042890
-SRR6204343	5766615	5045617	346284	107	4465	0	370249
-SRR6204344	5766615	5320915	293748	123	2749	0	149203
-SRR6204345	5766615	5336490	290839	106	5296	0	133990
-SRR6204346	5766615	5278550	361758	106	4987	0	121320
-SRR6204347	5766615	5470145	283167	105	525	0	12778
-SRR6204348	5766615	5126101	311765	111	6004	0	322745
-SRR6204349	5766615	5532977	214020	106	1391	0	18227
-SRR6204350	5766615	5512415	236164	111	765	0	17271
-SRR6204351	5766615	5445079	290416	109	8939	0	22181
-SRR6204352	5766615	5438820	289109	112	1519	0	37167
-SRR6204353	5766615	5381170	354067	103	8029	0	23349
-SRR6204354	5766615	5429677	288915	104	1264	0	46759
-SRR6204355	5766615	5477109	282526	105	209	0	6771
-SRR6204356	5766615	5454836	284897	102	5660	0	21222
-SRR6204357	5766615	5497803	216261	104	10533	0	42018
-SRR6204358	5766615	5472748	283616	113	651	0	9600
-SRR6204359	5766615	5481779	215843	103	11387	0	57606
-SRR6204360	5766615	5333115	288325	105	13601	0	131574
-SRR6204361	5766615	5447784	286700	106	9450	0	22681
-SRR6204362	5766615	5359327	289566	104	8030	0	109692
-SRR6204363	5766615	5448404	285383	103	2897	0	29931
-SRR6204364	5766615	5379174	358504	107	3128	0	25809
-SRR6204365	5766615	5461325	287488	107	2392	0	15410
-SRR6204366	5766615	5016133	383095	101	5237	0	362150
-SRR6204367	5766615	5439389	294145	107	5804	0	27277
-SRR6204368	5766615	5452874	292728	106	2753	0	18260
-SRR6204369	5766615	5419148	290690	105	3502	0	53275
-SRR6204370	5766615	5526035	215047	106	1518	0	24015
-SRR6204371	5766615	5417019	287520	104	12656	0	49420
-SRR6204372	5766615	5461818	282974	105	3524	0	18299
-SRR6204373	5766615	5413323	295815	105	11242	0	46235
-SRR6204374	5766615	5527754	216075	110	5966	0	16820
-SRR6204375	5766615	5463233	286511	103	2063	0	14808
-SRR6204376	5766615	5463638	284445	105	1927	0	16605
-SRR6204377	5766615	5388552	288994	105	2809	0	86260
-SRR6204378	5766615	5429395	286549	104	10974	0	39697
-SRR6204379	5766615	5457091	284481	102	4485	0	20558
-SRR6204380	5766615	5489407	245365	102	7067	0	24776
-SRR6204381	5766615	5479713	239087	106	8840	0	38975
-SRR6204382	5766615	4401273	340000	98	5959	0	1019383
-SRR6204383	5766615	5473048	283083	97	261	0	10223
-SRR6204384	5766615	5340447	354255	98	12857	0	59056
-SRR6204385	5766615	4938335	368528	93	5786	0	453966
-SRR6204386	5766615	5393399	356915	97	2242	0	14059
-SRR6204387	5766615	5454565	285610	99	684	0	25756
-SRR6204388	5766615	5471878	283802	95	244	0	10691
-SRR6204389	5766615	5000693	369499	92	5376	0	391047
-SRR6204390	5766615	5144240	308976	93	4397	0	309002
-SRR6204391	5766615	5381052	296161	92	1571	0	87831
-SRR6204392	5766615	5462195	285814	96	1145	0	17461
-SRR6204393	5766615	4895575	324553	94	5842	0	540645
-SRR6204394	5766615	4767671	325110	90	6036	0	667798
-Reference	5766615	5766615	0	0	0	0	0
 </pre>
 </div>
 </div>
@@ -15371,11 +15313,13 @@ Reference	5766615	5766615	0	0	0	0	0
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span>module load Bioinformatics
-module load gubbins/2.3.1
+<div class=" highlight hl-bash"><pre><span></span><span class="c1"># Unload any previously loaded modules.</span>
+module purge
+<span class="c1"># Load Gubbins</span>
+module load Bioinformatics gubbins/2.3.1
 </pre></div>
 
      </div>
@@ -15415,7 +15359,7 @@ module load gubbins/2.3.1
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># Check if gubbins was loaded into the environment</span>
@@ -15511,7 +15455,7 @@ optional arguments:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span>touch gubbins.sbat
@@ -15538,25 +15482,25 @@ optional arguments:
 #SBATCH --mail-type=BEGIN,END,FAIL,REQUEUE
 #SBATCH --export=ALL
 #SBATCH --partition=standard
-#SBATCH --account=epid582w23_class
+#SBATCH --account=epid582w24_class
 # Number of cores, amount of memory, and walltime
-#SBATCH --nodes=1 --ntasks=1 --cpus-per-task=8 --mem=40g --time=240:00:00
+#SBATCH --nodes=1 --ntasks=1 --cpus-per-task=8 --mem=40g --time=12:00:00
 #  Change to the directory you submitted from
 cd $SLURM_SUBMIT_DIR
 echo $SLURM_SUBMIT_DIR
 
-run_gubbins --prefix crkp_core_full_aln --verbose /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/snippy_and_gubbins_demo/core.full.aln
+run_gubbins --prefix crkp_core_full_aln --verbose /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/snippy_and_gubbins_demo/core.full.aln
 </code></pre>
 
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span>sbatch gubbins.sbat
@@ -15565,27 +15509,6 @@ run_gubbins --prefix crkp_core_full_aln --verbose /scratch/epid582w23_class_root
      </div>
 </div>
 </div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Submitted batch job 49880796
-</pre>
-</div>
-</div>
-
-</div>
-
 </div>
 
 </div>
@@ -15651,10 +15574,10 @@ run_gubbins --prefix crkp_core_full_aln --verbose /scratch/epid582w23_class_root
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span><span class="nb">cd</span> /scratch/epid582w23_class_root/epid582w23_class/shared_data/data
+<div class=" highlight hl-bash"><pre><span></span><span class="nb">cd</span> /scratch/epid582w24_class_root/epid582w24_class/shared_data/data
 </pre></div>
 
      </div>
@@ -15667,7 +15590,7 @@ run_gubbins --prefix crkp_core_full_aln --verbose /scratch/epid582w23_class_root
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span>mkdir AMRFinderPlus_demo
@@ -15683,7 +15606,7 @@ run_gubbins --prefix crkp_core_full_aln --verbose /scratch/epid582w23_class_root
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="nb">cd</span> AMRFinderPlus_demo
@@ -15699,7 +15622,7 @@ run_gubbins --prefix crkp_core_full_aln --verbose /scratch/epid582w23_class_root
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span>conda activate class7
@@ -15744,7 +15667,7 @@ run_gubbins --prefix crkp_core_full_aln --verbose /scratch/epid582w23_class_root
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># Check if amrfinder is loaded into the environment</span>
@@ -15777,7 +15700,7 @@ UPDATES
     Subscribe to the amrfinder-announce mailing list for database and software update notifications:
     https://www.ncbi.nlm.nih.gov/mailman/listinfo/amrfinder-announce
 
-USAGE:   amrfinder [--update] [--force_update] [--protein PROT_FASTA] [--nucleotide NUC_FASTA] [--gff GFF_FILE] [--pgap] [--annotation_format ANNOTATION_FORMAT] [--database DATABASE_DIR] [--ident_min MIN_IDENT] [--coverage_min MIN_COV] [--organism ORGANISM] [--list_organisms] [--translation_table TRANSLATION_TABLE] [--plus] [--report_common] [--mutation_all MUT_ALL_FILE] [--blast_bin BLAST_DIR] [--report_all_equal] [--print_node] [--name NAME] [--output OUTPUT_FILE] [--protein_output PROT_FASTA_OUT] [--nucleotide_output NUC_FASTA_OUT] [--nucleotide_flank5_output NUC_FLANK5_FASTA_OUT] [--nucleotide_flank5_size NUC_FLANK5_SIZE] [--quiet] [--gpipe_org] [--parm PARM] [--database_version] [--threads THREADS] [--debug] [--log LOG]
+USAGE:   amrfinder [--update] [--force_update] [--protein PROT_FASTA] [--nucleotide NUC_FASTA] [--gff GFF_FILE] [--annotation_format ANNOTATION_FORMAT] [--database DATABASE_DIR] [--database_version] [--ident_min MIN_IDENT] [--coverage_min MIN_COV] [--organism ORGANISM] [--list_organisms] [--translation_table TRANSLATION_TABLE] [--plus] [--report_common] [--report_all_equal] [--name NAME] [--print_node] [--mutation_all MUT_ALL_FILE] [--output OUTPUT_FILE] [--protein_output PROT_FASTA_OUT] [--nucleotide_output NUC_FASTA_OUT] [--nucleotide_flank5_output NUC_FLANK5_FASTA_OUT] [--nucleotide_flank5_size NUC_FLANK5_SIZE] [--blast_bin BLAST_DIR] [--hmmer_bin HMMER_DIR] [--quiet] [--pgap] [--gpipe_org] [--parm PARM] [--threads THREADS] [--debug] [--log LOG]
 HELP:    amrfinder --help or amrfinder -h
 VERSION: amrfinder --version
 
@@ -15787,18 +15710,18 @@ NAMED PARAMETERS:
 -U, --force_update
     Force updating the AMRFinder database
 -p PROT_FASTA, --protein PROT_FASTA
-    Input protein FASTA file
+    Input protein FASTA file (can be gzipped)
 -n NUC_FASTA, --nucleotide NUC_FASTA
-    Input nucleotide FASTA file
+    Input nucleotide FASTA file (can be gzipped)
 -g GFF_FILE, --gff GFF_FILE
-    GFF file for protein locations. Protein id should be in the attribute &#39;Name=&lt;id&gt;&#39; (9th field) of the rows with type &#39;CDS&#39; or &#39;gene&#39; (3rd field).
---pgap
-    Input files PROT_FASTA, NUC_FASTA and GFF_FILE are created by the NCBI PGAP
+    GFF file for protein locations (can be gzipped). Protein id should be in the attribute &#39;Name=&lt;id&gt;&#39; (9th field) of the rows with type &#39;CDS&#39; or &#39;gene&#39; (3rd field).
 -a ANNOTATION_FORMAT, --annotation_format ANNOTATION_FORMAT
-    Type of GFF file: bakta, genbank, microscope, patric, pgap, prokka, pseudomonasdb, rast
+    Type of GFF file: bakta, genbank, microscope, patric, pgap, prodigal, prokka, pseudomonasdb, rast, standard
     Default: genbank
 -d DATABASE_DIR, --database DATABASE_DIR
     Alternative directory with AMRFinder database. Default: $AMRFINDER_DB
+-V, --database_version
+    Print database version
 -i MIN_IDENT, --ident_min MIN_IDENT
     Minimum proportion of identical amino acids in alignment for hit (0..1). -1 means use a curated threshold if it exists and 0.9 otherwise
     Default: -1
@@ -15816,16 +15739,14 @@ NAMED PARAMETERS:
     Add the plus genes to the report
 --report_common
     Report proteins common to a taxonomy group
---mutation_all MUT_ALL_FILE
-    File to report all mutations
---blast_bin BLAST_DIR
-    Directory for BLAST. Deafult: $BLAST_BIN
 --report_all_equal
     Report all equally-scoring BLAST and HMM matches
---print_node
-    print hierarchy node (family)
 --name NAME
     Text to be added as the first column &#34;name&#34; to all rows of the report, for example it can be an assembly name
+--print_node
+    print hierarchy node (family)
+--mutation_all MUT_ALL_FILE
+    File to report all mutations
 -o OUTPUT_FILE, --output OUTPUT_FILE
     Write output to OUTPUT_FILE instead of STDOUT
 --protein_output PROT_FASTA_OUT
@@ -15837,14 +15758,18 @@ NAMED PARAMETERS:
 --nucleotide_flank5_size NUC_FLANK5_SIZE
     5&#39; flanking sequence size for NUC_FLANK5_FASTA_OUT
     Default: 0
+--blast_bin BLAST_DIR
+    Directory for BLAST. Deafult: $BLAST_BIN
+--hmmer_bin HMMER_DIR
+    Directory for HMMer
 -q, --quiet
     Suppress messages to STDERR
+--pgap
+    Input files PROT_FASTA, NUC_FASTA and GFF_FILE are created by the NCBI PGAP
 --gpipe_org
     NCBI internal GPipe organism names
 --parm PARM
     amr_report parameters for testing: -nosame -noblast -skip_hmm_check -bed
--V, --database_version
-    Print database version
 --threads THREADS
     Max. number of threads
     Default: 4
@@ -15880,7 +15805,7 @@ Temporary directory used is $TMPDIR or &#34;/tmp&#34;
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># We will generate AMRfinderplus commands for each individual genomes with the following for loop and submit it as a cluster job.</span>
-<span class="k">for</span> i <span class="k">in</span> /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_assembly/*.fasta<span class="p">;</span> 
+<span class="k">for</span> i <span class="k">in</span> /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/crkp_assembly/*.fasta<span class="p">;</span> 
 <span class="k">do</span> 
 <span class="nv">output</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$i</span> <span class="p">|</span> cut -d<span class="s1">&#39;/&#39;</span> -f9 <span class="p">|</span> sed <span class="s1">&#39;s/.fasta/.txt/g&#39;</span><span class="sb">`</span><span class="p">;</span> 
 <span class="nv">report</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$i</span> <span class="p">|</span> cut -d<span class="s1">&#39;/&#39;</span> -f9 <span class="p">|</span> sed <span class="s1">&#39;s/.fasta/_mutation_report.tsv/g&#39;</span><span class="sb">`</span><span class="p">;</span> 
@@ -15906,7 +15831,7 @@ Temporary directory used is $TMPDIR or &#34;/tmp&#34;
 <li>Note that you would need to specify project specific organism name with the <code>--organism</code> argument.</li>
 <li><code>amrfinder -l</code> will list possible options for this argument.</li>
 </ul>
-<p><code>Available --organism options: Acinetobacter_baumannii, Burkholderia_cepacia, Burkholderia_pseudomallei, Campylobacter, Clostridioides_difficile, Enterococcus_faecalis, Enterococcus_faecium, Escherichia, Klebsiella_oxytoca, Klebsiella_pneumoniae, Neisseria_gonorrhoeae, Neisseria_meningitidis, Pseudomonas_aeruginosa, Salmonella, Staphylococcus_aureus, Staphylococcus_pseudintermedius, Streptococcus_agalactiae, Streptococcus_pneumoniae, Streptococcus_pyogenes, Vibrio_cholerae</code></p>
+<p><code>Available --organism options: Acinetobacter_baumannii, Burkholderia_cepacia, Burkholderia_pseudomallei, Campylobacter, Citrobacter_freundii, Clostridioides_difficile, Enterobacter_asburiae, Enterobacter_cloacae, Enterococcus_faecalis, Enterococcus_faecium, Escherichia, Klebsiella_oxytoca, Klebsiella_pneumoniae, Neisseria_gonorrhoeae, Neisseria_meningitidis, Pseudomonas_aeruginosa, Salmonella, Serratia_marcescens, Staphylococcus_aureus, Staphylococcus_pseudintermedius, Streptococcus_agalactiae, Streptococcus_pneumoniae, Streptococcus_pyogenes, Vibrio_cholerae, Vibrio_parahaemolyticus, Vibrio_vulnificus</code></p>
 
 </div>
 </div>
@@ -15916,7 +15841,7 @@ Temporary directory used is $TMPDIR or &#34;/tmp&#34;
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[26]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span>touch AMRFinderPlus_demo.sbat
@@ -15963,7 +15888,7 @@ Temporary directory used is $TMPDIR or &#34;/tmp&#34;
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Copy and paste these lines to gubbins.sbat file using nano:</p>
+<p>Copy and paste these lines to AMRFinderPlus_demo.sbat file using nano:</p>
 <pre><code>#!/bin/sh
 # Job name
 #SBATCH --job-name=AMRFinderPlus
@@ -15972,14 +15897,14 @@ Temporary directory used is $TMPDIR or &#34;/tmp&#34;
 #SBATCH --mail-type=BEGIN,END,FAIL,REQUEUE
 #SBATCH --export=ALL
 #SBATCH --partition=standard
-#SBATCH --account=epid582w23_class
+#SBATCH --account=epid582w24_class
 # Number of cores, amount of memory, and walltime
-#SBATCH --nodes=1 --ntasks=1 --cpus-per-task=8 --mem=40g --time=240:00:00
+#SBATCH --nodes=1 --ntasks=1 --cpus-per-task=8 --mem=40g --time=12:00:00
 #  Change to the directory you submitted from
 cd $SLURM_SUBMIT_DIR
 echo $SLURM_SUBMIT_DIR
 
-for i in /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_assembly/*.fasta; 
+for i in /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/crkp_assembly/*.fasta; 
 do
 output=`echo $i | cut -d'/' -f9 | sed 's/.fasta/.txt/g'`; 
 report=`echo $i | cut -d'/' -f9 | sed 's/.fasta/_mutation_report.tsv/g'`;
@@ -15993,6 +15918,22 @@ done
 </div>
 </div>
 </div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-bash"><pre><span></span>sbatch AMRFinderPlus_demo.sbat
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -16012,10 +15953,10 @@ done
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[31]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[37]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span><span class="nb">cd</span> /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/
+<div class=" highlight hl-bash"><pre><span></span><span class="nb">cd</span> /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/
 </pre></div>
 
      </div>
@@ -16045,7 +15986,7 @@ mkdir mlst_demo
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[33]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[39]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># Activated the mlst conda environment</span>
@@ -16115,12 +16056,12 @@ mlst -check
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>(mlst) [16:30:18] This is mlst 2.23.0 running on linux with Perl 5.032001
-[16:30:18] Checking mlst dependencies:
-[16:30:18] Found &#39;blastn&#39; =&gt; /home/apirani/.conda/envs/mlst/bin/blastn
-[16:30:18] Found &#39;any2fasta&#39; =&gt; /home/apirani/.conda/envs/mlst/bin/any2fasta
-[16:30:18] Found blastn: 2.13.0+ (002013)
-[16:30:18] OK.
+<pre>(mlst) [14:27:27] This is mlst 2.23.0 running on linux with Perl 5.032001
+[14:27:27] Checking mlst dependencies:
+[14:27:27] Found &#39;blastn&#39; =&gt; /nfs/turbo/umms-esnitkin/conda/anaconda3/envs/mlst/bin/blastn
+[14:27:27] Found &#39;any2fasta&#39; =&gt; /nfs/turbo/umms-esnitkin/conda/anaconda3/envs/mlst/bin/any2fasta
+[14:27:28] Found blastn: 2.14.0+ (002014)
+[14:27:28] OK.
 (mlst) </pre>
 </div>
 </div>
@@ -16167,11 +16108,11 @@ mlst -list
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>(mlst) [16:30:48] This is mlst 2.23.0 running on linux with Perl 5.032001
-[16:30:48] Checking mlst dependencies:
-[16:30:48] Found &#39;blastn&#39; =&gt; /home/apirani/.conda/envs/mlst/bin/blastn
-[16:30:48] Found &#39;any2fasta&#39; =&gt; /home/apirani/.conda/envs/mlst/bin/any2fasta
-[16:30:48] Found blastn: 2.13.0+ (002013)
+<pre>(mlst) [14:27:31] This is mlst 2.23.0 running on linux with Perl 5.032001
+[14:27:31] Checking mlst dependencies:
+[14:27:31] Found &#39;blastn&#39; =&gt; /nfs/turbo/umms-esnitkin/conda/anaconda3/envs/mlst/bin/blastn
+[14:27:31] Found &#39;any2fasta&#39; =&gt; /nfs/turbo/umms-esnitkin/conda/anaconda3/envs/mlst/bin/any2fasta
+[14:27:31] Found blastn: 2.14.0+ (002014)
 pmultocida plarvae sbsec ureaplasma brachyspira psalmonis chlamydiales spneumoniae cbotulinum campylobacter_nonjejuni_8 sepidermidis campylobacter_nonjejuni_5 pfluorescens mplutonius brachyspira_5 campylobacter_nonjejuni_7 shaemolyticus csepticum neisseria bhenselae bwashoensis campylobacter_nonjejuni cronobacter staphlugdunensis spyogenes scanis helicobacter leptospira listeria_2 bsubtilis pputida cdifficile bordetella_3 mhominis_3 hparasuis ecloacae mgallisepticum_2 campylobacter_nonjejuni_9 mcatarrhalis_achtman_6 manserisalpingitidis lsalivarius bcereus wolbachia senterica_achtman_2 mycobacteria_2 brucella miowae vcholerae brachyspira_2 gallibacterium tpallidum xfastidiosa llactis_phage spseudintermedius borrelia mcanis efaecium cfreundii geotrichum taylorella oralstrep orhinotracheale ranatipestifer vibrio kaerogenes campylobacter_nonjejuni_6 klebsiella leptospira_2 ssuis sagalactiae vtapetis ypseudotuberculosis_achtman_3 szooepidemicus dnodosus yruckeri saureus blicheniformis_14 bcc mpneumoniae pmultocida_2 aeromonas mflocculare mhyorhinis pgingivalis mhyopneumoniae brachyspira_4 pacnes_3 streptothermophilus tenacibaculum cmaltaromaticum pdamselae campylobacter_nonjejuni_4 vcholerae_2 hsuis bbacilliformis bpseudomallei brachyspira_3 shominis otsutsugamushi ppentosaceus abaumannii_2 vparahaemolyticus koxytoca smaltophilia fpsychrophilum hinfluenzae sgallolyticus rhodococcus ecoli_achtman_4 bfragilis abaumannii kingella edwardsiella aactinomycetemcomitans achromobacter cperfringens aphagocytophilum diphtheria_3 mgallisepticum sinorhizobium shewanella streptomyces sdysgalactiae campylobacter_nonjejuni_3 suberis schromogenes liberibacter campylobacter_nonjejuni_2 arcobacter campylobacter paeruginosa sthermophilus efaecalis mhaemolytica hcinaedi msciuri magalactiae ecoli msynoviae mabscessus vvulnificus mcaseolyticus leptospira_3 mbovis_2
 (mlst) </pre>
 </div>
@@ -16190,16 +16131,16 @@ pmultocida plarvae sbsec ureaplasma brachyspira psalmonis chlamydiales spneumoni
 
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[42]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># Run mlst tool on all the CRKP assemblies in crkp_assembly folder and save the output in csv format to a file mlst.csv.</span>
-mlst --quiet --scheme klebsiella --csv /scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_assembly/*.fasta &gt; crkp_mlst.csv
+mlst --quiet --scheme klebsiella --csv /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/crkp_assembly/*.fasta &gt; crkp_mlst.csv
 </pre></div>
 
      </div>
@@ -16207,12 +16148,41 @@ mlst --quiet --scheme klebsiella --csv /scratch/epid582w23_class_root/epid582w23
 </div>
 </div>
 
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>(mlst) (mlst) </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
+<pre></pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[45]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[43]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span>head crkp_mlst.csv
@@ -16235,16 +16205,16 @@ mlst --quiet --scheme klebsiella --csv /scratch/epid582w23_class_root/epid582w23
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_assembly/SRR6204326.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
-/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_assembly/SRR6204327.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
-/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_assembly/SRR6204328.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
-/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_assembly/SRR6204329.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
-/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_assembly/SRR6204330.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
-/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_assembly/SRR6204331.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
-/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_assembly/SRR6204332.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
-/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_assembly/SRR6204333.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
-/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_assembly/SRR6204334.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
-/scratch/epid582w23_class_root/epid582w23_class/shared_data/data/assignment_2/crkp_assembly/SRR6204335.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
+<pre>/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/crkp_assembly/SRR6204326.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
+/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/crkp_assembly/SRR6204327.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
+/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/crkp_assembly/SRR6204328.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
+/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/crkp_assembly/SRR6204329.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
+/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/crkp_assembly/SRR6204330.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
+/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/crkp_assembly/SRR6204332.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
+/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/crkp_assembly/SRR6204334.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
+/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/crkp_assembly/SRR6204335.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
+/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/crkp_assembly/SRR6204336.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
+/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/crkp_assembly/SRR6204337.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
 (mlst) </pre>
 </div>
 </div>
