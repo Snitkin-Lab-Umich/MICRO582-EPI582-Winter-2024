@@ -643,9 +643,3 @@ head crkp_mlst.csv
     /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/crkp_assembly/SRR6204337.fasta,klebsiella,258,gapA(3),infB(3),mdh(1),pgi(1),phoE(1),rpoB(1),tonB(79)
     (mlst) 
 
-
-
-
-```bash
-
-```
