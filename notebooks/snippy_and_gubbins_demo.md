@@ -509,7 +509,7 @@ output=`echo $i | cut -d'/' -f9 | sed 's/.fasta/.txt/g'`;
 report=`echo $i | cut -d'/' -f9 | sed 's/.fasta/_mutation_report.tsv/g'`; 
 echo "amrfinder --plus --output $output -n $i --mutation_all $report --organism Klebsiella_pneumoniae";
 # Comment this line to print AMRFinderPlus commands
-#amrfinder --plus --output $output -n $i --mutation_all $report --organism Klebsiella_pneumoniae;
+amrfinder --plus --output $output -n $i --mutation_all $report --organism Klebsiella_pneumoniae;
 done
 ```
 
