@@ -14599,7 +14599,18 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <h1 id="Tutorial-on-running-Snippy,-Gubbins,-AMRFinderPlus-and-MLST-tools-on-entire-dataset.">Tutorial on running Snippy, Gubbins, AMRFinderPlus and MLST tools on entire dataset.<a class="anchor-link" href="#Tutorial-on-running-Snippy,-Gubbins,-AMRFinderPlus-and-MLST-tools-on-entire-dataset.">&#182;</a></h1><p>This is a demo showing how you can apply various bioinformatics tools on multiple samples/entire dataset. You can closely follow these steps and adapt the below commands for your final project dataset.</p>
 <p>For the purpose of this demo, we will use dataset from Assignment 2 which is located here:</p>
 <p><code>/scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/outbreak_fastq/</code></p>
-<h4 id="1.-Snippy-and-Gubbins">1. Snippy and Gubbins<a class="anchor-link" href="#1.-Snippy-and-Gubbins">&#182;</a></h4><p>For more in-depth information about various parameters, please follow official Snippy and Gubbins documentation.</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="1.-Run-Snippy-and-Gubbins-on-CRKP-dataset">1. Run Snippy and Gubbins on CRKP dataset<a class="anchor-link" href="#1.-Run-Snippy-and-Gubbins-on-CRKP-dataset">&#182;</a></h4><p>For more in-depth information about various parameters, please follow official Snippy and Gubbins documentation.</p>
 <p>Link to Snippy Github: <a href="https://github.com/tseemann/snippy">https://github.com/tseemann/snippy</a></p>
 <p>Link to Gubbins Github: <a href="https://github.com/nickjcroucher/gubbins">https://github.com/nickjcroucher/gubbins</a></p>
 <p>Since, Gubbins is run on the final output of Snippy, we will run Snippy and Gubbins in the same folder.</p>
@@ -15943,9 +15954,7 @@ done
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="3.-Perform-MLST-detection-using-mlst-tool">3. Perform MLST detection using mlst tool<a class="anchor-link" href="#3.-Perform-MLST-detection-using-mlst-tool">&#182;</a></h4><p>Link to MLST: <a href="https://github.com/tseemann/mlst">https://github.com/tseemann/mlst</a></p>
-<p>Installation instructions for mlst tool:</p>
-<p><code>conda create -n mlst -c conda-forge -c bioconda -c defaults mlst</code></p>
+<h4 id="3.-Run-MLST-detection-using-mlst-tool">3. Run MLST detection using mlst tool<a class="anchor-link" href="#3.-Run-MLST-detection-using-mlst-tool">&#182;</a></h4><p>Link to MLST tool: <a href="https://github.com/tseemann/mlst">https://github.com/tseemann/mlst</a></p>
 
 </div>
 </div>
@@ -15955,7 +15964,7 @@ done
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[37]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="nb">cd</span> /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/
@@ -15976,6 +15985,7 @@ done
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># creating a new folder to save mlst results</span>
 mkdir mlst_demo
+<span class="nb">cd</span> mlst_demo
 </pre></div>
 
      </div>
@@ -15988,11 +15998,11 @@ mkdir mlst_demo
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[39]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># Activated the mlst conda environment</span>
-conda activate mlst
+module load Bioinformatics mlst
 </pre></div>
 
      </div>
@@ -16012,16 +16022,14 @@ conda activate mlst
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>(mlst) </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<pre>
+    Provides Bioinformatics software.
+    For more information please use:
+
+        $ module help Bioinformatics
 
 
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre></pre>
+</pre>
 </div>
 </div>
 
@@ -16034,7 +16042,7 @@ conda activate mlst
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[40]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># Check if mlst tool was installed and check if dependencies looks okay: </span>
@@ -16058,22 +16066,13 @@ mlst -check
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>(mlst) [14:27:27] This is mlst 2.23.0 running on linux with Perl 5.032001
-[14:27:27] Checking mlst dependencies:
-[14:27:27] Found &#39;blastn&#39; =&gt; /nfs/turbo/umms-esnitkin/conda/anaconda3/envs/mlst/bin/blastn
-[14:27:27] Found &#39;any2fasta&#39; =&gt; /nfs/turbo/umms-esnitkin/conda/anaconda3/envs/mlst/bin/any2fasta
-[14:27:28] Found blastn: 2.14.0+ (002014)
-[14:27:28] OK.
-(mlst) </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre></pre>
+<pre>[11:23:35] This is mlst 2.23.0 running on linux with Perl 5.032001
+[11:23:35] Checking mlst dependencies:
+[11:23:35] Found &#39;blastn&#39; =&gt; /sw/pkgs/med/mlst/2.23.0/bin/blastn
+[11:23:35] Found &#39;any2fasta&#39; =&gt; /sw/pkgs/med/mlst/2.23.0/bin/any2fasta
+[11:23:42] Found blastn: 2.14.0+ (002014)
+[11:23:42] OK.
+</pre>
 </div>
 </div>
 
@@ -16086,7 +16085,7 @@ mlst -check
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[41]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># Check if mlst tool contain mlst typing scheme for klebsiella</span>
@@ -16110,22 +16109,13 @@ mlst -list
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>(mlst) [14:27:31] This is mlst 2.23.0 running on linux with Perl 5.032001
-[14:27:31] Checking mlst dependencies:
-[14:27:31] Found &#39;blastn&#39; =&gt; /nfs/turbo/umms-esnitkin/conda/anaconda3/envs/mlst/bin/blastn
-[14:27:31] Found &#39;any2fasta&#39; =&gt; /nfs/turbo/umms-esnitkin/conda/anaconda3/envs/mlst/bin/any2fasta
-[14:27:31] Found blastn: 2.14.0+ (002014)
+<pre>[11:23:42] This is mlst 2.23.0 running on linux with Perl 5.032001
+[11:23:42] Checking mlst dependencies:
+[11:23:42] Found &#39;blastn&#39; =&gt; /sw/pkgs/med/mlst/2.23.0/bin/blastn
+[11:23:42] Found &#39;any2fasta&#39; =&gt; /sw/pkgs/med/mlst/2.23.0/bin/any2fasta
+[11:23:43] Found blastn: 2.14.0+ (002014)
 pmultocida plarvae sbsec ureaplasma brachyspira psalmonis chlamydiales spneumoniae cbotulinum campylobacter_nonjejuni_8 sepidermidis campylobacter_nonjejuni_5 pfluorescens mplutonius brachyspira_5 campylobacter_nonjejuni_7 shaemolyticus csepticum neisseria bhenselae bwashoensis campylobacter_nonjejuni cronobacter staphlugdunensis spyogenes scanis helicobacter leptospira listeria_2 bsubtilis pputida cdifficile bordetella_3 mhominis_3 hparasuis ecloacae mgallisepticum_2 campylobacter_nonjejuni_9 mcatarrhalis_achtman_6 manserisalpingitidis lsalivarius bcereus wolbachia senterica_achtman_2 mycobacteria_2 brucella miowae vcholerae brachyspira_2 gallibacterium tpallidum xfastidiosa llactis_phage spseudintermedius borrelia mcanis efaecium cfreundii geotrichum taylorella oralstrep orhinotracheale ranatipestifer vibrio kaerogenes campylobacter_nonjejuni_6 klebsiella leptospira_2 ssuis sagalactiae vtapetis ypseudotuberculosis_achtman_3 szooepidemicus dnodosus yruckeri saureus blicheniformis_14 bcc mpneumoniae pmultocida_2 aeromonas mflocculare mhyorhinis pgingivalis mhyopneumoniae brachyspira_4 pacnes_3 streptothermophilus tenacibaculum cmaltaromaticum pdamselae campylobacter_nonjejuni_4 vcholerae_2 hsuis bbacilliformis bpseudomallei brachyspira_3 shominis otsutsugamushi ppentosaceus abaumannii_2 vparahaemolyticus koxytoca smaltophilia fpsychrophilum hinfluenzae sgallolyticus rhodococcus ecoli_achtman_4 bfragilis abaumannii kingella edwardsiella aactinomycetemcomitans achromobacter cperfringens aphagocytophilum diphtheria_3 mgallisepticum sinorhizobium shewanella streptomyces sdysgalactiae campylobacter_nonjejuni_3 suberis schromogenes liberibacter campylobacter_nonjejuni_2 arcobacter campylobacter paeruginosa sthermophilus efaecalis mhaemolytica hcinaedi msciuri magalactiae ecoli msynoviae mabscessus vvulnificus mcaseolyticus leptospira_3 mbovis_2
-(mlst) </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre></pre>
+</pre>
 </div>
 </div>
 
@@ -16133,51 +16123,21 @@ pmultocida plarvae sbsec ureaplasma brachyspira psalmonis chlamydiales spneumoni
 
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[42]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># Run mlst tool on all the CRKP assemblies in crkp_assembly folder and save the output in csv format to a file mlst.csv.</span>
-mlst --quiet --scheme klebsiella <span class="se">\</span>
---csv /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/crkp_assembly/*.fasta &gt; crkp_mlst.csv
+mlst --quiet --scheme klebsiella --csv /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/assignment_2/crkp_assembly/*.fasta &gt; crkp_mlst.csv
 </pre></div>
 
      </div>
 </div>
 </div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>(mlst) (mlst) </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre></pre>
-</div>
-</div>
-
-</div>
-
 </div>
 
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
