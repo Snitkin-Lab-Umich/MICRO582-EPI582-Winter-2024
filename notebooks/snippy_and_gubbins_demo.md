@@ -144,9 +144,7 @@ Note: Make sure to use project specific reference genome while adapting this com
 
 
 ```bash
-snippy-multi input.tab \
---ref /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class9/KPNIH1.gbk \
---cpu 4 --force --report > runme.sh
+snippy-multi input.tab --ref /scratch/epid582w24_class_root/epid582w24_class/shared_data/data/class9/KPNIH1.gbk --cpu 4 --force --report > runme.sh
 ```
 
     Reading: input.tab
